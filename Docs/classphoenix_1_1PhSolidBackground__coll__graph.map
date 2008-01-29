@@ -1,0 +1,48 @@
+<area shape="rect" href="$classphoenix_1_1PhSceneNode.htm" title="Scenenode Prototype." alt="" coords="1804,31,1975,57">
+<area shape="rect" href="$classphoenix_1_1PhSceneManager.htm" title="Scene Manger Class." alt="" coords="1792,81,1987,108">
+<area shape="rect" title="smgr" alt="" coords="1983,91,1991,99">
+<area shape="rect" title="smgr" alt="" coords="2067,91,2075,99">
+<area shape="rect" href="$classphoenix_1_1PhPolygonCollisionHandler.htm" title="The polygon collision handler." alt="" coords="1431,31,1681,57">
+<area shape="rect" title="colhandle" alt="" coords="1664,55,1672,63">
+<area shape="rect" title="colhandle" alt="" coords="1809,77,1817,85">
+<area shape="rect" href="$classphoenix_1_1PhView.htm" title="View class." alt="" coords="1492,81,1620,108">
+<area shape="rect" title="defview" alt="" coords="1616,91,1624,99">
+<area shape="rect" title="defview" alt="" coords="1788,91,1796,99">
+<area shape="rect" href="$classphoenix_1_1PhVector2d.htm" title="2D Vector class" alt="" coords="555,20,709,47">
+<area shape="rect" title="pos" alt="" coords="705,19,713,27">
+<area shape="rect" title="pos" alt="" coords="1488,79,1496,87">
+<area shape="rect" href="$classphoenix_1_1PhRenderSystem.htm" title="The render system." alt="" coords="1139,136,1333,163">
+<area shape="rect" title="screensize" alt="" coords="705,28,713,36">
+<area shape="rect" title="screensize" alt="" coords="1207,132,1215,140">
+<area shape="rect" href="$classphoenix_1_1PhEventHandler.htm" title="Event handler." alt="" coords="848,81,1035,108">
+<area shape="rect" title="mousepos" alt="" coords="672,44,680,52">
+<area shape="rect" title="mousepos" alt="" coords="844,80,852,88">
+<area shape="rect" title="system" alt="" coords="1329,148,1337,156">
+<area shape="rect" title="system" alt="" coords="1827,105,1835,113">
+<area shape="rect" title="system" alt="" coords="1311,132,1319,140">
+<area shape="rect" title="system" alt="" coords="1488,101,1496,109">
+<area shape="rect" href="$classphoenix_1_1PhTexture.htm" title="Texture class." alt="" coords="869,197,1013,224">
+<area shape="rect" title="font" alt="" coords="1009,199,1017,207">
+<area shape="rect" title="font" alt="" coords="1187,160,1195,168">
+<area shape="rect" href="$classphoenix_1_1PhTextureManager.htm" title="Texture manager." alt="" coords="532,153,732,180">
+<area shape="rect" title="textures" alt="" coords="729,160,737,168">
+<area shape="rect" title="textures" alt="" coords="1135,148,1143,156">
+<area shape="rect" title="txtmgr" alt="" coords="727,177,735,185">
+<area shape="rect" title="txtmgr" alt="" coords="865,196,873,204">
+<area shape="rect" title="STL class." alt="" coords="589,221,675,248">
+<area shape="rect" title="name" alt="" coords="671,232,679,240">
+<area shape="rect" title="name" alt="" coords="873,221,881,229">
+<area shape="rect" title="STL class." alt="" coords="7,221,191,248">
+<area shape="rect" title="\&lt; char \&gt;" alt="" coords="188,231,196,239">
+<area shape="rect" title="\&lt; char \&gt;" alt="" coords="295,231,303,239">
+<area shape="rect" href="$classphoenix_1_1PhTimer.htm" title="Timer class." alt="" coords="875,248,1008,275">
+<area shape="rect" title="fpstimer" alt="" coords="1004,244,1012,252">
+<area shape="rect" title="fpstimer" alt="" coords="1209,160,1217,168">
+<area shape="rect" href="$classphoenix_1_1PhLogManager.htm" title="Log manager." alt="" coords="852,299,1031,325">
+<area shape="rect" title="logs" alt="" coords="991,295,999,303">
+<area shape="rect" title="logs" alt="" coords="1219,160,1227,168">
+<area shape="rect" title="events" alt="" coords="1017,105,1025,113">
+<area shape="rect" title="events" alt="" coords="1160,132,1168,140">
+<area shape="rect" href="$classphoenix_1_1PhColor.htm" title="Color." alt="" coords="1824,132,1955,159">
+<area shape="rect" title="color" alt="" coords="1952,129,1960,137">
+<area shape="rect" title="color" alt="" coords="2087,105,2095,113">

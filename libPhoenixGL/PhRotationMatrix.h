@@ -3,18 +3,17 @@
 
 #include <math.h>
 
-//! 2D Rotation Matrix Class
-/*!
-	Provides a fast and efficient way to rotate points.
-	\note This is generally only used inside PhoenixGL, for rotation of vectors.
-	\note Only ambigious operations are documented.
-*/
-
 namespace phoenix
 {
     //pre-declaration of vector & polygon class.
     class PhVector2d;
 
+    //! 2D Rotation Matrix Class
+    /*!
+        Provides a fast and efficient way to rotate points.
+        \note This is generally only used inside PhoenixGL, for rotation of vectors.
+        \note Only ambigious operations are documented.
+    */
     class PhRotationMatrix
     {
 
