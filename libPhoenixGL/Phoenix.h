@@ -116,11 +116,7 @@
 #include "PhBackground.h"  //Background node
 #include "PhSolidBackground.h"  //Background node
 #include "PhExtendedBackground.h" //background node
-#include "PhParticleSystem.h"      //Particle system
-//Particle system includes
-#include "PhBoxEmitter.h"
-#include "PhParticleDestroyer.h"
-#include "PhGravityEffector.h"
 #include "PhTileMap.h"             //tilemap
+#include "PhParticleSystem.h"      //particle system
 
 #endif
