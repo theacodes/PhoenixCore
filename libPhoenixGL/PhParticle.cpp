@@ -16,7 +16,7 @@ PhParticle::~PhParticle()
     }
 }
 
-int PhParticle:: getType()
+int PhParticle::getType()
 {
     return type;
 }
