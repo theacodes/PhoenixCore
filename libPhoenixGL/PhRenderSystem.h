@@ -143,9 +143,10 @@ namespace phoenix
         /*!
             Sets up everything needed by the render system. This should be called at the beginning of
             this program and is required to use any of the render system's functions.
-            \param sc The size of the screen (defualt 640,480).
+            \param sc The size of the screen (default 640,480).
+            \param fs Full screen (default false)
         */
-        bool initSystem( PhVector2d sc = PhVector2d(640,480) );
+        bool initSystem( PhVector2d sc = PhVector2d(640,480), bool fs = false);
 
         //! Get screen size.
         /*!

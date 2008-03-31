@@ -117,7 +117,7 @@ double PhRenderSystem::getTicks()
 //This initializes the system
 ////////////////////////////////////////////////////////////////////////////////
 
-bool PhRenderSystem::initSystem( PhVector2d sc )
+bool PhRenderSystem::initSystem( PhVector2d sc , bool fs )
 {
 
     //somevars up everything else
@@ -126,7 +126,14 @@ bool PhRenderSystem::initSystem( PhVector2d sc )
     //No GLFW functions may be called before this
     glfwInit();
 
-    glfwOpenWindow(int(screensize.getX()), int(screensize.getY()), 8,8,8,8, 8, 0, GLFW_WINDOW);
+    if(fs)
+    {
+        glfwOpenWindow(int(screensize.getX()), int(screensize.getY()), 0,0,0,0, 8, 0, GLFW_FULLSCREEN);
+    }
+    else
+    {
+        glfwOpenWindow(int(screensize.getX()), int(screensize.getY()), 8,8,8,8, 8, 0, GLFW_WINDOW);
+    }
 
     //Configure OpenGL to work with a our screen in orthogonal mode
     glViewport(0,0,int(screensize.getX()), int(screensize.getY()));
