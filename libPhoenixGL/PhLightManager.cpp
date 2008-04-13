@@ -36,66 +36,38 @@ PhLightManager::~PhLightManager()
 }
 
 void PhLightManager::updateLights()
-{
-	if (mLightList.size() > 8)
-	{
-		determineDistances();
-	}
-	
-	determineActiveLights();
-	
+{	
 	activateLight(GL_LIGHT0);
+	activateLight(GL_LIGHT1);
+	activateLight(GL_LIGHT2);
+	activateLight(GL_LIGHT3);
+	activateLight(GL_LIGHT4);
+	activateLight(GL_LIGHT5);
+	activateLight(GL_LIGHT6);
+	activateLight(GL_LIGHT7);
 }
 
 void PhLightManager::activateLight(GLenum id)
 {
 	int realNum = int(id - GL_LIGHT0);
+	if (mLightList[realNum] == NULL)
+		return;
+	
 	glEnable(id);
 	glLightfv(id, GL_AMBIENT, mLightList[realNum]->getAmbient());
 	glLightfv(id, GL_DIFFUSE, mLightList[realNum]->getDiffuse());
 	glLightfv(id, GL_SPECULAR, mLightList[realNum]->getSpecular());
 	glLightfv(id, GL_POSITION, mLightList[realNum]->getPosition());
-	glLightf(id, GL_QUADRATIC_ATTENUATION, 3.0f);
-}
-
-void PhLightManager::determineActiveLights()
-{
-	std::sort(mLightList.begin(), mLightList.end(), &distanceSort);
-}
-
-void PhLightManager::determineDistances()
-{
-	GLfloat subX, subY, subZ, distsqr;
-	GLfloat* lightPos = (GLfloat*)malloc(4 * sizeof(float));;
-	for (unsigned int i = 0; i < mLightList.size(); i++)
-	{
-		lightPos = mLightList[i]->getPosition();
-		subX = lightPos[0] - mCenter[0];
-		subY = lightPos[1] - mCenter[1];
-		subZ = lightPos[2] - mCenter[2];
-		distsqr = ((subX * subX) + (subY * subY) + (subZ * subZ));
-		mLightList[i]->setDistance(distsqr);
-	}
-	free(lightPos);
+	glLightf(id, GL_QUADRATIC_ATTENUATION, 1.0f);
 }
 		
 
 void PhLightManager::addLight(PhLight* light)
 {
+	if (mLightList.size() > 7)
+		return;
+	
 	mLightList.push_back(light);
-}
-
-void PhLightManager::setCenter(float x, float y, float z, float t)
-{
-	mCenter[0] = x;
-	mCenter[1] = y;
-	mCenter[2] = z;
-	mCenter[3] = t;
-}
-
-GLfloat* PhLightManager::getCenter()
-{
-	return mCenter;
 }
 
 void PhLightManager::removeLight(PhLight* light)
@@ -133,11 +105,4 @@ PhLight* PhLightManager::findLight(string name)
 	}
 	
 	return NULL;
-}
-
-bool PhLightManager::distanceSort(PhLight* a, PhLight* b)
-{
-	if (a->getDistance() > b->getDistance())
-		return true;
-	return false;
 }

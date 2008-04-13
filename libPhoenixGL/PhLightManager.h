@@ -41,7 +41,6 @@ namespace phoenix
 	{
 		protected:
 			std::vector<PhLight*> mLightList;
-			GLfloat mCenter[4];
 
 		public:
 			//! Constructor
@@ -51,20 +50,12 @@ namespace phoenix
 			~PhLightManager();
 
 			void updateLights();
-			void determineActiveLights();
-			void determineDistances();
 			void activateLight(GLenum id);
-			void activateLights();
-
-			void setCenter(float x, float y, float z, float t);
-			GLfloat* getCenter();
 
 			void addLight(PhLight* light);
 			void removeLight(PhLight* light);
 			void deleteLights();
 			PhLight* findLight(std::string name);
-
-			static bool distanceSort(PhLight* a, PhLight* b);
 	};
 
 }

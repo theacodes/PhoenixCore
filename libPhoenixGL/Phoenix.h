@@ -119,4 +119,7 @@
 #include "PhTileMap.h"             //tilemap
 #include "PhParticleSystem.h"      //particle system
 
+#include "PhLight.h"
+#include "PhLightManager.h"
+
 #endif

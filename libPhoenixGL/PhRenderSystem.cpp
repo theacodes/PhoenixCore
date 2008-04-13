@@ -157,6 +157,15 @@ bool PhRenderSystem::initSystem( PhVector2d sc , bool fs )
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); // Set The Blending Function For Translucency
     glEnable(GL_BLEND); //enable blending
+    
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = { 50.0 };
+
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    glMaterialfv(GL_BACK, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_BACK, GL_SHININESS, mat_shininess);
+
 
     //set up the font stuff
     float temp = 16.0/256.0;
