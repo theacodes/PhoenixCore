@@ -42,7 +42,8 @@ namespace phoenix
     /*!
         Defines the type of collision callbacks. When the collision manager detects a collision
         it calls the callbacks of the involved objects and passes it a phoenix::PhCollisionData
-        object representing details from the collision. For non-class members you can simply cast
+        object representing details from the collision. The protoype for this function is
+        void function (PhCollisionData data);. For non-class members you can simply cast
         a function pointer to this type (ie PhObjectCallback(function)). However, for member
         functions (which is usually the case) you can use boost which provides an elegant way
         to do so (ie PhObjectCallback(boost::bind(&Class::function, this, _1)) ).
@@ -170,7 +171,7 @@ namespace phoenix
     */
     struct PhCollisionData
     {
-        //! True if a collision occured.
+        //! True if a collision occured. This should always be true but it's here for sanity's sakes.
         bool collision;
 
         //! The first object.

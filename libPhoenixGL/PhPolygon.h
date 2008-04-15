@@ -38,8 +38,7 @@ namespace phoenix
     //! Polygon class.
     /*!
         This class represents polygons for collision detection. They can be used for
-        drawing, but there are much easier ways to do that.
-        a polygon is basically any geometric object that can be represented by a
+        drawing primitives. a polygon is basically any geometric object that can be represented by a
         triangle fan. the vertices are basically the definitions of the vectors that
         make up the triangle fan.
         \sa phoenix::PhPolygonCollisionHandler

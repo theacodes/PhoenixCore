@@ -136,8 +136,6 @@ namespace phoenix
         //! Set GL view
         /*!
             Does the required matrix operations in OpenGL to set the view to this.
-            The name of this function should be changed in the future to make openGL transparent
-            to the user.
         */
         void setGLView();
 

@@ -140,14 +140,14 @@ namespace phoenix
         //! Adds a scene node to the list.
         /*!
             Pushes a scene node onto the list.
-            \param ptr A pointer to phoenix::PhSceneNode.
+            \param ptr A pointer to an instance of phoenix::PhSceneNode.
         */
         void addNode(PhSceneNode* ptr);
 
         //! Removes a node from the list
         /*!
             Finds and removes the node given from the list. Does not actually delete the node.
-            \param ptr A pointer to phoenix::PhSceneNode.
+            \param ptr A pointer to an instance of phoenix::PhSceneNode.
         */
         void removeNode(PhSceneNode* ptr);
 
@@ -156,7 +156,7 @@ namespace phoenix
             Registers a scene node to the lists of nodes to be rendered. This list is depth sorted after the
             pre render pass and then only the nodes in this list have their phoenix::PhSceneNode::onRender()
             function called.
-            \param ptr A pointer to phoenix::PhSceneNode.
+            \param ptr A pointer to an instance of phoenix::PhSceneNode.
             \sa phoenix::PhSceneNode::onRender(), drawAll()
         */
         void registerForRendering(PhSceneNode* ptr);
@@ -187,7 +187,7 @@ namespace phoenix
             This sets the collision manager that the scene manager will use to check for collisions.
             If this is set, then phoenix::PhPolygonCollisionHandler::testCollisions() is called after
             every prerender pass. If it is null then of course nothing happens.
-            \param a A pointer to phoenix::PhPolygonCollisionHandler.
+            \param a A pointer to an instance of phoenix::PhPolygonCollisionHandler.
             \sa getCollisionHandler(), phoenix::PhPolygonCollisionHandler, drawAll(), colhandle
         */
         void setCollisionHandler(PhPolygonCollisionHandler* a);
@@ -195,7 +195,7 @@ namespace phoenix
         //! Gets the current view.
         /*!
             Simply returns a pointer to the current view used by the scene manager.
-            \return a pointer to phoenix::PhView
+            \return a pointer to phoenix::PhView containing the current view.
             \sa setView(), phoenix::PhView
         */
         PhView* getView();
@@ -207,6 +207,7 @@ namespace phoenix
             \sa getView(), phoenix::PhView
         */
         void setView(PhView* a);
+
         //! Sets the current view
         /*!
             Lazy version that simply changes the x and y of the current view.

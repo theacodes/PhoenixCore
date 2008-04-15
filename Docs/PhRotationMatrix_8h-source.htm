@@ -37,60 +37,64 @@
 <a name="l00037"></a>00037 
 <a name="l00039"></a>00039 
 <a name="l00043"></a>00043         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#2f8a9028c21576d876f086e21ee79a67" title="Constructor.">PhRotationMatrix</a>( <span class="keywordtype">float</span> a );
-<a name="l00044"></a>00044         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#2f8a9028c21576d876f086e21ee79a67" title="Constructor.">PhRotationMatrix</a>( <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other );
-<a name="l00045"></a>00045         <span class="keyword">virtual</span> ~<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>();
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#2f8a9028c21576d876f086e21ee79a67" title="Constructor.">PhRotationMatrix</a>( <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other );
 <a name="l00046"></a>00046 
+<a name="l00047"></a>00047         <span class="keyword">virtual</span> ~<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>();
 <a name="l00048"></a>00048 
-<a name="l00052"></a>00052         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#b25b154bca0596204a7fe56f7dd163a3" title="Set rotation.">setRotation</a>(<span class="keywordtype">float</span> rad);
-<a name="l00053"></a>00053 
+<a name="l00050"></a>00050 
+<a name="l00054"></a>00054         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#b25b154bca0596204a7fe56f7dd163a3" title="Set rotation.">setRotation</a>(<span class="keywordtype">float</span> rad);
 <a name="l00055"></a>00055 
-<a name="l00059"></a>00059         <span class="keywordtype">float</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#bb246fe6f98d7b82a16080dabcca2c7b" title="Get rotation.">getRotation</a>();
-<a name="l00060"></a>00060 
+<a name="l00057"></a>00057 
+<a name="l00061"></a>00061         <span class="keywordtype">float</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#bb246fe6f98d7b82a16080dabcca2c7b" title="Get rotation.">getRotation</a>();
 <a name="l00062"></a>00062 
-<a name="l00067"></a>00067         <span class="keywordtype">float</span>&amp; <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#c39110370fbbd45f843a5a2caa636424" title="Matrix access operator.">operator()</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> row, <span class="keyword">const</span> <span class="keywordtype">int</span> col);
-<a name="l00068"></a>00068 
+<a name="l00064"></a>00064 
+<a name="l00069"></a>00069         <span class="keywordtype">float</span>&amp; <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#c39110370fbbd45f843a5a2caa636424" title="Matrix access operator.">operator()</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> row, <span class="keyword">const</span> <span class="keywordtype">int</span> col);
 <a name="l00070"></a>00070 
-<a name="l00075"></a>00075         <span class="keywordtype">float</span>&amp; <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#aca9d65f5cf5ea9fef5a68ddb5f4b542" title="Element access operator.">operator[]</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> x);
-<a name="l00076"></a>00076 
-<a name="l00077"></a>00077         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator+(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00078"></a>00078         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator-(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00079"></a>00079         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator*(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00080"></a>00080         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator*(<span class="keywordtype">float</span> scalar);
-<a name="l00082"></a>00082 
-<a name="l00090"></a>00090         <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> operator*(<a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>&amp; other);
-<a name="l00091"></a>00091         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator/(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00092"></a>00092         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator/(<span class="keywordtype">float</span> scalar);
-<a name="l00093"></a>00093 
-<a name="l00094"></a>00094         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator+=(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00095"></a>00095         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator-=(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00096"></a>00096         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator*=(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00097"></a>00097         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator*=(<span class="keywordtype">float</span> scalar);
-<a name="l00098"></a>00098         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator/=(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00099"></a>00099         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator/=(<span class="keywordtype">float</span> scalar);
-<a name="l00100"></a>00100 
-<a name="l00102"></a>00102 
-<a name="l00106"></a>00106         <span class="keywordtype">float</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#e95b28e55e3cc6f627d8f369e916b79e" title="Determinant.">determinant</a>();
-<a name="l00107"></a>00107 
-<a name="l00109"></a>00109 
-<a name="l00113"></a>00113         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#59611cadc8f07b90bfec8b8aed957127" title="Inverse.">inverse</a>();
-<a name="l00114"></a>00114 
-<a name="l00115"></a>00115         <span class="keywordtype">bool</span> operator==(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00116"></a>00116         <span class="keywordtype">bool</span> operator!=(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00117"></a>00117 
-<a name="l00118"></a>00118     <span class="keyword">protected</span>:
-<a name="l00119"></a>00119 
-<a name="l00120"></a>00120         <span class="keywordtype">float</span> Elements[4];
+<a name="l00072"></a>00072 
+<a name="l00077"></a>00077         <span class="keywordtype">float</span>&amp; <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#aca9d65f5cf5ea9fef5a68ddb5f4b542" title="Element access operator.">operator[]</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> x);
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator+(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
+<a name="l00080"></a>00080         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator-(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
+<a name="l00081"></a>00081         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator*(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
+<a name="l00082"></a>00082         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator*(<span class="keywordtype">float</span> scalar);
+<a name="l00083"></a>00083 
+<a name="l00085"></a>00085 
+<a name="l00093"></a>00093         <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> operator*(<a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>&amp; other);
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator/(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
+<a name="l00096"></a>00096         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> operator/(<span class="keywordtype">float</span> scalar);
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator+=(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
+<a name="l00099"></a>00099         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator-=(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
+<a name="l00100"></a>00100         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator*=(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
+<a name="l00101"></a>00101         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator*=(<span class="keywordtype">float</span> scalar);
+<a name="l00102"></a>00102         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator/=(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
+<a name="l00103"></a>00103         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; operator/=(<span class="keywordtype">float</span> scalar);
+<a name="l00104"></a>00104 
+<a name="l00106"></a>00106 
+<a name="l00110"></a>00110         <span class="keywordtype">float</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#e95b28e55e3cc6f627d8f369e916b79e" title="Determinant.">determinant</a>();
+<a name="l00111"></a>00111 
+<a name="l00113"></a>00113 
+<a name="l00117"></a>00117         <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm#59611cadc8f07b90bfec8b8aed957127" title="Inverse.">inverse</a>();
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119         <span class="keywordtype">bool</span> operator==(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
+<a name="l00120"></a>00120         <span class="keywordtype">bool</span> operator!=(<a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
 <a name="l00121"></a>00121 
-<a name="l00122"></a>00122     <span class="keyword">private</span>:
-<a name="l00123"></a>00123     };
-<a name="l00124"></a>00124 
-<a name="l00125"></a>00125 }
-<a name="l00126"></a>00126 
-<a name="l00127"></a>00127 <span class="comment">/*Vector class has to be defined before the source*/</span>
-<a name="l00128"></a>00128 <span class="preprocessor">#include "PhVector2d.h"</span>
-<a name="l00129"></a>00129 
-<a name="l00130"></a>00130 <span class="preprocessor">#endif // PHROTATIONMATRIX_H</span>
-</pre></div><hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 10 14:09:21 2008 for PhoenixGL by&nbsp;
+<a name="l00122"></a>00122     <span class="keyword">protected</span>:
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124         <span class="keywordtype">float</span> Elements[4];
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126     <span class="keyword">private</span>:
+<a name="l00127"></a>00127     };
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129 }
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131 <span class="comment">/*Vector class has to be defined before the source*/</span>
+<a name="l00132"></a>00132 <span class="preprocessor">#include "PhVector2d.h"</span>
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134 <span class="preprocessor">#endif // PHROTATIONMATRIX_H</span>
+</pre></div><hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 14 22:06:01 2008 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.3 </small></address>
 </body>

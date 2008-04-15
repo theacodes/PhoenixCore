@@ -72,7 +72,7 @@ namespace phoenix
         \param s A pointer to the scene manger, required.
         \param t A pointer to the texture, required.
         \param c The color to colorize the texture with, defualts to (255,255,255).
-        \param d The depth to be drawn at, defualts at -100.0f, but as long as it's beind all objects you should be fine.
+        \param d The depth to be drawn at, defaults at -100.0f, but as long as it's behind all objects you should be fine.
         */
         PhBackground(PhSceneManager* s, PhTexture* t, PhColor c = PhColor(255,255,255), float d = -100.0f);
 
@@ -120,7 +120,7 @@ namespace phoenix
 
         //! Overloaded onRender
         /*!
-        This draws the background using VBOs with the current texture
+        This draws the background using the render system with the current texture
         and color.
         \sa phoenix::PhSceneNode::onRender()
         */

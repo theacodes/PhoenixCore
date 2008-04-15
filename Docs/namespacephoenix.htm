@@ -299,7 +299,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <p>
 Callback typedef. 
 <p>
-Defines the type of collision callbacks. When the collision manager detects a collision it calls the callbacks of the involved objects and passes it a <a class="el" href="structphoenix_1_1PhCollisionData.htm" title="Collision data.">phoenix::PhCollisionData</a> object representing details from the collision. For non-class members you can simply cast a function pointer to this type (ie PhObjectCallback(function)). However, for member functions (which is usually the case) you can use boost which provides an elegant way to do so (ie PhObjectCallback(boost::bind(&amp;Class::function, this, _1)) ). <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classphoenix_1_1PhCollisionObject.htm" title="Collision object.">phoenix::PhCollisionObject</a>, <a class="el" href="classphoenix_1_1PhPolygonCollisionHandler.htm" title="The polygon collision handler.">phoenix::PhPolygonCollisionHandler</a> </dd></dl>
+Defines the type of collision callbacks. When the collision manager detects a collision it calls the callbacks of the involved objects and passes it a <a class="el" href="structphoenix_1_1PhCollisionData.htm" title="Collision data.">phoenix::PhCollisionData</a> object representing details from the collision. The protoype for this function is void function (<a class="el" href="structphoenix_1_1PhCollisionData.htm" title="Collision data.">PhCollisionData</a> data);. For non-class members you can simply cast a function pointer to this type (ie PhObjectCallback(function)). However, for member functions (which is usually the case) you can use boost which provides an elegant way to do so (ie PhObjectCallback(boost::bind(&amp;Class::function, this, _1)) ). <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classphoenix_1_1PhCollisionObject.htm" title="Collision object.">phoenix::PhCollisionObject</a>, <a class="el" href="classphoenix_1_1PhPolygonCollisionHandler.htm" title="The polygon collision handler.">phoenix::PhPolygonCollisionHandler</a> </dd></dl>
 
 </div>
 </div><p>
@@ -462,7 +462,7 @@ Converts radians to degrees, as simple as that. <dl compact><dt><b>Parameters:</
 
 </div>
 </div><p>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 10 14:09:26 2008 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 14 22:06:04 2008 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.3 </small></address>
 </body>

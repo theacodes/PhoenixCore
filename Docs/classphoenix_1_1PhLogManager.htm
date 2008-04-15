@@ -43,18 +43,18 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhLogManager.htm#0b9dd30dc9a7513772848fba92edf7b5">openLog</a> (std::string logName, std::string logFileName)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Open log.  <a href="#0b9dd30dc9a7513772848fba92edf7b5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b483d88120a7dd9045d91968e74811cf"></a><!-- doxytag: member="phoenix::PhLogManager::addLog" ref="b483d88120a7dd9045d91968e74811cf" args="(PhLog *log)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>addLog</b> (<a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a> *log)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhLogManager.htm#b483d88120a7dd9045d91968e74811cf">addLog</a> (<a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a> *log)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1e5dff816cb9b10899d764bbb6f35564"></a><!-- doxytag: member="phoenix::PhLogManager::removeLog" ref="1e5dff816cb9b10899d764bbb6f35564" args="(PhLog *log)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>removeLog</b> (<a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a> *log)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add log.  <a href="#b483d88120a7dd9045d91968e74811cf"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhLogManager.htm#1e5dff816cb9b10899d764bbb6f35564">removeLog</a> (<a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a> *log)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f92b709b36ccd8cfa016838cbbb206b3"></a><!-- doxytag: member="phoenix::PhLogManager::deleteLogs" ref="f92b709b36ccd8cfa016838cbbb206b3" args="()" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>deleteLogs</b> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove log.  <a href="#1e5dff816cb9b10899d764bbb6f35564"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhLogManager.htm#f92b709b36ccd8cfa016838cbbb206b3">deleteLogs</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="128053888b60050e1ae38b265ae36b3d"></a><!-- doxytag: member="phoenix::PhLogManager::findLog" ref="128053888b60050e1ae38b265ae36b3d" args="(std::string n)" -->
-<a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>findLog</b> (std::string n)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delete logs.  <a href="#f92b709b36ccd8cfa016838cbbb206b3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhLogManager.htm#128053888b60050e1ae38b265ae36b3d">findLog</a> (std::string n)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find log.  <a href="#128053888b60050e1ae38b265ae36b3d"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ff444ebe2ab2d467b04f2549600fab70"></a><!-- doxytag: member="phoenix::PhLogManager::mLogList" ref="ff444ebe2ab2d467b04f2549600fab70" args="" -->
 std::vector&lt; <a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a> * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhLogManager.htm#ff444ebe2ab2d467b04f2549600fab70">mLogList</a></td></tr>
@@ -125,9 +125,109 @@ Opens a log and adds it to the log manager for garbage collection. <dl compact><
 
 </div>
 </div><p>
+<a class="anchor" name="b483d88120a7dd9045d91968e74811cf"></a><!-- doxytag: member="phoenix::PhLogManager::addLog" ref="b483d88120a7dd9045d91968e74811cf" args="(PhLog *log)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phoenix::PhLogManager::addLog           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a> *&nbsp;</td>
+          <td class="paramname"> <em>log</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Add log. 
+<p>
+Adds a log to be managed. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>log</em>&nbsp;</td><td>The log to be added. </td></tr>
+  </table>
+</dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classphoenix_1_1PhLogManager.htm#1e5dff816cb9b10899d764bbb6f35564" title="Remove log.">removeLog()</a> </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="1e5dff816cb9b10899d764bbb6f35564"></a><!-- doxytag: member="phoenix::PhLogManager::removeLog" ref="1e5dff816cb9b10899d764bbb6f35564" args="(PhLog *log)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phoenix::PhLogManager::removeLog           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a> *&nbsp;</td>
+          <td class="paramname"> <em>log</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Remove log. 
+<p>
+Removes a log from the manager. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>log</em>&nbsp;</td><td>The log to be removed. </td></tr>
+  </table>
+</dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classphoenix_1_1PhLogManager.htm#b483d88120a7dd9045d91968e74811cf" title="Add log.">addLog()</a> </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="f92b709b36ccd8cfa016838cbbb206b3"></a><!-- doxytag: member="phoenix::PhLogManager::deleteLogs" ref="f92b709b36ccd8cfa016838cbbb206b3" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phoenix::PhLogManager::deleteLogs           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Delete logs. 
+<p>
+Deletes all the logs in the manager. 
+</div>
+</div><p>
+<a class="anchor" name="128053888b60050e1ae38b265ae36b3d"></a><!-- doxytag: member="phoenix::PhLogManager::findLog" ref="128053888b60050e1ae38b265ae36b3d" args="(std::string n)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classphoenix_1_1PhLog.htm">PhLog</a>* phoenix::PhLogManager::findLog           </td>
+          <td>(</td>
+          <td class="paramtype">std::string&nbsp;</td>
+          <td class="paramname"> <em>n</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Find log. 
+<p>
+Finds the log with the given name. <dl class="return" compact><dt><b>Returns:</b></dt><dd>A pointer to the log, or a NULL pointer if not found. </dd></dl>
+
+</div>
+</div><p>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>/home/jon/Desktop/Documents/workspace/Phoenix SVN/trunk/libPhoenixGL/<a class="el" href="PhLogManager_8h-source.htm">PhLogManager.h</a></ul>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 10 14:09:27 2008 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 14 22:06:06 2008 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.3 </small></address>
 </body>

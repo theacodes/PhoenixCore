@@ -39,7 +39,7 @@ namespace phoenix
 
     //! Texture manager.
     /*!
-        This class takes care of cleaning up all textures after the program exits.
+        This class takes care of keeping track of and cleaning up all textures after the program exits.
         \sa PhTexture, PhRenderSystem
     */
     class PhTextureManager
@@ -73,7 +73,7 @@ namespace phoenix
         //! Remove texture.
         /*!
             Removes a texture to the list. Does not actually delete the texture.
-            \param texture A pointer to the texture to be stored.
+            \param texture A pointer to the texture to be removed.
             \sa addTexture()
         */
         void removeTexture(PhTexture* texture);

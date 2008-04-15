@@ -30,9 +30,9 @@ THE SOFTWARE.
 
 namespace phoenix
 {
-	
+
 	class PhLog;
-	
+
 	//! Log manager.
 	/*!
 		This takes care of cleaning up after all the logs when the program exits.
@@ -41,21 +41,21 @@ namespace phoenix
 	class PhLogManager
 	{
 		protected:
-			
+
 			//! List of all the logs currently open.
 			std::vector<PhLog*> mLogList;
-			
+
 		public:
 			//! Constructor
 			PhLogManager();
-			
+
 			//!Destructor
 			/*!
-				When this object is destroyed it will automatically delete all 
+				When this object is destroyed it will automatically delete all
 				the logs currently loaded.
 			*/
 			~PhLogManager();
-			
+
         	//! Open log.
         	/*!
         		Opens a log and adds it to the log manager for garbage collection.
@@ -63,13 +63,37 @@ namespace phoenix
         		\param logFileName The name of the log in memory.
         	*/
         	PhLog* openLog(std::string logName, std::string logFileName);
-			
+
+			//! Add log.
+			/*!
+                Adds a log to be managed.
+                \param log The log to be added.
+                \sa removeLog()
+			*/
 			void addLog(PhLog* log);
+
+			//! Remove log.
+			/*!
+                Removes a log from the manager.
+                \param log The log to be removed.
+                \sa addLog()
+			*/
 			void removeLog(PhLog* log);
+
+			//! Delete logs.
+			/*!
+                Deletes all the logs in the manager.
+			*/
 			void deleteLogs();
+
+			//! Find log.
+			/*!
+                Finds the log with the given name.
+                \return A pointer to the log, or a NULL pointer if not found.
+			*/
 			PhLog* findLog(std::string n);
 	};
-	
+
 }
 
 #include "PhLog.h"

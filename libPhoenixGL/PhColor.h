@@ -49,7 +49,7 @@ namespace phoenix
             \param x Red component.
             \param y Green component.
             \param z Blue component.
-            \param a Alpha component (defualt 255)
+            \param a Alpha component (default 255)
         */
         PhColor( int x, int y, int z, int a = 255);
 
@@ -122,7 +122,7 @@ namespace phoenix
 
         //! To GL color.
         /*!
-            This is used by all functions that draw things using indexed triangle lists.
+            This is used by all functions that draw things using indexed lists.
             \return This color in encoded opengl format.
             \sa phoenix::PhRenderSystem::drawIndexedTriangleList()
         */
@@ -132,7 +132,7 @@ namespace phoenix
         /*!
             Interpolates between the two colors by the given percent. Does not modify this color,
             instead returns the interpolated color.
-            \param dest What the color will be when it is interpolated 100%
+            \param dest The final color.
             \param percent What percent to interpolate.
         */
         PhColor interpolate(PhColor dest,float percent);

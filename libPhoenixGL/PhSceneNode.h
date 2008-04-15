@@ -60,7 +60,7 @@ namespace phoenix
 
         //! Virtual destructor.
         /*!
-            Does nothing.
+            Does nothing. In overloaded destructors the node should remove itself from the scenemanager.
         */
         virtual ~PhSceneNode()
         {}

@@ -65,8 +65,11 @@ namespace phoenix
     */
     class PhVector2d
     {
+
     private:
+
         float x,y;
+
     public:
 
         //! Constructor.

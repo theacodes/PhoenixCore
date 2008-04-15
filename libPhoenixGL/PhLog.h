@@ -29,9 +29,9 @@ THE SOFTWARE.
 #include <cstdio>
 #include "PhLogManager.h"
 
-namespace phoenix 
+namespace phoenix
 {
-	
+
 	//! Log class.
 	/*!
 		This class represents a log file. This can be used for writing debug files
@@ -50,14 +50,15 @@ namespace phoenix
 			bool mTreeView;
 			int mNumSpacesPerTab;
 			PhLogManager* logManager;
-			
+
 		public:
+
 			//! Constructor
 			PhLog(PhLogManager* lmgr);
-			
+
 			//! Destructor
 			~PhLog();
-			
+
 			//! Open file.
 			/*!
 				Opens a file to write to from the name given. Otherwise it opens
@@ -66,15 +67,15 @@ namespace phoenix
 				\return False on fail, and true on success.
 			*/
 			bool openFile(std::string logFileName = std::string("default.txt"));
-			
+
 			//! Write to log.
 			/*!
 				Writes the given line to the file, taking into account the
 				parameters you provide for tabs and spaces.
 				\param text The text that you would like to write to the file.
-			*/			
+			*/
 			void writeToLog(std::string text);
-			
+
 			//! Use tabs.
 			/*!
 				Specifies whether tabs should be used when writing to the file.
@@ -83,7 +84,7 @@ namespace phoenix
 				\sa useSpaces()
 			*/
 			void useTabs(bool tabs);
-			
+
 			//! Use spaces.
 			/*!
 				Specifies whether spaces should be used when writing to the file.
@@ -91,49 +92,49 @@ namespace phoenix
 				\sa useTabs()
 			*/
 			void useSpaces(bool spaces);
-			
+
 			//! Are tabs used.
 			/*!
 				Tells whether tabs are used or not.
 				\return Whether tabs are enabled.
 			*/
 			bool areTabsUsed();
-			
+
 			//! Are spaces used.
 			/*!
 				Tells whether spaces are used or not
 				\return Whether spaces are enabled.
 			*/
 			bool areSpacesUsed();
-			
+
 			//! Set number of tabs.
 			/*!
 				Sets the number of tabs to be used when writing to the file.
 				\param numTabs Specify the number of tabs to use.
 			*/
 			void setNumberOfTabs(int numTabs);
-			
+
 			//! Set number of spaces.
 			/*!
 				Sets the number of spaces to be used when writing to the file.
 				\param numSpaces Specify the number of spaces to use.
 			*/
 			void setNumberOfSpaces(int numSpaces);
-			
+
 			//! Get number of tabs.
 			/*!
 				Returns the number of tabs used when writing to the file.
 				\return The number of tabs used.
 			*/
 			int getNumberOfTabs();
-			
+
 			//! Get number of spaces.
 			/*!
 				Returns the number of spaces used when writing to the file.
 				\return The number of spaces used.
 			*/
 			int getNumberOfSpaces();
-			
+
 			//! Set number of spaces per tab.
 			/*!
 				This value must be set when using the tree view. (Default:
@@ -142,7 +143,7 @@ namespace phoenix
 				\sa getNumberOfSpacesPerTab()
 			*/
 			void setNumberOfSpacesPerTab(int spacesPerTab);
-			
+
 			//! Get number of spaces per tab.
 			/*!
 				Returns the number of spaces per tab.
@@ -150,7 +151,7 @@ namespace phoenix
 				\sa setNumberOfSpacesPerTab()
 			*/
 			int getNumberOfSpacesPerTab();
-			
+
 			//! Set tree view.
 			/*!
 				Set a parameter specifying whether or not to display the log file
@@ -158,35 +159,35 @@ namespace phoenix
 				\param treeView Enable or disable tree view.
 			*/
 			void setTreeView(bool treeView);
-			
+
 			//! Get tree view.
 			/*!
 				Tells whether tree view is enabled or disabled.
 				\return Is tree view enabled or not.
 			*/
 			bool getTreeView();
-			
+
 			//! Set name.
 			/*!
 				Sets the name that will be used to look up this log with PhLogManager.
 				\param n The name you want for the log.
 			*/
 			void setName(std::string n);
-			
+
 			//! Get name.
 			/*!
 				Returns the name of this log.
 				\return The name of this log.
 			*/
 			std::string getName();
-			
+
 			//! Drop.
 			/*!
 				Flushes the file, and closes it. This is a manual destructor.
 			*/
 			void drop();
 	};
-	
+
 }
 
 #endif

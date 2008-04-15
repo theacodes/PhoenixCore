@@ -61,7 +61,7 @@ namespace phoenix
             \param s Pointer to the scene manager.
             \param i Texture to draw.
             \param p Position.
-            \param c Free on Destroy.
+            \param c Determines if the node deletes the texture when the node is deleted.
         */
         PhDrawSceneNode(PhSceneManager* s, PhTexture* i, PhVector2d p = PhVector2d(0,0), bool c = false);
 

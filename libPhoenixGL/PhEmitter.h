@@ -19,7 +19,8 @@ namespace phoenix
         //! Constructor
         /*!
             Default constructor, it sets partsys to NULL. In order for your emitter to work,
-            you must add it to the partsys by calling PhParticleSystem::addEmiter()
+            you must add it to a particle system by calling PhParticleSystem::addEmiter() in
+            your overloaded constructor.
         */
         PhEmitter();
 

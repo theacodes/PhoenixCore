@@ -160,7 +160,7 @@ polygon to polygon, can be called if you don't want to use collision objects or 
 <p>
 Test static collisions. 
 <p>
-Test a collision object against the static geometry and performs callback. Can be called directly, but this function is called by testObjectCollisions(). <dl compact><dt><b>Parameters:</b></dt><dd>
+Test a collision object against the static geometry and performs the object's callback. Can be called directly, but this function is called by testObjectCollisions() if it's used. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>A</em>&nbsp;</td><td>The object to test. </td></tr>
   </table>
@@ -197,7 +197,7 @@ Test a collision object against the static geometry and performs callback. Can b
 <p>
 Is colliding (object to object). 
 <p>
-Does collision testing between two objects, calls both callbacks for the objects. can be called directly, but this function is called by testObjectCollisions(). <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classphoenix_1_1PhPolygonCollisionHandler.htm#740f81298729bda1f4d665e6c0d1eb15" title="Is colliding (polygon to polygon).">isColliding()</a>, <a class="el" href="classphoenix_1_1PhPolygonCollisionHandler.htm#b3d38b45f4e359eb28d2516f94f047f3" title="Test collisions.">testCollisions()</a>, <a class="el" href="classphoenix_1_1PhCollisionObject.htm" title="Collision object.">phoenix::PhCollisionObject</a> </dd></dl>
+Does collision testing between two objects, calls both callbacks for the objects. can be called directly, but this function is called by testObjectCollisions() if it used. <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classphoenix_1_1PhPolygonCollisionHandler.htm#740f81298729bda1f4d665e6c0d1eb15" title="Is colliding (polygon to polygon).">isColliding()</a>, <a class="el" href="classphoenix_1_1PhPolygonCollisionHandler.htm#b3d38b45f4e359eb28d2516f94f047f3" title="Test collisions.">testCollisions()</a>, <a class="el" href="classphoenix_1_1PhCollisionObject.htm" title="Collision object.">phoenix::PhCollisionObject</a> </dd></dl>
 
 </div>
 </div><p>
@@ -307,7 +307,7 @@ Remove object.
 <p>
 Add static geometry. 
 <p>
-Adds static geometry given a polygon and a type. Usually a type of 1 is treated as a solid block and it is the defualt for this function. <dl compact><dt><b>Parameters:</b></dt><dd>
+Adds static geometry given a polygon and a type. Usually a type of 1 is treated as a solid block and it is the default for this function. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>p</em>&nbsp;</td><td>The polygon to be added as static geometry. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>t</em>&nbsp;</td><td>The type. </td></tr>
@@ -455,7 +455,7 @@ A list of static geometry used for testing. <dl class="see" compact><dt><b>See a
 </div><p>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>/home/jon/Desktop/Documents/workspace/Phoenix SVN/trunk/libPhoenixGL/<a class="el" href="PhPolygonCollision_8h-source.htm">PhPolygonCollision.h</a></ul>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 10 14:09:28 2008 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 14 22:06:07 2008 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.3 </small></address>
 </body>

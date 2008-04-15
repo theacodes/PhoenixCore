@@ -18,7 +18,8 @@ namespace phoenix
         //! Constructor
         /*!
             Default constructor, it sets partsys to NULL. In order for your effector to work,
-            you must add it to the partsys by calling PhParticleSystem::addEffector()
+            you must add it to a particle system by calling PhParticleSystem::addEffector() in
+            your overloaded constructor.
         */
         PhEffector();
 

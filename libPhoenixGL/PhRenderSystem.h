@@ -64,8 +64,9 @@ namespace phoenix
 
     //! The render system.
     /*!
-        This is the heart of phoenix. On the basic level it provides a layer over OpenGL. It also provides
-        many facilities needed for 2D games.
+        This is the heart of phoenix. On the basic level it provides a layer over OpenGL. It provides
+        primitive drawing functions as well as functions for drawing textures and text. It provides
+        functions for loading textures, as well as manipulating the window.
     */
     class PhRenderSystem
     {
@@ -142,9 +143,10 @@ namespace phoenix
         //! Init system
         /*!
             Sets up everything needed by the render system. This should be called at the beginning of
-            this program and is required to use any of the render system's functions.
+            the program and is required to use any of the render system's functions.
             \param sc The size of the screen (default 640,480).
-            \param fs Full screen (default false)
+            \param fs Full screen (default false).
+            \return True if it succeeded in creating a window & an opengl render context.
         */
         bool initSystem( PhVector2d sc = PhVector2d(640,480), bool fs = false);
 
@@ -157,10 +159,10 @@ namespace phoenix
         //! Load texture.
         /*!
             Loads an image as a texture and adds it to the texture manager for garbage collection.
-            Currently only RGBA .png files are supported. DevIL implementation is planned, no
-            other file formats will be officially supported until then.
+            Currently only .png files are supported. More formats are planned.
             \param filename The filename of the image to load.
             \param linear Tells the loader to use linear filtering or not. (default false).
+            \note Textures must be sizes that are a power of two. NPOT textures will experience artifacts.
         */
         PhTexture* loadTexture( std::string filename , bool linear = false);
 

@@ -192,7 +192,7 @@ Adds a scene node to the list.
 <p>
 Pushes a scene node onto the list. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>ptr</em>&nbsp;</td><td>A pointer to <a class="el" href="classphoenix_1_1PhSceneNode.htm" title="Scenenode Prototype.">phoenix::PhSceneNode</a>. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ptr</em>&nbsp;</td><td>A pointer to an instance of <a class="el" href="classphoenix_1_1PhSceneNode.htm" title="Scenenode Prototype.">phoenix::PhSceneNode</a>. </td></tr>
   </table>
 </dl>
 
@@ -219,7 +219,7 @@ Removes a node from the list.
 <p>
 Finds and removes the node given from the list. Does not actually delete the node. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>ptr</em>&nbsp;</td><td>A pointer to <a class="el" href="classphoenix_1_1PhSceneNode.htm" title="Scenenode Prototype.">phoenix::PhSceneNode</a>. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ptr</em>&nbsp;</td><td>A pointer to an instance of <a class="el" href="classphoenix_1_1PhSceneNode.htm" title="Scenenode Prototype.">phoenix::PhSceneNode</a>. </td></tr>
   </table>
 </dl>
 
@@ -246,7 +246,7 @@ Register a node to be rendered.
 <p>
 Registers a scene node to the lists of nodes to be rendered. This list is depth sorted after the pre render pass and then only the nodes in this list have their <a class="el" href="classphoenix_1_1PhSceneNode.htm#dbc845e590cb208ee4aae79e407dc0a0" title="Render call.">phoenix::PhSceneNode::onRender()</a> function called. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>ptr</em>&nbsp;</td><td>A pointer to <a class="el" href="classphoenix_1_1PhSceneNode.htm" title="Scenenode Prototype.">phoenix::PhSceneNode</a>. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ptr</em>&nbsp;</td><td>A pointer to an instance of <a class="el" href="classphoenix_1_1PhSceneNode.htm" title="Scenenode Prototype.">phoenix::PhSceneNode</a>. </td></tr>
   </table>
 </dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classphoenix_1_1PhSceneNode.htm#dbc845e590cb208ee4aae79e407dc0a0" title="Render call.">phoenix::PhSceneNode::onRender()</a>, <a class="el" href="classphoenix_1_1PhSceneManager.htm#839a182f8233ea87b7bc799cb18a423c" title="Does one step for all the nodes.">drawAll()</a> </dd></dl>
@@ -319,7 +319,7 @@ Sets a collision handler.
 <p>
 This sets the collision manager that the scene manager will use to check for collisions. If this is set, then <a class="el" href="classphoenix_1_1PhPolygonCollisionHandler.htm#b3d38b45f4e359eb28d2516f94f047f3" title="Test collisions.">phoenix::PhPolygonCollisionHandler::testCollisions()</a> is called after every prerender pass. If it is null then of course nothing happens. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td>A pointer to <a class="el" href="classphoenix_1_1PhPolygonCollisionHandler.htm" title="The polygon collision handler.">phoenix::PhPolygonCollisionHandler</a>. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td>A pointer to an instance of <a class="el" href="classphoenix_1_1PhPolygonCollisionHandler.htm" title="The polygon collision handler.">phoenix::PhPolygonCollisionHandler</a>. </td></tr>
   </table>
 </dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classphoenix_1_1PhSceneManager.htm#d9616abeb59c58f08efeb171ee06ddcc" title="Gets the collision handler.">getCollisionHandler()</a>, <a class="el" href="classphoenix_1_1PhPolygonCollisionHandler.htm" title="The polygon collision handler.">phoenix::PhPolygonCollisionHandler</a>, <a class="el" href="classphoenix_1_1PhSceneManager.htm#839a182f8233ea87b7bc799cb18a423c" title="Does one step for all the nodes.">drawAll()</a>, <a class="el" href="classphoenix_1_1PhSceneManager.htm#cfe2e0ad5a06fab6811d144468e53113" title="Pointer to the collision handler.">colhandle</a> </dd></dl>
@@ -344,7 +344,7 @@ This sets the collision manager that the scene manager will use to check for col
 <p>
 Gets the current view. 
 <p>
-Simply returns a pointer to the current view used by the scene manager. <dl class="return" compact><dt><b>Returns:</b></dt><dd>a pointer to <a class="el" href="classphoenix_1_1PhView.htm" title="View class.">phoenix::PhView</a> </dd></dl>
+Simply returns a pointer to the current view used by the scene manager. <dl class="return" compact><dt><b>Returns:</b></dt><dd>a pointer to <a class="el" href="classphoenix_1_1PhView.htm" title="View class.">phoenix::PhView</a> containing the current view. </dd></dl>
 <dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classphoenix_1_1PhSceneManager.htm#dc6eab121e2e0a96f95a256df44f16d0" title="Sets the current view.">setView()</a>, <a class="el" href="classphoenix_1_1PhView.htm" title="View class.">phoenix::PhView</a> </dd></dl>
 
 </div>
@@ -542,7 +542,7 @@ A simple count of all the nodes, probably not needed. (Could use std::vector::si
 </div><p>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>/home/jon/Desktop/Documents/workspace/Phoenix SVN/trunk/libPhoenixGL/<a class="el" href="PhSceneManager_8h-source.htm">PhSceneManager.h</a></ul>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 10 14:09:28 2008 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 14 22:06:09 2008 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.3 </small></address>
 </body>

@@ -52,7 +52,7 @@ namespace phoenix
         \param d Depth. Default -100.0f.
         \param xt Horizontal tile. Default true.
         \param yt Vertical tile. Default true.
-        \param sp Scroll speed. Defualt [0,0].
+        \param sp Scroll speed. Default [0,0].
         \param po Relative position of the bg. Default [0,0].
         \param o Texture offset. Default [0,0].
         */

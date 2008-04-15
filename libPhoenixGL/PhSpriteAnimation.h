@@ -32,7 +32,7 @@ namespace phoenix
 {
     //! Sprite Animation.
     /*!
-        This class provides a simple way to create simple sprite animations.
+        This class provides a simple way to create simple sprite animations from animation cell sheets.
     */
     class PhSpriteAnimation : public PhSceneNode
     {
@@ -169,13 +169,13 @@ namespace phoenix
 
         //! Get flip.
         /*!
-            \return If the sprite is being flipped.
+            \return If the sprite is being flipped (horizontally).
         */
         bool getFlip();
 
         //! Set flip.
         /*!
-            \param f Pass true to flip the sprite.
+            \param f Pass true to flip the sprite (horizontally).
         */
         void setFlip(bool f);
 

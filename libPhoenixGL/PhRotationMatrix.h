@@ -10,7 +10,7 @@ namespace phoenix
 
     //! 2D Rotation Matrix Class
     /*!
-        Provides a fast and efficient way to rotate points.
+        Provides a fast and efficient way to rotate vectors and polygons.
         \note This is generally only used inside PhoenixGL, for rotation of vectors.
         \note Only ambigious operations are documented.
     */
@@ -21,7 +21,7 @@ namespace phoenix
 
         //! Constructor.
         /*!
-        	Creates an identity matrix (1,0,0,1)
+        	Creates an identity matrix ([1,0],[0,1])
         */
         PhRotationMatrix();
 
@@ -41,7 +41,9 @@ namespace phoenix
         	\param a The angle (in radians).
         */
         PhRotationMatrix( float a );
+
         PhRotationMatrix( const PhRotationMatrix& other );
+
         virtual ~PhRotationMatrix();
 
         //! Set rotation.
@@ -78,6 +80,7 @@ namespace phoenix
         PhRotationMatrix operator-(PhRotationMatrix& other);
         PhRotationMatrix operator*(PhRotationMatrix& other);
         PhRotationMatrix operator*(float scalar);
+
         //! Vector multiplication operation.
         /*!
             Essentially rotates the given vector by this matrix.
@@ -88,6 +91,7 @@ namespace phoenix
             \param other The vector to rotate.
         */
         PhVector2d operator*(PhVector2d& other);
+
         PhRotationMatrix operator/(PhRotationMatrix& other);
         PhRotationMatrix operator/(float scalar);
 

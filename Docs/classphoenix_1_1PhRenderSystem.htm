@@ -126,7 +126,7 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>getLighting</b> ()</t
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 The render system. 
 <p>
-This is the heart of <a class="el" href="namespacephoenix.htm" title="The phoenix namespace.">phoenix</a>. On the basic level it provides a layer over OpenGL. It also provides many facilities needed for 2D games. <hr><h2>Member Function Documentation</h2>
+This is the heart of <a class="el" href="namespacephoenix.htm" title="The phoenix namespace.">phoenix</a>. On the basic level it provides a layer over OpenGL. It provides primitive drawing functions as well as functions for drawing textures and text. It provides functions for loading textures, as well as manipulating the window. <hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="2634594a78e442f1354ea7003ad96e41"></a><!-- doxytag: member="phoenix::PhRenderSystem::setWindowCaption" ref="2634594a78e442f1354ea7003ad96e41" args="(std::string str)" -->
 <div class="memitem">
 <div class="memproto">
@@ -247,12 +247,13 @@ Get ticks.
 <p>
 Init system. 
 <p>
-Sets up everything needed by the render system. This should be called at the beginning of this program and is required to use any of the render system's functions. <dl compact><dt><b>Parameters:</b></dt><dd>
+Sets up everything needed by the render system. This should be called at the beginning of the program and is required to use any of the render system's functions. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>sc</em>&nbsp;</td><td>The size of the screen (default 640,480). </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>fs</em>&nbsp;</td><td>Full screen (default false) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>fs</em>&nbsp;</td><td>Full screen (default false). </td></tr>
   </table>
 </dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>True if it succeeded in creating a window &amp; an opengl render context. </dd></dl>
 
 </div>
 </div><p>
@@ -306,12 +307,13 @@ Get screen size.
 <p>
 Load texture. 
 <p>
-Loads an image as a texture and adds it to the texture manager for garbage collection. Currently only RGBA .png files are supported. DevIL implementation is planned, no other file formats will be officially supported until then. <dl compact><dt><b>Parameters:</b></dt><dd>
+Loads an image as a texture and adds it to the texture manager for garbage collection. Currently only .png files are supported. More formats are planned. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>filename</em>&nbsp;</td><td>The filename of the image to load. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>linear</em>&nbsp;</td><td>Tells the loader to use linear filtering or not. (default false). </td></tr>
   </table>
 </dl>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>Textures must be sizes that are a power of two. NPOT textures will experience artifacts. </dd></dl>
 
 </div>
 </div><p>
@@ -1124,7 +1126,7 @@ Restores the engine to it's default blend mode (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_A
 </div><p>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>/home/jon/Desktop/Documents/workspace/Phoenix SVN/trunk/libPhoenixGL/<a class="el" href="PhRenderSystem_8h-source.htm">PhRenderSystem.h</a></ul>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 10 14:09:28 2008 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 14 22:06:08 2008 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.3 </small></address>
 </body>

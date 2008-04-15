@@ -188,6 +188,7 @@ namespace phoenix
             \param y Y value of the pixel.
             \param col The new color of the pixel.
             \sa getPixel(), lockTexture()
+            \note This function takes a long time, as it reconstructs the texture.
         */
         void setPixel(int x, int y, PhColor col);
 

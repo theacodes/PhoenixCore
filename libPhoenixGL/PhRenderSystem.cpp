@@ -157,7 +157,7 @@ bool PhRenderSystem::initSystem( PhVector2d sc , bool fs )
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); // Set The Blending Function For Translucency
     glEnable(GL_BLEND); //enable blending
-    
+
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
 
@@ -185,7 +185,7 @@ bool PhRenderSystem::initSystem( PhVector2d sc , bool fs )
     }
 
     //Set the window caption
-    setWindowCaption("Phoenix v0.1");
+    setWindowCaption("PhoenixGL v0.2");
 
     //set the events
     events = new PhEventHandler;

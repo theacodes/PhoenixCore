@@ -37,7 +37,7 @@ namespace phoenix
 
     //! Tile map.
     /*!
-        A simple yet highly effective tilemap scene node. Once it is created it's self-contained.
+        A (somewhat) simple yet highly effective tilemap scene node. Once it is created it's self-contained.
         The scene manager takes care of rendering it, all you really have to do is create the map
         and load it.
     */
@@ -80,7 +80,7 @@ namespace phoenix
         //!Destruct
         virtual ~PhTileMap();
 
-        //! Set tile.
+        //! Set tile (1D).
         /*!
             Sets the tile at the given index to the given value.
             \param x Index of the tile.
@@ -89,7 +89,7 @@ namespace phoenix
         */
         void setTile(int x, int t);
 
-        //! Set tile.
+        //! Set tile (2D).
         /*!
             Sets the tile at the given position to the given value.
             \param pos The position of the tile, ie <2,2> is the second tile from the top, second tile from the left.
@@ -98,7 +98,7 @@ namespace phoenix
         */
         void setTile(PhVector2d pos, int t);
 
-        //! Get tile
+        //! Get tile (1D)
         /*!
             \param x Index of the tile.
             \return The value of the tile at index X.
@@ -106,7 +106,7 @@ namespace phoenix
         */
         int getTile(int x);
 
-        //! Get tile
+        //! Get tile (2D)
         /*!
             \param pos Position of the tile.
             \return The value of the tile at the given position.
@@ -162,9 +162,9 @@ namespace phoenix
             File format information: <br>
             first four bytes are the x of the mapsize. <br>
             second four  bytes are the y of the mapsize. <br>
-            third set of bytes is the x of the tilesize. <br>
-            fourth set of bytes is the y of the tilesize. <br>
-            remaining bytes each contain one tile. <br>
+            third set of four bytes is the x of the tilesize. <br>
+            fourth set of four bytes is the y of the tilesize. <br>
+            remaining sets of four bytes each contain one tile. <br>
             \param f Filename to save it to.
             \sa loadMap()
         */

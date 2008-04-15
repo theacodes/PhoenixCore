@@ -88,8 +88,8 @@ namespace phoenix
 
         //! Test static collisions.
         /*!
-            Test a collision object against the static geometry and performs callback.
-            Can be called directly, but this function is called by testObjectCollisions().
+            Test a collision object against the static geometry and performs the object's callback.
+            Can be called directly, but this function is called by testObjectCollisions() if it's used.
             \param A The object to test.
             \sa isColliding(), testCollisions(), phoenix::PhStaticGeometry, phoenix::PhCollisionObject
         */
@@ -98,7 +98,7 @@ namespace phoenix
         //! Is colliding (object to object).
         /*!
             Does collision testing between two objects, calls both callbacks for the objects.
-            can be called directly, but this function is called by testObjectCollisions().
+            can be called directly, but this function is called by testObjectCollisions() if it used.
             \sa isColliding(), testCollisions(), phoenix::PhCollisionObject
         */
         bool isColliding(PhCollisionObject* A, PhCollisionObject* B);
@@ -129,7 +129,7 @@ namespace phoenix
         //! Add static geometry.
         /*!
             Adds static geometry given a polygon and a type. Usually a type of 1 is treated as a solid block and
-            it is the defualt for this function.
+            it is the default for this function.
             \param p The polygon to be added as static geometry.
             \param t The type.
             \sa removeStaticGeometry(), phoenix::PhStaticGeometry
