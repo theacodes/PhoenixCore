@@ -31,7 +31,7 @@ using namespace phoenix;
 ////////////////////////////////////////////////////////////////////////////////
 
 PhTexture::PhTexture(PhTextureManager* t)
-	: texture(0), txtmgr(t), width(0), height(0), name("")
+	: texture(0), txtmgr(t), width(0), height(0), data(NULL), name("")
 {
     txtmgr->addTexture(this);
 }
