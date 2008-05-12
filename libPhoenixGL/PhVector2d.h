@@ -188,6 +188,7 @@ namespace phoenix
         float operator * (const PhVector2d &V)	const;
 
         friend PhVector2d operator * (float k, const PhVector2d& V);
+
         PhVector2d operator * (float  s)			const;
         PhVector2d operator / (float  s)			const;
         PhVector2d operator + (const PhVector2d &V)	const;
@@ -205,6 +206,8 @@ namespace phoenix
         PhVector2d& operator *= (PhRotationMatrix& other);
 
     };
+
+    PhVector2d operator * (float k, const PhVector2d& V);
 
 }
 
