@@ -153,18 +153,18 @@ bool PhRenderSystem::initSystem( PhVector2d sc , bool fs )
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
-    glDisable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CW);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); // Set The Blending Function For Translucency
     glEnable(GL_BLEND); //enable blending
 
+    //Materials
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = { 50.0 };
 
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-    glMaterialfv(GL_BACK, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_BACK, GL_SHININESS, mat_shininess);
 
 
     //set up the font stuff
@@ -607,17 +607,6 @@ void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float dept
     //normals (each vector is (0.0f,0.0f,1.0f) )
     GLfloat normals[] = {0.0f,0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,1.0f};
 
-    //flip?
-    if (flip)
-    {
-        glRotatef(180.0f,0.0f,1.0f,0.0f);
-        //Adjust normals.
-        normals[2] = -1.0f;
-        normals[5] = -1.0f;
-        normals[9] = -1.0f;
-        normals[12] = -1.0f;
-    }
-
     //vertices
     float x = float(source->getWidth()/2.0f);
     float y = float(source->getHeight()/2.0f);
@@ -628,6 +617,14 @@ void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float dept
                           };
     //tcoords, easy
     GLfloat tcoords[] = {0.0f,0.0f,1.0f,0.0f,1.0f,1.0f,0.0f,1.0f};
+    if( flip )
+    {
+        tcoords[0] = 1.0f;
+        tcoords[2] = 0.0f;
+        tcoords[4] = 0.0f;
+        tcoords[6] = 1.0f;
+    }
+
     //indexlist, pretty simple
     GLuint indexlist[] = {0,1,3,1,2,3};
 
@@ -672,16 +669,6 @@ void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect 
     GLuint colors[] = {color.toGLColor(), color.toGLColor(), color.toGLColor(), color.toGLColor()};
     //normals (each vector is (0.0f,0.0f,1.0f) )
     GLfloat normals[] = {0.0f,0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,1.0f};
-    //flip?
-    if (flip)
-    {
-        glRotatef(180.0f,0.0f,1.0f,0.0f);
-        //Adjust normals.
-        normals[2] = -1.0f;
-        normals[5] = -1.0f;
-        normals[9] = -1.0f;
-        normals[12] = -1.0f;
-    }
     //vertices
     float x = float(rect.getWidth()/2.0f);
     float y = float(rect.getHeight()/2.0f);
@@ -690,8 +677,15 @@ void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect 
                            x,y,0.0f,
                            -x,y,0.0f
                           };
-    //tcoords, easy
+    //tcoords
     GLfloat tcoords[] = {0.0f,0.0f,1.0f,0.0f,1.0f,1.0f,0.0f,1.0f};
+    if( flip )
+    {
+        tcoords[0] = 1.0f;
+        tcoords[2] = 0.0f;
+        tcoords[4] = 0.0f;
+        tcoords[6] = 1.0f;
+    }
     //indexlist, pretty simple
     GLuint indexlist[] = {0,1,3,1,2,3};
 
