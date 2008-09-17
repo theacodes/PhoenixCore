@@ -264,65 +264,16 @@ void PhTileMap::onRender()
             if (texture)
             {
 
-                //texture manipulations
-                glMatrixMode(GL_TEXTURE);
+                int x = int(getTile(PhVector2d(j,i)) * tilesize.getX());
+                int y = int(floor(getTile(PhVector2d(j,i))/(texture->getWidth()/tilesize.getX())) * tilesize.getY());
 
-                glPushMatrix();
+                PhRect clip(
+                    x,
+                    y,
+                    int(tilesize.getX()),
+                    int(tilesize.getY()));
 
-                float x,y;
-                int frame = map[int ( (i*tilemapsize.getX())+j )]; //get the number of the current tile
-                //move to the tile needed
-                x =  floor((float)frame) * tilesize.getX();
-                y = (floor(frame/floor((texture->getWidth()/tilesize.getX())))) * tilesize.getY();
-
-                glTranslatef(  x / texture->getWidth() ,  y / texture->getHeight() ,0.0f);
-
-                //now scale it to where we need it
-                glScalef( (tilesize.getX()/texture->getWidth()), (tilesize.getY()/texture->getHeight()), 1.0f);
-
-                //load the idenity
-                glMatrixMode(GL_MODELVIEW);
-
-                glPushMatrix();
-
-                //Move the the center of the image
-                glTranslatef( (j*tilesize.getX()) + (tilesize.getX()/2) , (i*tilesize.getY()) + (tilesize.getY()/2), depth);
-
-                //Enable texturing
-                glEnable(GL_TEXTURE_2D);
-
-                texture->bindTexture();
-
-                //colors
-                PhColor color(255,255,255);
-                GLuint colors[] = {color.toGLColor(), color.toGLColor(), color.toGLColor(), color.toGLColor()};
-                //normals (each vector is (0.0f,0.0f,1.0f) )
-                GLfloat normals[] = {0.0f,0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,1.0f};
-                //vertices
-                x = tilesize.getX() / 2.0f;
-                y = tilesize.getY() / 2.0f;
-                GLfloat vertices[] =  {-x,-y,0.0f,
-                                       x,-y,0.0f,
-                                       x,y,0.0f,
-                                       -x,y,0.0f
-                                      };
-                //tcoords, little more difficult
-                GLfloat tcoords[] = {0.0f,0.0f,1.0f,0.0f,1.0f,1.0f,0.0f,1.0f};
-                //indexlist, pretty simple
-                GLuint indexlist[] = {0,1,3,1,2,3};
-
-                //make the engine draw it
-                smgr->getRenderSystem()->drawIndexedTriangleList(vertices,normals,tcoords,colors,indexlist, 2 );
-
-                //Disable texturing
-                glDisable(GL_TEXTURE_2D);
-
-                //Move back to the top of the screen
-                glPopMatrix();
-
-                glMatrixMode(GL_TEXTURE);
-
-                glPopMatrix();
+                smgr->getRenderSystem()->drawTexturePart( texture, PhVector2d(j*tilesize.getX(),i*tilesize.getY()), clip, depth, 0.0f, 1.0f, PhColor(255,255,255), false );
 
             }
         }

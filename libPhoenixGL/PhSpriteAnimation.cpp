@@ -201,7 +201,7 @@ void PhSpriteAnimation::onRender()
 
     float x,y;
     x =  floor(frame) * framesize.getX();
-    y = (floor(frame/floor((texture->getWidth()/framesize.getX())))) * framesize.getY();
+    y = (floor(frame/(texture->getWidth()/framesize.getX()))) * framesize.getY();
 
     smgr->getRenderSystem()->drawTexturePart( texture, pos, PhRect( x, y, framesize.getX(), framesize.getY() ), depth, rot, 1.0f, color, flip );
 
