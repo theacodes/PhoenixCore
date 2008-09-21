@@ -1,96 +1,108 @@
-/*
-
-Copyright (c) 2008, Jonathan Wayne Parrott, Denzel Morris.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
 #include "PhLight.h"
-using namespace phoenix;
-using namespace std;
 
-PhLight::PhLight(PhLightManager* lMgr)
+PhLight::PhLight(PhLightSystem* l, PhVector2d Position, PhColor c)
+        : lsys(l), ambient(c), diffuse(c), specular(PhColor(127,127,127,255)), position(Position), catten(1.0f), latten(0.0f), qatten(0.0f), depth(0.0f)
 {
-	lightMgr = lMgr;
-	lightMgr->addLight(this);
+    lsys->addLight(this);
 }
 
 PhLight::~PhLight()
 {
-	lightMgr->removeLight(this);
+    if (lsys)
+    {
+        lsys->removeLight(this);
+    }
 }
 
-void PhLight::setName(string name)
+void PhLight::setAmbient(PhColor a)
 {
-	mName = name;
+    ambient = a;
 }
-
-string PhLight::getName()
+void PhLight::setDiffuse(PhColor d)
 {
-	return mName;
+    diffuse = d;
 }
-
-void PhLight::setAmbient(PhColor ambient) 
+void PhLight::setSpecular(PhColor s)
 {
-	mAmbient[0] = ambient.getRed()/255;
-	mAmbient[1] = ambient.getGreen()/255;
-	mAmbient[2] = ambient.getBlue()/255;
-	mAmbient[3] = ambient.getAlpha()/255;
+    specular = s;
 }
-
-void PhLight::setDiffuse(PhColor diffuse) 
-{ 
-	mDiffuse[0] = diffuse.getRed()/255; 
-	mDiffuse[1] = diffuse.getGreen()/255;
-	mDiffuse[2] = diffuse.getBlue()/255;
-	mDiffuse[3] = diffuse.getAlpha()/255;
-}
-
-void PhLight::setSpecular(PhColor specular) 
-{ 
-	mSpecular[0] = specular.getRed()/255;
-	mSpecular[1] = specular.getGreen()/255;
-	mSpecular[2] = specular.getBlue()/255;
-	mSpecular[3] = specular.getAlpha()/255;
-}
-void PhLight::setDistance(GLfloat dist) { mDistance = dist; }
-
-void PhLight::setPosition(float x, float y, float z, float t)
+void PhLight::setPosition(PhVector2d p)
 {
-	mPosition[0] = x;
-	mPosition[1] = y;
-	mPosition[2] = z;
-	mPosition[3] = t;
+    position = p;
 }
-
-void PhLight::setDirection(float x, float y, float z, float t)
+void PhLight::setDepth(float d)
 {
-	mDirection[0] = x;
-	mDirection[1] = y;
-	mDirection[2] = z;
-	mDirection[3] = t;
+    depth = d;
+}
+void PhLight::setConstantAttenuation(float c)
+{
+    catten = c;
+}
+void PhLight::setLinearAttenuation(float l)
+{
+    latten = l;
+}
+void PhLight::setQuadraticAttenation(float q)
+{
+    qatten = q;
+}
+void PhLight::setAttenuation(float c, float l, float q)
+{
+    catten = c;
+    latten = l;
+    qatten = q;
 }
 
-GLfloat* PhLight::getAmbient() { return mAmbient; }
-GLfloat* PhLight::getDiffuse() { return mDiffuse; }
-GLfloat* PhLight::getSpecular() { return mSpecular; }
-GLfloat* PhLight::getPosition() { return mPosition; }
-GLfloat* PhLight::getDirection() { return mDirection; }
-GLfloat PhLight::getDistance() { return mDistance; }
+PhColor PhLight::getAmbient()
+{
+    return ambient;
+}
+PhColor PhLight::getDiffuse()
+{
+    return diffuse;
+}
+PhColor PhLight::getSpecular()
+{
+    return specular;
+}
+PhVector2d PhLight::getPosition()
+{
+    return position;
+}
+float PhLight::getDepth()
+{
+    return depth;
+}
+float PhLight::getConstantAttenuation()
+{
+    return catten;
+}
+float PhLight::getLinearAttenuation()
+{
+    return latten;
+}
+float PhLight::getQuadraticAttenuation()
+{
+    return qatten;
+}
+
+void PhLight::setLight(int n)
+{
+
+    GLfloat light_position[] = { position.getX(), position.getY(), 0.0f, 1.0f };
+    GLfloat light_ambient[] = { ambient.getRed()/255.0f, ambient.getGreen()/255.0f, ambient.getBlue()/255.0f, ambient.getAlpha()/255.0f };
+    GLfloat light_diffuse[] = { diffuse.getRed()/255.0f, diffuse.getGreen()/255.0f, diffuse.getBlue()/255.0f, diffuse.getAlpha()/255.0f };
+    GLfloat light_specular[] = { specular.getRed()/255.0f, specular.getGreen()/255.0f, specular.getBlue()/255.0f, specular.getAlpha()/255.0f };
+
+    glLightfv(GL_LIGHT0+n, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0+n, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0+n, GL_SPECULAR, light_specular);
+    glLightfv(GL_LIGHT0+n, GL_POSITION, light_position);
+
+    glLightf(GL_LIGHT0+n, GL_CONSTANT_ATTENUATION, catten);
+    glLightf(GL_LIGHT0+n, GL_LINEAR_ATTENUATION, latten);
+    glLightf(GL_LIGHT0+n, GL_QUADRATIC_ATTENUATION, qatten);
+
+    glEnable(GL_LIGHT0+n);
+
+}

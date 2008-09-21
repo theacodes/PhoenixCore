@@ -48,6 +48,8 @@ PhRenderSystem::~PhRenderSystem()
 
     delete logs; //cleans up all the logs
 
+	delete lights; //delete all of our lights
+
     glfwCloseWindow();
 
     glfwTerminate();
@@ -85,6 +87,12 @@ bool PhRenderSystem::run()
 
     //fps calculation
     frame+=1;
+
+    //lights
+    if(lighting == true)
+    {
+        lsys->setLights();
+    }
 
     return true;
 
@@ -166,6 +174,9 @@ bool PhRenderSystem::initSystem( PhVector2d sc , bool fs )
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
+    // Material mode
+    glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE );
+    glEnable(GL_COLOR_MATERIAL);
 
     //set up the font stuff
     float temp = 16.0/256.0;
@@ -212,6 +223,9 @@ bool PhRenderSystem::initSystem( PhVector2d sc , bool fs )
 
     //Start our fps timer
     fpstimer.startTimer();
+
+    //Make a light system
+    lsys = new PhLightSystem();
 
     //everything was fine
     return true;
@@ -813,6 +827,15 @@ PhTextureManager* PhRenderSystem::getTextureManager()
 PhLogManager* PhRenderSystem::getLogManager()
 {
 	return logs;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//Returns a pointer to the light system.
+////////////////////////////////////////////////////////////////////////////////
+
+PhLightSystem* PhRenderSystem::getLightSystem()
+{
+	return lsys;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

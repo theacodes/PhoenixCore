@@ -118,8 +118,6 @@
 #include "PhExtendedBackground.h" //background node
 #include "PhTileMap.h"             //tilemap
 #include "PhParticleSystem.h"      //particle system
-
-#include "PhLight.h"
-#include "PhLightManager.h"
+#include "PhLightSystem.h"      //light system.
 
 #endif

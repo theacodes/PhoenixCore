@@ -36,6 +36,7 @@ THE SOFTWARE.
 #include "PhEventHandle.h"
 #include "PhRect.h"
 #include "PhPolygon.h"
+#include "PhLightSystem.h"
 
 //! The phoenix namespace.
 /*!
@@ -96,6 +97,9 @@ namespace phoenix
 
         //determines if lighting is enable
         bool lighting;
+
+        //Light system
+        PhLightSystem* lsys;
 
         //Glyph structure
         struct PhGlyph
@@ -321,6 +325,12 @@ namespace phoenix
         	\return A pointer to the log manager.
         */
         PhLogManager* getLogManager();
+
+        //! Get light system.
+        /*!
+        	\return A pointer to light system.
+        */
+        PhLightSystem* getLightSystem();
 
         //! Set blend mode.
         /*!
