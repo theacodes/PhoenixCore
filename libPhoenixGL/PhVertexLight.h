@@ -1,17 +1,17 @@
-#ifndef PHLIGHT_H
-#define PHLIGHT_H
+#ifndef PhVertexLight_H
+#define PhVertexLight_H
 
-#include "PhLightSystem.h"
+#include "PhVertexLightSystem.h"
 #include "PhColor.h"
 #include "PhVector2d.h"
 
 using namespace phoenix;
 
-class PhLight
+class PhVertexLight
 {
     public:
-        PhLight(PhLightSystem* l, PhVector2d Position = PhVector2d(0.0f,0.0f), PhColor c = PhColor(255,255,255,255));
-        virtual ~PhLight();
+        PhVertexLight(PhVertexLightSystem* l, PhVector2d Position = PhVector2d(0.0f,0.0f), PhColor c = PhColor(255,255,255,255));
+        virtual ~PhVertexLight();
 
         void setAmbient(PhColor a);
         void setDiffuse(PhColor d);
@@ -36,7 +36,7 @@ class PhLight
 
 
     protected:
-        PhLightSystem* lsys;
+        PhVertexLightSystem* lsys;
         PhColor ambient, diffuse, specular;
         PhVector2d position;
         float catten, latten, qatten, depth;
@@ -44,4 +44,4 @@ class PhLight
     private:
 };
 
-#endif // PHLIGHT_H
+#endif // PhVertexLight_H

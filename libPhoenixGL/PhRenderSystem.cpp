@@ -35,7 +35,7 @@ using namespace phoenix;
 ////////////////////////////////////////////////////////////////////////////////
 
 PhRenderSystem::PhRenderSystem()
-        : events(NULL), textures(NULL), fpstimer(), frame(0), lighting(false)
+        : events(NULL), textures(NULL), fpstimer(), frame(0), vertexlighting(false)
 {
 }
 
@@ -48,7 +48,7 @@ PhRenderSystem::~PhRenderSystem()
 
     delete logs; //cleans up all the logs
 
-	delete lights; //delete all of our lights
+	delete vlsys; //delete all of our lights
 
     glfwCloseWindow();
 
@@ -89,9 +89,9 @@ bool PhRenderSystem::run()
     frame+=1;
 
     //lights
-    if(lighting == true)
+    if(vertexlighting == true)
     {
-        lsys->setLights();
+        vlsys->setLights();
     }
 
     return true;
@@ -224,8 +224,8 @@ bool PhRenderSystem::initSystem( PhVector2d sc , bool fs )
     //Start our fps timer
     fpstimer.startTimer();
 
-    //Make a light system
-    lsys = new PhLightSystem();
+    //Make a vertex light system
+    vlsys = new PhVertexLightSystem();
 
     //everything was fine
     return true;
@@ -753,7 +753,7 @@ void PhRenderSystem::drawText( std::string text, PhVector2d pos, PhColor color, 
         //Enable texturing
         glEnable(GL_TEXTURE_2D);
 
-        //disable lighting
+        //disable vertexlighting
         glDisable(GL_LIGHTING);
 
         //Load the texture
@@ -789,8 +789,8 @@ void PhRenderSystem::drawText( std::string text, PhVector2d pos, PhColor color, 
         //Disable texturing
         glDisable(GL_TEXTURE_2D);
 
-        //make the engine restore the lighting state
-        setLighting(getLighting());
+        //make the engine restore the vertexlighting state
+        setVertexLighting(getVertexLighting());
 
         //add to our offset
         xoff+=10;
@@ -833,9 +833,9 @@ PhLogManager* PhRenderSystem::getLogManager()
 //Returns a pointer to the light system.
 ////////////////////////////////////////////////////////////////////////////////
 
-PhLightSystem* PhRenderSystem::getLightSystem()
+PhVertexLightSystem* PhRenderSystem::getVertexLightSystem()
 {
-	return lsys;
+	return vlsys;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -851,24 +851,24 @@ void PhRenderSystem::setDefaultBlendMode(){
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//sets and gets the lighting state
+//sets and gets the vertexlighting state
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::setLighting(bool a)
+void PhRenderSystem::setVertexLighting(bool a)
 {
     if (a)
     {
         glEnable(GL_LIGHTING);
-        lighting = true;
+        vertexlighting = true;
     }
     else
     {
         glDisable(GL_LIGHTING);
-        lighting = false;
+        vertexlighting = false;
     }
 }
 
-bool PhRenderSystem::getLighting()
+bool PhRenderSystem::getVertexLighting()
 {
-    return lighting;
+    return vertexlighting;
 }

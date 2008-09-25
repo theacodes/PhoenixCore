@@ -1,5 +1,5 @@
-#ifndef PHLIGHTSYSTEM_H
-#define PHLIGHTSYSTEM_H
+#ifndef PhVertexLightSYSTEM_H
+#define PhVertexLightSYSTEM_H
 
 #include <vector>
 
@@ -7,14 +7,14 @@
 
 using namespace std;
 
-class PhLight;
+class PhVertexLight;
 
 //! Light System class.
 /*!
     This class provides a way of managing opengl lights.
-    \sa PhLight
+    \sa PhVertexLight
 */
-class PhLightSystem
+class PhVertexLightSystem
 {
     public:
 
@@ -23,13 +23,13 @@ class PhLightSystem
             Constructs a new light system. Usually you have no need to call this manually, as the render
             system makes one for you.
         */
-        PhLightSystem();
+        PhVertexLightSystem();
 
         //! Destructor.
         /*!
             Deletes all the currents lights and closes the light system. Usually no need to call this manually.
         */
-        virtual ~PhLightSystem();
+        virtual ~PhVertexLightSystem();
 
         //! Add light.
         /*!
@@ -37,14 +37,14 @@ class PhLightSystem
             opengl implementation supports, you won't notice any difference.
             \param l Pointer to the light to add.
         */
-        void addLight(PhLight* l);
+        void addLight(PhVertexLight* l);
 
         //! Remove light.
         /*!
             Removes a light from the light system.
             \param l Pointer to the light to remove.
         */
-        void removeLight(PhLight* l);
+        void removeLight(PhVertexLight* l);
 
         //! Clear lights.
         /*!
@@ -61,11 +61,11 @@ class PhLightSystem
 
     protected:
 
-        vector<PhLight*> lights;
+        vector<PhVertexLight*> lights;
 
     private:
 };
 
-#include "PhLight.h"
+#include "PhVertexLight.h"
 
-#endif // PHLIGHTSYSTEM_H
+#endif // PhVertexLightSYSTEM_H

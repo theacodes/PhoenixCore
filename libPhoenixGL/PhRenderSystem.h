@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "PhEventHandle.h"
 #include "PhRect.h"
 #include "PhPolygon.h"
-#include "PhLightSystem.h"
+#include "PhVertexLightSystem.h"
 
 //! The phoenix namespace.
 /*!
@@ -95,11 +95,11 @@ namespace phoenix
         //The font used to draw text
         PhTexture* font;
 
-        //determines if lighting is enable
-        bool lighting;
+        //determines if vertexlighting is enable
+        bool vertexlighting;
 
         //Light system
-        PhLightSystem* lsys;
+        PhVertexLightSystem* vlsys;
 
         //Glyph structure
         struct PhGlyph
@@ -326,11 +326,11 @@ namespace phoenix
         */
         PhLogManager* getLogManager();
 
-        //! Get light system.
+        //! Get vertex light system.
         /*!
-        	\return A pointer to light system.
+        	\return A pointer to vertex light system.
         */
-        PhLightSystem* getLightSystem();
+        PhVertexLightSystem* getVertexLightSystem();
 
         //! Set blend mode.
         /*!
@@ -355,8 +355,8 @@ namespace phoenix
         void setDefaultBlendMode();
 
 
-        void setLighting(bool a);
-        bool getLighting();
+        void setVertexLighting(bool a);
+        bool getVertexLighting();
 
     };
 

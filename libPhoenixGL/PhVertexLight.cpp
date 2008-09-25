@@ -1,12 +1,12 @@
-#include "PhLight.h"
+#include "PhVertexLight.h"
 
-PhLight::PhLight(PhLightSystem* l, PhVector2d Position, PhColor c)
+PhVertexLight::PhVertexLight(PhVertexLightSystem* l, PhVector2d Position, PhColor c)
         : lsys(l), ambient(c), diffuse(c), specular(PhColor(127,127,127,255)), position(Position), catten(1.0f), latten(0.0f), qatten(0.0f), depth(0.0f)
 {
     lsys->addLight(this);
 }
 
-PhLight::~PhLight()
+PhVertexLight::~PhVertexLight()
 {
     if (lsys)
     {
@@ -14,79 +14,79 @@ PhLight::~PhLight()
     }
 }
 
-void PhLight::setAmbient(PhColor a)
+void PhVertexLight::setAmbient(PhColor a)
 {
     ambient = a;
 }
-void PhLight::setDiffuse(PhColor d)
+void PhVertexLight::setDiffuse(PhColor d)
 {
     diffuse = d;
 }
-void PhLight::setSpecular(PhColor s)
+void PhVertexLight::setSpecular(PhColor s)
 {
     specular = s;
 }
-void PhLight::setPosition(PhVector2d p)
+void PhVertexLight::setPosition(PhVector2d p)
 {
     position = p;
 }
-void PhLight::setDepth(float d)
+void PhVertexLight::setDepth(float d)
 {
     depth = d;
 }
-void PhLight::setConstantAttenuation(float c)
+void PhVertexLight::setConstantAttenuation(float c)
 {
     catten = c;
 }
-void PhLight::setLinearAttenuation(float l)
+void PhVertexLight::setLinearAttenuation(float l)
 {
     latten = l;
 }
-void PhLight::setQuadraticAttenation(float q)
+void PhVertexLight::setQuadraticAttenation(float q)
 {
     qatten = q;
 }
-void PhLight::setAttenuation(float c, float l, float q)
+void PhVertexLight::setAttenuation(float c, float l, float q)
 {
     catten = c;
     latten = l;
     qatten = q;
 }
 
-PhColor PhLight::getAmbient()
+PhColor PhVertexLight::getAmbient()
 {
     return ambient;
 }
-PhColor PhLight::getDiffuse()
+PhColor PhVertexLight::getDiffuse()
 {
     return diffuse;
 }
-PhColor PhLight::getSpecular()
+PhColor PhVertexLight::getSpecular()
 {
     return specular;
 }
-PhVector2d PhLight::getPosition()
+PhVector2d PhVertexLight::getPosition()
 {
     return position;
 }
-float PhLight::getDepth()
+float PhVertexLight::getDepth()
 {
     return depth;
 }
-float PhLight::getConstantAttenuation()
+float PhVertexLight::getConstantAttenuation()
 {
     return catten;
 }
-float PhLight::getLinearAttenuation()
+float PhVertexLight::getLinearAttenuation()
 {
     return latten;
 }
-float PhLight::getQuadraticAttenuation()
+float PhVertexLight::getQuadraticAttenuation()
 {
     return qatten;
 }
 
-void PhLight::setLight(int n)
+void PhVertexLight::setLight(int n)
 {
 
     GLfloat light_position[] = { position.getX(), position.getY(), 0.0f, 1.0f };

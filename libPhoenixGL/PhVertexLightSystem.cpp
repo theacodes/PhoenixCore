@@ -1,21 +1,21 @@
-#include "PhLightSystem.h"
+#include "PhVertexLightSystem.h"
 
-PhLightSystem::PhLightSystem()
+PhVertexLightSystem::PhVertexLightSystem()
 {
 
 }
 
-PhLightSystem::~PhLightSystem()
+PhVertexLightSystem::~PhVertexLightSystem()
 {
     clearLights();
 }
 
-void PhLightSystem::addLight(PhLight* l)
+void PhVertexLightSystem::addLight(PhVertexLight* l)
 {
     lights.push_back(l);
 }
 
-void PhLightSystem::removeLight(PhLight* l)
+void PhVertexLightSystem::removeLight(PhVertexLight* l)
 {
     for (unsigned int i = 0; i < lights.size(); i++)
     {
@@ -26,7 +26,7 @@ void PhLightSystem::removeLight(PhLight* l)
     }
 }
 
-void PhLightSystem::clearLights()
+void PhVertexLightSystem::clearLights()
 {
     for (unsigned int i = 0; i < lights.size(); i++)
     {
@@ -38,7 +38,7 @@ void PhLightSystem::clearLights()
     lights.clear();
 }
 
-void PhLightSystem::setLights()
+void PhVertexLightSystem::setLights()
 {
     // save the modelview matrix
     glMatrixMode(GL_MODELVIEW);
