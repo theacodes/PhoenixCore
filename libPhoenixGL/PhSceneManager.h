@@ -31,10 +31,14 @@ THE SOFTWARE.
 #include "PhSceneNode.h"
 
 
+
 namespace phoenix
 {
 
-    //! Scene Manger Class
+    // forward declaration of PhLightManager
+    class PhLightManager;
+
+    //! Scene Manager Class
     /*!
         This is the phoenix scene manager. This allows for a representation of all objects in the game
         through the use of nodes. All objects are nodes and all nodes are dervied from phoenix::PhSceneNode.
@@ -75,6 +79,20 @@ namespace phoenix
             \sa phoenix::PhCollisionHandler, drawAll(), setCollisionHandler(), getCollisionHandler()
         */
         PhPolygonCollisionHandler* colhandle;
+
+        //! Pointer to the light manager.
+        /*!
+            The scenemanager handles per-pixel lighting for us, and it needs a pointer.
+            \sa getLightManager(), setLightManager()
+        */
+        PhLightManager* lmgr;
+
+        //! Lights enable
+        /*!
+            Enables or disables the lighting system. (default disabled).
+            \sa enableLighting(), disableLighting()
+        */
+        bool lightenable;
 
         //! Number of nodes.
         /*!
@@ -192,6 +210,34 @@ namespace phoenix
         */
         void setCollisionHandler(PhPolygonCollisionHandler* a);
 
+        //! Get light manager.
+        /*!
+            \sa PhLightManager, setLightManager(), enableLighting()
+            \return A pointer to the current light manager.
+        */
+        PhLightManager* getLightManager();
+
+        //! Set light manager.
+        /*!
+            Changes the currently active light manager.
+            \sa PhLightManager, getLightManager(), enableLighting()
+        */
+        void setLightManager(PhLightManager* l);
+
+        //! Enable lighting
+        /*!
+            Enables the lighting manager.
+            \sa PhLightManager, getLightManager(), disableLighting()
+        */
+        void enableLighting();
+
+        //! Disable lighting
+        /*!
+            Disables the lighting manager.
+            \sa PhLightManager, getLightManager(), enableLighting()
+        */
+        void disableLighting();
+
         //! Gets the current view.
         /*!
             Simply returns a pointer to the current view used by the scene manager.
@@ -220,5 +266,7 @@ namespace phoenix
     };
 
 }
+
+#include "PhLightManager.h"
 
 #endif

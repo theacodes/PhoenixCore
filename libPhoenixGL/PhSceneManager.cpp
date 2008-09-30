@@ -31,9 +31,10 @@ using namespace phoenix;
 ////////////////////////////////////////////////////////////////////////////////
 
 PhSceneManager::PhSceneManager(PhRenderSystem* s)
-	: system(s), colhandle(NULL), nodecount(0), rnodecount(0)
+	: system(s), colhandle(NULL), lightenable(false), nodecount(0), rnodecount(0)
 {
     defview = new PhView(system);
+    lmgr = new PhLightManager(this);
 }
 
 PhSceneManager::~PhSceneManager()
@@ -109,6 +110,9 @@ void PhSceneManager::registerForRendering(PhSceneNode* ptr)
 void PhSceneManager::drawAll()
 {
 
+    //Generate our light buffer
+    lmgr->generateBuffer();
+
     //first set the view to the default.
     defview->setGLView();
 
@@ -153,6 +157,10 @@ void PhSceneManager::drawAll()
     //clear stuff
     rendernodes.clear();
     rnodecount=0;
+
+    //draw our light buffer.
+    lmgr->renderBuffer();
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -186,4 +194,28 @@ void PhSceneManager::setView(int x, int y)
 {
     defview->setX((float)x);
     defview->setY((float)y);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Light related functions
+////////////////////////////////////////////////////////////////////////////////
+
+PhLightManager* PhSceneManager::getLightManager()
+{
+    return lmgr;
+}
+
+void PhSceneManager::setLightManager(PhLightManager* l)
+{
+    lmgr = l;
+}
+
+void PhSceneManager::enableLighting()
+{
+    lightenable = true;
+}
+
+void PhSceneManager::disableLighting()
+{
+    lightenable = false;
 }
