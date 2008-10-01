@@ -2,7 +2,7 @@
 
 using namespace phoenix;
 
-PhLight::PhLight(PhLightManager* l, PhTexture* t, PhVector2d p, PhColor c, float s): lmgr(l), texture(t), position(p), color(c), scale(s)
+PhLight::PhLight(PhLightManager* l, PhTexture* t, PhVector2d p, PhColor c, float s): lmgr(l), texture(t), position(p-PhVector2d(63.64f,63.64f)), color(c), scale(s)
 {
     lmgr->addLight(this);
 }
@@ -29,12 +29,14 @@ void PhLight::setTexture(PhTexture* t)
 
 PhVector2d PhLight::getPosition()
 {
-    return position;
+    //compensate for the fact that our method skews positions slightly.
+    return position+PhVector2d(63.64f,63.64f);
 }
 
 void PhLight::setPosition(PhVector2d p)
 {
-    position = p;
+    //compensate for the fact that our method skews positions slightly.
+    position = p-PhVector2d(63.64f,63.64f);
 }
 
 PhColor PhLight::getColor()
