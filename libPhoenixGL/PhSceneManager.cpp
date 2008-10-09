@@ -145,6 +145,9 @@ void PhSceneManager::drawAll()
         }
     }
 
+    //draw our light buffer.
+    lmgr->renderBuffer();
+
     //postrender
     for(int i=0;i<nodecount;i++)
     {
@@ -157,9 +160,6 @@ void PhSceneManager::drawAll()
     //clear stuff
     rendernodes.clear();
     rnodecount=0;
-
-    //draw our light buffer.
-    lmgr->renderBuffer();
 
 }
 
