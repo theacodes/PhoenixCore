@@ -45,7 +45,7 @@ void PhLightManager::generateBuffer()
 
     smgr->getRenderSystem()->setBlendMode(GL_SRC_ALPHA,GL_ONE);
 
-    smgr->getView()->setGLView();
+    //smgr->getView()->setGLView();
 
     for (unsigned int i = 0; i < lights.size(); i++)
     {
@@ -70,13 +70,15 @@ void PhLightManager::renderBuffer()
 
     glPushMatrix();
 
+    glLoadIdentity();
+
     glTranslatef(smgr->getView()->getX(),smgr->getView()->getY(),99.f);
 
     glEnable(GL_TEXTURE_2D); //enable textures
 
     rtexture->getTexture()->bindTexture(); //bind the texture.
 
-    //get our width and height, and do tests to see if we're tiling.
+    //get our width and height
     float width = smgr->getRenderSystem()->getScreenSize().getX();
     float height = smgr->getRenderSystem()->getScreenSize().getY();
 

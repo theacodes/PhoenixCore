@@ -110,11 +110,11 @@ void PhSceneManager::registerForRendering(PhSceneNode* ptr)
 void PhSceneManager::drawAll()
 {
 
-    //Generate our light buffer
-    lmgr->generateBuffer();
-
     //first set the view to the default.
     defview->setGLView();
+
+    //Generate our light buffer
+    lmgr->generateBuffer();
 
     //prerender
     for(int i=0;i<nodecount;i++)
