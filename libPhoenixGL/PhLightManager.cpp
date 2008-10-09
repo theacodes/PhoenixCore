@@ -70,7 +70,7 @@ void PhLightManager::renderBuffer()
 
     glPushMatrix();
 
-    glLoadIdentity();
+    glScalef(1.0f/smgr->getView()->getScale(),1.0f/smgr->getView()->getScale(),1.0f);
 
     glTranslatef(smgr->getView()->getX(),smgr->getView()->getY(),99.f);
 
@@ -108,11 +108,12 @@ void PhLightManager::renderBuffer()
 
     //restore our matricies.
 
-    smgr->getRenderSystem()->setDefaultBlendMode();
-
     glMatrixMode(GL_MODELVIEW);
 
     glPopMatrix();
+
+    smgr->getRenderSystem()->setDefaultBlendMode();
+
 }
 
 PhTexture* PhLightManager::getBuffer()
