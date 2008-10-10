@@ -182,12 +182,15 @@ namespace phoenix
         //! Does one step for all the nodes.
         /*!
             This function's name is a bit misleading (change in future versions?). This call is the main point
-            of the scene manager. It does the following:
-            1) Calls onPreRender() for all the nodes
-            2) If applicable, check for collisions
-            3) Sorts all the nodes to be "drawn"
-            4) Calls onRender() for the sorted nodes in order
-            5) Calls onPostRender() for all nodes.
+            of the scene manager. It does the following:<br>
+            1) Sets the view.<br>
+            2) Generates the light buffer (if enabled).<br>
+            3) Calls onPreRender() for all the nodes<br>
+            4) If applicable, check for collisions<br>
+            5) Sorts all the nodes to be "drawn"<br>
+            6) Calls onRender() for the sorted nodes in order<br>
+            7) Draws the light buffer over the scene.<br>
+            8) Calls onPostRender() for all nodes.<br>
             \sa registerForRendering(), setCollisionHandler(), phoenix::PhSceneNode
         */
         void drawAll();
