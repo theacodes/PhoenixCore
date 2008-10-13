@@ -127,6 +127,13 @@ namespace phoenix
         */
         PhRenderSystem* getRenderSystem();
 
+        //! Get scene manager
+        /*!
+            Used by PhParticle to get scene information
+            \return A pointer to the scenemanager
+        */
+        PhSceneManager* getSceneManager();
+
         //! Get particle count
         /*!
             Used by PhEffector to know how many particles to effect.

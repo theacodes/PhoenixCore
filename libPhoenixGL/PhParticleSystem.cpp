@@ -129,6 +129,11 @@ PhRenderSystem* PhParticleSystem::getRenderSystem()
     return smgr->getRenderSystem();
 }
 
+PhSceneManager* PhParticleSystem::getSceneManager()
+{
+    return smgr;
+}
+
 int PhParticleSystem::getParticleCount()
 {
     return particles.size();
