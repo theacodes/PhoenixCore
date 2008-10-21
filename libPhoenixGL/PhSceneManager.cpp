@@ -35,6 +35,7 @@ PhSceneManager::PhSceneManager(PhRenderSystem* s)
 {
     defview = new PhView(system);
     lmgr = new PhLightManager(this);
+    lightenable = false;
 }
 
 PhSceneManager::~PhSceneManager()
@@ -114,7 +115,7 @@ void PhSceneManager::drawAll()
     defview->setGLView();
 
     //Generate our light buffer
-    lmgr->generateBuffer();
+    if(lightenable) lmgr->generateBuffer();
 
     //prerender
     for(int i=0;i<nodecount;i++)
@@ -146,7 +147,7 @@ void PhSceneManager::drawAll()
     }
 
     //draw our light buffer.
-    lmgr->renderBuffer();
+    if(lightenable) lmgr->renderBuffer();
 
     //postrender
     for(int i=0;i<nodecount;i++)

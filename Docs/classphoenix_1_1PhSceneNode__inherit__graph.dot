@@ -1,0 +1,21 @@
+digraph G
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="phoenix::PhSceneNode",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="phoenix::PhBackground",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classphoenix_1_1PhBackground.htm",tooltip="Simple background implementation."];
+  Node1 -> Node3 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="phoenix::PhDrawSceneNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classphoenix_1_1PhDrawSceneNode.htm",tooltip="Draw scene node."];
+  Node1 -> Node4 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="phoenix::PhExtendedBackground",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classphoenix_1_1PhExtendedBackground.htm",tooltip="Extended Background."];
+  Node1 -> Node5 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="phoenix::PhParticleSystem",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classphoenix_1_1PhParticleSystem.htm",tooltip="Abstract Particle System."];
+  Node1 -> Node6 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="phoenix::PhSolidBackground",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classphoenix_1_1PhSolidBackground.htm",tooltip="Solid background node."];
+  Node1 -> Node7 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="phoenix::PhSpriteAnimation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classphoenix_1_1PhSpriteAnimation.htm",tooltip="Sprite Animation."];
+  Node1 -> Node8 [dir=back,color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node8 [label="phoenix::PhTileMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classphoenix_1_1PhTileMap.htm",tooltip="Tile map."];
+}
