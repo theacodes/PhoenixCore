@@ -49,6 +49,7 @@ namespace phoenix
         PhVector2d pos;
         PhSceneManager* smgr;
         bool enabled;
+        PhVector2d scale;
 
     public:
 
@@ -190,6 +191,18 @@ namespace phoenix
             \param c The new blending color.
         */
         void setColor(PhColor c);
+
+        //! Get scale
+        /*!
+            \return The current scale of the sprite.
+        */
+        PhVector2d getScale();
+
+        //! Set scale
+        /*!
+            \param s The new scale.
+        */
+        void setScale( PhVector2d s );
 
         //! Enable
         /*!

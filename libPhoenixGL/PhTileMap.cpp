@@ -273,7 +273,7 @@ void PhTileMap::onRender()
                     int(tilesize.getX()),
                     int(tilesize.getY()));
 
-                smgr->getRenderSystem()->drawTexturePart( texture, PhVector2d(j*tilesize.getX(),i*tilesize.getY()), clip, depth, 0.0f, 1.0f, PhColor(255,255,255), false );
+                smgr->getRenderSystem()->drawTexturePart( texture, PhVector2d(j*tilesize.getX(),i*tilesize.getY()), clip, depth, 0.0f, PhVector2d(1.0f,1.0f), PhColor(255,255,255), false );
 
             }
         }

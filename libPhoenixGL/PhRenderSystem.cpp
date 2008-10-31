@@ -596,7 +596,7 @@ void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
 //Renders a Texture
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float depth, float rot, float scale, PhColor color, bool flip)
+void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float depth, float rot, PhVector2d scale, PhColor color, bool flip)
 {
 
     glMatrixMode(GL_MODELVIEW);
@@ -610,7 +610,7 @@ void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float dept
     glRotatef(rot,0.0f,0.0f,1.0f);
 
     //scale
-    glScalef(scale,scale,1.0f);
+    glScalef(scale.getX(),scale.getY(),1.0f);
 
     glEnable(GL_TEXTURE_2D); //enable textures
 
@@ -651,7 +651,7 @@ void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float dept
 }
 
 //this draws a texture with a clipping rectangle
-void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth, float rot, float scale, PhColor color, bool flip)
+void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth, float rot, PhVector2d scale, PhColor color, bool flip)
 {
     //now for texture manipulations
     glMatrixMode(GL_TEXTURE);
@@ -674,7 +674,7 @@ void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect 
     glRotatef(rot,0.0f,0.0f,1.0f);
 
     //scale
-    glScalef(scale,scale,1.0f);
+    glScalef(scale.getX(),scale.getY(),1.0f);
 
     glEnable(GL_TEXTURE_2D); //enable textures
 
@@ -741,7 +741,7 @@ void PhRenderSystem::drawText( std::string text, PhVector2d pos, PhColor color, 
     int xoff = 0;
 
     //this is a little value for conveince
-    float temp = 16.0/256.0;
+    float temp = 0.0625f;
 
     for (unsigned int i=0; i<text.size(); i++)
     {

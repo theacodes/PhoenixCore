@@ -27,7 +27,7 @@ namespace phoenix
             \param c Color of the light.
             \param s Scale of the light.
         */
-        PhLight(PhLightManager* l, PhTexture* t, PhVector2d p = PhVector2d(0,0), PhColor c = PhColor(255,255,255), float s = 1.0f);
+        PhLight(PhLightManager* l, PhTexture* t, PhVector2d p = PhVector2d(0,0), PhColor c = PhColor(255,255,255), PhVector2d s = PhVector2d(1.0f,1.0f) );
         virtual ~PhLight();
 
         //! Draw.
@@ -43,8 +43,8 @@ namespace phoenix
         void setPosition(PhVector2d p);
         PhColor getColor();
         void setColor(PhColor c);
-        float getScale();
-        void setScale(float s);
+        PhVector2d getScale();
+        void setScale(PhVector2d s);
 
     protected:
 
@@ -52,7 +52,7 @@ namespace phoenix
         PhTexture* texture;
         PhVector2d position;
         PhColor color;
-        float scale;
+        PhVector2d scale;
 
     private:
     };

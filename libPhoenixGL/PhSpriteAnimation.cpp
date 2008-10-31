@@ -28,14 +28,14 @@ using namespace phoenix;
 
 PhSpriteAnimation::PhSpriteAnimation(PhSceneManager* s)
 	: PhSceneNode(0.0f), texture(NULL), framesize(0,0), frame(0), framerate(0), rot(0.0f), mMin(0), mMax(0), flip(false),
-	color(255,255,255), pos(0,0), smgr(s), enabled(true)
+	color(255,255,255), pos(0,0), smgr(s), enabled(true), scale(1.0f,1.0f)
 {
     smgr->addNode(this);
 }
 
 PhSpriteAnimation::PhSpriteAnimation(PhSceneManager* s, PhTexture* t, PhVector2d a, PhVector2d p)
 	: PhSceneNode(0.0f), texture(t), framesize(a), frame(0), framerate(1.0f), rot(0.0f), mMin(0), mMax(0), flip(false),
-	color(255,255,255), pos(p), smgr(s), enabled(true)
+	color(255,255,255), pos(p), smgr(s), enabled(true), scale(1.0f,1.0f)
 {
     smgr->addNode(this);
 }
@@ -99,92 +99,60 @@ PhVector2d PhSpriteAnimation::getFrameSize()
     return framesize;
 }
 
-//! Set position.
-/*!
-    \param s The new position.
-    \sa getPosition()
-*/
 void PhSpriteAnimation::setPosition(PhVector2d s)
 {
     pos = s;
 }
 
-//! Get position.
-/*!
-    \return The current position.
-    \sa setPosition()
-*/
 PhVector2d PhSpriteAnimation::getPosition()
 {
     return pos;
 }
 
-//! Get rotation.
-/*!
-    \return The current rotation (in degrees).
-*/
 float PhSpriteAnimation::getRotation()
 {
     return rot;
 }
 
-//! Set rotation.
-/*!
-    \param r New rotation (in degrees).
-*/
 void PhSpriteAnimation::setRotation(float r)
 {
     rot = r;
 }
 
-//! Get flip.
-/*!
-    \return If the sprite is being flipped.
-*/
 bool PhSpriteAnimation::getFlip()
 {
     return flip;
 }
 
-//! Set flip.
-/*!
-    \param f Pass true to flip the sprite.
-*/
 void PhSpriteAnimation::setFlip(bool f)
 {
     flip = f;
 }
 
-//! Get color.
-/*!
-    \return The current blending color.
-*/
 PhColor PhSpriteAnimation::getColor()
 {
     return color;
 }
 
-//! Set color.
-/*!
-    \param c The new blending color.
-*/
 void PhSpriteAnimation::setColor(PhColor c)
 {
     color = c;
 }
 
-//! Enable
-/*!
-    PhSpriteAnimation::Enables this sprite.
-*/
+PhVector2d PhSpriteAnimation::getScale()
+{
+    return scale;
+}
+
+void PhSpriteAnimation::setScale( PhVector2d s )
+{
+    scale = s;
+}
+
 void PhSpriteAnimation::enable() {
     enabled = true;
 }
 
-//! Disable
-/*!
-    PhSpriteAnimation::Disables this sprite.
-*/
 void PhSpriteAnimation::disable() {
     enabled = false;
 }
@@ -203,7 +171,7 @@ void PhSpriteAnimation::onRender()
     x =  floor(frame) * framesize.getX();
     y = (floor(frame/(texture->getWidth()/framesize.getX()))) * framesize.getY();
 
-    smgr->getRenderSystem()->drawTexturePart( texture, pos, PhRect( x, y, framesize.getX(), framesize.getY() ), depth, rot, 1.0f, color, flip );
+    smgr->getRenderSystem()->drawTexturePart( texture, pos, PhRect( x, y, framesize.getX(), framesize.getY() ), depth, rot, scale, color, flip );
 
 }
 

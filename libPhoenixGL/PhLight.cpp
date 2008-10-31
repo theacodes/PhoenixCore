@@ -2,7 +2,7 @@
 
 using namespace phoenix;
 
-PhLight::PhLight(PhLightManager* l, PhTexture* t, PhVector2d p, PhColor c, float s): lmgr(l), texture(t), position(p), color(c), scale(s)
+PhLight::PhLight(PhLightManager* l, PhTexture* t, PhVector2d p, PhColor c, PhVector2d s): lmgr(l), texture(t), position(p), color(c), scale(s)
 {
     lmgr->addLight(this);
 }
@@ -47,12 +47,12 @@ void PhLight::setColor(PhColor c)
     color = c;
 }
 
-float PhLight::getScale()
+PhVector2d PhLight::getScale()
 {
     return scale;
 }
 
-void PhLight::setScale(float s)
+void PhLight::setScale(PhVector2d s)
 {
     scale = s;
 }
