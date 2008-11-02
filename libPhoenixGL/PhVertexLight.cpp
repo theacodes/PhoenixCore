@@ -1,5 +1,7 @@
 #include "PhVertexLight.h"
 
+using namespace phoenix;
+
 PhVertexLight::PhVertexLight(PhVertexLightSystem* l, PhVector2d Position, PhColor c)
         : lsys(l), ambient(c), diffuse(c), specular(PhColor(127,127,127,255)), position(Position), catten(1.0f), latten(0.0f), qatten(0.0f), depth(0.0f)
 {

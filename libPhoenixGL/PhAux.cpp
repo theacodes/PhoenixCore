@@ -30,7 +30,7 @@ using namespace aux;
 ///Build collision data from tilemap
 ///The second last argument is the list of vectors with the x being tileindices that are solid,
 ///and the y being the geometric object used to represent it
-void phoenix::aux::buildCollisionDataFromTileMap(PhTileMap* tilemap,PhPolygonCollisionHandler* colhandle,std::vector<PhVector2d> solidtiles,std::vector<PhPolygon> geometry,int type)
+void buildCollisionDataFromTileMap(PhTileMap* tilemap,PhPolygonCollisionHandler* colhandle,std::vector<PhVector2d> solidtiles,std::vector<PhPolygon> geometry,int type)
 {
     for (int i = 0; i< tilemap->getMapSize().getY(); i++)
     {

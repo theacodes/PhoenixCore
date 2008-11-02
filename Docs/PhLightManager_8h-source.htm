@@ -26,62 +26,61 @@
 <a name="l00005"></a>00005 <span class="preprocessor">#include "PhRenderTexture.h"</span>
 <a name="l00006"></a>00006 <span class="preprocessor">#include "PhSceneManager.h"</span>
 <a name="l00007"></a>00007 
-<a name="l00008"></a>00008 <span class="keyword">using namespace </span>phoenix;
-<a name="l00009"></a>00009 <span class="keyword">using namespace </span>std;
-<a name="l00010"></a>00010 
-<a name="l00011"></a>00011 <span class="keyword">namespace </span>phoenix
-<a name="l00012"></a>00012 {
-<a name="l00013"></a>00013 
-<a name="l00014"></a>00014     <span class="keyword">class </span><a class="code" href="classphoenix_1_1PhLight.htm" title="Pixel-based light.">PhLight</a>;
-<a name="l00015"></a>00015 
-<a name="l00017"></a>00017 
-<a name="l00021"></a><a class="code" href="classphoenix_1_1PhLightManager.htm">00021</a>     <span class="keyword">class </span><a class="code" href="classphoenix_1_1PhLightManager.htm" title="Pixel-Based Light Manager.">PhLightManager</a>
-<a name="l00022"></a>00022     {
-<a name="l00023"></a>00023     <span class="keyword">public</span>:
-<a name="l00024"></a>00024 
-<a name="l00026"></a>00026 
-<a name="l00032"></a>00032         <a class="code" href="classphoenix_1_1PhLightManager.htm#6163cbad9d59536f23daa44111532b7c" title="Constructor.">PhLightManager</a>(<a class="code" href="classphoenix_1_1PhSceneManager.htm" title="Scene Manager Class.">PhSceneManager</a>* s, <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> ts = <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>(256,256));
-<a name="l00033"></a>00033 
-<a name="l00035"></a>00035 
-<a name="l00038"></a>00038         <span class="keyword">virtual</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#d276368a641b36fd6144ca70ed91d413" title="Destructor.">~PhLightManager</a>();
-<a name="l00039"></a>00039 
-<a name="l00041"></a>00041 
-<a name="l00047"></a>00047         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#856fec78a6390d2048223986842a6fa3" title="Add light.">addLight</a>(<a class="code" href="classphoenix_1_1PhLight.htm" title="Pixel-based light.">PhLight</a>* l);
-<a name="l00048"></a>00048 
-<a name="l00050"></a>00050 
-<a name="l00056"></a>00056         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#5c54f0ec92b295b95518845c6c80359c" title="Remove light.">removeLight</a>(<a class="code" href="classphoenix_1_1PhLight.htm" title="Pixel-based light.">PhLight</a>* l);
-<a name="l00057"></a>00057 
-<a name="l00059"></a>00059 
-<a name="l00063"></a>00063         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#bc9a22121a6b1e9dc652d3c87e345894" title="Clear light.">clearLights</a>();
-<a name="l00064"></a>00064 
-<a name="l00066"></a>00066 
-<a name="l00072"></a>00072         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#0ff9efafe6e2a817382c055be13260de" title="Generate buffer.">generateBuffer</a>();
-<a name="l00073"></a>00073 
-<a name="l00075"></a>00075 
-<a name="l00082"></a>00082         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#cc2dfa0f94755fff26eaa8c06bbedd9e" title="Render buffer.">renderBuffer</a>();
-<a name="l00083"></a>00083 
-<a name="l00085"></a>00085 
-<a name="l00089"></a>00089         <a class="code" href="classphoenix_1_1PhTexture.htm" title="Texture class.">PhTexture</a>* <a class="code" href="classphoenix_1_1PhLightManager.htm#e19576c341906d83a06237229dc49377" title="Get buffer.">getBuffer</a>();
-<a name="l00090"></a>00090 
-<a name="l00092"></a>00092 
-<a name="l00095"></a>00095         <a class="code" href="classphoenix_1_1PhSceneManager.htm" title="Scene Manager Class.">PhSceneManager</a>* <a class="code" href="classphoenix_1_1PhLightManager.htm#b040b8782fa089e13735f06ddd4bff6e" title="Get scenemanager.">getSceneManager</a>();
-<a name="l00096"></a>00096 
-<a name="l00097"></a>00097     <span class="keyword">protected</span>:
-<a name="l00098"></a>00098 
-<a name="l00099"></a>00099         PhRenderTexture* rtexture;
-<a name="l00100"></a>00100         <a class="code" href="classphoenix_1_1PhSceneManager.htm" title="Scene Manager Class.">PhSceneManager</a>* smgr;
-<a name="l00101"></a>00101         vector&lt;PhLight*&gt; lights;
-<a name="l00102"></a>00102 
-<a name="l00103"></a>00103     <span class="keyword">private</span>:
-<a name="l00104"></a>00104     };
-<a name="l00105"></a>00105 
-<a name="l00106"></a>00106 }
-<a name="l00107"></a>00107 
-<a name="l00108"></a>00108 <span class="preprocessor">#include "PhLight.h"</span>
-<a name="l00109"></a>00109 
-<a name="l00110"></a>00110 <span class="preprocessor">#endif // PHLIGHTMANAGER_H</span>
+<a name="l00008"></a>00008 <span class="keyword">using namespace </span>std;
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="keyword">namespace </span>phoenix
+<a name="l00011"></a>00011 {
+<a name="l00012"></a>00012 
+<a name="l00013"></a>00013     <span class="keyword">class </span>PhLight;
+<a name="l00014"></a>00014 
+<a name="l00016"></a>00016 
+<a name="l00020"></a><a class="code" href="classphoenix_1_1PhLightManager.htm">00020</a>     <span class="keyword">class </span><a class="code" href="classphoenix_1_1PhLightManager.htm" title="Pixel-Based Light Manager.">PhLightManager</a>
+<a name="l00021"></a>00021     {
+<a name="l00022"></a>00022     <span class="keyword">public</span>:
+<a name="l00023"></a>00023 
+<a name="l00025"></a>00025 
+<a name="l00031"></a>00031         <a class="code" href="classphoenix_1_1PhLightManager.htm#6163cbad9d59536f23daa44111532b7c" title="Constructor.">PhLightManager</a>(<a class="code" href="classphoenix_1_1PhSceneManager.htm" title="Scene Manager Class.">PhSceneManager</a>* s, <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> ts = <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>(256,256));
+<a name="l00032"></a>00032 
+<a name="l00034"></a>00034 
+<a name="l00037"></a>00037         <span class="keyword">virtual</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#d276368a641b36fd6144ca70ed91d413" title="Destructor.">~PhLightManager</a>();
+<a name="l00038"></a>00038 
+<a name="l00040"></a>00040 
+<a name="l00046"></a>00046         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#856fec78a6390d2048223986842a6fa3" title="Add light.">addLight</a>(<a class="code" href="classphoenix_1_1PhLight.htm" title="Pixel-based light.">PhLight</a>* l);
+<a name="l00047"></a>00047 
+<a name="l00049"></a>00049 
+<a name="l00055"></a>00055         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#5c54f0ec92b295b95518845c6c80359c" title="Remove light.">removeLight</a>(<a class="code" href="classphoenix_1_1PhLight.htm" title="Pixel-based light.">PhLight</a>* l);
+<a name="l00056"></a>00056 
+<a name="l00058"></a>00058 
+<a name="l00062"></a>00062         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#bc9a22121a6b1e9dc652d3c87e345894" title="Clear light.">clearLights</a>();
+<a name="l00063"></a>00063 
+<a name="l00065"></a>00065 
+<a name="l00071"></a>00071         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#0ff9efafe6e2a817382c055be13260de" title="Generate buffer.">generateBuffer</a>();
+<a name="l00072"></a>00072 
+<a name="l00074"></a>00074 
+<a name="l00081"></a>00081         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhLightManager.htm#cc2dfa0f94755fff26eaa8c06bbedd9e" title="Render buffer.">renderBuffer</a>();
+<a name="l00082"></a>00082 
+<a name="l00084"></a>00084 
+<a name="l00088"></a>00088         <a class="code" href="classphoenix_1_1PhTexture.htm" title="Texture class.">PhTexture</a>* <a class="code" href="classphoenix_1_1PhLightManager.htm#e19576c341906d83a06237229dc49377" title="Get buffer.">getBuffer</a>();
+<a name="l00089"></a>00089 
+<a name="l00091"></a>00091 
+<a name="l00094"></a>00094         <a class="code" href="classphoenix_1_1PhSceneManager.htm" title="Scene Manager Class.">PhSceneManager</a>* <a class="code" href="classphoenix_1_1PhLightManager.htm#b040b8782fa089e13735f06ddd4bff6e" title="Get scenemanager.">getSceneManager</a>();
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096     <span class="keyword">protected</span>:
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098         <a class="code" href="classphoenix_1_1PhRenderTexture.htm" title="Render texture.">PhRenderTexture</a>* rtexture;
+<a name="l00099"></a>00099         <a class="code" href="classphoenix_1_1PhSceneManager.htm" title="Scene Manager Class.">PhSceneManager</a>* smgr;
+<a name="l00100"></a>00100         vector&lt;PhLight*&gt; lights;
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102     <span class="keyword">private</span>:
+<a name="l00103"></a>00103     };
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105 }
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107 <span class="preprocessor">#include "PhLight.h"</span>
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109 <span class="preprocessor">#endif // PHLIGHTMANAGER_H</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Oct 9 22:23:22 2008 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 2 17:37:21 2008 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

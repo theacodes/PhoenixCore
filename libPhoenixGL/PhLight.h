@@ -3,8 +3,6 @@
 
 #include "PhLightManager.h"
 
-using namespace phoenix;
-
 namespace phoenix
 {
 

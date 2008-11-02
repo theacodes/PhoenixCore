@@ -94,7 +94,7 @@
 <a name="l00099"></a>00099         <span class="keywordtype">bool</span> vertexlighting;
 <a name="l00100"></a>00100 
 <a name="l00101"></a>00101         <span class="comment">//Light system</span>
-<a name="l00102"></a>00102         <a class="code" href="classPhVertexLightSystem.htm" title="Light System class.">PhVertexLightSystem</a>* vlsys;
+<a name="l00102"></a>00102         <a class="code" href="classphoenix_1_1PhVertexLightSystem.htm" title="Light System class.">PhVertexLightSystem</a>* vlsys;
 <a name="l00103"></a>00103 
 <a name="l00104"></a>00104         <span class="comment">//Glyph structure</span>
 <a name="l00105"></a>00105         <span class="keyword">struct </span>PhGlyph
@@ -155,10 +155,10 @@
 <a name="l00255"></a>00255         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhRenderSystem.htm#8d1465461f91c2fcef409648c822fa21" title="Draws a polygon.">drawPolygon</a> (<a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a> P, <span class="keywordtype">float</span> depth = 0.0f, <a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a> a = <a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a>(255,255,255));
 <a name="l00256"></a>00256 
 <a name="l00258"></a>00258 
-<a name="l00268"></a>00268         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhRenderSystem.htm#e0969c92d721c530b3e5e10d5bdbd679" title="Draw texture.">drawTexture</a>( <a class="code" href="classphoenix_1_1PhTexture.htm" title="Texture class.">PhTexture</a>* source, <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> pos, <span class="keywordtype">float</span> depth = 0.0f, <span class="keywordtype">float</span> rot = 0.0f, <span class="keywordtype">float</span> scale = 1.0f, <a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a> color=<a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a>(255,255,255), <span class="keywordtype">bool</span> flip = <span class="keyword">false</span>);
+<a name="l00268"></a>00268         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhRenderSystem.htm#1fd6ac111b0efeb0a58165561b09f307" title="Draw texture.">drawTexture</a>( <a class="code" href="classphoenix_1_1PhTexture.htm" title="Texture class.">PhTexture</a>* source, <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> pos, <span class="keywordtype">float</span> depth = 0.0f, <span class="keywordtype">float</span> rot = 0.0f, <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> scale=<a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>(1.0f,1.0f), <a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a> color=<a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a>(255,255,255), <span class="keywordtype">bool</span> flip = <span class="keyword">false</span>);
 <a name="l00269"></a>00269 
 <a name="l00271"></a>00271 
-<a name="l00283"></a>00283         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhRenderSystem.htm#9cbf3d35aadd5b25c4d44ab5e66fdc26" title="Draw texture part.">drawTexturePart</a>( <a class="code" href="classphoenix_1_1PhTexture.htm" title="Texture class.">PhTexture</a>* source, <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> pos, <a class="code" href="classphoenix_1_1PhRect.htm" title="Rectangle class.">PhRect</a> rect,  <span class="keywordtype">float</span> depth = 0.0f, <span class="keywordtype">float</span> rot = 0.0f, <span class="keywordtype">float</span> scale = 1.0f, <a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a> color=<a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a>(255,255,255), <span class="keywordtype">bool</span> flip = <span class="keyword">false</span>);
+<a name="l00283"></a>00283         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhRenderSystem.htm#1f2b2d465fc2a66bb5637bd9cca0d95c" title="Draw texture part.">drawTexturePart</a>( <a class="code" href="classphoenix_1_1PhTexture.htm" title="Texture class.">PhTexture</a>* source, <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> pos, <a class="code" href="classphoenix_1_1PhRect.htm" title="Rectangle class.">PhRect</a> rect,  <span class="keywordtype">float</span> depth = 0.0f, <span class="keywordtype">float</span> rot = 0.0f, <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> scale=<a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>(1.0f,1.0f), <a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a> color=<a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a>(255,255,255), <span class="keywordtype">bool</span> flip = <span class="keyword">false</span>);
 <a name="l00284"></a>00284 
 <a name="l00286"></a>00286 
 <a name="l00294"></a>00294         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhRenderSystem.htm#af126f97db7c0e6969db8e2ce0766ca3" title="Draw text.">drawText</a>( std::string text, <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> pos, <a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a> color=<a class="code" href="classphoenix_1_1PhColor.htm" title="Color.">PhColor</a>(255,255,255), <span class="keywordtype">float</span> depth = 0.0f);
@@ -179,7 +179,7 @@
 <a name="l00327"></a>00327         <a class="code" href="classphoenix_1_1PhLogManager.htm" title="Log manager.">PhLogManager</a>* <a class="code" href="classphoenix_1_1PhRenderSystem.htm#2cf3d4a60b3ce2e8ae7ced49311c1da5" title="Get log manager.">getLogManager</a>();
 <a name="l00328"></a>00328 
 <a name="l00330"></a>00330 
-<a name="l00333"></a>00333         <a class="code" href="classPhVertexLightSystem.htm" title="Light System class.">PhVertexLightSystem</a>* <a class="code" href="classphoenix_1_1PhRenderSystem.htm#a5bc45c5153ed910c4c9d5ffb5daf0c9" title="Get vertex light system.">getVertexLightSystem</a>();
+<a name="l00333"></a>00333         <a class="code" href="classphoenix_1_1PhVertexLightSystem.htm" title="Light System class.">PhVertexLightSystem</a>* <a class="code" href="classphoenix_1_1PhRenderSystem.htm#a5bc45c5153ed910c4c9d5ffb5daf0c9" title="Get vertex light system.">getVertexLightSystem</a>();
 <a name="l00334"></a>00334 
 <a name="l00336"></a>00336 
 <a name="l00348"></a>00348         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhRenderSystem.htm#f63125b9157a3606fedbc1137ab88d01" title="Set blend mode.">setBlendMode</a>(GLenum src, GLenum dst);
@@ -197,7 +197,7 @@
 <a name="l00364"></a>00364 
 <a name="l00365"></a>00365 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Oct 9 22:23:22 2008 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 2 17:37:21 2008 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

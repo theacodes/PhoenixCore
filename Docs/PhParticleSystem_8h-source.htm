@@ -28,9 +28,9 @@
 <a name="l00007"></a>00007 <span class="keyword">namespace </span>phoenix
 <a name="l00008"></a>00008 {
 <a name="l00009"></a>00009 
-<a name="l00010"></a>00010     <span class="keyword">class </span><a class="code" href="classphoenix_1_1PhParticle.htm" title="Abstract Particle.">PhParticle</a>;
-<a name="l00011"></a>00011     <span class="keyword">class </span><a class="code" href="classphoenix_1_1PhEmitter.htm" title="Abstract Particle Emitter.">PhEmitter</a>;
-<a name="l00012"></a>00012     <span class="keyword">class </span><a class="code" href="classphoenix_1_1PhEffector.htm" title="Abstract particle effector class.">PhEffector</a>;
+<a name="l00010"></a>00010     <span class="keyword">class </span>PhParticle;
+<a name="l00011"></a>00011     <span class="keyword">class </span>PhEmitter;
+<a name="l00012"></a>00012     <span class="keyword">class </span>PhEffector;
 <a name="l00013"></a>00013 
 <a name="l00015"></a>00015 
 <a name="l00021"></a><a class="code" href="classphoenix_1_1PhParticleSystem.htm">00021</a>     <span class="keyword">class </span><a class="code" href="classphoenix_1_1PhParticleSystem.htm" title="Abstract Particle System.">PhParticleSystem</a> : <span class="keyword">public</span> <a class="code" href="classphoenix_1_1PhSceneNode.htm" title="Scenenode Prototype.">PhSceneNode</a>
@@ -82,34 +82,37 @@
 <a name="l00128"></a>00128         <a class="code" href="classphoenix_1_1PhRenderSystem.htm" title="The render system.">PhRenderSystem</a>* <a class="code" href="classphoenix_1_1PhParticleSystem.htm#1d79d99c8d56d5bda5055cdf8a1a2fb3" title="Get render system.">getRenderSystem</a>();
 <a name="l00129"></a>00129 
 <a name="l00131"></a>00131 
-<a name="l00135"></a>00135         <span class="keywordtype">int</span> <a class="code" href="classphoenix_1_1PhParticleSystem.htm#2c83bd859cc45818ce44c01082447798" title="Get particle count.">getParticleCount</a>();
+<a name="l00135"></a>00135         <a class="code" href="classphoenix_1_1PhSceneManager.htm" title="Scene Manager Class.">PhSceneManager</a>* <a class="code" href="classphoenix_1_1PhParticleSystem.htm#aa18686cf5c0ce6df603b328f7df48db" title="Get scene manager.">getSceneManager</a>();
 <a name="l00136"></a>00136 
 <a name="l00138"></a>00138 
-<a name="l00143"></a>00143         std::vector&lt;PhParticle*&gt;* <a class="code" href="classphoenix_1_1PhParticleSystem.htm#1365b3eebae91dcbf8b8643e14386672" title="Get particle list.">getParticleList</a>();
-<a name="l00144"></a>00144 
-<a name="l00146"></a>00146 
-<a name="l00152"></a>00152         <a class="code" href="classphoenix_1_1PhParticle.htm" title="Abstract Particle.">PhParticle</a>* <a class="code" href="classphoenix_1_1PhParticleSystem.htm#34cf1d4741fc4a1a150495eeb214d36e" title="Get particle.">getParticle</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n);
+<a name="l00142"></a>00142         <span class="keywordtype">int</span> <a class="code" href="classphoenix_1_1PhParticleSystem.htm#2c83bd859cc45818ce44c01082447798" title="Get particle count.">getParticleCount</a>();
+<a name="l00143"></a>00143 
+<a name="l00145"></a>00145 
+<a name="l00150"></a>00150         std::vector&lt;PhParticle*&gt;* <a class="code" href="classphoenix_1_1PhParticleSystem.htm#1365b3eebae91dcbf8b8643e14386672" title="Get particle list.">getParticleList</a>();
+<a name="l00151"></a>00151 
 <a name="l00153"></a>00153 
-<a name="l00154"></a>00154     <span class="keyword">protected</span>:
-<a name="l00155"></a>00155 
-<a name="l00156"></a>00156         <a class="code" href="classphoenix_1_1PhSceneManager.htm" title="Scene Manager Class.">PhSceneManager</a>* smgr;
-<a name="l00157"></a>00157         std::vector&lt;PhParticle*&gt; particles;
-<a name="l00158"></a>00158         std::vector&lt;PhEmitter*&gt; emitters;
-<a name="l00159"></a>00159         std::vector&lt;PhEffector*&gt; effectors;
+<a name="l00159"></a>00159         <a class="code" href="classphoenix_1_1PhParticle.htm" title="Abstract Particle.">PhParticle</a>* <a class="code" href="classphoenix_1_1PhParticleSystem.htm#34cf1d4741fc4a1a150495eeb214d36e" title="Get particle.">getParticle</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n);
 <a name="l00160"></a>00160 
-<a name="l00161"></a>00161     <span class="keyword">private</span>:
+<a name="l00161"></a>00161     <span class="keyword">protected</span>:
 <a name="l00162"></a>00162 
-<a name="l00163"></a>00163     };
-<a name="l00164"></a>00164 
-<a name="l00165"></a>00165 }
-<a name="l00166"></a>00166 
-<a name="l00167"></a>00167 <span class="preprocessor">#include "PhParticle.h"</span>
-<a name="l00168"></a>00168 <span class="preprocessor">#include "PhEmitter.h"</span>
-<a name="l00169"></a>00169 <span class="preprocessor">#include "PhEffector.h"</span>
-<a name="l00170"></a>00170 
-<a name="l00171"></a>00171 <span class="preprocessor">#endif // PHPARTICLESYSTEM_H</span>
+<a name="l00163"></a>00163         <a class="code" href="classphoenix_1_1PhSceneManager.htm" title="Scene Manager Class.">PhSceneManager</a>* smgr;
+<a name="l00164"></a>00164         std::vector&lt;PhParticle*&gt; particles;
+<a name="l00165"></a>00165         std::vector&lt;PhEmitter*&gt; emitters;
+<a name="l00166"></a>00166         std::vector&lt;PhEffector*&gt; effectors;
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168     <span class="keyword">private</span>:
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170     };
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172 }
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174 <span class="preprocessor">#include "PhParticle.h"</span>
+<a name="l00175"></a>00175 <span class="preprocessor">#include "PhEmitter.h"</span>
+<a name="l00176"></a>00176 <span class="preprocessor">#include "PhEffector.h"</span>
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178 <span class="preprocessor">#endif // PHPARTICLESYSTEM_H</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Oct 9 22:23:22 2008 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 2 17:37:21 2008 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

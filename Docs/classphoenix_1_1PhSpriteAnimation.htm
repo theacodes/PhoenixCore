@@ -104,6 +104,12 @@ Inheritance diagram for phoenix::PhSpriteAnimation:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhSpriteAnimation.htm#fb0a5c5dd0c0fad4c2da93885fc20f57">setColor</a> (<a class="el" href="classphoenix_1_1PhColor.htm">PhColor</a> c)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set color.  <a href="#fb0a5c5dd0c0fad4c2da93885fc20f57"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classphoenix_1_1PhVector2d.htm">PhVector2d</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhSpriteAnimation.htm#47c2470b90bc7f915d286970087895f9">getScale</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get scale.  <a href="#47c2470b90bc7f915d286970087895f9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhSpriteAnimation.htm#8118fc6d49c6ca22ed7865fa38eca662">setScale</a> (<a class="el" href="classphoenix_1_1PhVector2d.htm">PhVector2d</a> s)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set scale.  <a href="#8118fc6d49c6ca22ed7865fa38eca662"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhSpriteAnimation.htm#1d45629a706997ac2b94016f3eafa5d0">enable</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable.  <a href="#1d45629a706997ac2b94016f3eafa5d0"></a><br></td></tr>
@@ -155,6 +161,9 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>flip</b></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="cf6c626eddd58af49ce38a0b97f4cf8b"></a><!-- doxytag: member="phoenix::PhSpriteAnimation::enabled" ref="cf6c626eddd58af49ce38a0b97f4cf8b" args="" -->
 bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>enabled</b></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2bab438941d2ee764996e4dfb2c49c4c"></a><!-- doxytag: member="phoenix::PhSpriteAnimation::scale" ref="2bab438941d2ee764996e4dfb2c49c4c" args="" -->
+<a class="el" href="classphoenix_1_1PhVector2d.htm">PhVector2d</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>scale</b></td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -437,6 +446,28 @@ Get position.
 Get rotation. 
 <p>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>The current rotation (in degrees). </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="47c2470b90bc7f915d286970087895f9"></a><!-- doxytag: member="phoenix::PhSpriteAnimation::getScale" ref="47c2470b90bc7f915d286970087895f9" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classphoenix_1_1PhVector2d.htm">PhVector2d</a> phoenix::PhSpriteAnimation::getScale           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Get scale. 
+<p>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The current scale of the sprite. </dd></dl>
 
 </div>
 </div><p>
@@ -763,6 +794,33 @@ Set rotation.
 
 </div>
 </div><p>
+<a class="anchor" name="8118fc6d49c6ca22ed7865fa38eca662"></a><!-- doxytag: member="phoenix::PhSpriteAnimation::setScale" ref="8118fc6d49c6ca22ed7865fa38eca662" args="(PhVector2d s)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phoenix::PhSpriteAnimation::setScale           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classphoenix_1_1PhVector2d.htm">PhVector2d</a>&nbsp;</td>
+          <td class="paramname"> <em>s</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Set scale. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>s</em>&nbsp;</td><td>The new scale. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
 <a class="anchor" name="368d7104aeed708c32d5f21e2c26a2d0"></a><!-- doxytag: member="phoenix::PhSpriteAnimation::setTexture" ref="368d7104aeed708c32d5f21e2c26a2d0" args="(PhTexture *t)" -->
 <div class="memitem">
 <div class="memproto">
@@ -794,7 +852,7 @@ Set texture.
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>trunk/libPhoenixGL/<a class="el" href="PhSpriteAnimation_8h-source.htm">PhSpriteAnimation.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Oct 9 22:23:22 2008 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 2 17:37:22 2008 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

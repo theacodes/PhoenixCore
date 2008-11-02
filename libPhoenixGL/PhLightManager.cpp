@@ -1,5 +1,7 @@
 #include "PhLightManager.h"
 
+using namespace phoenix;
+
 PhLightManager::PhLightManager(PhSceneManager* s, PhVector2d ts) : smgr(s)
 {
     PhTexture* target = new PhTexture(smgr->getRenderSystem()->getTextureManager(), (int)ts.getX(), (int)ts.getY());

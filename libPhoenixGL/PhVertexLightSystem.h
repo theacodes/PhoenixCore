@@ -7,15 +7,19 @@
 
 using namespace std;
 
-class PhVertexLight;
-
-//! Light System class.
-/*!
-    This class provides a way of managing opengl lights.
-    \sa PhVertexLight
-*/
-class PhVertexLightSystem
+namespace phoenix
 {
+
+    class PhVertexLight;
+
+    //! Light System class.
+    /*!
+        This class provides a way of managing opengl lights, this class is provided for advanced users and is not
+        recommended for average users, we suggest using phoenix::PhLightManager instead.
+        \sa phoenix::PhVertexLight, phoenix::PhLightManager
+    */
+    class PhVertexLightSystem
+    {
     public:
 
         //! Constructor.
@@ -64,7 +68,9 @@ class PhVertexLightSystem
         vector<PhVertexLight*> lights;
 
     private:
-};
+    };
+
+}
 
 #include "PhVertexLight.h"
 

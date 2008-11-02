@@ -1,5 +1,7 @@
 #include "PhVertexLightSystem.h"
 
+using namespace phoenix;
+
 PhVertexLightSystem::PhVertexLightSystem()
 {
 

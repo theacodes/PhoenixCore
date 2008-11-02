@@ -1,5 +1,7 @@
 #include "PhRenderTexture.h"
 
+using namespace phoenix;
+
 PhRenderTexture::PhRenderTexture(PhRenderSystem* r): system(r)
 {
     texture = new PhTexture(system->getTextureManager(),256,256);

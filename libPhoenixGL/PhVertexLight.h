@@ -5,12 +5,30 @@
 #include "PhColor.h"
 #include "PhVector2d.h"
 
-using namespace phoenix;
-
-class PhVertexLight
+namespace phoenix
 {
+
+    //! Vertex-based light class.
+    /*!
+        Provides an interface to opengl vertex lighting. This is not the perferred method of lighting in
+        phoenix or 2d graphics, it's highly suggested that you use phoenix::PhLight instead. This class is
+        here for completeness and for 3d functionality.
+        \sa phoenix::PhVertexLightSystem, phoenix::PhLight
+    */
+    class PhVertexLight
+    {
     public:
+
+        //! Constructor.
+        /*!
+            Creates a new light and binds it to the lighting system.
+            \param l A pointer to the light system (usually obtained from the render system).
+            \param Position Position of the light.
+            \param c Color of the light.
+        */
         PhVertexLight(PhVertexLightSystem* l, PhVector2d Position = PhVector2d(0.0f,0.0f), PhColor c = PhColor(255,255,255,255));
+
+        //! Destructor.
         virtual ~PhVertexLight();
 
         void setAmbient(PhColor a);
@@ -42,6 +60,8 @@ class PhVertexLight
         float catten, latten, qatten, depth;
 
     private:
-};
+    };
+
+}
 
 #endif // PhVertexLight_H

@@ -5,7 +5,6 @@
 #include "PhRenderTexture.h"
 #include "PhSceneManager.h"
 
-using namespace phoenix;
 using namespace std;
 
 namespace phoenix
