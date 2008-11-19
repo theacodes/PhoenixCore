@@ -547,6 +547,9 @@ void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
 
     glPushMatrix();
 
+    // Disable texturing
+    glDisable(GL_TEXTURE_2D);
+
     //move where we need to be
     glTranslatef(P.getPosition().getX(), P.getPosition().getY(), depth);
 
@@ -589,6 +592,9 @@ void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
     delete[] normals;
     delete[] indexlist;
     delete[] vertices;
+
+    // enable texturing
+    glEnable(GL_TEXTURE_2D);
 
 }
 
