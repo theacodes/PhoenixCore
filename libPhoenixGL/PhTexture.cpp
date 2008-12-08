@@ -44,7 +44,7 @@ PhTexture::PhTexture(PhTextureManager* t, int a, int b)
     txtmgr->addTexture(this);
 
     //make some room for the texture's data
-    data = (unsigned char*)malloc(a*b*4);
+    data = new unsigned char[a*b*4];
 
     //make all the pixels white and fully opaque
     for (int i = 0; i<(a*b*4); i++)
@@ -66,7 +66,7 @@ PhTexture::PhTexture(PhTextureManager* t, int a, int b)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     //clear the data (not needed until the texture is locked agian)
-    free(data);
+    delete data;
     data = NULL;
 
 }
@@ -80,7 +80,7 @@ PhTexture::~PhTexture()
 
     if (data!=NULL)
     {
-        free(data);
+        delete data;
     }
 
     txtmgr->removeTexture(this);
@@ -196,7 +196,7 @@ void PhTexture::unlockTexture()
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-        free(data);
+        delete data;
 
         data = NULL;
 
@@ -206,7 +206,7 @@ void PhTexture::unlockTexture()
 bool PhTexture::lockTexture()
 {
 
-    data = (unsigned char*)malloc(width*height*4);
+    data = new unsigned char[width*height*4];
 
     if (data!=NULL)
     {

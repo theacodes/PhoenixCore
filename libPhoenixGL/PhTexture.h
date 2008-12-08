@@ -119,22 +119,6 @@ namespace phoenix
         */
         std::string getName();
 
-        //! Set modified.
-        /*!
-            Overrides the modifed value.
-            \param a The new modified value.
-            \sa getModified()
-        */
-        void setModified(bool a);
-
-        //! Get modified.
-        /*!
-            Returns true if the texture has been modified by the setPixel() command.
-            \return True if the texture has been modified.
-            \sa setModified(), setPixel()
-        */
-        bool getModified();
-
         //! Set width.
         /*!
             Changes the width of the current texture (Power of 2).

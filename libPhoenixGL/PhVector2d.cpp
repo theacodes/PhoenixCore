@@ -92,7 +92,7 @@ PhVector2d PhVector2d::direction(void)
     return Temp;
 }
 
-float PhVector2d::getAngle(const PhVector2d& xE)
+float PhVector2d::getAngle(PhVector2d xE)
 {
     float dot = (*this) * xE;
     float cross = (*this) ^ xE;
@@ -110,7 +110,7 @@ float PhVector2d::getAngle(const PhVector2d& xE)
     }
 }
 
-PhVector2d& PhVector2d::rotate(float angle)
+PhVector2d PhVector2d::rotate(float angle)
 {
     float tx = x;
     x =  x * cos(-angle) - y * sin(-angle);

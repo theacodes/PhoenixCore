@@ -156,7 +156,7 @@ namespace phoenix
             \param angle The measure of the angle in radians.
             \return The rotated vector. Note that this vector itself is also rotated.
         */
-        PhVector2d& rotate(float angle);
+        PhVector2d rotate(float angle);
 
         //! Get angle.
         /*!
@@ -165,7 +165,7 @@ namespace phoenix
             \param xE The reference vector, by defualt this is <1,0>
             \return The angle between the reference vector and this vector.
         */
-        float getAngle(const PhVector2d& xE = PhVector2d(1.0f,0) );
+        float getAngle(PhVector2d xE = PhVector2d(1.0f,0) );
 
         PhVector2d &operator /=(const float Scalar);
         PhVector2d &operator *=(const float Scalar);

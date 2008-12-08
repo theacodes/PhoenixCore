@@ -337,7 +337,8 @@ PhTexture* PhRenderSystem::loadTexture( std::string filename, bool linear )
 
     }
 
-
+    //should never happen
+    return NULL;
 
 }
 
