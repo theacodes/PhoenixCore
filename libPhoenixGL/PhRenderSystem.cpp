@@ -655,6 +655,8 @@ void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float dept
 
     glPopMatrix();
 
+    glDisable(GL_TEXTURE_2D); //enable textures
+
 }
 
 //this draws a texture with a clipping rectangle

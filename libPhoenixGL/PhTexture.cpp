@@ -40,11 +40,10 @@ PhTexture::PhTexture(PhTextureManager* t, int a, int b)
 	: txtmgr(t), width(a), height(b), name("")
 {
 
-    txtmgr = t;
     txtmgr->addTexture(this);
 
     //make some room for the texture's data
-    data = new unsigned char[a*b*4];
+    data = new GLubyte[a*b*4];
 
     //make all the pixels white and fully opaque
     for (int i = 0; i<(a*b*4); i++)
@@ -75,7 +74,7 @@ PhTexture::~PhTexture()
 {
     if (glIsTexture(texture))
     {
-        glDeleteTextures(1, &texture);
+       glDeleteTextures(1, &texture);
     }
 
     if (data!=NULL)
@@ -206,11 +205,12 @@ void PhTexture::unlockTexture()
 bool PhTexture::lockTexture()
 {
 
-    data = new unsigned char[width*height*4];
+    data = new GLubyte[width*height*4];
 
     if (data!=NULL)
     {
 
+    	glBindTexture(GL_TEXTURE_2D, texture);
         glGetTexImage( GL_TEXTURE_2D , 0 , GL_RGBA , GL_UNSIGNED_BYTE, data );
         return true;
 

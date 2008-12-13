@@ -58,7 +58,7 @@ namespace phoenix
         /*!
             \sa lockTexture(),unlockTexture(),setPixel(),getPixel()
         */
-        unsigned char* data;
+        GLubyte* data;
 
         //! The texture's name.
         std::string name;

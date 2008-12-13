@@ -53,12 +53,12 @@ PhRotationMatrix::~PhRotationMatrix()
     //dtor
 }
 
-void PhRotationMatrix::setRotation(float rad)
+void PhRotationMatrix::setRotation(const float& rad)
 {
     (*this) = PhRotationMatrix(rad);
 }
 
-float PhRotationMatrix::getRotation()
+const float PhRotationMatrix::getRotation() const
 {
     return acos(Elements[0]);
 }
@@ -69,17 +69,9 @@ float PhRotationMatrix::getRotation()
 //////////////////////////////////////////////////////////////////////////////////
 
 /*
-    Row/Column based acces
-*/
-float& PhRotationMatrix::operator()(const int row, const int col)
-{
-    return Elements[row * 2 + col];
-}
-
-/*
     Element based acces
 */
-float& PhRotationMatrix::operator[](const int x)
+float& PhRotationMatrix::operator[](const int& x)
 {
     return Elements[x];
 }
@@ -88,43 +80,43 @@ float& PhRotationMatrix::operator[](const int x)
 //ARITHMATIC OPERATORS
 //////////////////////////////////////////////////////////////////////////////////
 
-PhRotationMatrix PhRotationMatrix::operator+(PhRotationMatrix& other)
+const PhRotationMatrix PhRotationMatrix::operator+(const PhRotationMatrix& other) const
 {
     PhRotationMatrix temp;
 
-    temp[0] = Elements[0] + other[0];
-    temp[1] = Elements[1] + other[1];
-    temp[2] = Elements[2] + other[2];
-    temp[3] = Elements[3] + other[3];
+    temp[0] = getElement(0) + other.getElement(0);
+    temp[1] = getElement(1) + other.getElement(1);
+    temp[2] = getElement(2) + other.getElement(2);
+    temp[3] = getElement(3) + other.getElement(3);
 
     return temp;
 }
 
-PhRotationMatrix PhRotationMatrix::operator-(PhRotationMatrix& other)
+const PhRotationMatrix PhRotationMatrix::operator-(const PhRotationMatrix& other) const
 {
     PhRotationMatrix temp;
 
-    temp[0] = Elements[0] - other[0];
-    temp[1] = Elements[1] - other[1];
-    temp[2] = Elements[2] - other[2];
-    temp[3] = Elements[3] - other[3];
+    temp[0] = getElement(0) - other.getElement(0);
+    temp[1] = getElement(1) - other.getElement(1);
+    temp[2] = getElement(2) - other.getElement(2);
+    temp[3] = getElement(3) - other.getElement(3);
 
     return temp;
 }
 
-PhRotationMatrix PhRotationMatrix::operator*(PhRotationMatrix& other)
+const PhRotationMatrix PhRotationMatrix::operator*(const PhRotationMatrix& other) const
 {
     PhRotationMatrix temp;
 
-    temp[0] = (Elements[0] * other[0] ) + (Elements[1] * other[2] );
-    temp[1] = (Elements[0] * other[1] ) + (Elements[1] * other[3] );
-    temp[2] = (Elements[2] * other[0] ) + (Elements[3] * other[2] );
-    temp[3] = (Elements[2] * other[1] ) + (Elements[3] * other[3] );
+    temp[0] = ( getElement(0) * other.getElement(0) ) + ( getElement(1) * other.getElement(2) );
+    temp[1] = ( getElement(0) * other.getElement(1) ) + ( getElement(1) * other.getElement(3) );
+    temp[2] = ( getElement(2) * other.getElement(0) ) + ( getElement(3) * other.getElement(2)  );
+    temp[3] = ( getElement(2) * other.getElement(1) ) + ( getElement(3) * other.getElement(3)  );
 
     return temp;
 }
 
-PhRotationMatrix PhRotationMatrix::operator*(float scalar)
+const PhRotationMatrix PhRotationMatrix::operator*(const float& scalar) const
 {
     PhRotationMatrix temp;
 
@@ -136,7 +128,8 @@ PhRotationMatrix PhRotationMatrix::operator*(float scalar)
     return temp;
 }
 
-PhVector2d PhRotationMatrix::operator*(PhVector2d& other){
+const PhVector2d PhRotationMatrix::operator*(const PhVector2d& other) const
+{
 
     PhVector2d temp;
 
@@ -147,14 +140,14 @@ PhVector2d PhRotationMatrix::operator*(PhVector2d& other){
 
 }
 
-PhRotationMatrix PhRotationMatrix::operator/(PhRotationMatrix& other)
+const PhRotationMatrix PhRotationMatrix::operator/(const PhRotationMatrix& other) const
 {
     PhRotationMatrix temp(*this);
-    PhRotationMatrix inv = other.inverse();
+    PhRotationMatrix inv = other.getInverse();
     return temp * inv;
 }
 
-PhRotationMatrix PhRotationMatrix::operator/(float scalar)
+const PhRotationMatrix PhRotationMatrix::operator/(const float& scalar) const
 {
     PhRotationMatrix temp;
 
@@ -170,37 +163,37 @@ PhRotationMatrix PhRotationMatrix::operator/(float scalar)
 //RELATIVE ARTHMATIC OPERATORS
 //////////////////////////////////////////////////////////////////////////////////
 
-PhRotationMatrix& PhRotationMatrix::operator+=( PhRotationMatrix& other)
+const PhRotationMatrix& PhRotationMatrix::operator+=( const PhRotationMatrix& other)
 {
     (*this) = (*this) + other;
     return (*this);
 }
 
-PhRotationMatrix& PhRotationMatrix::operator-=( PhRotationMatrix& other)
+const PhRotationMatrix& PhRotationMatrix::operator-=( const PhRotationMatrix& other)
 {
     (*this) = (*this) - other;
     return (*this);
 }
 
-PhRotationMatrix& PhRotationMatrix::operator*=( PhRotationMatrix& other)
+const PhRotationMatrix& PhRotationMatrix::operator*=( const PhRotationMatrix& other)
 {
     (*this) = (*this) * other;
     return (*this);
 }
 
-PhRotationMatrix& PhRotationMatrix::operator*=( float scalar )
+const PhRotationMatrix& PhRotationMatrix::operator*=( const float& scalar )
 {
     (*this) = (*this) * scalar;
     return (*this);
 }
 
-PhRotationMatrix& PhRotationMatrix::operator/=( PhRotationMatrix& other)
+const PhRotationMatrix& PhRotationMatrix::operator/=( const PhRotationMatrix& other)
 {
     (*this) = (*this) / other;
     return (*this);
 }
 
-PhRotationMatrix& PhRotationMatrix::operator/=( float scalar )
+const PhRotationMatrix& PhRotationMatrix::operator/=( const float& scalar )
 {
     (*this) = (*this) / scalar;
     return (*this);
@@ -210,17 +203,17 @@ PhRotationMatrix& PhRotationMatrix::operator/=( float scalar )
 //COMPARISON OPERATORS
 //////////////////////////////////////////////////////////////////////////////////
 
-bool PhRotationMatrix::operator==(PhRotationMatrix& other)
+bool PhRotationMatrix::operator==(const PhRotationMatrix& other) const
 {
-    if (Elements[0] == other[0] &&
-            Elements[1] == other[1] &&
-            Elements[2] == other[2] &&
-            Elements[3] == other[3])
+    if (getElement(0) == other.getElement(0) &&
+            getElement(1) == other.getElement(1) &&
+            getElement(2) == other.getElement(2) &&
+            getElement(3) == other.getElement(3))
         return true;
     return false;
 }
 
-bool PhRotationMatrix::operator!=(PhRotationMatrix& other)
+bool PhRotationMatrix::operator!=(const PhRotationMatrix& other) const
 {
     if ((*this==other))
         return false;
@@ -231,17 +224,17 @@ bool PhRotationMatrix::operator!=(PhRotationMatrix& other)
 //MATRIX EXCLUSIVE OPERATORS
 //////////////////////////////////////////////////////////////////////////////////
 
-float PhRotationMatrix::determinant()
+const float PhRotationMatrix::getDeterminant() const
 {
     float d1 = Elements[0] + Elements[3];
     float d2 = Elements[1] + Elements[2];
     return (d1 - d2);
 }
 
-PhRotationMatrix PhRotationMatrix::inverse()
+const PhRotationMatrix PhRotationMatrix::getInverse() const
 {
 
-    float det = determinant();
+    float det = getDeterminant();
     PhRotationMatrix temp;
 
     temp[0] = Elements[3];

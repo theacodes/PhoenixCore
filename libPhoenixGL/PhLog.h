@@ -61,12 +61,11 @@ namespace phoenix
 
 			//! Open file.
 			/*!
-				Opens a file to write to from the name given. Otherwise it opens
-				the default file
+				Opens a file to write to from the name given.
 				\param logFileName The name of the file.
 				\return False on fail, and true on success.
 			*/
-			bool openFile(std::string logFileName = std::string("default.txt"));
+			bool openFile(std::string logFileName );
 
 			//! Write to log.
 			/*!
