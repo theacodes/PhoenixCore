@@ -681,7 +681,7 @@ void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float
 //Renders a Texture
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float depth, float rot, PhVector2d scale, PhColor color, bool flip)
+void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float depth, float rot, PhVector2d scale, PhColor color, bool hflip, bool vflip)
 {
 
     glMatrixMode(GL_MODELVIEW);
@@ -717,12 +717,20 @@ void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float dept
                           };
     //tcoords, easy
     GLfloat tcoords[] = {0.0f,0.0f,1.0f,0.0f,1.0f,1.0f,0.0f,1.0f};
-    if( flip )
+    if( hflip )
     {
         tcoords[0] = 1.0f;
         tcoords[2] = 0.0f;
         tcoords[4] = 0.0f;
         tcoords[6] = 1.0f;
+    }
+
+    if( vflip )
+    {
+        tcoords[1] = 1.0f;
+        tcoords[3] = 1.0f;
+        tcoords[5] = 0.0f;
+        tcoords[7] = 0.0f;
     }
 
     //indexlist, pretty simple
@@ -738,7 +746,7 @@ void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float dept
 }
 
 //this draws a texture with a clipping rectangle
-void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth, float rot, PhVector2d scale, PhColor color, bool flip)
+void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth, float rot, PhVector2d scale, PhColor color, bool hflip, bool vflip)
 {
     //now for texture manipulations
     glMatrixMode(GL_TEXTURE);
@@ -781,12 +789,20 @@ void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect 
                           };
     //tcoords
     GLfloat tcoords[] = {0.0f,0.0f,1.0f,0.0f,1.0f,1.0f,0.0f,1.0f};
-    if( flip )
+    if( hflip )
     {
         tcoords[0] = 1.0f;
         tcoords[2] = 0.0f;
         tcoords[4] = 0.0f;
         tcoords[6] = 1.0f;
+    }
+
+    if( vflip )
+    {
+        tcoords[1] = 1.0f;
+        tcoords[3] = 1.0f;
+        tcoords[5] = 0.0f;
+        tcoords[7] = 0.0f;
     }
     //indexlist, pretty simple
     GLuint indexlist[] = {0,1,3,1,2,3};

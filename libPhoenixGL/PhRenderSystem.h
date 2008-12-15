@@ -273,10 +273,11 @@ namespace phoenix
             \param rot Rotation (in degrees).
             \param scale Scale.
             \param color Color.
-            \param flip If true, flip horizontally.
+            \param hflip If true, flip horizontally.
+            \param vflip If true, vertically.
             \sa drawTexturePart()
         */
-        void drawTexture( PhTexture* source, PhVector2d pos, float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool flip = false);
+        void drawTexture( PhTexture* source, PhVector2d pos, float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool hflip = false, bool vflip = false);
 
         //! Draw texture part.
         /*!
@@ -288,10 +289,11 @@ namespace phoenix
             \param rot Rotation (in degrees).
             \param scale Scale.
             \param color Color.
-            \param flip If true, flip horizontally.
+            \param hflip If true, flip horizontally.
+            \param vflip If true, vertically.
             \sa drawTexture()
         */
-        void drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool flip = false);
+        void drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool hflip = false, bool vflip =false);
 
         //! Draw text
         /*!
