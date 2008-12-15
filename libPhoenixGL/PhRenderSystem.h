@@ -251,8 +251,19 @@ namespace phoenix
             \param P Polygon to draw.
             \param depth Depth to draw it at.
             \param a Color to draw it with.
+            \param textured If this is false, then texturing will be disabled while this polygon is draw. If it is enabled then the currently binded texture will be used.
         */
         void drawPolygon (PhPolygon P, float depth = 0.0f, PhColor a = PhColor(255,255,255));
+
+        //! Draws a textured polygon.
+        /*!
+            Draws a polygon with the given depth and color and applies the given texture to the polygon.
+            \param P Polygon to draw.
+            \param texture The texture that will be applied to the polygon.
+            \param depth Depth to draw it at.
+            \param a Color to draw it with.
+        */
+        void drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth = 0.0f, PhColor a = PhColor(255,255,255));
 
         //! Draw texture.
         /*!

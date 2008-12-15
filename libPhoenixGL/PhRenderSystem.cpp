@@ -600,6 +600,84 @@ void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//Draws a polygon
+////////////////////////////////////////////////////////////////////////////////
+
+void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth, PhColor a)
+{
+
+    //load the idenity
+    glMatrixMode(GL_MODELVIEW);
+
+    glPushMatrix();
+
+    // Ensable texturing
+    glEnable(GL_TEXTURE_2D);
+
+    //bind the texture
+    texture->bindTexture();
+
+    glEnable(GL_TEXTURE_GEN_S);
+	glEnable(GL_TEXTURE_GEN_T);
+
+	float s_plane[] = { 1.0f/texture->getWidth(), 0.0, 0.0, 0.0};
+	float t_plane[] = { 0.0, 1.0f/texture->getHeight(), 0.0, 0.0};
+
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+	glTexGenfv(GL_S, GL_OBJECT_PLANE, s_plane);
+	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+	glTexGenfv(GL_T, GL_OBJECT_PLANE, t_plane);
+
+    //move where we need to be
+    glTranslatef(P.getPosition().getX(), P.getPosition().getY(), depth);
+
+    //Cuts down the number of getVertexCount()s from 6 to 1 + the number of loops
+    int vertexCount = P.getVertexCount();
+
+    //make some space for the arrays
+    GLuint* colors = new GLuint[vertexCount];
+    GLuint* indexlist = new GLuint[vertexCount];
+    GLfloat* normals = new GLfloat[vertexCount*3];
+    GLfloat* vertices = new GLfloat[vertexCount*3];
+    GLfloat* tcoords = new GLfloat[vertexCount*2];
+
+    //fill them
+    for (int i = 0; i < vertexCount; i ++)
+    {
+        //Cuts down the number of multiples from 6 to 1 per loop
+        int triple_i = i*3;
+
+        colors[i] = a.toGLColor();
+
+        normals[triple_i] = 0.0f;
+        normals[triple_i+1] = 0.0f;
+        normals[triple_i+2] = 1.0f;
+
+        vertices[triple_i] = P.getVertex(i).getX();
+        vertices[triple_i+1] = P.getVertex(i).getY();
+        vertices[triple_i+2] = 0.0f;
+
+        indexlist[i] = i;
+
+    }
+
+    //now just tell the engine to draw it
+    drawIndexedTriangleFan(vertices,normals,tcoords,colors,indexlist,vertexCount);
+
+    glPopMatrix();
+
+    glDisable(GL_TEXTURE_GEN_S);
+	glDisable(GL_TEXTURE_GEN_T);
+
+    delete[] colors;
+    delete[] normals;
+    delete[] indexlist;
+    delete[] vertices;
+
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 //Renders a Texture
 ////////////////////////////////////////////////////////////////////////////////
 
