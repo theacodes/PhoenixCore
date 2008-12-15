@@ -77,7 +77,7 @@ namespace phoenix
             Returns how many ticks (ms) the timer has gone through.
             \return Ticks in miliseconds.
         */
-        double getTicks();
+        const double getTicks() const;
 
         //! Is started.
         /*!

@@ -60,9 +60,8 @@ PhRenderSystem::~PhRenderSystem()
 //Sets the caption of the window
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::setWindowCaption(std::string str)
+void PhRenderSystem::setWindowCaption(const std::string& str)
 {
-
 	glfwSetWindowTitle(str.c_str());
 }
 
@@ -103,7 +102,7 @@ bool PhRenderSystem::run()
 //Gets how fast the system is rendering
 ////////////////////////////////////////////////////////////////////////////////
 
-float PhRenderSystem::getFPS()
+const float PhRenderSystem::getFPS() const
 {
 
     //Calculate the frames per second and create the string
@@ -115,7 +114,7 @@ float PhRenderSystem::getFPS()
 //Get the number of ticks since this thing was created
 ////////////////////////////////////////////////////////////////////////////////
 
-double PhRenderSystem::getTicks()
+const double PhRenderSystem::getTicks() const
 {
 
     return fpstimer.getTicks();
@@ -126,7 +125,7 @@ double PhRenderSystem::getTicks()
 //This initializes the system
 ////////////////////////////////////////////////////////////////////////////////
 
-bool PhRenderSystem::initSystem( PhVector2d sc , bool fs )
+bool PhRenderSystem::initSystem( const PhVector2d& sc , const bool& fs )
 {
 
     //somevars up everything else
@@ -237,7 +236,7 @@ bool PhRenderSystem::initSystem( PhVector2d sc , bool fs )
 //Get screen size
 ////////////////////////////////////////////////////////////////////////////////
 
-PhVector2d PhRenderSystem::getScreenSize()
+const PhVector2d PhRenderSystem::getScreenSize() const
 {
     return screensize;
 }
@@ -246,7 +245,7 @@ PhVector2d PhRenderSystem::getScreenSize()
 //Load texture function
 ////////////////////////////////////////////////////////////////////////////////
 
-PhTexture* PhRenderSystem::loadTexture( std::string filename, bool linear )
+PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool& linear )
 {
 
     try
@@ -827,7 +826,7 @@ void PhRenderSystem::setFont( PhTexture* t )
     font = t;
 }
 
-PhTexture* PhRenderSystem::getFont()
+PhTexture* PhRenderSystem::getFont() const
 {
     return font;
 }
@@ -910,7 +909,7 @@ void PhRenderSystem::drawText( std::string text, PhVector2d pos, PhColor color, 
 //Returns a pointer to the events handler
 ////////////////////////////////////////////////////////////////////////////////
 
-PhEventHandler* PhRenderSystem::getEventHandler()
+PhEventHandler* PhRenderSystem::getEventHandler() const
 {
     return events;
 }
@@ -919,7 +918,7 @@ PhEventHandler* PhRenderSystem::getEventHandler()
 //Returns a pointer to the texture manager
 ////////////////////////////////////////////////////////////////////////////////
 
-PhTextureManager* PhRenderSystem::getTextureManager()
+PhTextureManager* PhRenderSystem::getTextureManager() const
 {
     return textures;
 }
@@ -928,7 +927,7 @@ PhTextureManager* PhRenderSystem::getTextureManager()
 //Returns a pointer to the log manager
 ////////////////////////////////////////////////////////////////////////////////
 
-PhLogManager* PhRenderSystem::getLogManager()
+PhLogManager* PhRenderSystem::getLogManager() const
 {
 	return logs;
 }
@@ -937,7 +936,7 @@ PhLogManager* PhRenderSystem::getLogManager()
 //Returns a pointer to the light system.
 ////////////////////////////////////////////////////////////////////////////////
 
-PhVertexLightSystem* PhRenderSystem::getVertexLightSystem()
+PhVertexLightSystem* PhRenderSystem::getVertexLightSystem() const
 {
 	return vlsys;
 }
@@ -958,7 +957,7 @@ void PhRenderSystem::setDefaultBlendMode(){
 //sets and gets the vertexlighting state
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::setVertexLighting(bool a)
+void PhRenderSystem::setVertexLighting(const bool& a)
 {
     if (a)
     {
@@ -972,7 +971,7 @@ void PhRenderSystem::setVertexLighting(bool a)
     }
 }
 
-bool PhRenderSystem::getVertexLighting()
+const bool& PhRenderSystem::getVertexLighting() const
 {
     return vertexlighting;
 }

@@ -123,7 +123,7 @@ namespace phoenix
         /*!
             \param str The new caption of the window.
         */
-        void setWindowCaption(std::string str);
+        void setWindowCaption(const std::string& str);
 
         //! Run.
         /*!
@@ -136,13 +136,13 @@ namespace phoenix
         /*!
             \return The average FPS over the total run time of the program.
         */
-        float getFPS();
+        const float getFPS() const;
 
         //! Get ticks.
         /*!
             \return The number of ticks (ms) that have occured since the engine started.
         */
-        double getTicks();
+        const double getTicks() const;
 
         //! Init system
         /*!
@@ -152,13 +152,13 @@ namespace phoenix
             \param fs Full screen (default false).
             \return True if it succeeded in creating a window & an opengl render context.
         */
-        bool initSystem( PhVector2d sc = PhVector2d(640,480), bool fs = false);
+        bool initSystem( const PhVector2d& sc = PhVector2d(640,480),const bool& fs = false);
 
         //! Get screen size.
         /*!
             \return The size of the screen.
         */
-        PhVector2d getScreenSize();
+        const PhVector2d getScreenSize() const;
 
         //! Load texture.
         /*!
@@ -168,7 +168,7 @@ namespace phoenix
             \param linear Tells the loader to use linear filtering or not. (default false).
             \note Textures must be sizes that are a power of two. NPOT textures will experience artifacts.
         */
-        PhTexture* loadTexture( std::string filename , bool linear = false);
+        PhTexture* loadTexture( const std::string& filename , const bool& linear = false);
 
         //! Draw indexed trangle list.
         /*!
@@ -319,31 +319,31 @@ namespace phoenix
             \return The current textured used as a font.
             \sa setFont()
         */
-        PhTexture* getFont();
+        PhTexture* getFont() const;
 
         //! Get event handler.
         /*!
             \return A pointer to the event handler used by the system.
         */
-        PhEventHandler* getEventHandler();
+        PhEventHandler* getEventHandler() const;
 
         //! Get texture manager.
         /*!
             \return A pointer to the texture manager.
         */
-        PhTextureManager* getTextureManager();
+        PhTextureManager* getTextureManager() const;
 
         //! Get log manager.
         /*!
         	\return A pointer to the log manager.
         */
-        PhLogManager* getLogManager();
+        PhLogManager* getLogManager() const;
 
         //! Get vertex light system.
         /*!
         	\return A pointer to vertex light system.
         */
-        PhVertexLightSystem* getVertexLightSystem();
+        PhVertexLightSystem* getVertexLightSystem() const;
 
         //! Set blend mode.
         /*!
@@ -368,8 +368,8 @@ namespace phoenix
         void setDefaultBlendMode();
 
 
-        void setVertexLighting(bool a);
-        bool getVertexLighting();
+        void setVertexLighting(const bool& a);
+        const bool& getVertexLighting() const;
 
     };
 

@@ -66,7 +66,7 @@ void PhTimer::stopTimer()
 //Get the ticks
 ////////////////////////////////////////////////////////////////////////////////
 
-double PhTimer::getTicks()
+const double PhTimer::getTicks() const
 {
     //If the timer is running
     if( started == true )
