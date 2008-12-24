@@ -91,6 +91,12 @@ namespace phoenix
         */
         PhObjectCallback callback;
 
+        //! Displacement
+        /*!
+			For swept collision
+        */
+        PhVector2d displacement;
+
     public:
 
         //! Construct.
@@ -160,6 +166,20 @@ namespace phoenix
             \sa setPolygon()
         */
         PhPolygon* getPolygon();
+
+        //! Set displacement.
+        /*!
+            \param p The new displacement.
+            \sa getDisplacement()
+        */
+        void setDisplacement(const PhVector2d& d);
+
+        //! Get displacement.
+        /*!
+            \return The current displacement.
+            \sa setDisplacement()
+        */
+        const PhVector2d& getDisplacement() const;
 
         bool operator== (const PhCollisionObject other);
 

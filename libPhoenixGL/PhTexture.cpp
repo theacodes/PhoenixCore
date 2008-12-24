@@ -90,12 +90,12 @@ PhTexture::~PhTexture()
 // set and get the texture ID
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhTexture::setTexture(GLuint text)
+void PhTexture::setTexture(const GLuint& text)
 {
     texture=text;
 }
 
-GLuint PhTexture::getTexture()
+const GLuint PhTexture::getTexture() const
 {
     return texture;
 }
@@ -104,12 +104,12 @@ GLuint PhTexture::getTexture()
 // set and get the texture name
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhTexture::setName(std::string nm)
+void PhTexture::setName(const std::string& nm)
 {
     name=nm;
 }
 
-std::string PhTexture::getName()
+const std::string PhTexture::getName() const
 {
     return name;
 }
@@ -119,22 +119,22 @@ std::string PhTexture::getName()
 // get and set width and height
 ////////////////////////////////////////////////////////////////////////////////
 
-int PhTexture::getWidth()
+const int PhTexture::getWidth() const
 {
     return width;
 }
 
-int PhTexture::getHeight()
+const int PhTexture::getHeight() const
 {
     return height;
 }
 
-void PhTexture::setWidth(int var)
+void PhTexture::setWidth(const int& var)
 {
     width = var;
 }
 
-void PhTexture::setHeight(int var)
+void PhTexture::setHeight(const int& var)
 {
     height = var;
 }
@@ -144,7 +144,7 @@ void PhTexture::setHeight(int var)
 // follows naming conventions, get and set pixel as of v0.1b
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhTexture::setPixel(int x, int y, PhColor col)
+void PhTexture::setPixel(const int& x, const int& y, const PhColor& col)
 {
 
     if (data!=NULL)
@@ -159,7 +159,7 @@ void PhTexture::setPixel(int x, int y, PhColor col)
 
 }
 
-PhColor PhTexture::getPixel(int x, int y)
+const PhColor PhTexture::getPixel(const int& x, const int& y) const
 {
 
     if (data!=NULL)

@@ -95,13 +95,13 @@ namespace phoenix
             \param text An OpenGL texture identifier.
             \sa getTexture()
         */
-        void setTexture(GLuint text);
+        void setTexture(const GLuint& text);
 
         //! Get texture.
         /*!
             \return The openGL texture identifier stored by this object.
         */
-        GLuint getTexture();
+        const GLuint getTexture() const;
 
         //! Set name.
         /*!
@@ -109,7 +109,7 @@ namespace phoenix
             \param nm The name of the string (It is usually the filename of the texture loaded).
             \sa setName(), phoenix::PhTextureManager
         */
-        void setName(std::string nm);
+        void setName(const std::string& nm);
 
         //! Get name.
         /*!
@@ -117,7 +117,7 @@ namespace phoenix
             \return A string containing the name of this texture.
             \sa getName(), phoenix::PhTextureManager
         */
-        std::string getName();
+        const std::string getName() const;
 
         //! Set width.
         /*!
@@ -125,14 +125,14 @@ namespace phoenix
             \param var The new width.
             \sa getWidth()
         */
-        void setWidth(int var);
+        void setWidth(const int& var);
 
         //! Get width.
         /*!
             \return The current width of the texture.
             \sa setWidth()
         */
-        int getWidth();
+        const int getWidth() const;
 
         //! Set height.
         /*!
@@ -140,14 +140,14 @@ namespace phoenix
             \param var The new height.
             \sa getHeight()
         */
-        void setHeight(int var);
+        void setHeight(const int& var);
 
         //! Get height.
         /*!
             \return The current height of the texture.
             \sa setHeight()
         */
-        int getHeight();
+        const int getHeight() const;
 
         //! Lock texture.
         /*!
@@ -174,7 +174,7 @@ namespace phoenix
             \sa getPixel(), lockTexture()
             \note This function takes a long time, as it reconstructs the texture.
         */
-        void setPixel(int x, int y, PhColor col);
+        void setPixel(const int& x, const int& y, const PhColor& col);
 
         //! Get pixel.
         /*!
@@ -184,7 +184,7 @@ namespace phoenix
             \return The color of the pixel at position (x,y)
             \sa setPixel(), lockTexture()
         */
-        PhColor getPixel(int x, int y);
+        const PhColor getPixel(const int& x, const int& y) const;
 
         //! Bind texture.
         /*!

@@ -118,12 +118,12 @@ void PhLightManager::renderBuffer()
 
 }
 
-PhTexture* PhLightManager::getBuffer()
+PhTexture* PhLightManager::getBuffer() const
 {
     return rtexture->getTexture();
 }
 
-PhSceneManager* PhLightManager::getSceneManager()
+PhSceneManager* PhLightManager::getSceneManager() const
 {
     return smgr;
 }

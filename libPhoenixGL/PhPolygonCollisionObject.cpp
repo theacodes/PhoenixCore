@@ -73,6 +73,16 @@ PhPolygon* PhCollisionObject::getPolygon()
     return poly;
 }
 
+void PhCollisionObject::setDisplacement(const PhVector2d& d)
+{
+	displacement = d;
+}
+
+const PhVector2d& PhCollisionObject::getDisplacement() const
+{
+	return displacement;
+}
+
 bool PhCollisionObject::operator== (const PhCollisionObject other)
 {
     if (userdata==other.userdata&&RTTI==other.RTTI&&poly==other.poly)

@@ -85,13 +85,13 @@ namespace phoenix
             \return A pointer to the texture currently being used as a buffer for drawing lights.
             \sa generateBuffer(), renderBuffer()
         */
-        PhTexture* getBuffer();
+        PhTexture* getBuffer() const;
 
         //! Get scenemanager.
         /*!
             \return A pointer to the scenemanager that manages us.
         */
-        PhSceneManager* getSceneManager();
+        PhSceneManager* getSceneManager() const;
 
     protected:
 

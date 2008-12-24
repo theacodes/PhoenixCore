@@ -59,7 +59,7 @@ namespace phoenix
             \param a Value from 0 to 255.
             \sa getRed()
         */
-        void setRed(int a);
+        void setRed(const int& a);
 
         //! Set green.
         /*!
@@ -67,7 +67,7 @@ namespace phoenix
             \param a Value from 0 to 255.
             \sa getGreen()
         */
-        void setGreen(int a);
+        void setGreen(const int& a);
 
         //! Set blue.
         /*!
@@ -75,7 +75,7 @@ namespace phoenix
             \param a Value from 0 to 255.
             \sa getBlue()
         */
-        void setBlue(int a);
+        void setBlue(const int& a);
 
         //! Set alpha.
         /*!
@@ -84,35 +84,35 @@ namespace phoenix
             \param a Value from 0 to 255.
             \sa getAlpha().
         */
-        void setAlpha(int a);
+        void setAlpha(const int& a);
 
         //! Get red.
         /*!
             \return The red component of the color.
             \sa setRed()
         */
-        int getRed();
+        const int getRed() const;
 
         //! Get green.
         /*!
             \return The green component of the color.
             \sa setGreen()
         */
-        int getGreen();
+        const int getGreen() const;
 
         //! Get blue.
         /*!
             \return The blue component of the color.
             \sa setBlue()
         */
-        int getBlue();
+        const int getBlue() const;
 
         //! Get alpha.
         /*!
             \return The alpha component of the color.
             \sa setAlpha()
         */
-        int getAlpha();
+        const int getAlpha()const;
 
         //! Set active color.
         /*!
@@ -135,9 +135,9 @@ namespace phoenix
             \param dest The final color.
             \param percent What percent to interpolate.
         */
-        PhColor interpolate(PhColor dest,float percent);
+        const PhColor interpolate(const PhColor& dest, const float& percent);
 
-        PhColor& operator = (const PhColor other);
+        PhColor& operator = (const PhColor& other);
 
     };
 

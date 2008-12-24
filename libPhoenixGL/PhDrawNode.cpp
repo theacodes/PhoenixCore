@@ -56,12 +56,12 @@ PhDrawSceneNode::~PhDrawSceneNode()
 //Get and set functions for X and Y
 ////////////////////////////////////////////////////////////////////////////////
 
-PhVector2d PhDrawSceneNode::getPosition (void)
+const PhVector2d& PhDrawSceneNode::getPosition () const
 {
     return pos;
 }
 
-void PhDrawSceneNode::setPosition(PhVector2d a)
+void PhDrawSceneNode::setPosition(const PhVector2d& a)
 {
     pos=a;
 }
@@ -70,32 +70,17 @@ void PhDrawSceneNode::setPosition(PhVector2d a)
 //Get and set image functions
 ////////////////////////////////////////////////////////////////////////////////
 
-bool PhDrawSceneNode::setTexture(PhTexture* img)
+void PhDrawSceneNode::setTexture(PhTexture* img)
 {
     if(img!=NULL)
     {
         image=img;
-        return true;
-    }
-    else
-    {
-        return false;
     }
 }
 
-PhTexture* PhDrawSceneNode::getTexture()
+PhTexture* PhDrawSceneNode::getTexture() const
 {
     return image;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//This sets free on destroy to true of false. Free on destroy removes the image
-//when the node is destroyed.
-////////////////////////////////////////////////////////////////////////////////
-
-void PhDrawSceneNode::setFod(bool a)
-{
-    fod=a;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -66,7 +66,7 @@ namespace phoenix
         \param c The new color.
         \sa getColor()
         */
-        void setColor(PhColor c);
+        void setColor(const PhColor& c);
 
         //! Get color function.
         /*!
@@ -74,7 +74,7 @@ namespace phoenix
         \return The current color.
         \sa setColor()
         */
-        PhColor getColor();
+        const PhColor& getColor() const;
 
         //! Set texture function.
         /*!
@@ -90,7 +90,7 @@ namespace phoenix
         \return The current texture.
         \sa setTexture()
         */
-        PhTexture* getTexture();
+        PhTexture* getTexture() const;
 
         //! Set horizontal tile.
         /*!
@@ -98,7 +98,7 @@ namespace phoenix
         \param b Tile boolean.
         \sa setVerticalTile()
         */
-        void setHorizontalTile(bool b);
+        void setHorizontalTile(const bool& b);
 
         //! Set vertical tile.
         /*!
@@ -106,7 +106,7 @@ namespace phoenix
         \param b Tile boolean.
         \sa setVerticalTile()
         */
-        void setVerticalTile(bool b);
+        void setVerticalTile(const bool& b);
 
         //! Set position.
         /*!
@@ -115,7 +115,7 @@ namespace phoenix
         \param v New position.
         \sa getPosition()
         */
-        void setPosition(PhVector2d v);
+        void setPosition(const PhVector2d& v);
 
         //! Get position.
         /*!
@@ -123,7 +123,7 @@ namespace phoenix
         \return The current position of the background.
         \sa setPosition()
         */
-        PhVector2d getPosition();
+        const PhVector2d& getPosition() const;
 
         //! Set texture offset.
         /*!
@@ -132,14 +132,14 @@ namespace phoenix
         \param v The new texture offset.
         \sa getTextureOffset()
         */
-        void setTextureOffset(PhVector2d v);
+        void setTextureOffset(const PhVector2d& v);
 
         //! Get texture offset.
         /*!
         \return The texture offset.
         \sa setTextureOffset()
         */
-        PhVector2d getTextureOffset();
+        const PhVector2d& getTextureOffset() const;
 
         //! Set scroll speed.
         /*!
@@ -148,14 +148,14 @@ namespace phoenix
         \param v The new speed;
         \sa setTextureOffset(), getScrollSpeed()
         */
-        void setScrollSpeed(PhVector2d v);
+        void setScrollSpeed(const PhVector2d& v);
 
         //! Get scroll speed.
         /*!
             \return The current scroll speed.
             \sa setTextureOffset(), setScrollSpeed()
         */
-        PhVector2d getScrollSpeed();
+        const PhVector2d& getScrollSpeed() const;
 
         void onPreRender();
 

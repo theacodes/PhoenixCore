@@ -17,7 +17,7 @@ void PhLight::draw()
     lmgr->getSceneManager()->getRenderSystem()->drawTexture(texture,position,0.0f,0.0f,scale,color);
 }
 
-PhTexture* PhLight::getTexture()
+PhTexture* PhLight::getTexture() const
 {
     return texture;
 }
@@ -27,32 +27,32 @@ void PhLight::setTexture(PhTexture* t)
     texture = t;
 }
 
-PhVector2d PhLight::getPosition()
+const PhVector2d& PhLight::getPosition() const
 {
     return position;
 }
 
-void PhLight::setPosition(PhVector2d p)
+void PhLight::setPosition(const PhVector2d& p)
 {
     position = p;
 }
 
-PhColor PhLight::getColor()
+const PhColor& PhLight::getColor() const
 {
     return color;
 }
 
-void PhLight::setColor(PhColor c)
+void PhLight::setColor(const PhColor& c)
 {
     color = c;
 }
 
-PhVector2d PhLight::getScale()
+const PhVector2d& PhLight::getScale() const
 {
     return scale;
 }
 
-void PhLight::setScale(PhVector2d s)
+void PhLight::setScale(const PhVector2d& s)
 {
     scale = s;
 }
