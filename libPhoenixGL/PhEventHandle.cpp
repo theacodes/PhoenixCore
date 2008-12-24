@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -76,62 +76,16 @@ PhEventHandler::PhEventHandler()
 
 void PhEventHandler::updateEvents()
 {
+	//clear the keydown array
+	for (int i=0;i<513;i++)
+	{
+		keysdown[i]=0;
+	}
 
-        //clear the keydown array
-        for (int i=0;i<513;i++)
-        {
-            keysdown[i]=0;
-        }
-
-        for (int i=0;i<16;i++)
-        {
-            mousebuttondown[i]=0;
-        }
-        /*
-        //Poll SDL for an event
-        while ( SDL_PollEvent( &event ) )
-        {
-
-            //If a key was pressed
-            if ( event.type == SDL_KEYDOWN )
-            {
-                keys[event.key.keysym.sym]=true;
-                keysdown[event.key.keysym.sym]=true;
-            }
-
-            //Released
-            if ( event.type == SDL_KEYUP )
-            {
-                keys[event.key.keysym.sym]=false;
-            }
-
-            //if user closed the window
-            if ( event.type == SDL_QUIT )
-            {
-                quit = true;
-            }
-
-            //mouse motion
-            if ( event.type == SDL_MOUSEMOTION )
-            {
-                mousepos.setX(float(event.motion.x));
-                mousepos.setY(float(event.motion.y));
-            }
-
-            //mouse button
-            if ( event.type == SDL_MOUSEBUTTONDOWN )
-            {
-                mousebutton[int(event.button.button)] = true;
-                mousebuttondown[int(event.button.button)] = true;
-            }
-
-            if ( event.type == SDL_MOUSEBUTTONUP )
-            {
-                mousebutton[int(event.button.button)] = false;
-            }
-
-        }
-    */
+	for (int i=0;i<16;i++)
+	{
+		mousebuttondown[i]=0;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -180,12 +134,12 @@ void PhEventHandler::MouseWheelPosCallback( int pos )
 //Get key function, it returns true if the given key was pressed
 ////////////////////////////////////////////////////////////////////////////////
 
-bool PhEventHandler::getKey(PhKey a)
+const bool& PhEventHandler::getKey(const PhKey& a) const
 {
     return keys[a];
 }
 
-bool PhEventHandler::getKeyPressed(PhKey a)
+const bool& PhEventHandler::getKeyPressed(const PhKey& a) const
 {
     return keysdown[a];
 }
@@ -194,12 +148,12 @@ bool PhEventHandler::getKeyPressed(PhKey a)
 //Get key function, it returns true if the given key was pressed
 ////////////////////////////////////////////////////////////////////////////////
 
-bool PhEventHandler::getMouseButton(PhMouseKey a)
+const bool& PhEventHandler::getMouseButton(const PhMouseKey& a) const
 {
     return mousebutton[a];
 }
 
-bool PhEventHandler::getMouseButtonPressed(PhMouseKey a)
+const bool& PhEventHandler::getMouseButtonPressed(const PhMouseKey& a) const
 {
     return mousebuttondown[a];
 }
@@ -208,7 +162,7 @@ bool PhEventHandler::getMouseButtonPressed(PhMouseKey a)
 //Get mouse wheel position function, returns the amount turned on the axis
 ////////////////////////////////////////////////////////////////////////////////
 
-int PhEventHandler::getMouseWheelPosition()
+const int& PhEventHandler::getMouseWheelPosition() const
 {
 	return mousewheelpos;
 }
@@ -217,7 +171,7 @@ int PhEventHandler::getMouseWheelPosition()
 //Get mouse position functions
 ////////////////////////////////////////////////////////////////////////////////
 
-PhVector2d PhEventHandler::getMousePosition()
+const PhVector2d& PhEventHandler::getMousePosition() const
 {
     return mousepos;
 }
@@ -226,7 +180,7 @@ PhVector2d PhEventHandler::getMousePosition()
 //This function will  return true if the user closed the window
 ////////////////////////////////////////////////////////////////////////////////
 
-bool PhEventHandler::returnQuit()
+const bool& PhEventHandler::getWindowClosed() const
 {
     return quit;
 }
