@@ -125,13 +125,13 @@ float PhPolygon::getRadius()
     return radius;
 }
 
-void PhPolygon::rotate(float rad)
+void PhPolygon::rotate(const float& rad)
 {
     PhRotationMatrix m(rad);
     rotate(m);
 }
 
-void PhPolygon::rotate(PhRotationMatrix& m)
+void PhPolygon::rotate(const PhRotationMatrix& m)
 {
     for (unsigned int i=0;i < verts.size();i++)
     {
@@ -139,7 +139,7 @@ void PhPolygon::rotate(PhRotationMatrix& m)
     }
 }
 
-PhPolygon& PhPolygon::operator= (const PhPolygon other)
+const PhPolygon& PhPolygon::operator= (const PhPolygon& other)
 {
     vertcount = other.vertcount;
     verts = other.verts;
@@ -177,14 +177,14 @@ PhPolygon& PhPolygon::operator*= (float scalar)
     return *this;
 }
 
-PhPolygon PhPolygon::operator* (PhRotationMatrix& other)
+const PhPolygon PhPolygon::operator* (const PhRotationMatrix& other) const
 {
     PhPolygon temp = *this;
     temp.rotate(other);
     return temp;
 }
 
-PhPolygon& PhPolygon::operator*= (PhRotationMatrix& other)
+const PhPolygon& PhPolygon::operator*= (const PhRotationMatrix& other)
 {
     rotate(other);
     return *this;

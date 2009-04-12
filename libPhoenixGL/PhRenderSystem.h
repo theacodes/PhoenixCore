@@ -123,7 +123,7 @@ namespace phoenix
         /*!
             \param str The new caption of the window.
         */
-        void setWindowCaption(std::string str);
+        void setWindowCaption(const std::string& str);
 
         //! Run.
         /*!
@@ -136,13 +136,13 @@ namespace phoenix
         /*!
             \return The average FPS over the total run time of the program.
         */
-        float getFPS();
+        const float getFPS() const;
 
         //! Get ticks.
         /*!
             \return The number of ticks (ms) that have occured since the engine started.
         */
-        double getTicks();
+        const double getTicks() const;
 
         //! Init system
         /*!
@@ -152,13 +152,13 @@ namespace phoenix
             \param fs Full screen (default false).
             \return True if it succeeded in creating a window & an opengl render context.
         */
-        bool initSystem( PhVector2d sc = PhVector2d(640,480), bool fs = false);
+        bool initSystem( const PhVector2d& sc = PhVector2d(640,480),const bool& fs = false);
 
         //! Get screen size.
         /*!
             \return The size of the screen.
         */
-        PhVector2d getScreenSize();
+        const PhVector2d getScreenSize() const;
 
         //! Load texture.
         /*!
@@ -168,7 +168,7 @@ namespace phoenix
             \param linear Tells the loader to use linear filtering or not. (default false).
             \note Textures must be sizes that are a power of two. NPOT textures will experience artifacts.
         */
-        PhTexture* loadTexture( std::string filename , bool linear = false);
+        PhTexture* loadTexture( const std::string& filename , const bool& linear = false);
 
         //! Draw indexed trangle list.
         /*!
@@ -251,8 +251,19 @@ namespace phoenix
             \param P Polygon to draw.
             \param depth Depth to draw it at.
             \param a Color to draw it with.
+            \param textured If this is false, then texturing will be disabled while this polygon is draw. If it is enabled then the currently binded texture will be used.
         */
         void drawPolygon (PhPolygon P, float depth = 0.0f, PhColor a = PhColor(255,255,255));
+
+        //! Draws a textured polygon.
+        /*!
+            Draws a polygon with the given depth and color and applies the given texture to the polygon.
+            \param P Polygon to draw.
+            \param texture The texture that will be applied to the polygon.
+            \param depth Depth to draw it at.
+            \param a Color to draw it with.
+        */
+        void drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth = 0.0f, PhColor a = PhColor(255,255,255));
 
         //! Draw texture.
         /*!
@@ -262,10 +273,11 @@ namespace phoenix
             \param rot Rotation (in degrees).
             \param scale Scale.
             \param color Color.
-            \param flip If true, flip horizontally.
+            \param hflip If true, flip horizontally.
+            \param vflip If true, vertically.
             \sa drawTexturePart()
         */
-        void drawTexture( PhTexture* source, PhVector2d pos, float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool flip = false);
+        void drawTexture( PhTexture* source, PhVector2d pos, float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool hflip = false, bool vflip = false);
 
         //! Draw texture part.
         /*!
@@ -277,10 +289,11 @@ namespace phoenix
             \param rot Rotation (in degrees).
             \param scale Scale.
             \param color Color.
-            \param flip If true, flip horizontally.
+            \param hflip If true, flip horizontally.
+            \param vflip If true, vertically.
             \sa drawTexture()
         */
-        void drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool flip = false);
+        void drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool hflip = false, bool vflip =false);
 
         //! Draw text
         /*!
@@ -306,31 +319,31 @@ namespace phoenix
             \return The current textured used as a font.
             \sa setFont()
         */
-        PhTexture* getFont();
+        PhTexture* getFont() const;
 
         //! Get event handler.
         /*!
             \return A pointer to the event handler used by the system.
         */
-        PhEventHandler* getEventHandler();
+        PhEventHandler* getEventHandler() const;
 
         //! Get texture manager.
         /*!
             \return A pointer to the texture manager.
         */
-        PhTextureManager* getTextureManager();
+        PhTextureManager* getTextureManager() const;
 
         //! Get log manager.
         /*!
         	\return A pointer to the log manager.
         */
-        PhLogManager* getLogManager();
+        PhLogManager* getLogManager() const;
 
         //! Get vertex light system.
         /*!
         	\return A pointer to vertex light system.
         */
-        PhVertexLightSystem* getVertexLightSystem();
+        PhVertexLightSystem* getVertexLightSystem() const;
 
         //! Set blend mode.
         /*!
@@ -355,8 +368,8 @@ namespace phoenix
         void setDefaultBlendMode();
 
 
-        void setVertexLighting(bool a);
-        bool getVertexLighting();
+        void setVertexLighting(const bool& a);
+        const bool& getVertexLighting() const;
 
     };
 

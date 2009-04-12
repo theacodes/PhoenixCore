@@ -141,14 +141,14 @@ namespace phoenix
             Rotates the polygon by the given measurement.
             \param rad Angle measurement in Radians.
         */
-        void rotate(float rad);
+        void rotate(const float& rad);
 
         //! Rotate (Matrix)
         /*!
             Rotates the polygon by the given matrix.
             \param m The matrix.
         */
-        void rotate(PhRotationMatrix& m);
+        void rotate(const PhRotationMatrix& m);
 
         //! Array operator
         /*!
@@ -163,10 +163,10 @@ namespace phoenix
 
         PhPolygon operator* (float scalar);
         PhPolygon& operator*= (float scalar);
-        PhPolygon operator* (PhRotationMatrix& other);
-        PhPolygon& operator*= (PhRotationMatrix& other);
+        const PhPolygon operator* (const PhRotationMatrix& other) const;
+        const PhPolygon& operator*= (const PhRotationMatrix& other);
 
-        PhPolygon& operator= (const PhPolygon other);
+        const PhPolygon& operator= (const PhPolygon& other);
         bool operator== (PhPolygon other);
 
     };

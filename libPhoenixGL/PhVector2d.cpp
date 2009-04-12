@@ -1,58 +1,137 @@
-/*
-
-Copyright (c) 2007, Jonathan Wayne Parrott.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
 #include "PhVector2d.h"
 
 using namespace phoenix;
 
-PhVector2d::PhVector2d(float a,float b)
+PhVector2d::PhVector2d(): x(0), y(0)
 {
-    x=a;
-    y=b;
+
 }
 
-float PhVector2d::getX()
+PhVector2d::PhVector2d(float a, float b): x(a), y(b)
 {
-    return x;
+
 }
 
-float PhVector2d::getY()
+PhVector2d::~PhVector2d()
 {
-    return y;
+
 }
 
-void PhVector2d::setX(float a)
+PhVector2d& PhVector2d::operator = (const PhVector2d &rvalue)
 {
-    x=a;
+	x = rvalue.x;
+	y = rvalue.y;
+
+	return *this;
 }
 
-void PhVector2d::setY(float a)
+PhVector2d& PhVector2d::operator+=(const PhVector2d &rvalue)
 {
-    y=a;
+
+	x += rvalue.x;
+	y += rvalue.y;
+
+	return *this;
 }
 
-float PhVector2d::normalize(void)
+PhVector2d& PhVector2d::operator-=(const PhVector2d &rvalue)
+{
+
+	x -= rvalue.x;
+	y -= rvalue.y;
+
+	return *this;
+}
+
+const PhVector2d PhVector2d::operator+(const PhVector2d &rvalue) const
+{
+	return PhVector2d(*this) += rvalue;
+}
+
+const PhVector2d PhVector2d::operator-(const PhVector2d &rvalue) const
+{
+	return PhVector2d(*this) -= rvalue;
+}
+
+const PhVector2d PhVector2d::operator-(void) const
+{
+	return PhVector2d(0,0) - PhVector2d(*this);
+}
+
+const PhVector2d PhVector2d::operator+(const float &rvalue) const
+{
+	return PhVector2d(*this) + PhVector2d(rvalue,rvalue);
+}
+const PhVector2d PhVector2d::operator-(const float &rvalue) const
+{
+	return PhVector2d(*this) - PhVector2d(rvalue,rvalue);
+}
+const PhVector2d PhVector2d::operator*(const float &rvalue) const
+{
+	return PhVector2d( x * rvalue, y * rvalue );
+}
+const PhVector2d PhVector2d::operator/(const float &rvalue) const
+{
+	return PhVector2d( x / rvalue, y / rvalue );
+}
+
+PhVector2d& PhVector2d::operator+=(const float &rvalue)
+{
+	(*this) = (*this) + rvalue;
+	return *this;
+}
+
+PhVector2d& PhVector2d::operator-=(const float &rvalue)
+{
+	(*this) = (*this) - rvalue;
+	return *this;
+}
+
+PhVector2d& PhVector2d::operator*=(const float &rvalue)
+{
+	(*this) = (*this) * rvalue;
+	return *this;
+}
+
+PhVector2d& PhVector2d::operator/=(const float &rvalue)
+{
+	(*this) = (*this) / rvalue;
+	return *this;
+}
+
+
+bool PhVector2d::operator== (const PhVector2d &rvalue) const
+{
+	if( x == rvalue.x && y == rvalue.y )
+	{
+		return true;
+	}
+	return false;
+}
+
+bool PhVector2d::operator!= (const PhVector2d &rvalue) const
+{
+	return !(*this == rvalue);
+}
+
+const float PhVector2d::operator*(const PhVector2d &rvalue) const
+{
+	return (x*rvalue.x) + (y*rvalue.y);
+}
+
+const float PhVector2d::operator^(const PhVector2d &rvalue) const
+{
+	return (x * rvalue.y) - (y * rvalue.x);
+}
+
+const PhVector2d phoenix::operator*(const float &lvalue, const PhVector2d &rvalue)
+{
+	return rvalue * lvalue;
+}
+
+//! Hahaha.
+
+const float PhVector2d::normalize(void)
 {
     float fLength = getMagnitude();
 
@@ -64,18 +143,18 @@ float PhVector2d::normalize(void)
     return fLength;
 }
 
-float PhVector2d::getMagnitude()
+const float PhVector2d::getMagnitude() const
 {
     return sqrt( x*x + y*y );
 }
 
-float PhVector2d::getMagnitudeSquared()
+const float PhVector2d::getMagnitudeSquared() const
 {
     return (x*x + y*y);
 }
 
 //projection
-PhVector2d PhVector2d::project(PhVector2d b)
+const PhVector2d PhVector2d::project(const PhVector2d& b)
 {
     PhVector2d v;
     v.x = (*this)*b * b.x;
@@ -83,7 +162,7 @@ PhVector2d PhVector2d::project(PhVector2d b)
     return v;
 }
 
-PhVector2d PhVector2d::direction(void)
+const PhVector2d PhVector2d::getDirection(void) const
 {
     PhVector2d Temp(*this);
 
@@ -92,7 +171,7 @@ PhVector2d PhVector2d::direction(void)
     return Temp;
 }
 
-float PhVector2d::getAngle(const PhVector2d& xE)
+const float PhVector2d::getAngle(const PhVector2d& xE) const
 {
     float dot = (*this) * xE;
     float cross = (*this) ^ xE;
@@ -110,7 +189,7 @@ float PhVector2d::getAngle(const PhVector2d& xE)
     }
 }
 
-PhVector2d& PhVector2d::rotate(float angle)
+const PhVector2d& PhVector2d::rotate(const float& angle)
 {
     float tx = x;
     x =  x * cos(-angle) - y * sin(-angle);
@@ -118,88 +197,12 @@ PhVector2d& PhVector2d::rotate(float angle)
     return *this;
 }
 
-PhVector2d& PhVector2d::operator /=(const float Scalar)
+const PhVector2d PhVector2d::operator * (const PhRotationMatrix& other) const
 {
-    x /= Scalar;
-    y /= Scalar;
-    return *this;
-}
-PhVector2d& PhVector2d::operator *=(const float Scalar)
-{
-    x *= Scalar;
-    y *= Scalar;
-    return *this;
+    return other * PhVector2d(*this);
 }
 
-PhVector2d& PhVector2d::operator +=(const PhVector2d &Other)
-{
-    x += Other.x;
-    y += Other.y;
-    return *this;
-}
-PhVector2d& PhVector2d::operator -=(const PhVector2d &Other)
-{
-    x -= Other.x;
-    y -= Other.y;
-    return *this;
-}
-bool PhVector2d::operator == (const PhVector2d &V)	const
-{
-    if (x == V.x && y == V.y)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-float PhVector2d::operator ^ (const PhVector2d &V)	const
-{
-    return (x * V.y) - (y * V.x);
-} // cross product
-float PhVector2d::operator * (const PhVector2d &V)	const
-{
-    return (x*V.x) + (y*V.y);
-} // dot product
-PhVector2d PhVector2d::operator * (float  s)			const
-{
-    return PhVector2d(x*s, y*s);
-}
-
-PhVector2d phoenix::operator * (float k, const PhVector2d& V)
-{
-    return PhVector2d(V.x*k, V.y*k);
-}
-
-PhVector2d PhVector2d::operator / (float  s)			const
-{
-    return PhVector2d(x/s, y/s);
-}
-
-PhVector2d PhVector2d::operator + (const PhVector2d &V)	const
-{
-    return PhVector2d(x+V.x, y+V.y);
-}
-
-PhVector2d PhVector2d::operator - (const PhVector2d &V)	const
-{
-    return PhVector2d(x-V.x, y-V.y);
-}
-
-PhVector2d PhVector2d::operator -(void) const
-{
-    return PhVector2d(-x, -y);
-}
-
-PhVector2d PhVector2d::operator * (PhRotationMatrix& other)
-{
-
-    PhVector2d temp = *this;
-    return other * temp;
-}
-
-PhVector2d& PhVector2d::operator *= (PhRotationMatrix& other)
+const PhVector2d& PhVector2d::operator *= (const PhRotationMatrix& other)
 {
     *this = *this * other;
     return *this;

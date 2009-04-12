@@ -50,22 +50,22 @@ PhColor::PhColor( int x, int y, int z, int a )
 //gets the values of red, green, and blue
 ////////////////////////////////////////////////////////////////////////////////
 
-int PhColor::getRed()
+const int PhColor::getRed() const
 {
     return red;
 }
 
-int PhColor::getGreen()
+const int PhColor::getGreen() const
 {
     return green;
 }
 
-int PhColor::getBlue()
+const int PhColor::getBlue() const
 {
     return blue;
 }
 
-int PhColor::getAlpha()
+const int PhColor::getAlpha() const
 {
     return alpha;
 }
@@ -74,22 +74,22 @@ int PhColor::getAlpha()
 //sets the values of red, green, and blue
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhColor::setRed(int a)
+void PhColor::setRed(const int& a)
 {
     red=a;
 }
 
-void PhColor::setGreen(int a)
+void PhColor::setGreen(const int& a)
 {
     green=a;
 }
 
-void PhColor::setBlue(int a)
+void PhColor::setBlue(const int& a)
 {
     blue=a;
 }
 
-void PhColor::setAlpha(int a)
+void PhColor::setAlpha(const int& a)
 {
     alpha=a;
 }
@@ -119,7 +119,7 @@ int PhColor::toGLColor(){
 //interpolates between this and another color
 ////////////////////////////////////////////////////////////////////////////////
 
-PhColor PhColor::interpolate(PhColor dest,float percent){
+const PhColor PhColor::interpolate(const PhColor& dest,const float& percent){
     PhColor temp;
     temp.red = red + int(porportion(0.0f,float(dest.red-red),percent,100.0f,0));
     temp.green = green + int(porportion(0.0f,float(dest.green-green),percent,100.0f,0));
@@ -132,7 +132,7 @@ PhColor PhColor::interpolate(PhColor dest,float percent){
 //Equal to operator
 ////////////////////////////////////////////////////////////////////////////////
 
-PhColor& PhColor::operator = (const PhColor other)
+PhColor& PhColor::operator = (const PhColor& other)
 {
     red = other.red;
     green = other.green;

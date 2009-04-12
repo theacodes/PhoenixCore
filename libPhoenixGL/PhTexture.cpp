@@ -40,11 +40,10 @@ PhTexture::PhTexture(PhTextureManager* t, int a, int b)
 	: txtmgr(t), width(a), height(b), name("")
 {
 
-    txtmgr = t;
     txtmgr->addTexture(this);
 
     //make some room for the texture's data
-    data = (unsigned char*)malloc(a*b*4);
+    data = new GLubyte[a*b*4];
 
     //make all the pixels white and fully opaque
     for (int i = 0; i<(a*b*4); i++)
@@ -66,7 +65,7 @@ PhTexture::PhTexture(PhTextureManager* t, int a, int b)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     //clear the data (not needed until the texture is locked agian)
-    free(data);
+    delete data;
     data = NULL;
 
 }
@@ -75,12 +74,12 @@ PhTexture::~PhTexture()
 {
     if (glIsTexture(texture))
     {
-        glDeleteTextures(1, &texture);
+       glDeleteTextures(1, &texture);
     }
 
     if (data!=NULL)
     {
-        free(data);
+        delete data;
     }
 
     txtmgr->removeTexture(this);
@@ -91,12 +90,12 @@ PhTexture::~PhTexture()
 // set and get the texture ID
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhTexture::setTexture(GLuint text)
+void PhTexture::setTexture(const GLuint& text)
 {
     texture=text;
 }
 
-GLuint PhTexture::getTexture()
+const GLuint PhTexture::getTexture() const
 {
     return texture;
 }
@@ -105,12 +104,12 @@ GLuint PhTexture::getTexture()
 // set and get the texture name
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhTexture::setName(std::string nm)
+void PhTexture::setName(const std::string& nm)
 {
     name=nm;
 }
 
-std::string PhTexture::getName()
+const std::string PhTexture::getName() const
 {
     return name;
 }
@@ -120,22 +119,22 @@ std::string PhTexture::getName()
 // get and set width and height
 ////////////////////////////////////////////////////////////////////////////////
 
-int PhTexture::getWidth()
+const int PhTexture::getWidth() const
 {
     return width;
 }
 
-int PhTexture::getHeight()
+const int PhTexture::getHeight() const
 {
     return height;
 }
 
-void PhTexture::setWidth(int var)
+void PhTexture::setWidth(const int& var)
 {
     width = var;
 }
 
-void PhTexture::setHeight(int var)
+void PhTexture::setHeight(const int& var)
 {
     height = var;
 }
@@ -145,7 +144,7 @@ void PhTexture::setHeight(int var)
 // follows naming conventions, get and set pixel as of v0.1b
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhTexture::setPixel(int x, int y, PhColor col)
+void PhTexture::setPixel(const int& x, const int& y, const PhColor& col)
 {
 
     if (data!=NULL)
@@ -160,7 +159,7 @@ void PhTexture::setPixel(int x, int y, PhColor col)
 
 }
 
-PhColor PhTexture::getPixel(int x, int y)
+const PhColor PhTexture::getPixel(const int& x, const int& y) const
 {
 
     if (data!=NULL)
@@ -196,7 +195,7 @@ void PhTexture::unlockTexture()
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-        free(data);
+        delete data;
 
         data = NULL;
 
@@ -206,11 +205,12 @@ void PhTexture::unlockTexture()
 bool PhTexture::lockTexture()
 {
 
-    data = (unsigned char*)malloc(width*height*4);
+    data = new GLubyte[width*height*4];
 
     if (data!=NULL)
     {
 
+    	glBindTexture(GL_TEXTURE_2D, texture);
         glGetTexImage( GL_TEXTURE_2D , 0 , GL_RGBA , GL_UNSIGNED_BYTE, data );
         return true;
 

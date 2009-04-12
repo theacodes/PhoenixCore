@@ -58,7 +58,7 @@ namespace phoenix
 
         //!stores the mouse's position.
         static PhVector2d mousepos;
-        
+
         //!stores the mouse's wheel position
         static int mousewheelpos;
 
@@ -74,13 +74,13 @@ namespace phoenix
         void updateEvents();
 
         static void KeyboardCallback( int key, int action );
-        
+
         static void MouseButtonCallback( int key, int action );
-        
+
         static void MousePosCallback( int x, int y );
-        
+
         static int WindowCloseCallback();
-        
+
         static void MouseWheelPosCallback( int pos );
 
         //! Get key.
@@ -90,7 +90,7 @@ namespace phoenix
             \return State of the given key.
             \sa getKeyPressed()
         */
-        bool getKey(PhKey a);
+        const bool& getKey(const PhKey& a) const;
 
         //! Get pressed.
         /*!
@@ -99,13 +99,13 @@ namespace phoenix
             \return True if the key was just pressed.
             \sa getKey()
         */
-        bool getKeyPressed(PhKey a);
+        const bool& getKeyPressed(const PhKey& a) const;
 
         //! Get mouse position.
         /*!
             \return A vector that represents the mouse's position relative to the top of the window.
         */
-        PhVector2d getMousePosition();
+        const PhVector2d& getMousePosition() const;
 
         //! Get mouse button
         /*!
@@ -114,7 +114,7 @@ namespace phoenix
             \return State of the given button.
             \sa getMouseButtonPressed()
         */
-        bool getMouseButton(PhMouseKey a);
+        const bool& getMouseButton(const PhMouseKey& a) const;
 
         //! Get mouse button pressed
         /*!
@@ -123,21 +123,21 @@ namespace phoenix
             \return True if the mouse button was just pressed.
             \sa getMouseButton()
         */
-        bool getMouseButtonPressed(PhMouseKey a);
-        
+        const bool& getMouseButtonPressed(const PhMouseKey& a) const;
+
         //! Get mouse wheel position.
         /*!
         	Returns the amount the wheel was turned on its
         	axis.
         	\return The amount of rotation.
         */
-        int getMouseWheelPosition();
+        const int& getMouseWheelPosition() const;
 
         //! Return quit.
         /*!
             \return True if the user closed the window.
         */
-        bool returnQuit();
+        const bool& getWindowClosed() const;
 
     };
 

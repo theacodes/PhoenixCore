@@ -37,12 +37,12 @@ PhBackground::~PhBackground()
     smgr->removeNode(this);
 }
 
-void PhBackground::setColor(PhColor c)
+void PhBackground::setColor(const PhColor& c)
 {
     color = c;
 }
 
-PhColor PhBackground::getColor()
+const PhColor& PhBackground::getColor() const
 {
     return color;
 }
@@ -52,7 +52,7 @@ void PhBackground::setTexture(PhTexture* t)
     texture = t;
 }
 
-PhTexture* PhBackground::getTexture()
+PhTexture* PhBackground::getTexture() const
 {
     return texture;
 }

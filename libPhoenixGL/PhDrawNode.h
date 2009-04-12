@@ -73,28 +73,28 @@ namespace phoenix
             \return The position of the node.
             \sa setPosition()
         */
-        PhVector2d getPosition (void);
+        const PhVector2d& getPosition (void) const;
 
         //! Set position.
         /*!
             \param a The new position of the node.
             \sa getPosition()
         */
-        void setPosition(PhVector2d a);
+        void setPosition(const PhVector2d& a);
 
         //! Set texture.
         /*!
             \param img The new texture of the node.
             \sa getTexture()
         */
-        bool setTexture(PhTexture* img);
+        void setTexture(PhTexture* img);
 
         //! Get texture.
         /*!
             \return The current texture of the node.
             \sa setTexture()
         */
-        PhTexture* getTexture();
+        PhTexture* getTexture() const;
 
         //! Free on destroy.
         /*!
@@ -102,7 +102,13 @@ namespace phoenix
             destroyed.
             \param a Free on destroy.
         */
-        void setFod(bool a);
+        inline void setFod(const bool& a) { fod = a; }
+
+        //! Get Fod
+        /*!
+			True if the node will free the texture when it is destroyed.
+        */
+        inline const bool& getFod() const { return fod; }
 
         //! Pre render.
         void onPreRender();

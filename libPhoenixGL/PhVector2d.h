@@ -1,30 +1,5 @@
-/*
-
-Copyright (c) 2007, Jonathan Wayne Parrott.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-*/
-
-
-#ifndef PHOENIXVECT
-#define PHOENIXVECT
+#ifndef PHVECTOR2D_H
+#define PHVECTOR2D_H
 
 #include <math.h>
 #include "PhRotationMatrix.h"
@@ -65,68 +40,70 @@ namespace phoenix
     */
     class PhVector2d
     {
-
-    private:
-
-        float x,y;
-
     public:
 
-        //! Constructor.
-        /*!
-            Basic constructor, creates a zero-length vector <0,0>.
-        */
-        PhVector2d() : x(0), y(0) { }
+        PhVector2d();
+        PhVector2d(float a, float b);
 
-        //! Constructor.
-        /*!
-            Creates a vector with the given rectangular coordinates.
-            \param a The X component of the vector.
-            \param b The Y component of the vector.
-        */
-        PhVector2d(float a,float b);
+        inline const float getX() const
+        {
+            return x;
+        }
+        inline const float getY() const
+        {
+            return y;
+        }
+        inline void setX( const float &a )
+        {
+            x = a;
+        }
+        inline void setY( const float &b )
+        {
+            y = b;
+        }
 
-        //! Get X component.
-        /*!
-            \return The X component of the vector.
-            \sa setX()
-        */
-        float getX();
+        PhVector2d& operator = (const PhVector2d &rvalue);
 
-        //! Get Y component.
-        /*!
-            \return The Y component of the vector.
-            \sa setY()
-        */
-        float getY();
+        PhVector2d& operator+=(const PhVector2d &rvalue);
+        PhVector2d& operator-=(const PhVector2d &rvalue);
 
-        //! Set X component.
-        /*!
-            \param a The X component of the vector.
-            \sa getX()
-        */
-        void setX(float a);
+        const PhVector2d operator+(const PhVector2d &rvalue) const;
+        const PhVector2d operator-(const PhVector2d &rvalue) const;
 
-        //! Set Y component.
-        /*!
-            \param a The Y component of the vector.
-            \sa getY()
-        */
-        void setY(float a);
+        const PhVector2d operator+(const float &rvalue) const;
+        const PhVector2d operator-(const float &rvalue) const;
+        const PhVector2d operator*(const float &rvalue) const;
+        const PhVector2d operator/(const float &rvalue) const;
+
+        PhVector2d& operator+=(const float &rvalue);
+        PhVector2d& operator-=(const float &rvalue);
+        PhVector2d& operator*=(const float &rvalue);
+        PhVector2d& operator/=(const float &rvalue);
+
+        const PhVector2d operator-(void) const;
+
+        bool operator == (const PhVector2d &rvalue) const;
+        bool operator != (const PhVector2d &rvalue) const;
+
+        //! Dot Product
+        const float operator*(const PhVector2d &rvalue) const;
+
+        //! Cross Product
+        const float operator^(const PhVector2d &rvalue) const;
 
         //! Normalization.
         /*!
-            Normalizes the vector, as in turns in into a unit-length vector.
+            Normalizes the vector, as in turns it into a unit-length vector.
             \return The length of the vector before normalization.
         */
-        float normalize();
+        const float normalize();
 
-        //! Magnitude.
+		//! Magnitude.
         /*!
             \return The magnitude (length) of the vector.
             \sa getManitudeSquared();
         */
-        float getMagnitude();
+        const float getMagnitude() const;
 
         //! Magnitude squared.
         /*!
@@ -134,7 +111,7 @@ namespace phoenix
             \return The squared magnitude (length) of the vector.
             \sa getMagnitude();
         */
-        float getMagnitudeSquared();
+        const float getMagnitudeSquared() const;
 
         //! Projection.
         /*!
@@ -142,13 +119,13 @@ namespace phoenix
             \param b Vector to project this vector onto
             \return The product of projection.
         */
-        PhVector2d project(PhVector2d b);
+        const PhVector2d project(const PhVector2d& b);
 
         //! Direction.
         /*!
             \return A unit-length (normalized) vector with the same angle measure as this one.
         */
-        PhVector2d direction(void);
+        const PhVector2d getDirection(void) const;
 
         //! Rotate.
         /*!
@@ -156,7 +133,7 @@ namespace phoenix
             \param angle The measure of the angle in radians.
             \return The rotated vector. Note that this vector itself is also rotated.
         */
-        PhVector2d& rotate(float angle);
+        const PhVector2d& rotate(const float& angle);
 
         //! Get angle.
         /*!
@@ -165,35 +142,7 @@ namespace phoenix
             \param xE The reference vector, by defualt this is <1,0>
             \return The angle between the reference vector and this vector.
         */
-        float getAngle(const PhVector2d& xE = PhVector2d(1.0f,0) );
-
-        PhVector2d &operator /=(const float Scalar);
-        PhVector2d &operator *=(const float Scalar);
-        PhVector2d &operator +=(const PhVector2d &Other);
-        PhVector2d &operator -=(const PhVector2d &Other);
-        bool operator == (const PhVector2d &V)	const;
-
-        //! Cross product.
-        /*!
-            Returns the cross product of the vector.
-            \return The cross product.
-        */
-        float operator ^ (const PhVector2d &V)	const;
-
-        //! Dot product
-        /*!
-            Returns the dot product.
-            \return The dot product.
-        */
-        float operator * (const PhVector2d &V)	const;
-
-        friend PhVector2d operator * (float k, const PhVector2d& V);
-
-        PhVector2d operator * (float  s)			const;
-        PhVector2d operator / (float  s)			const;
-        PhVector2d operator + (const PhVector2d &V)	const;
-        PhVector2d operator - (const PhVector2d &V)	const;
-        PhVector2d operator -(void) const;
+        const float getAngle(const PhVector2d& xE = PhVector2d(1.0f,0) ) const;
 
         //! Matrix multiplication.
         /*!
@@ -201,14 +150,18 @@ namespace phoenix
             \note this is technically mathematically illegal. The matrix should be multiplied by the vector.
             \return The rotated vector.
         */
-        PhVector2d operator * (PhRotationMatrix& other);
+        const PhVector2d operator * (const PhRotationMatrix& other) const;
 
-        PhVector2d& operator *= (PhRotationMatrix& other);
+        const PhVector2d& operator *= (const PhRotationMatrix& other);
 
+        ~PhVector2d();
+    protected:
+        float x,y;
+    private:
     };
 
-    PhVector2d operator * (float k, const PhVector2d& V);
+    const PhVector2d operator*(const float &lvalue, const PhVector2d &rvalue);
 
 }
 
-#endif
+#endif // PHVECTOR2D_H

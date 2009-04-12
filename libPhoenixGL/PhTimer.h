@@ -77,19 +77,19 @@ namespace phoenix
             Returns how many ticks (ms) the timer has gone through.
             \return Ticks in miliseconds.
         */
-        double getTicks();
+        const double getTicks() const;
 
         //! Is started.
         /*!
             \return True if the timer has started.
         */
-        bool isStarted();
+        const bool isStarted() const;
 
         //! Is paused.
         /*!
             \return True if the timer is paused.
         */
-        bool isPaused();
+        const bool isPaused() const;
 
     };
 

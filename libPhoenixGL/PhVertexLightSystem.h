@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include <gl/gl.h>
+#include <GL/gl.h>
 
 using namespace std;
 

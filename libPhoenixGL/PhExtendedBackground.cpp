@@ -56,7 +56,7 @@ Sets the color used to colorize the texture.
 \param c The new color.
 \sa getColor()
 */
-void PhExtendedBackground::setColor(PhColor c)
+void PhExtendedBackground::setColor(const PhColor& c)
 {
     color = c;
 }
@@ -67,7 +67,8 @@ Get the current color used to colorize the texture.
 \return The current color.
 \sa setColor()
 */
-PhColor PhExtendedBackground::getColor(){
+const PhColor& PhExtendedBackground::getColor() const
+{
     return color;
 }
 
@@ -88,7 +89,7 @@ Gets the current texture used by this node.
 \return The current texture.
 \sa setTexture()
 */
-PhTexture* PhExtendedBackground::getTexture()
+PhTexture* PhExtendedBackground::getTexture() const
 {
     return source;
 }
@@ -99,7 +100,7 @@ Sets whether of not to tile this background horizontally.
 \param b Tile boolean.
 \sa setVerticalTile()
 */
-void PhExtendedBackground::setHorizontalTile(bool b)
+void PhExtendedBackground::setHorizontalTile(const bool& b)
 {
     tilex = b;
 }
@@ -110,7 +111,7 @@ Sets whether of not to tile this background vertically.
 \param b Tile boolean.
 \sa setVerticalTile()
 */
-void PhExtendedBackground::setVerticalTile(bool b)
+void PhExtendedBackground::setVerticalTile(const bool& b)
 {
     tiley = b;
 }
@@ -122,7 +123,7 @@ Sets the position of this background.
 \param v New position.
 \sa getPosition()
 */
-void PhExtendedBackground::setPosition(PhVector2d v)
+void PhExtendedBackground::setPosition(const PhVector2d& v)
 {
     position = v;
 }
@@ -133,7 +134,7 @@ void PhExtendedBackground::setPosition(PhVector2d v)
 \return The current position of the background.
 \sa setPosition()
 */
-PhVector2d PhExtendedBackground::getPosition()
+const PhVector2d& PhExtendedBackground::getPosition() const
 {
     return position;
 }
@@ -145,7 +146,7 @@ The texture coords of the background. Can be use to achieve effects such as para
 \param v The new texture offset.
 \sa getTextureOffset()
 */
-void PhExtendedBackground::setTextureOffset(PhVector2d v)
+void PhExtendedBackground::setTextureOffset(const PhVector2d& v)
 {
     offset = v;
 }
@@ -155,7 +156,8 @@ void PhExtendedBackground::setTextureOffset(PhVector2d v)
 \return The texture offset.
 \sa setTextureOffset()
 */
-PhVector2d PhExtendedBackground::getTextureOffset(){
+const PhVector2d& PhExtendedBackground::getTextureOffset() const
+{
     return offset;
 }
 
@@ -166,7 +168,7 @@ creating the illusion of moving backgrounds.
 \param v The new speed;
 \sa setTextureOffset(), getScrollSpeed()
 */
-void PhExtendedBackground::setScrollSpeed(PhVector2d v)
+void PhExtendedBackground::setScrollSpeed(const PhVector2d& v)
 {
     speed = v;
 }
@@ -176,7 +178,7 @@ void PhExtendedBackground::setScrollSpeed(PhVector2d v)
     \return The current scroll speed.
     \sa setTextureOffset(), setScrollSpeed()
 */
-PhVector2d PhExtendedBackground::getScrollSpeed()
+const PhVector2d& PhExtendedBackground::getScrollSpeed() const
 {
     return speed;
 }

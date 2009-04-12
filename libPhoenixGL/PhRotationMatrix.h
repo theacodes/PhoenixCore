@@ -44,29 +44,27 @@ namespace phoenix
 
         PhRotationMatrix( const PhRotationMatrix& other );
 
-        virtual ~PhRotationMatrix();
+        ~PhRotationMatrix();
+
+        //! Get element
+        inline const float getElement( const int& id ) const { return Elements[0]; }
+
+        //! Set element
+        inline void setElement( const int& id, const float& val ) { Elements[id] = val; }
 
         //! Set rotation.
         /*!
             \param rad The angle of rotation in radians.
             \sa getRotation()
         */
-        void setRotation(float rad);
+        void setRotation(const float& rad);
 
         //! Get rotation.
         /*!
             \return The angle of rotation in radians.
             \sa setRotation()
         */
-        float getRotation();
-
-        //! Matrix access operator.
-        /*!
-            \return An element in the matrix.
-            \param row The row of the element.
-            \param col The column of the element.
-        */
-        float& operator()(const int row, const int col);
+        const float getRotation() const;
 
         //! Element access operator.
         /*!
@@ -74,12 +72,12 @@ namespace phoenix
             \return An element in the Matrix.
             \param x The index of the element.
         */
-        float& operator[](const int x);
+        float& operator[](const int& x);
 
-        PhRotationMatrix operator+(PhRotationMatrix& other);
-        PhRotationMatrix operator-(PhRotationMatrix& other);
-        PhRotationMatrix operator*(PhRotationMatrix& other);
-        PhRotationMatrix operator*(float scalar);
+        const PhRotationMatrix operator+(const PhRotationMatrix& other) const;
+        const PhRotationMatrix operator-(const PhRotationMatrix& other) const;
+        const PhRotationMatrix operator*(const PhRotationMatrix& other) const;
+        const PhRotationMatrix operator*(const float& scalar) const;
 
         //! Vector multiplication operation.
         /*!
@@ -90,34 +88,34 @@ namespace phoenix
             \return The rotated vector.
             \param other The vector to rotate.
         */
-        PhVector2d operator*(PhVector2d& other);
+        const PhVector2d operator*(const PhVector2d& other) const;
 
-        PhRotationMatrix operator/(PhRotationMatrix& other);
-        PhRotationMatrix operator/(float scalar);
+        const PhRotationMatrix operator/(const PhRotationMatrix& other) const;
+        const PhRotationMatrix operator/(const float& scalar) const;
 
-        PhRotationMatrix& operator+=(PhRotationMatrix& other);
-        PhRotationMatrix& operator-=(PhRotationMatrix& other);
-        PhRotationMatrix& operator*=(PhRotationMatrix& other);
-        PhRotationMatrix& operator*=(float scalar);
-        PhRotationMatrix& operator/=(PhRotationMatrix& other);
-        PhRotationMatrix& operator/=(float scalar);
+        const PhRotationMatrix& operator+=(const PhRotationMatrix& other);
+        const PhRotationMatrix& operator-=(const PhRotationMatrix& other);
+        const PhRotationMatrix& operator*=(const PhRotationMatrix& other);
+        const PhRotationMatrix& operator*=(const float& scalar);
+        const PhRotationMatrix& operator/=(const PhRotationMatrix& other);
+        const PhRotationMatrix& operator/=(const float& scalar);
 
         //! Determinant.
         /*!
             \return The determinant of the matrix.
             \note This is used by the inverse() function.
         */
-        float determinant();
+        const float getDeterminant() const;
 
         //! Inverse.
         /*!
             \return The multiplicative inverse of this matrix.
             \note This is used by the division operators.
         */
-        PhRotationMatrix inverse();
+        const PhRotationMatrix getInverse() const;
 
-        bool operator==(PhRotationMatrix& other);
-        bool operator!=(PhRotationMatrix& other);
+        bool operator==(const PhRotationMatrix& other) const;
+        bool operator!=(const PhRotationMatrix& other) const;
 
     protected:
 

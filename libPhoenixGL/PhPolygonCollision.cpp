@@ -215,7 +215,6 @@ void PhPolygonCollisionHandler::clearStaticGeometry()
 ///returns true if a collision occured
 
 ///This code is based on tutorial and code by Olivier Renault
-///which I believe is license-free
 
 bool PhPolygonCollisionHandler::PolygonCollision(PhPolygon A, PhPolygon B,PhVector2d& N,float& t)
 {
@@ -229,7 +228,7 @@ bool PhPolygonCollisionHandler::PolygonCollision(PhPolygon A, PhPolygon B,PhVect
 
     ///Step two, separating axis theorem
     // All the separation axes
-    vector<PhVector2d> xAxis; // note : a maximum of 32 vertices per poly is supported
+    vector<PhVector2d> xAxis;
     vector<float>  taxis;
     xAxis.reserve(A.getVertexCount() + B.getVertexCount());
     taxis.reserve(A.getVertexCount() + B.getVertexCount());

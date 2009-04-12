@@ -35,14 +35,14 @@ namespace phoenix
         */
         void draw();
 
-        PhTexture* getTexture();
+        PhTexture* getTexture() const;
         void setTexture(PhTexture* t);
-        PhVector2d getPosition();
-        void setPosition(PhVector2d p);
-        PhColor getColor();
-        void setColor(PhColor c);
-        PhVector2d getScale();
-        void setScale(PhVector2d s);
+        const PhVector2d& getPosition() const;
+        void setPosition(const PhVector2d& p);
+        const PhColor& getColor() const;
+        void setColor(const PhColor& c);
+		const PhVector2d& getScale() const;
+        void setScale(const PhVector2d& s);
 
     protected:
 
