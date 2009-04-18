@@ -36,7 +36,7 @@ PhTexture::PhTexture(PhTextureManager* t)
     txtmgr->addTexture(this);
 }
 
-PhTexture::PhTexture(PhTextureManager* t, int a, int b)
+PhTexture::PhTexture(PhTextureManager* t, const int& a, const int& b)
 	: txtmgr(t), width(a), height(b), name("")
 {
 
@@ -95,7 +95,7 @@ void PhTexture::setTexture(const GLuint& text)
     texture=text;
 }
 
-const GLuint PhTexture::getTexture() const
+const GLuint& PhTexture::getTexture() const
 {
     return texture;
 }
@@ -109,7 +109,7 @@ void PhTexture::setName(const std::string& nm)
     name=nm;
 }
 
-const std::string PhTexture::getName() const
+const std::string& PhTexture::getName() const
 {
     return name;
 }
@@ -119,12 +119,12 @@ const std::string PhTexture::getName() const
 // get and set width and height
 ////////////////////////////////////////////////////////////////////////////////
 
-const int PhTexture::getWidth() const
+const int& PhTexture::getWidth() const
 {
     return width;
 }
 
-const int PhTexture::getHeight() const
+const int& PhTexture::getHeight() const
 {
     return height;
 }
@@ -138,6 +138,19 @@ void PhTexture::setHeight(const int& var)
 {
     height = var;
 }
+
+
+const PhVector2d PhTexture::getSize() const
+{
+	return PhVector2d( width, height );
+}
+
+void PhTexture::setSize(const PhVector2d& sz)
+{
+	width = int(sz.getX());
+	height = int(sz.getY());
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // write and read pixel functions

@@ -14,7 +14,7 @@ PhLight::~PhLight()
 
 void PhLight::draw()
 {
-    lmgr->getSceneManager()->getRenderSystem()->drawTexture(texture,position,0.0f,0.0f,scale,color);
+    lmgr->getSceneManager()->getRenderSystem()->drawTexture(texture,position-(texture->getSize()/2.0f),0.0f,0.0f,scale,color);
 }
 
 PhTexture* PhLight::getTexture() const

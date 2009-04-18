@@ -29,6 +29,7 @@ THE SOFTWARE.
 #include "GL/gl.h"
 #include "PhColor.h"
 #include "PhTextureManager.h"
+#include "PhVector2d.h"
 
 namespace phoenix
 {
@@ -80,7 +81,7 @@ namespace phoenix
             \param a The width of the texture.
             \param b The height of the texture.
         */
-        PhTexture(PhTextureManager* t, int a, int b);
+        PhTexture(PhTextureManager* t, const int& a, const int& b);
 
         //! Destructor.
         /*!
@@ -101,7 +102,7 @@ namespace phoenix
         /*!
             \return The openGL texture identifier stored by this object.
         */
-        const GLuint getTexture() const;
+        const GLuint& getTexture() const;
 
         //! Set name.
         /*!
@@ -117,7 +118,7 @@ namespace phoenix
             \return A string containing the name of this texture.
             \sa getName(), phoenix::PhTextureManager
         */
-        const std::string getName() const;
+        const std::string& getName() const;
 
         //! Set width.
         /*!
@@ -132,7 +133,7 @@ namespace phoenix
             \return The current width of the texture.
             \sa setWidth()
         */
-        const int getWidth() const;
+        const int& getWidth() const;
 
         //! Set height.
         /*!
@@ -147,7 +148,22 @@ namespace phoenix
             \return The current height of the texture.
             \sa setHeight()
         */
-        const int getHeight() const;
+        const int& getHeight() const;
+
+        //! Get size.
+        /*!
+            \return The current size of the texture
+            \sa setSize()
+        */
+        const PhVector2d getSize() const;
+
+        //! Set size.
+        /*!
+            Sets the current size of the texture.
+            \note Be careful
+            \sa getSize()
+        */
+        void setSize(const PhVector2d& sz);
 
         //! Lock texture.
         /*!

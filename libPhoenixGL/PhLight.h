@@ -9,7 +9,8 @@ namespace phoenix
     //! Pixel-based light.
     /*!
         This is a basic PhLight class that draw a texture as a light, this class was meant to be very minimalistic and
-        we encourage users to overload this class to suit your needs.
+        we encourage users to overload this class to suit your needs. This class draw the light texture centered
+        around it's position.
         \sa PhLightManager
     */
     class PhLight
@@ -30,18 +31,62 @@ namespace phoenix
 
         //! Draw.
         /*!
-            This function draws the light, it is automatically called by PhLightManager.
+            This function draws the light, it is automatically called by PhLightManager. This class draw the light texture centered
+			around it's position.
             \sa PhLightManager::generateBuffer()
         */
         void draw();
 
+        //! Get texture.
+        /*!
+			Gets the texture of the light.
+			\sa setTexture()
+        */
         PhTexture* getTexture() const;
+
+        //! Set texture.
+        /*!
+			Sets the texture of the light.
+			\sa getTexture()
+        */
         void setTexture(PhTexture* t);
+
+        //! Get position.
+        /*!
+			Gets the position of the light. The texture is drawn centered on this position
+			\sa setPosition()
+        */
         const PhVector2d& getPosition() const;
+
+        //! Set position.
+        /*!
+			Sets the position of the light. The texture is drawn centered on this position
+			\sa setPosition()
+        */
         void setPosition(const PhVector2d& p);
+
+        //! Get color.
+        /*!
+			\sa setColor()
+        */
         const PhColor& getColor() const;
+
+        //! Set color.
+        /*!
+			\sa getColor()
+        */
         void setColor(const PhColor& c);
+
+        //! Get scale.
+        /*!
+			\sa setScale()
+        */
 		const PhVector2d& getScale() const;
+
+		//! Set scale.
+        /*!
+			\sa getScale()
+        */
         void setScale(const PhVector2d& s);
 
     protected:
