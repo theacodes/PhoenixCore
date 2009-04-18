@@ -51,7 +51,7 @@ namespace phoenix
             \param z Blue component.
             \param a Alpha component (default 255)
         */
-        PhColor( int x, int y, int z, int a = 255);
+        PhColor( const int& x, const int& y, const int& z, const int& a = 255);
 
         //! Set red.
         /*!
@@ -91,28 +91,28 @@ namespace phoenix
             \return The red component of the color.
             \sa setRed()
         */
-        const int getRed() const;
+        const int& getRed() const;
 
         //! Get green.
         /*!
             \return The green component of the color.
             \sa setGreen()
         */
-        const int getGreen() const;
+        const int& getGreen() const;
 
         //! Get blue.
         /*!
             \return The blue component of the color.
             \sa setBlue()
         */
-        const int getBlue() const;
+        const int& getBlue() const;
 
         //! Get alpha.
         /*!
             \return The alpha component of the color.
             \sa setAlpha()
         */
-        const int getAlpha()const;
+        const int& getAlpha() const;
 
         //! Set active color.
         /*!
@@ -126,7 +126,7 @@ namespace phoenix
             \return This color in encoded opengl format.
             \sa phoenix::PhRenderSystem::drawIndexedTriangleList()
         */
-        int toGLColor();
+        const int toGLColor() const;
 
         //! Interpolate.
         /*!
@@ -135,7 +135,7 @@ namespace phoenix
             \param dest The final color.
             \param percent What percent to interpolate.
         */
-        const PhColor interpolate(const PhColor& dest, const float& percent);
+        const PhColor interpolate(const PhColor& dest, const float& percent) const;
 
         PhColor& operator = (const PhColor& other);
 

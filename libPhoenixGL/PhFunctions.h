@@ -71,7 +71,7 @@ namespace phoenix
 		\return A pseudo random value between low and high.
 	*/
 	///random function
-	template <class a_type> const a_type& random(const a_type& low,const a_type& high)
+	template <class a_type> const a_type random(const a_type& low,const a_type& high)
 	{
 		return (a_type(rand()) % (high - low + a_type(1)) + low);
 	}

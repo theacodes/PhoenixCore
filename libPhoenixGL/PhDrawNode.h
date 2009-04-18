@@ -63,7 +63,7 @@ namespace phoenix
             \param p Position.
             \param c Determines if the node deletes the texture when the node is deleted.
         */
-        PhDrawSceneNode(PhSceneManager* s, PhTexture* i, PhVector2d p = PhVector2d(0,0), bool c = false);
+        PhDrawSceneNode(PhSceneManager* s, PhTexture* i, const PhVector2d& p = PhVector2d(0,0), const bool& c = false);
 
         //! Destruct.
         ~PhDrawSceneNode();

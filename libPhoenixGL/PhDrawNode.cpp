@@ -31,10 +31,9 @@ using namespace phoenix;
 //x, y, and free on destroy.
 ////////////////////////////////////////////////////////////////////////////////
 
-PhDrawSceneNode::PhDrawSceneNode(PhSceneManager* s, PhTexture* i, PhVector2d p, bool c)
-	: PhSceneNode(0), pos(p), image(i), fod(c), smgr(s)
+PhDrawSceneNode::PhDrawSceneNode(PhSceneManager* s, PhTexture* i, const PhVector2d& p, const bool& c)
+	: PhSceneNode(0), pos(p), image(i), fod(c), smgr(s), system( s->getRenderSystem() )
 {
-    system=smgr->getRenderSystem();
     //tell the scenemanager that we exist.
     smgr->addNode((PhSceneNode*)this);
 }

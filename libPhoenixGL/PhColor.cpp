@@ -41,7 +41,7 @@ PhColor::PhColor()
 //Construct
 ////////////////////////////////////////////////////////////////////////////////
 
-PhColor::PhColor( int x, int y, int z, int a )
+PhColor::PhColor( const int& x, const int& y, const int& z, const int& a )
 	: red(x), green(y), blue(z), alpha(a)
 {
 }
@@ -50,22 +50,22 @@ PhColor::PhColor( int x, int y, int z, int a )
 //gets the values of red, green, and blue
 ////////////////////////////////////////////////////////////////////////////////
 
-const int PhColor::getRed() const
+const int& PhColor::getRed() const
 {
     return red;
 }
 
-const int PhColor::getGreen() const
+const int& PhColor::getGreen() const
 {
     return green;
 }
 
-const int PhColor::getBlue() const
+const int& PhColor::getBlue() const
 {
     return blue;
 }
 
-const int PhColor::getAlpha() const
+const int& PhColor::getAlpha() const
 {
     return alpha;
 }
@@ -107,7 +107,8 @@ void PhColor::setActiveColor()
 //returns this color as an opengl color
 ////////////////////////////////////////////////////////////////////////////////
 
-int PhColor::toGLColor(){
+const int PhColor::toGLColor() const
+{
     int color = (((alpha & 0xff)<<24) | ((red & 0xff)<<16) | ((green & 0xff)<<8) | (blue & 0xff));
     return (((color>>24) & 0xff)<<24) |
 					(((color)& 0xff)<<16) |
@@ -119,7 +120,8 @@ int PhColor::toGLColor(){
 //interpolates between this and another color
 ////////////////////////////////////////////////////////////////////////////////
 
-const PhColor PhColor::interpolate(const PhColor& dest,const float& percent){
+const PhColor PhColor::interpolate(const PhColor& dest,const float& percent) const
+{
     PhColor temp;
     temp.red = red + int(porportion(0.0f,float(dest.red-red),percent,100.0f,0));
     temp.green = green + int(porportion(0.0f,float(dest.green-green),percent,100.0f,0));
