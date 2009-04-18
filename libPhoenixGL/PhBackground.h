@@ -74,7 +74,7 @@ namespace phoenix
         \param c The color to colorize the texture with, defualts to (255,255,255).
         \param d The depth to be drawn at, defaults at -100.0f, but as long as it's behind all objects you should be fine.
         */
-        PhBackground(PhSceneManager* s, PhTexture* t, PhColor c = PhColor(255,255,255), float d = -100.0f);
+        PhBackground(PhSceneManager* s, PhTexture* t, const PhColor& c = PhColor(255,255,255), const float& d = -100.0f);
 
         //! Destructor.
         /*!

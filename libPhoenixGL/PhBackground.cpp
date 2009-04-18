@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 using namespace phoenix;
 
-PhBackground::PhBackground(PhSceneManager* s, PhTexture* t, PhColor c, float d)
+PhBackground::PhBackground(PhSceneManager* s, PhTexture* t, const PhColor& c, const float& d)
 	: PhSceneNode(d), color(c), smgr(s), texture(t)
 {
     smgr->addNode((PhSceneNode*)this);
