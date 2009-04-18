@@ -25,6 +25,8 @@ THE SOFTWARE.
 #ifndef PHOENIXFUNCS
 #define PHOENIXFUNCS
 
+#include <cstdlib> //For rand()
+
 namespace phoenix
 {
 
@@ -61,6 +63,18 @@ namespace phoenix
         }
         return 0;
     }
+
+    //! Random function.
+	/*!
+		\param low The lowest possible value.
+		\param high The highest possible value.
+		\return A pseudo random value between low and high.
+	*/
+	///random function
+	template <class a_type> a_type random(a_type low,a_type high)
+	{
+		return (a_type(rand()) % (high - low + a_type(1)) + low);
+	}
 
 }
 
