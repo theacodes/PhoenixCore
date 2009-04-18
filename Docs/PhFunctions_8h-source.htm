@@ -46,35 +46,44 @@
 <a name="l00025"></a>00025 <span class="preprocessor">#ifndef PHOENIXFUNCS</span>
 <a name="l00026"></a>00026 <span class="preprocessor"></span><span class="preprocessor">#define PHOENIXFUNCS</span>
 <a name="l00027"></a>00027 <span class="preprocessor"></span>
-<a name="l00028"></a>00028 <span class="keyword">namespace </span>phoenix
-<a name="l00029"></a>00029 {
-<a name="l00030"></a>00030 
+<a name="l00028"></a>00028 <span class="preprocessor">#include &lt;cstdlib&gt;</span> <span class="comment">//For rand()</span>
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="keyword">namespace </span>phoenix
+<a name="l00031"></a>00031 {
 <a name="l00032"></a>00032 
-<a name="l00045"></a><a class="code" href="namespacephoenix.htm#bd4ef1611eab447627d965243a00cd16">00045</a>     <span class="keyword">template</span> &lt;<span class="keyword">class</span> a_type&gt; a_type <a class="code" href="namespacephoenix.htm#bd4ef1611eab447627d965243a00cd16" title="Porportion.">porportion</a>(a_type a,a_type b,a_type c,a_type d,<span class="keywordtype">int</span> find)
-<a name="l00046"></a>00046     {
-<a name="l00047"></a>00047         <span class="keywordflow">switch</span> (find)
-<a name="l00048"></a>00048         {
-<a name="l00049"></a>00049         <span class="keywordflow">case</span> 0:
-<a name="l00050"></a>00050             <span class="keywordflow">return</span> ( (b*c)/d );
-<a name="l00051"></a>00051             <span class="keywordflow">break</span>;
-<a name="l00052"></a>00052         <span class="keywordflow">case</span> 1:
-<a name="l00053"></a>00053             <span class="keywordflow">return</span> ( (a*d)/c );
-<a name="l00054"></a>00054             <span class="keywordflow">break</span>;
-<a name="l00055"></a>00055         <span class="keywordflow">case</span> 2:
-<a name="l00056"></a>00056             <span class="keywordflow">return</span> ( (a*d)/b );
-<a name="l00057"></a>00057             <span class="keywordflow">break</span>;
-<a name="l00058"></a>00058         <span class="keywordflow">case</span> 3:
-<a name="l00059"></a>00059             <span class="keywordflow">return</span> ( (b*c)/a );
-<a name="l00060"></a>00060             <span class="keywordflow">break</span>;
-<a name="l00061"></a>00061         }
-<a name="l00062"></a>00062         <span class="keywordflow">return</span> 0;
-<a name="l00063"></a>00063     }
-<a name="l00064"></a>00064 
-<a name="l00065"></a>00065 }
+<a name="l00034"></a>00034 
+<a name="l00047"></a><a class="code" href="namespacephoenix.htm#bd4ef1611eab447627d965243a00cd16">00047</a>     <span class="keyword">template</span> &lt;<span class="keyword">class</span> a_type&gt; a_type <a class="code" href="namespacephoenix.htm#bd4ef1611eab447627d965243a00cd16" title="Porportion.">porportion</a>(a_type a,a_type b,a_type c,a_type d,<span class="keywordtype">int</span> find)
+<a name="l00048"></a>00048     {
+<a name="l00049"></a>00049         <span class="keywordflow">switch</span> (find)
+<a name="l00050"></a>00050         {
+<a name="l00051"></a>00051         <span class="keywordflow">case</span> 0:
+<a name="l00052"></a>00052             <span class="keywordflow">return</span> ( (b*c)/d );
+<a name="l00053"></a>00053             <span class="keywordflow">break</span>;
+<a name="l00054"></a>00054         <span class="keywordflow">case</span> 1:
+<a name="l00055"></a>00055             <span class="keywordflow">return</span> ( (a*d)/c );
+<a name="l00056"></a>00056             <span class="keywordflow">break</span>;
+<a name="l00057"></a>00057         <span class="keywordflow">case</span> 2:
+<a name="l00058"></a>00058             <span class="keywordflow">return</span> ( (a*d)/b );
+<a name="l00059"></a>00059             <span class="keywordflow">break</span>;
+<a name="l00060"></a>00060         <span class="keywordflow">case</span> 3:
+<a name="l00061"></a>00061             <span class="keywordflow">return</span> ( (b*c)/a );
+<a name="l00062"></a>00062             <span class="keywordflow">break</span>;
+<a name="l00063"></a>00063         }
+<a name="l00064"></a>00064         <span class="keywordflow">return</span> 0;
+<a name="l00065"></a>00065     }
 <a name="l00066"></a>00066 
-<a name="l00067"></a>00067 <span class="preprocessor">#endif</span>
+<a name="l00068"></a>00068 
+<a name="l00073"></a>00073 
+<a name="l00074"></a><a class="code" href="namespacephoenix.htm#573407d47ed1cfe4b19379989aef3e19">00074</a>         <span class="keyword">template</span> &lt;<span class="keyword">class</span> a_type&gt; a_type <a class="code" href="namespacephoenix.htm#573407d47ed1cfe4b19379989aef3e19" title="Random function.">random</a>(a_type low,a_type high)
+<a name="l00075"></a>00075         {
+<a name="l00076"></a>00076                 <span class="keywordflow">return</span> (a_type(rand()) % (high - low + a_type(1)) + low);
+<a name="l00077"></a>00077         }
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 }
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sat Apr 11 23:43:32 2009 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sat Apr 18 12:14:53 2009 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
