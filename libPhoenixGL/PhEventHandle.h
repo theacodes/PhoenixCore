@@ -47,7 +47,7 @@ namespace phoenix
         //! Array to store mouse info.
         static bool mousebutton[16];
 
-        //!array to store info on if a key was just pressed.
+        //!array to store info on if a key was just pressed or released.
         static bool keysdown[512];
 
         //!array to store info on if a mouse button was just pressed.
@@ -73,14 +73,34 @@ namespace phoenix
         */
         void updateEvents();
 
+		//! Keyboard callback
+		/*!
+			Used by GLFW
+		*/
         static void KeyboardCallback( int key, int action );
 
+        //! Mousebutton callback
+		/*!
+			Used by GLFW
+		*/
         static void MouseButtonCallback( int key, int action );
 
+        //! Mouse position callback
+		/*!
+			Used by GLFW
+		*/
         static void MousePosCallback( int x, int y );
 
+        //! Window callback
+		/*!
+			Used by GLFW
+		*/
         static int WindowCloseCallback();
 
+        //! Mouse wheel callback
+		/*!
+			Used by GLFW
+		*/
         static void MouseWheelPosCallback( int pos );
 
         //! Get key.
@@ -88,7 +108,7 @@ namespace phoenix
             Gets the state of a current key, true if it is down.
             \param a Key to get the state of.
             \return State of the given key.
-            \sa getKeyPressed()
+            \sa getKeyPressed(), getKeyReleased()
         */
         const bool& getKey(const PhKey& a) const;
 
@@ -97,9 +117,18 @@ namespace phoenix
             Gets if a get was just pressed.
             \param a Key to get the state of.
             \return True if the key was just pressed.
-            \sa getKey()
+            \sa getKey(), getKeyReleased()
         */
-        const bool& getKeyPressed(const PhKey& a) const;
+        const bool getKeyPressed(const PhKey& a) const;
+
+        //! Get released.
+        /*!
+            Gets if a get was just released.
+            \param a Key to get the state of.
+            \return True if the key was just released.
+            \sa getKey(), getKeyPressed()
+        */
+        const bool getKeyReleased(const PhKey& a) const;
 
         //! Get mouse position.
         /*!

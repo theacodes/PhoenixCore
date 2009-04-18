@@ -99,6 +99,7 @@ void PhEventHandler::KeyboardCallback( int key, int action )
     	keys[key]=true;
     } else if (action == GLFW_RELEASE) {
     	keys[key] = false;
+    	keysdown[key] = true;
 	}
 }
 
@@ -139,9 +140,14 @@ const bool& PhEventHandler::getKey(const PhKey& a) const
     return keys[a];
 }
 
-const bool& PhEventHandler::getKeyPressed(const PhKey& a) const
+const bool PhEventHandler::getKeyPressed(const PhKey& a) const
 {
-    return keysdown[a];
+    return (keysdown[a]&&keys[a]);
+}
+
+const bool PhEventHandler::getKeyReleased(const PhKey& a) const
+{
+    return (keysdown[a]&&(!keys[a]));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
