@@ -165,10 +165,11 @@ namespace phoenix
             Loads an image as a texture and adds it to the texture manager for garbage collection.
             Currently only .png files are supported. More formats are planned.
             \param filename The filename of the image to load.
-            \param linear Tells the loader to use linear filtering or not. (default false).
+            \param linear Tells the loader to use linear filtering or not. (default true).
+            \note Use nearest filtering for tilemaps, or anything that may look bad when scaled.
             \note Textures must be sizes that are a power of two. NPOT textures will experience artifacts.
         */
-        PhTexture* loadTexture( const std::string& filename , const bool& linear = false);
+        PhTexture* loadTexture( const std::string& filename , const bool& linear = true);
 
         //! Draw indexed trangle list.
         /*!
@@ -262,8 +263,9 @@ namespace phoenix
             \param texture The texture that will be applied to the polygon.
             \param depth Depth to draw it at.
             \param a Color to draw it with.
+            \param eyespace If true, it generates texture coordinates in eyespace instead of object space.
         */
-        void drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth = 0.0f, PhColor a = PhColor(255,255,255));
+        void drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth = 0.0f, PhColor a = PhColor(255,255,255), bool eyespace = false);
 
         //! Draw texture.
         /*!

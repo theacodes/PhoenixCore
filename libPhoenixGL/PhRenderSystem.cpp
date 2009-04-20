@@ -76,8 +76,6 @@ bool PhRenderSystem::run()
     //update events
     events->updateEvents();
 
-    glfwPollEvents();
-
     //flip the screen
     glfwSwapBuffers();
 
@@ -602,7 +600,7 @@ void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
 //Draws a polygon
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth, PhColor a)
+void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth, PhColor a, bool eyespace)
 {
 
     //load the idenity
@@ -622,10 +620,20 @@ void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float
 	float s_plane[] = { 1.0f/texture->getWidth(), 0.0, 0.0, 0.0};
 	float t_plane[] = { 0.0, 1.0f/texture->getHeight(), 0.0, 0.0};
 
-    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-	glTexGenfv(GL_S, GL_OBJECT_PLANE, s_plane);
-	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-	glTexGenfv(GL_T, GL_OBJECT_PLANE, t_plane);
+	if( eyespace )
+	{
+		glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+		glTexGenfv(GL_S, GL_EYE_PLANE, s_plane);
+		glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+		glTexGenfv(GL_T, GL_EYE_PLANE, t_plane);
+	}
+	else
+	{
+		glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+		glTexGenfv(GL_S, GL_OBJECT_PLANE, s_plane);
+		glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+		glTexGenfv(GL_T, GL_OBJECT_PLANE, t_plane);
+	}
 
     //move where we need to be
     glTranslatef(P.getPosition().getX(), P.getPosition().getY(), depth);
@@ -740,7 +748,7 @@ void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float dept
 
     glPopMatrix();
 
-    glDisable(GL_TEXTURE_2D); //enable textures
+    glDisable(GL_TEXTURE_2D); //disable textures
 
 }
 

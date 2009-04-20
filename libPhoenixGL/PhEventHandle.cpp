@@ -86,6 +86,9 @@ void PhEventHandler::updateEvents()
 	{
 		mousebuttondown[i]=0;
 	}
+
+	//Now the magic happens
+	glfwPollEvents();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
