@@ -15,6 +15,10 @@ namespace phoenix
     //! Pixel-Based Light Manager.
     /*!
         This is the advanced pixel-based light manager, it provides ways to draw and manage pixel-based lights.
+        The pixel-based light manager works like this: PhSceneManager calls generateBuffer() at the
+        beginning of drawing, which goes through each light and draws them on the backbuffer. The light
+        manager then copies that buffer to a texture. After PhSceneManager is finished drawing all the nodes,
+        it calls drawBuffer(), which overlays the lights over the whole scene.
         \sa PhVertexLightManager
     */
     class PhLightManager
@@ -30,7 +34,7 @@ namespace phoenix
         */
         PhLightManager(PhSceneManager* s, PhVector2d ts = PhVector2d(256,256));
 
-        //! Destructor.
+        //! Dtor.
         /*!
             Deletes all the lights in the list.
         */
@@ -39,7 +43,7 @@ namespace phoenix
         //! Add light.
         /*!
             Adds a light to the manager, this is usually taken care of the the Light itself: Created lights
-            must register themselves with the light manager to be down (Similar to scenenodes).
+            must register themselves with the light manager to be drawn (Similar to scenenodes).
             \param l Pointer the the light to add.
             \sa removeLight(),clearLights()
         */
@@ -72,13 +76,14 @@ namespace phoenix
 
         //! Render buffer.
         /*!
-            This renders the buffer that all the lights were rendered to over the scene (at a depth of 99.0f).
-            This should be called after everything else is draw. This function is automatically called by
+            This renders the buffer that all the lights were rendered to over the scene (at a depth of 99.0f by default).
+            This should be called after everything else is drawn. This function is automatically called by
             PhSceneeManager after the onRender() step and before the onPostRender() step if lights are
             enabled.
+            \param depth The depth at which to draw the light buffer.s
             \sa PhSceneManager::drawAll(), generateBuffer()
         */
-        void renderBuffer();
+        void renderBuffer( float depth = 99.0f );
 
         //! Get buffer.
         /*!

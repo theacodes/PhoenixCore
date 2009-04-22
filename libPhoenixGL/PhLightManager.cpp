@@ -63,7 +63,7 @@ void PhLightManager::generateBuffer()
 
 }
 
-void PhLightManager::renderBuffer()
+void PhLightManager::renderBuffer( float depth )
 {
 
     smgr->getRenderSystem()->setBlendMode(GL_DST_COLOR, GL_ZERO);
@@ -74,7 +74,7 @@ void PhLightManager::renderBuffer()
 
     glScalef(1.0f/smgr->getView()->getScale(),1.0f/smgr->getView()->getScale(),1.0f);
 
-    glTranslatef(smgr->getView()->getX(),smgr->getView()->getY(),99.f);
+    glTranslatef(smgr->getView()->getX(),smgr->getView()->getY(),depth);
 
     glEnable(GL_TEXTURE_2D); //enable textures
 
