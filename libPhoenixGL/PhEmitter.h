@@ -22,7 +22,7 @@ namespace phoenix
             you must add it to a particle system by calling PhParticleSystem::addEmiter() in
             your overloaded constructor.
         */
-        PhEmitter();
+        PhEmitter(PhParticleSystem* p = NULL);
 
         //! Destructor
         /*!
@@ -38,7 +38,7 @@ namespace phoenix
             is where you put your code to create new particles.
             \sa PhParticleSystem::onPostRender()
         */
-        virtual void step();
+        virtual void step() = 0;
 
     protected:
 

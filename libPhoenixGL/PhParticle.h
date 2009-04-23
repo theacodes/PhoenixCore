@@ -19,12 +19,15 @@ namespace phoenix
 
         //! Constructor
         /*!
-            The defualt constructor initializes the type to zero and the partsys pointer to null.
+            The default constructor initializes the type to zero and the partsys pointer to null.
             In order for your particle to be managed by the partsys, you must set the pointer and
-            call PhParticleSystem::addParticle().
+            call PhParticleSystem::addParticle(). This is done automatically by the default
+            constructor.
+            \param p The particle system that will manage this particle.
+            \param t The particle type
             \sa getType(), setType()
         */
-        PhParticle();
+        PhParticle( PhParticleSystem* p = NULL, const int t = 0);
 
         //! Destructor
         /*!
@@ -42,7 +45,7 @@ namespace phoenix
             do all the particle behavior, including drawing itself.
             \sa destroy()
         */
-        virtual void draw();
+        virtual void draw() = 0;
 
         //! Destroy function
         /*!
@@ -58,14 +61,14 @@ namespace phoenix
             This returns the type of the particle that was set by the user (defualt 0).
             \sa type
         */
-        int getType();
+        const int& getType();
 
         //! Set user-defined type
         /*!
             This set the type of the particle (defualt 0).
             \sa type
         */
-        void setType(int i);
+        void setType(const int& i);
 
     protected:
 

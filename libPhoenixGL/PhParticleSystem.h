@@ -15,7 +15,8 @@ namespace phoenix
     /*!
         The particle system provides an abstract way to create, manage, and effect particles.
         The user creates new particles by overloading PhParticle, adds them to the system by
-        overloading PhEmitter, and controls them using PhEffector.
+        overloading PhEmitter, and controls them using PhEffector. It's a fairly high-level
+        way of doing advanced efffects.
         \sa PhParticle, PhEffector, PhEmitter
     */
     class PhParticleSystem : public PhSceneNode
@@ -28,7 +29,9 @@ namespace phoenix
             \param s Pointer to the Scene Manager
         */
         PhParticleSystem(PhSceneManager* s);
-        ~PhParticleSystem();
+
+        //! Destructor
+        virtual ~PhParticleSystem();
 
         //! Add particle
         /*!
@@ -125,21 +128,21 @@ namespace phoenix
             Used by PhParticle to draw itself.
             \return A pointer to the render system
         */
-        PhRenderSystem* getRenderSystem();
+        PhRenderSystem* getRenderSystem() const;
 
         //! Get scene manager
         /*!
             Used by PhParticle to get scene information
             \return A pointer to the scenemanager
         */
-        PhSceneManager* getSceneManager();
+        PhSceneManager* getSceneManager() const;
 
         //! Get particle count
         /*!
             Used by PhEffector to know how many particles to effect.
             \return The current number of particles
         */
-        int getParticleCount();
+        const int getParticleCount() const;
 
         //! Get particle list
         /*!
@@ -156,7 +159,7 @@ namespace phoenix
             \return A pointer to the particle at index n
             \sa getParticleCount(), getParticleList()
         */
-        PhParticle* getParticle(unsigned int n);
+        PhParticle* getParticle(const unsigned int& n);
 
     protected:
 

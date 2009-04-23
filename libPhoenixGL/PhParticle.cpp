@@ -2,33 +2,37 @@
 
 using namespace phoenix;
 
-PhParticle::PhParticle()
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Ctor
+	Just adds us to the list of particles
+*/
+PhParticle::PhParticle(PhParticleSystem* p, const int t)
+	: partsys(p), type(t)
 {
-    partsys = NULL;
-    type = 0;
+	if(partsys != NULL)
+		partsys->addParticle(this);
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Dtor
+	Just removes us from the particle system.
+*/
 PhParticle::~PhParticle()
 {
     if(partsys != NULL)
-    {
         partsys->removeParticle(this);
-    }
 }
 
-int PhParticle::getType()
+const int& PhParticle::getType()
 {
     return type;
 }
 
-void PhParticle::setType(int t)
+void PhParticle::setType(const int& t)
 {
     type = t;
-}
-
-void PhParticle::draw()
-{
-
 }
 
 void PhParticle::destroy()

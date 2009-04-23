@@ -21,7 +21,7 @@ namespace phoenix
             you must add it to a particle system by calling PhParticleSystem::addEffector() in
             your overloaded constructor.
         */
-        PhEffector();
+        PhEffector(PhParticleSystem* p = NULL);
 
         //! Destructor
         /*!
@@ -36,14 +36,14 @@ namespace phoenix
             This function is called once per frame in PhParticleSystem::onPreRender().
             \sa step()
         */
-        virtual void preStep();
+        virtual void preStep(){};
 
         //! Post step function
         /*!
             This function is called once per frame in PhParticleSystem::onPostRender().
             \sa preStep()
         */
-        virtual void step();
+        virtual void step() = 0;
 
     protected:
 
