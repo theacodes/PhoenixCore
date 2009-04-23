@@ -64,7 +64,7 @@ void PhLightManager::clearLights()
     }
     lights.clear();
 }
-- Comment the source, at least a little.
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 /*
 	Generate the light buffer.

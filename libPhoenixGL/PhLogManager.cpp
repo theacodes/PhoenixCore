@@ -26,31 +26,55 @@ THE SOFTWARE.
 using namespace phoenix;
 using namespace std;
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Ctor
+	Pretty bland.
+*/
 PhLogManager::PhLogManager()
 {
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Dtor
+	Just deletes all the logs
+*/
 PhLogManager::~PhLogManager()
 {
 	deleteLogs();
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Open log.
+	Just opens a new log.
+*/
 PhLog* PhLogManager::openLog(std::string logName, std::string logFileName)
 {
 	PhLog* logFile = new PhLog(this);
 	logFile->setName(logName.c_str());
-	
+
 	if (logFile->openFile(logFileName.c_str()) == false)
 		logFile->setName("FAILEDTOLOAD");
-		
+
 	return logFile;
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Adds a log to the list
+*/
 void PhLogManager::addLog(PhLog* log)
 {
 	mLogList.push_back(log);
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Remove log.
+	Just removes a log from the list.
+*/
 void PhLogManager::removeLog(PhLog* log)
 {
 	for (unsigned int i = 0; i < mLogList.size(); i++)
@@ -62,6 +86,10 @@ void PhLogManager::removeLog(PhLog* log)
 	}
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Deletes every log in the list.
+*/
 void PhLogManager::deleteLogs()
 {
 	for (unsigned int i = 0; i < mLogList.size(); i++)
@@ -71,10 +99,14 @@ void PhLogManager::deleteLogs()
 			delete mLogList[i];
 		}
 	}
-	
+
 	mLogList.clear();
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Finds a log with the given name.
+*/
 PhLog* PhLogManager::findLog(string n)
 {
 	for (unsigned int i = 0; i < mLogList.size(); i++)
@@ -84,6 +116,6 @@ PhLog* PhLogManager::findLog(string n)
 			return mLogList[i];
 		}
 	}
-	
+
 	return NULL;
 }

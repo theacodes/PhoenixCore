@@ -26,29 +26,38 @@ THE SOFTWARE.
 using namespace phoenix;
 using namespace std;
 
-PhLog::PhLog(PhLogManager* lmgr)
+PhLog::PhLog(PhLogManager* lmgr, string filename)
 	: mNumTabs(0), mNumSpaces(0), mUseTabs(true), mUseSpaces(false), mTreeView(false),
 		mNumSpacesPerTab(5)
 {
 	logManager = lmgr;
 	logManager->addLog(this);
+	if( filename != string("") )
+		openFile( filename);
 }
 
 PhLog::~PhLog()
 {
-	drop();
+	if (mLogFile)
+		fclose(mLogFile);
+	logManager->removeLog(this);
 }
 
 bool PhLog::openFile(string logFileName)
 {
 	mLogFile = fopen(logFileName.c_str(), "w");
-	
+
 	if (!mLogFile)
 		return false;
-	
+
 	return true;
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	I really don't even want to explain how
+	Denzel did this.
+*/
 void PhLog::writeToLog(string text)
 {
 	if (mUseTabs == true && mTreeView == false)
@@ -69,11 +78,16 @@ void PhLog::writeToLog(string text)
 		fputc('+', mLogFile);
 		fputc(' ', mLogFile);
 	}
-	
+
 	fwrite(text.c_str(), sizeof(char), text.length(), mLogFile);
 	fputc('\n', mLogFile);
 }
 
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Parameters.
+*/
 void PhLog::useTabs(bool tabs) { mUseTabs = tabs; }
 void PhLog::useSpaces(bool spaces) { mUseSpaces = spaces; }
 bool PhLog::areTabsUsed() { return mUseTabs; }
@@ -91,9 +105,3 @@ bool PhLog::getTreeView() { return mTreeView; }
 void PhLog::setName(string n) { name = n; }
 string PhLog::getName() { return name; }
 
-void PhLog::drop()
-{
-	if (mLogFile)
-		fclose(mLogFile);
-	logManager->removeLog(this);
-}

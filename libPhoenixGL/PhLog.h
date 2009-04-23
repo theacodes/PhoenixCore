@@ -54,7 +54,7 @@ namespace phoenix
 		public:
 
 			//! Constructor
-			PhLog(PhLogManager* lmgr);
+			PhLog(PhLogManager* lmgr, std::string filename = std::string(""));
 
 			//! Destructor
 			~PhLog();
@@ -180,11 +180,6 @@ namespace phoenix
 			*/
 			std::string getName();
 
-			//! Drop.
-			/*!
-				Flushes the file, and closes it. This is a manual destructor.
-			*/
-			void drop();
 	};
 
 }
