@@ -37,10 +37,11 @@ namespace phoenix
 {
     //! Polygon class.
     /*!
-        This class represents polygons for collision detection. They can be used for
-        drawing primitives. a polygon is basically any geometric object that can be represented by a
-        triangle fan. the vertices are basically the definitions of the vectors that
-        make up the triangle fan.
+        This class represents polygons for drawing and collision detection.
+		A polygon is basically any geometric object that can be represented by a
+        triangle fan. Polygons are constructed with vertices, vertices can be
+        defined as a vector from the center of the polygon or a vector from
+        world coordinates.
         \sa phoenix::PhPolygonCollisionHandler
     */
     class PhPolygon
@@ -49,10 +50,8 @@ namespace phoenix
     private:
 
         std::vector<PhVector2d> verts; //stores the list of verticies.
-        int vertcount; //the number of verticles, this isn't need !
         PhVector2d pos; //the vector representing the position of this polygon
-        float radius; //the magnitude of the largest vector in the polygon, usef for circle-exclusions. see
-        //PhPolygonCollisionHandle sources.
+        float radius; //the magnitude of the largest vector in the polygon, use for circle-exclusions.
 
     public:
 
@@ -63,7 +62,7 @@ namespace phoenix
         /*!
             \param a Vector representing the center (position) of the polygon.
         */
-        PhPolygon(PhVector2d a);
+        PhPolygon(const PhVector2d& a);
 
         //! Destructor.
         ~PhPolygon();
@@ -79,7 +78,7 @@ namespace phoenix
             \return The center of the polygon (The position).
             \sa setPosition()
         */
-        PhVector2d getPosition();
+        const PhVector2d& getPosition() const;
 
         //! Set position.
         /*!
@@ -88,53 +87,56 @@ namespace phoenix
             \param a The new center of the polygon.
             \sa getPosition()
         */
-        void setPosition(PhVector2d a);
+        void setPosition(const PhVector2d& a);
 
-        //! Push vertex.
+        //! Add vertex.
         /*!
-            Adds a vertex to the polygon. It doesn't care were the polygon is, so PhVector2d(0.0f,10.0f) would
-            push an vector that's 10 units above the polygon's center.
+            Adds a vertex to the polygon. It doesn't take into account the position of
+            the polygon, so PhVector2d(0.0f,10.0f) would push an vector that's 10 units
+            above the polygon's center.
+            \note This function does not sort the verticles by angle.
             \param a Vertex to add.
-            \sa pushPoint()
+            \sa addPoint()
         */
-        void pushVertex(PhVector2d a);
+        void addVertex(const PhVector2d& a);
 
-        //! Push point.
+        //! Add point.
         /*!
             Adds a point to the polygon by making a vertex based on the position of the point and the center
-            point of the polygon. Push point does care about where the polygon is:
+            point of the polygon. Add point does care about where the polygon is:
             it takes the vector between our position and where the point is and puts it
-            onto the polygon.
+            onto the polygon. Basically, it translates world coordiates to polygon coordinates.
+            \note This function does not sort the verticles by angle.
             \param a Point to add.
-            \sa pushVertex()
+            \sa addVertex()
         */
-        void pushPoint(PhVector2d a);
+        void addPoint(const PhVector2d& a);
 
         //! Get vertex count.
         /*!
             \return The current number of vertices in the polygon.
         */
-        int getVertexCount();
+        const int getVertexCount() const;
 
         //! Get vertex.
         /*!
             \param a The index of the vertex wanted.
             \return The vertex at index a.
         */
-        PhVector2d getVertex(int a);
+        const PhVector2d& getVertex(const unsigned int& a) const;
 
         //! Set vertex.
         /*!
             \param a The index of the vertex to set.
             \param v What to set it to.
         */
-        void setVertex(int a, PhVector2d v);
+        void setVertex(const unsigned int& a, const PhVector2d& v);
 
         //! Get radius.
         /*!
             \return The magnitude of the largest vertex in the polygon.
         */
-        float getRadius();
+        const float& getRadius() const;
 
         //! Rotate
         /*!
@@ -156,18 +158,18 @@ namespace phoenix
             \param a The index wanted.
             \return A vector representing the vertex at the given index.
         */
-        inline PhVector2d operator[] (int a)
+        inline const PhVector2d& operator[] (const unsigned int& a)
         {
             return getVertex(a);
         }
 
-        PhPolygon operator* (float scalar);
-        PhPolygon& operator*= (float scalar);
+        const PhPolygon operator* (const float& scalar) const;
+        const PhPolygon& operator*= (const float& scalar);
         const PhPolygon operator* (const PhRotationMatrix& other) const;
         const PhPolygon& operator*= (const PhRotationMatrix& other);
 
         const PhPolygon& operator= (const PhPolygon& other);
-        bool operator== (PhPolygon other);
+        const bool operator== (const PhPolygon& other) const;
 
     };
 
