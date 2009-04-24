@@ -36,8 +36,8 @@
 <a href="classphoenix_1_1PhLog-members.htm">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5cc763f588434f8feb95abf2b5bc8759"></a><!-- doxytag: member="phoenix::PhLog::PhLog" ref="5cc763f588434f8feb95abf2b5bc8759" args="(PhLogManager *lmgr)" -->
-&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhLog.htm#5cc763f588434f8feb95abf2b5bc8759">PhLog</a> (<a class="el" href="classphoenix_1_1PhLogManager.htm">PhLogManager</a> *lmgr)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e9c62a0eb667f3d7c21a5b3d1164f50a"></a><!-- doxytag: member="phoenix::PhLog::PhLog" ref="e9c62a0eb667f3d7c21a5b3d1164f50a" args="(PhLogManager *lmgr, std::string filename=std::string(&quot;&quot;))" -->
+&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhLog.htm#e9c62a0eb667f3d7c21a5b3d1164f50a">PhLog</a> (<a class="el" href="classphoenix_1_1PhLogManager.htm">PhLogManager</a> *lmgr, std::string filename=std::string(&quot;&quot;))</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="cf7d6233f7835ced1b1b7bfd1d2b084b"></a><!-- doxytag: member="phoenix::PhLog::~PhLog" ref="cf7d6233f7835ced1b1b7bfd1d2b084b" args="()" -->
@@ -92,9 +92,6 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">std::string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhLog.htm#9b91ea93a75dbcd1e750be92ac58b170">getName</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get name.  <a href="#9b91ea93a75dbcd1e750be92ac58b170"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhLog.htm#b57f048a565cb20e1fc6202b7a136d47">drop</a> ()</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Drop.  <a href="#b57f048a565cb20e1fc6202b7a136d47"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f04ea31984de7915e449106c38b0e563"></a><!-- doxytag: member="phoenix::PhLog::name" ref="f04ea31984de7915e449106c38b0e563" args="" -->
 std::string&nbsp;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
@@ -171,27 +168,6 @@ Are tabs used.
 <p>
 Tells whether tabs are used or not. <dl class="return" compact><dt><b>Returns:</b></dt><dd>Whether tabs are enabled. </dd></dl>
 
-</div>
-</div><p>
-<a class="anchor" name="b57f048a565cb20e1fc6202b7a136d47"></a><!-- doxytag: member="phoenix::PhLog::drop" ref="b57f048a565cb20e1fc6202b7a136d47" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void phoenix::PhLog::drop           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Drop. 
-<p>
-Flushes the file, and closes it. This is a manual destructor. 
 </div>
 </div><p>
 <a class="anchor" name="9b91ea93a75dbcd1e750be92ac58b170"></a><!-- doxytag: member="phoenix::PhLog::getName" ref="9b91ea93a75dbcd1e750be92ac58b170" args="()" -->
@@ -555,7 +531,7 @@ Writes the given line to the file, taking into account the parameters you provid
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>/home/jon/Phoenix/svn/0.3/libPhoenixGL/<a class="el" href="PhLog_8h-source.htm">PhLog.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sat Apr 18 14:19:29 2009 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 24 00:25:39 2009 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

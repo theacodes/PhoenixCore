@@ -33,37 +33,37 @@
 <a name="l00018"></a>00018     <span class="keyword">public</span>:
 <a name="l00019"></a>00019 
 <a name="l00021"></a>00021 
-<a name="l00027"></a>00027         <a class="code" href="classphoenix_1_1PhParticle.htm#daf5176bb2543eb3d4b5067d02b3dcdb" title="Constructor.">PhParticle</a>();
-<a name="l00028"></a>00028 
-<a name="l00030"></a>00030 
-<a name="l00037"></a>00037         <span class="keyword">virtual</span> <a class="code" href="classphoenix_1_1PhParticle.htm#b40bd784689f216dfd4a80c8ed342979" title="Destructor.">~PhParticle</a>();
-<a name="l00038"></a>00038 
-<a name="l00040"></a>00040 
-<a name="l00045"></a>00045         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhParticle.htm#6de9d544200f2b5df109357e9afe2cd7" title="Draw function.">draw</a>();
-<a name="l00046"></a>00046 
-<a name="l00048"></a>00048 
-<a name="l00054"></a>00054         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhParticle.htm#9520845e846c33f2637893d2c4f173fd" title="Destroy function.">destroy</a>();
-<a name="l00055"></a>00055 
-<a name="l00057"></a>00057 
-<a name="l00061"></a>00061         <span class="keywordtype">int</span> <a class="code" href="classphoenix_1_1PhParticle.htm#f22614ba4a37551ca1dbe2873465f42f" title="Get user-defined type.">getType</a>();
-<a name="l00062"></a>00062 
-<a name="l00064"></a>00064 
-<a name="l00068"></a>00068         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhParticle.htm#2786aa1033cea72639fa17230a61e9e7" title="Set user-defined type.">setType</a>(<span class="keywordtype">int</span> i);
-<a name="l00069"></a>00069 
-<a name="l00070"></a>00070     <span class="keyword">protected</span>:
-<a name="l00071"></a>00071 
-<a name="l00073"></a><a class="code" href="classphoenix_1_1PhParticle.htm#ad528a64d960f319aab5185d1a193ee1">00073</a>         <a class="code" href="classphoenix_1_1PhParticleSystem.htm" title="Abstract Particle System.">PhParticleSystem</a>* <a class="code" href="classphoenix_1_1PhParticle.htm#ad528a64d960f319aab5185d1a193ee1" title="Pointer to the particle system.">partsys</a>;
+<a name="l00030"></a>00030         <a class="code" href="classphoenix_1_1PhParticle.htm#bb4a3d377ad301b0590dc690c96ca5df" title="Constructor.">PhParticle</a>( <a class="code" href="classphoenix_1_1PhParticleSystem.htm" title="Abstract Particle System.">PhParticleSystem</a>* p = NULL, <span class="keyword">const</span> <span class="keywordtype">int</span> t = 0);
+<a name="l00031"></a>00031 
+<a name="l00033"></a>00033 
+<a name="l00040"></a>00040         <span class="keyword">virtual</span> <a class="code" href="classphoenix_1_1PhParticle.htm#b40bd784689f216dfd4a80c8ed342979" title="Destructor.">~PhParticle</a>();
+<a name="l00041"></a>00041 
+<a name="l00043"></a>00043 
+<a name="l00048"></a>00048         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhParticle.htm#cadffd216e77070ee808cb9550273e11" title="Draw function.">draw</a>() = 0;
+<a name="l00049"></a>00049 
+<a name="l00051"></a>00051 
+<a name="l00057"></a>00057         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhParticle.htm#9520845e846c33f2637893d2c4f173fd" title="Destroy function.">destroy</a>();
+<a name="l00058"></a>00058 
+<a name="l00060"></a>00060 
+<a name="l00064"></a>00064         <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; <a class="code" href="classphoenix_1_1PhParticle.htm#1217791f4de173e6b09ffca546e1f065" title="Get user-defined type.">getType</a>();
+<a name="l00065"></a>00065 
+<a name="l00067"></a>00067 
+<a name="l00071"></a>00071         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhParticle.htm#b7024b0213cea0c6f9e52e71ed1b5317" title="Set user-defined type.">setType</a>(<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; i);
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073     <span class="keyword">protected</span>:
 <a name="l00074"></a>00074 
-<a name="l00076"></a><a class="code" href="classphoenix_1_1PhParticle.htm#93d8f8aadc66045a53f408493cfbffdf">00076</a>         <span class="keywordtype">int</span> <a class="code" href="classphoenix_1_1PhParticle.htm#93d8f8aadc66045a53f408493cfbffdf" title="User-defined type.">type</a>;
+<a name="l00076"></a><a class="code" href="classphoenix_1_1PhParticle.htm#ad528a64d960f319aab5185d1a193ee1">00076</a>         <a class="code" href="classphoenix_1_1PhParticleSystem.htm" title="Abstract Particle System.">PhParticleSystem</a>* <a class="code" href="classphoenix_1_1PhParticle.htm#ad528a64d960f319aab5185d1a193ee1" title="Pointer to the particle system.">partsys</a>;
 <a name="l00077"></a>00077 
-<a name="l00078"></a>00078     <span class="keyword">private</span>:
-<a name="l00079"></a>00079     };
+<a name="l00079"></a><a class="code" href="classphoenix_1_1PhParticle.htm#93d8f8aadc66045a53f408493cfbffdf">00079</a>         <span class="keywordtype">int</span> <a class="code" href="classphoenix_1_1PhParticle.htm#93d8f8aadc66045a53f408493cfbffdf" title="User-defined type.">type</a>;
 <a name="l00080"></a>00080 
-<a name="l00081"></a>00081 }
-<a name="l00082"></a>00082 
-<a name="l00083"></a>00083 <span class="preprocessor">#endif // PHPARTICLE_H</span>
+<a name="l00081"></a>00081     <span class="keyword">private</span>:
+<a name="l00082"></a>00082     };
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 }
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086 <span class="preprocessor">#endif // PHPARTICLE_H</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sat Apr 18 14:19:29 2009 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 24 00:25:39 2009 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

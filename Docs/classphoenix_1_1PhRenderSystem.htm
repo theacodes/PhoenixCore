@@ -65,9 +65,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const <a class="el" href="classphoenix_1_1PhVector2d.htm">PhVector2d</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhRenderSystem.htm#d719fb61d5117e85e8ed32c1995b23ed">getScreenSize</a> () const </td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get screen size.  <a href="#d719fb61d5117e85e8ed32c1995b23ed"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classphoenix_1_1PhTexture.htm">PhTexture</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhRenderSystem.htm#26e8b2f0e1985ed4b8d01f641e04b4df">loadTexture</a> (const std::string &amp;filename, const bool &amp;linear=false)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classphoenix_1_1PhTexture.htm">PhTexture</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhRenderSystem.htm#d5f821c8623c12b272c99a0cb64cd260">loadTexture</a> (const std::string &amp;filename, const bool &amp;linear=true)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load texture.  <a href="#26e8b2f0e1985ed4b8d01f641e04b4df"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load texture.  <a href="#d5f821c8623c12b272c99a0cb64cd260"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhRenderSystem.htm#15bc662e8871cc0ee96dcc5537ec9701">drawIndexedTriangleList</a> (GLfloat *vertices, GLfloat *normals, GLfloat *tcoords, GLuint *colors, GLuint *indexlist, int tricount)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Draw indexed trangle list.  <a href="#15bc662e8871cc0ee96dcc5537ec9701"></a><br></td></tr>
@@ -89,9 +89,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhRenderSystem.htm#8d1465461f91c2fcef409648c822fa21">drawPolygon</a> (<a class="el" href="classphoenix_1_1PhPolygon.htm">PhPolygon</a> P, float depth=0.0f, PhColor a=PhColor(255, 255, 255))</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Draws a polygon.  <a href="#8d1465461f91c2fcef409648c822fa21"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhRenderSystem.htm#f3d83864da4bf1332ed8a8b966252b75">drawTexturedPolygon</a> (<a class="el" href="classphoenix_1_1PhPolygon.htm">PhPolygon</a> P, <a class="el" href="classphoenix_1_1PhTexture.htm">PhTexture</a> *texture, float depth=0.0f, PhColor a=PhColor(255, 255, 255))</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhRenderSystem.htm#31057301f391b3cd8a3d4cc82e5eb151">drawTexturedPolygon</a> (<a class="el" href="classphoenix_1_1PhPolygon.htm">PhPolygon</a> P, <a class="el" href="classphoenix_1_1PhTexture.htm">PhTexture</a> *texture, float depth=0.0f, PhColor a=PhColor(255, 255, 255), bool eyespace=false)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Draws a textured polygon.  <a href="#f3d83864da4bf1332ed8a8b966252b75"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Draws a textured polygon.  <a href="#31057301f391b3cd8a3d4cc82e5eb151"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphoenix_1_1PhRenderSystem.htm#8006989a32a7a3d6873470a4a6315371">drawTexture</a> (<a class="el" href="classphoenix_1_1PhTexture.htm">PhTexture</a> *source, <a class="el" href="classphoenix_1_1PhVector2d.htm">PhVector2d</a> pos, float depth=0.0f, float rot=0.0f, PhVector2d scale=PhVector2d(1.0f, 1.0f), PhColor color=PhColor(255, 255, 255), bool hflip=false, bool vflip=false)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Draw texture.  <a href="#8006989a32a7a3d6873470a4a6315371"></a><br></td></tr>
@@ -694,7 +694,7 @@ Draw texture.
 
 </div>
 </div><p>
-<a class="anchor" name="f3d83864da4bf1332ed8a8b966252b75"></a><!-- doxytag: member="phoenix::PhRenderSystem::drawTexturedPolygon" ref="f3d83864da4bf1332ed8a8b966252b75" args="(PhPolygon P, PhTexture *texture, float depth=0.0f, PhColor a=PhColor(255, 255, 255))" -->
+<a class="anchor" name="31057301f391b3cd8a3d4cc82e5eb151"></a><!-- doxytag: member="phoenix::PhRenderSystem::drawTexturedPolygon" ref="31057301f391b3cd8a3d4cc82e5eb151" args="(PhPolygon P, PhTexture *texture, float depth=0.0f, PhColor a=PhColor(255, 255, 255), bool eyespace=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -720,7 +720,13 @@ Draw texture.
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classphoenix_1_1PhColor.htm">PhColor</a>&nbsp;</td>
-          <td class="paramname"> <em>a</em> = <code><a class="el" href="classphoenix_1_1PhColor.htm">PhColor</a>(255,&nbsp;255,&nbsp;255)</code></td><td>&nbsp;</td>
+          <td class="paramname"> <em>a</em> = <code><a class="el" href="classphoenix_1_1PhColor.htm">PhColor</a>(255,&nbsp;255,&nbsp;255)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>eyespace</em> = <code>false</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -740,6 +746,7 @@ Draws a polygon with the given depth and color and applies the given texture to 
     <tr><td valign="top"></td><td valign="top"><em>texture</em>&nbsp;</td><td>The texture that will be applied to the polygon. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>depth</em>&nbsp;</td><td>Depth to draw it at. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td>Color to draw it with. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>eyespace</em>&nbsp;</td><td>If true, it generates texture coordinates in eyespace instead of object space. </td></tr>
   </table>
 </dl>
 
@@ -1047,7 +1054,7 @@ Sets up everything needed by the render system. This should be called at the beg
 
 </div>
 </div><p>
-<a class="anchor" name="26e8b2f0e1985ed4b8d01f641e04b4df"></a><!-- doxytag: member="phoenix::PhRenderSystem::loadTexture" ref="26e8b2f0e1985ed4b8d01f641e04b4df" args="(const std::string &amp;filename, const bool &amp;linear=false)" -->
+<a class="anchor" name="d5f821c8623c12b272c99a0cb64cd260"></a><!-- doxytag: member="phoenix::PhRenderSystem::loadTexture" ref="d5f821c8623c12b272c99a0cb64cd260" args="(const std::string &amp;filename, const bool &amp;linear=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1061,7 +1068,7 @@ Sets up everything needed by the render system. This should be called at the beg
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const bool &amp;&nbsp;</td>
-          <td class="paramname"> <em>linear</em> = <code>false</code></td><td>&nbsp;</td>
+          <td class="paramname"> <em>linear</em> = <code>true</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -1078,10 +1085,11 @@ Load texture.
 Loads an image as a texture and adds it to the texture manager for garbage collection. Currently only .png files are supported. More formats are planned. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>filename</em>&nbsp;</td><td>The filename of the image to load. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>linear</em>&nbsp;</td><td>Tells the loader to use linear filtering or not. (default false). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>linear</em>&nbsp;</td><td>Tells the loader to use linear filtering or not. (default true). </td></tr>
   </table>
 </dl>
-<dl class="note" compact><dt><b>Note:</b></dt><dd>Textures must be sizes that are a power of two. NPOT textures will experience artifacts. </dd></dl>
+<dl class="note" compact><dt><b>Note:</b></dt><dd>Use nearest filtering for tilemaps, or anything that may look bad when scaled. <p>
+Textures must be sizes that are a power of two. NPOT textures will experience artifacts. </dd></dl>
 
 </div>
 </div><p>
@@ -1224,7 +1232,7 @@ Set window caption.
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>/home/jon/Phoenix/svn/0.3/libPhoenixGL/<a class="el" href="PhRenderSystem_8h-source.htm">PhRenderSystem.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sat Apr 18 14:19:29 2009 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 24 00:25:40 2009 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

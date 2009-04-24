@@ -55,80 +55,78 @@
 <a name="l00036"></a>00036 <span class="keyword">namespace </span>phoenix
 <a name="l00037"></a>00037 {
 <a name="l00039"></a>00039 
-<a name="l00046"></a><a class="code" href="classphoenix_1_1PhPolygon.htm">00046</a>     <span class="keyword">class </span><a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>
-<a name="l00047"></a>00047     {
-<a name="l00048"></a>00048 
-<a name="l00049"></a>00049     <span class="keyword">private</span>:
-<a name="l00050"></a>00050 
-<a name="l00051"></a>00051         std::vector&lt;PhVector2d&gt; verts; <span class="comment">//stores the list of verticies.</span>
-<a name="l00052"></a>00052         <span class="keywordtype">int</span> vertcount; <span class="comment">//the number of verticles, this isn't need !</span>
+<a name="l00047"></a><a class="code" href="classphoenix_1_1PhPolygon.htm">00047</a>     <span class="keyword">class </span><a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>
+<a name="l00048"></a>00048     {
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050     <span class="keyword">private</span>:
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052         std::vector&lt;PhVector2d&gt; verts; <span class="comment">//stores the list of verticies.</span>
 <a name="l00053"></a>00053         <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> pos; <span class="comment">//the vector representing the position of this polygon</span>
-<a name="l00054"></a>00054         <span class="keywordtype">float</span> radius; <span class="comment">//the magnitude of the largest vector in the polygon, usef for circle-exclusions. see</span>
-<a name="l00055"></a>00055         <span class="comment">//PhPolygonCollisionHandle sources.</span>
-<a name="l00056"></a>00056 
-<a name="l00057"></a>00057     <span class="keyword">public</span>:
-<a name="l00058"></a>00058 
-<a name="l00060"></a>00060         <a class="code" href="classphoenix_1_1PhPolygon.htm#505a51d10ad11e395270166094213f52" title="Constructor.">PhPolygon</a>();
-<a name="l00061"></a>00061 
-<a name="l00063"></a>00063 
-<a name="l00066"></a>00066         <a class="code" href="classphoenix_1_1PhPolygon.htm#505a51d10ad11e395270166094213f52" title="Constructor.">PhPolygon</a>(<a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> a);
-<a name="l00067"></a>00067 
-<a name="l00069"></a>00069         <a class="code" href="classphoenix_1_1PhPolygon.htm#c78ab77df131f1c1a583b8c7d534e900" title="Destructor.">~PhPolygon</a>();
-<a name="l00070"></a>00070 
-<a name="l00072"></a>00072 
-<a name="l00075"></a>00075         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#1b4e69def70d0e851c4a4bfa1b899f29" title="Clear.">clear</a>();
-<a name="l00076"></a>00076 
-<a name="l00078"></a>00078 
-<a name="l00082"></a>00082         <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> <a class="code" href="classphoenix_1_1PhPolygon.htm#cec73ce9c67cdfc0752876c65a57a538" title="Get position.">getPosition</a>();
-<a name="l00083"></a>00083 
-<a name="l00085"></a>00085 
-<a name="l00091"></a>00091         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#82a7b68fe6b366c116d2f48b8dd7fdf1" title="Set position.">setPosition</a>(<a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> a);
-<a name="l00092"></a>00092 
-<a name="l00094"></a>00094 
-<a name="l00100"></a>00100         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#95a7c7bae9368fc49f2c138266699716" title="Push vertex.">pushVertex</a>(<a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> a);
-<a name="l00101"></a>00101 
-<a name="l00103"></a>00103 
-<a name="l00111"></a>00111         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#dcd687056a76318d3a44949face1689f" title="Push point.">pushPoint</a>(<a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> a);
-<a name="l00112"></a>00112 
+<a name="l00054"></a>00054         <span class="keywordtype">float</span> radius; <span class="comment">//the magnitude of the largest vector in the polygon, use for circle-exclusions.</span>
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056     <span class="keyword">public</span>:
+<a name="l00057"></a>00057 
+<a name="l00059"></a>00059         <a class="code" href="classphoenix_1_1PhPolygon.htm#505a51d10ad11e395270166094213f52" title="Constructor.">PhPolygon</a>();
+<a name="l00060"></a>00060 
+<a name="l00062"></a>00062 
+<a name="l00065"></a>00065         <a class="code" href="classphoenix_1_1PhPolygon.htm#505a51d10ad11e395270166094213f52" title="Constructor.">PhPolygon</a>(<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>&amp; a);
+<a name="l00066"></a>00066 
+<a name="l00068"></a>00068         <a class="code" href="classphoenix_1_1PhPolygon.htm#c78ab77df131f1c1a583b8c7d534e900" title="Destructor.">~PhPolygon</a>();
+<a name="l00069"></a>00069 
+<a name="l00071"></a>00071 
+<a name="l00074"></a>00074         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#1b4e69def70d0e851c4a4bfa1b899f29" title="Clear.">clear</a>();
+<a name="l00075"></a>00075 
+<a name="l00077"></a>00077 
+<a name="l00081"></a>00081         <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>&amp; <a class="code" href="classphoenix_1_1PhPolygon.htm#f304b404741f778c7a0973f25bb246b3" title="Get position.">getPosition</a>() <span class="keyword">const</span>;
+<a name="l00082"></a>00082 
+<a name="l00084"></a>00084 
+<a name="l00090"></a>00090         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#5ebdf47c19f80f7d689de27f76655978" title="Set position.">setPosition</a>(<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>&amp; a);
+<a name="l00091"></a>00091 
+<a name="l00093"></a>00093 
+<a name="l00101"></a>00101         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#9a71bf1e90daf35d470f55574d761377" title="Add vertex.">addVertex</a>(<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>&amp; a);
+<a name="l00102"></a>00102 
+<a name="l00104"></a>00104 
+<a name="l00113"></a>00113         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#8e14867d07f5ddcf09b237e7f031b7ca" title="Add point.">addPoint</a>(<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>&amp; a);
 <a name="l00114"></a>00114 
-<a name="l00117"></a>00117         <span class="keywordtype">int</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#880bb0c4977628e77d170177494fed70" title="Get vertex count.">getVertexCount</a>();
-<a name="l00118"></a>00118 
+<a name="l00116"></a>00116 
+<a name="l00119"></a>00119         <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#dca1976d7e17f4451b60d117038a28fb" title="Get vertex count.">getVertexCount</a>() <span class="keyword">const</span>;
 <a name="l00120"></a>00120 
-<a name="l00124"></a>00124         <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> <a class="code" href="classphoenix_1_1PhPolygon.htm#649980724896bc2bb4f3fa9454e5858e" title="Get vertex.">getVertex</a>(<span class="keywordtype">int</span> a);
-<a name="l00125"></a>00125 
+<a name="l00122"></a>00122 
+<a name="l00126"></a>00126         <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>&amp; <a class="code" href="classphoenix_1_1PhPolygon.htm#0106198c6686c868511fea028bfec493" title="Get vertex.">getVertex</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>&amp; a) <span class="keyword">const</span>;
 <a name="l00127"></a>00127 
-<a name="l00131"></a>00131         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#5baced03391bac7862f3a7d90d944304" title="Set vertex.">setVertex</a>(<span class="keywordtype">int</span> a, <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> v);
-<a name="l00132"></a>00132 
+<a name="l00129"></a>00129 
+<a name="l00133"></a>00133         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#4eac6dc63bb1032fe1d12885e23a818d" title="Set vertex.">setVertex</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>&amp; a, <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>&amp; v);
 <a name="l00134"></a>00134 
-<a name="l00137"></a>00137         <span class="keywordtype">float</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#7feee3a5aa7df342198ad9d7e3c4e1f9" title="Get radius.">getRadius</a>();
-<a name="l00138"></a>00138 
+<a name="l00136"></a>00136 
+<a name="l00139"></a>00139         <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classphoenix_1_1PhPolygon.htm#c4fa0df0db8d1bd94e00429bb0d391f6" title="Get radius.">getRadius</a>() <span class="keyword">const</span>;
 <a name="l00140"></a>00140 
-<a name="l00144"></a>00144         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#a336e76bb15ad206bf44e2dcfdf5b037" title="Rotate.">rotate</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; rad);
-<a name="l00145"></a>00145 
+<a name="l00142"></a>00142 
+<a name="l00146"></a>00146         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#a336e76bb15ad206bf44e2dcfdf5b037" title="Rotate.">rotate</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; rad);
 <a name="l00147"></a>00147 
-<a name="l00151"></a>00151         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#a336e76bb15ad206bf44e2dcfdf5b037" title="Rotate.">rotate</a>(<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; m);
-<a name="l00152"></a>00152 
+<a name="l00149"></a>00149 
+<a name="l00153"></a>00153         <span class="keywordtype">void</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#a336e76bb15ad206bf44e2dcfdf5b037" title="Rotate.">rotate</a>(<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; m);
 <a name="l00154"></a>00154 
-<a name="l00159"></a><a class="code" href="classphoenix_1_1PhPolygon.htm#fd00e691e06f722e967c62adf03b5b2c">00159</a>         <span class="keyword">inline</span> <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> <a class="code" href="classphoenix_1_1PhPolygon.htm#fd00e691e06f722e967c62adf03b5b2c" title="Array operator.">operator[] </a>(<span class="keywordtype">int</span> a)
-<a name="l00160"></a>00160         {
-<a name="l00161"></a>00161             <span class="keywordflow">return</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#649980724896bc2bb4f3fa9454e5858e" title="Get vertex.">getVertex</a>(a);
-<a name="l00162"></a>00162         }
-<a name="l00163"></a>00163 
-<a name="l00164"></a>00164         <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a> operator* (<span class="keywordtype">float</span> scalar);
-<a name="l00165"></a>00165         <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>&amp; operator*= (<span class="keywordtype">float</span> scalar);
-<a name="l00166"></a>00166         <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a> operator* (<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other) <span class="keyword">const</span>;
-<a name="l00167"></a>00167         <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>&amp; operator*= (<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
-<a name="l00168"></a>00168 
-<a name="l00169"></a>00169         <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>&amp; operator= (<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>&amp; other);
-<a name="l00170"></a>00170         <span class="keywordtype">bool</span> operator== (<a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a> other);
-<a name="l00171"></a>00171 
-<a name="l00172"></a>00172     };
+<a name="l00156"></a>00156 
+<a name="l00161"></a><a class="code" href="classphoenix_1_1PhPolygon.htm#f8b8c6fe178b8297687a7f1e922c0f6d">00161</a>         <span class="keyword">inline</span> <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a>&amp; <a class="code" href="classphoenix_1_1PhPolygon.htm#f8b8c6fe178b8297687a7f1e922c0f6d" title="Array operator.">operator[] </a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>&amp; a)
+<a name="l00162"></a>00162         {
+<a name="l00163"></a>00163             <span class="keywordflow">return</span> <a class="code" href="classphoenix_1_1PhPolygon.htm#0106198c6686c868511fea028bfec493" title="Get vertex.">getVertex</a>(a);
+<a name="l00164"></a>00164         }
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166         <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a> operator* (<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; scalar) <span class="keyword">const</span>;
+<a name="l00167"></a>00167         <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>&amp; operator*= (<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; scalar);
+<a name="l00168"></a>00168         <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a> operator* (<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other) <span class="keyword">const</span>;
+<a name="l00169"></a>00169         <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>&amp; operator*= (<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhRotationMatrix.htm" title="2D Rotation Matrix Class">PhRotationMatrix</a>&amp; other);
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171         <span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>&amp; operator= (<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>&amp; other);
+<a name="l00172"></a>00172         <span class="keyword">const</span> <span class="keywordtype">bool</span> operator== (<span class="keyword">const</span> <a class="code" href="classphoenix_1_1PhPolygon.htm" title="Polygon class.">PhPolygon</a>&amp; other) <span class="keyword">const</span>;
 <a name="l00173"></a>00173 
-<a name="l00174"></a>00174 }
+<a name="l00174"></a>00174     };
 <a name="l00175"></a>00175 
-<a name="l00176"></a>00176 <span class="preprocessor">#endif</span>
+<a name="l00176"></a>00176 }
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sat Apr 18 14:19:29 2009 for PhoenixGL by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 24 00:25:39 2009 for PhoenixGL by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
