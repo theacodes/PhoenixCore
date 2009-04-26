@@ -130,7 +130,7 @@ namespace phoenix
             This is one of the required functions of the render system. This should be called before
             all drawing functions and should be called once per frame. (perferably in a while loop).
         */
-        bool run();
+        const bool run();
 
         //! Get frames per second.
         /*!
@@ -152,13 +152,13 @@ namespace phoenix
             \param fs Full screen (default false).
             \return True if it succeeded in creating a window & an opengl render context.
         */
-        bool initSystem( const PhVector2d& sc = PhVector2d(640,480),const bool& fs = false);
+        const bool initSystem( const PhVector2d& sc = PhVector2d(640,480),const bool& fs = false);
 
         //! Get screen size.
         /*!
             \return The size of the screen.
         */
-        const PhVector2d getScreenSize() const;
+        const PhVector2d& getScreenSize() const;
 
         //! Load texture.
         /*!
@@ -182,7 +182,7 @@ namespace phoenix
             \param tricount The number of trangles.
             \sa drawIndexedTriangleFan(), drawIndexedLine()
         */
-        void drawIndexedTriangleList(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int tricount );
+        void drawIndexedTriangleList(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& tricount );
 
         //! Draw indexed trangle fan.
         /*!
@@ -195,7 +195,7 @@ namespace phoenix
             \param vertcount The number of vertices.
             \sa drawIndexedTriangleList(), drawIndexedLine()
         */
-        void drawIndexedTriangleFan(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int vertcount );
+        void drawIndexedTriangleFan(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& vertcount );
 
         //! Draw indexed line.
         /*!
@@ -208,7 +208,7 @@ namespace phoenix
             \param vertcount The number of vertices.
             \sa drawIndexedTriangleFran(), drawIndexedTriangleList(), drawLine(), drawRay()
         */
-        void drawIndexedLine(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int vertcount );
+        void drawIndexedLine(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& vertcount );
 
 		//! Draw line.
 		/*!
@@ -220,7 +220,7 @@ namespace phoenix
 			\param b Color of the second vertex.
 			\sa drawRay()
 		*/
-		void drawLine(PhVector2d v1 = PhVector2d(0,0), PhVector2d v2 = PhVector2d(0,0), float depth = 0.0f, PhColor a = PhColor(255,255,255), PhColor b = PhColor(255,255,255,255));
+		void drawLine(const PhVector2d& v1 = PhVector2d(0,0), const PhVector2d& v2 = PhVector2d(0,0), const float& depth = 0.0f, const PhColor& a = PhColor(255,255,255), const PhColor& b = PhColor(255,255,255,255));
 
 		//! Draw ray.
 		/*!
@@ -232,7 +232,7 @@ namespace phoenix
 			\param b Color of the second vertex.
 			\sa drawLine()
 		*/
-		void drawRay(PhVector2d origin = PhVector2d(0,0), PhVector2d ray = PhVector2d(0,0), float depth = 0.0f, PhColor a = PhColor(255,255,255), PhColor b = PhColor(255,255,255,255));
+		void drawRay(const PhVector2d& origin = PhVector2d(0,0), const PhVector2d& ray = PhVector2d(0,0), const float& depth = 0.0f, const PhColor& a = PhColor(255,255,255), const PhColor& b = PhColor(255,255,255,255));
 
 		//! Draw rectangle.
         /*!
@@ -244,7 +244,7 @@ namespace phoenix
             \param c Color of the bottom-right corner.
             \param d Color of the bottom-left corner.
         */
-        void drawRectangle( PhRect r = PhRect(0,0,0,0), float depth = 0.0f, PhColor a = PhColor(255,255,255), PhColor b = PhColor(255,255,255), PhColor c = PhColor(255,255,255), PhColor d = PhColor(255,255,255) );
+        void drawRectangle( const PhRect& r = PhRect(0,0,0,0), const float& depth = 0.0f, const PhColor& a = PhColor(255,255,255), const PhColor& b = PhColor(255,255,255), const PhColor& c = PhColor(255,255,255), const PhColor& d = PhColor(255,255,255) );
 
         //! Draws a polygon.
         /*!
@@ -254,7 +254,7 @@ namespace phoenix
             \param a Color to draw it with.
             \param textured If this is false, then texturing will be disabled while this polygon is draw. If it is enabled then the currently binded texture will be used.
         */
-        void drawPolygon (PhPolygon P, float depth = 0.0f, PhColor a = PhColor(255,255,255));
+        void drawPolygon (const PhPolygon& P, const float& depth = 0.0f, const PhColor& a = PhColor(255,255,255));
 
         //! Draws a textured polygon.
         /*!
@@ -265,7 +265,7 @@ namespace phoenix
             \param a Color to draw it with.
             \param eyespace If true, it generates texture coordinates in eyespace instead of object space.
         */
-        void drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth = 0.0f, PhColor a = PhColor(255,255,255), bool eyespace = false);
+        void drawTexturedPolygon (const PhPolygon& P, PhTexture* texture, const float& depth = 0.0f, const PhColor& a = PhColor(255,255,255), const bool& eyespace = false);
 
         //! Draw texture.
         /*!
@@ -279,7 +279,7 @@ namespace phoenix
             \param vflip If true, vertically.
             \sa drawTexturePart()
         */
-        void drawTexture( PhTexture* source, PhVector2d pos, float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool hflip = false, bool vflip = false);
+        void drawTexture( PhTexture* source, const PhVector2d& pos, const float& depth = 0.0f, const float& rot = 0.0f, const PhVector2d& scale = PhVector2d(1.0f,1.0f), const PhColor& color = PhColor(255,255,255), const bool& hflip = false, const bool& vflip = false);
 
         //! Draw texture part.
         /*!
@@ -295,7 +295,7 @@ namespace phoenix
             \param vflip If true, vertically.
             \sa drawTexture()
         */
-        void drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool hflip = false, bool vflip =false);
+        void drawTexturePart( PhTexture* source, const PhVector2d& pos, const PhRect& rect, const float& depth = 0.0f, const float& rot = 0.0f, const PhVector2d& scale=PhVector2d(1.0f,1.0f), const PhColor& color=PhColor(255,255,255), const bool& hflip = false, const bool& vflip =false);
 
         //! Draw text
         /*!
@@ -306,7 +306,7 @@ namespace phoenix
             \param depth The depth to draw it at.
             \sa loadFont()
         */
-        void drawText( std::string text, PhVector2d pos, PhColor color=PhColor(255,255,255), float depth = 0.0f);
+        void drawText( const std::string& text, const PhVector2d& pos, const PhColor& color=PhColor(255,255,255), const float& depth = 0.0f);
 
         //! Set font.
         /*!
@@ -347,6 +347,12 @@ namespace phoenix
         */
         PhVertexLightSystem* getVertexLightSystem() const;
 
+        //! Set vertex light system.
+        /*!
+			Allows you to change the light system to another
+        */
+        inline void setVertexLightSystem( PhVertexLightSystem* v ) { vlsys = v; }
+
         //! Set blend mode.
         /*!
             Sets the blend mode for opengl. The defualt blend mode is GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA.
@@ -360,7 +366,7 @@ namespace phoenix
             GL_ONE_MINUS_DST_ALPHA
             \sa setDefaultBlendMode()
         */
-        void setBlendMode(GLenum src, GLenum dst);
+        void setBlendMode(const GLenum& src, const GLenum& dst);
 
         //! Set defualt blend mode.
         /*!
@@ -369,8 +375,16 @@ namespace phoenix
         */
         void setDefaultBlendMode();
 
-
+        //! Set vertex light state.
+        /*!
+			Enables or disables vertex lighting.
+        */
         void setVertexLighting(const bool& a);
+
+        //! Get vertex light state.
+        /*!
+			Gets the current state of vertex lighting.
+        */
         const bool& getVertexLighting() const;
 
     };

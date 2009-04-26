@@ -70,7 +70,7 @@ void PhRenderSystem::setWindowCaption(const std::string& str)
 //a render.
 ////////////////////////////////////////////////////////////////////////////////
 
-bool PhRenderSystem::run()
+const bool PhRenderSystem::run()
 {
 
     //update events
@@ -123,7 +123,7 @@ const double PhRenderSystem::getTicks() const
 //This initializes the system
 ////////////////////////////////////////////////////////////////////////////////
 
-bool PhRenderSystem::initSystem( const PhVector2d& sc , const bool& fs )
+const bool PhRenderSystem::initSystem( const PhVector2d& sc , const bool& fs )
 {
 
     //somevars up everything else
@@ -234,7 +234,7 @@ bool PhRenderSystem::initSystem( const PhVector2d& sc , const bool& fs )
 //Get screen size
 ////////////////////////////////////////////////////////////////////////////////
 
-const PhVector2d PhRenderSystem::getScreenSize() const
+const PhVector2d& PhRenderSystem::getScreenSize() const
 {
     return screensize;
 }
@@ -343,7 +343,7 @@ PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool&
 //Draws an indexed trangle list
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawIndexedTriangleList(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int tricount )
+void PhRenderSystem::drawIndexedTriangleList(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& tricount )
 {
 
     //enable the states first
@@ -373,7 +373,7 @@ void PhRenderSystem::drawIndexedTriangleList(GLfloat* vertices, GLfloat* normals
 //Draws an indexed triangle fan
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawIndexedTriangleFan(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int vertcount )
+void PhRenderSystem::drawIndexedTriangleFan(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& vertcount )
 {
 
     //enable the states first
@@ -403,7 +403,7 @@ void PhRenderSystem::drawIndexedTriangleFan(GLfloat* vertices, GLfloat* normals,
 //Draws an indexed line.
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawIndexedLine(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int vertcount )
+void PhRenderSystem::drawIndexedLine(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& vertcount )
 {
 
     //enable the states first
@@ -433,7 +433,7 @@ void PhRenderSystem::drawIndexedLine(GLfloat* vertices, GLfloat* normals, GLfloa
 //Draws a line
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawLine(PhVector2d v1, PhVector2d v2, float depth, PhColor a, PhColor b)
+void PhRenderSystem::drawLine(const PhVector2d& v1, const PhVector2d& v2, const float& depth, const PhColor& a, const PhColor& b)
 {
 
     //load the idenity
@@ -465,7 +465,7 @@ void PhRenderSystem::drawLine(PhVector2d v1, PhVector2d v2, float depth, PhColor
 //Draws a line
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawRay(PhVector2d origin, PhVector2d ray, float depth, PhColor a, PhColor b)
+void PhRenderSystem::drawRay(const PhVector2d& origin, const PhVector2d& ray, const float& depth, const PhColor& a, const PhColor& b)
 {
 
     //load the idenity
@@ -497,7 +497,7 @@ void PhRenderSystem::drawRay(PhVector2d origin, PhVector2d ray, float depth, PhC
 //Draws a rectangle
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawRectangle( PhRect r, float depth, PhColor a, PhColor b, PhColor c, PhColor d )
+void PhRenderSystem::drawRectangle( const PhRect& r, const float& depth, const PhColor& a, const PhColor& b, const PhColor& c, const PhColor& d )
 {
     //load the idenity
     glMatrixMode(GL_MODELVIEW);
@@ -537,7 +537,7 @@ void PhRenderSystem::drawRectangle( PhRect r, float depth, PhColor a, PhColor b,
 //Draws a polygon
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
+void PhRenderSystem::drawPolygon (const PhPolygon& P, const float& depth, const PhColor& a)
 {
 
     //load the idenity
@@ -600,7 +600,7 @@ void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
 //Draws a polygon
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth, PhColor a, bool eyespace)
+void PhRenderSystem::drawTexturedPolygon (const PhPolygon& P, PhTexture* texture, const float& depth, const PhColor& a, const bool& eyespace)
 {
 
     //load the idenity
@@ -688,7 +688,7 @@ void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float
 //Renders a Texture
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float depth, float rot, PhVector2d scale, PhColor color, bool hflip, bool vflip)
+void PhRenderSystem::drawTexture(  PhTexture* source, const PhVector2d& pos, const float& depth, const float& rot, const PhVector2d& scale, const PhColor& color, const bool& hflip, const bool& vflip)
 {
 
     glMatrixMode(GL_MODELVIEW);
@@ -753,7 +753,7 @@ void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float dept
 }
 
 //this draws a texture with a clipping rectangle
-void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth, float rot, PhVector2d scale, PhColor color, bool hflip, bool vflip)
+void PhRenderSystem::drawTexturePart( PhTexture* source, const PhVector2d& pos, const PhRect& rect, const float& depth, const float& rot, const PhVector2d& scale, const PhColor& color, const bool& hflip, const bool& vflip)
 {
     //now for texture manipulations
     glMatrixMode(GL_TEXTURE);
@@ -843,7 +843,7 @@ PhTexture* PhRenderSystem::getFont() const
 //Draw text on the screen
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawText( std::string text, PhVector2d pos, PhColor color, float depth)
+void PhRenderSystem::drawText( const std::string& text, const PhVector2d& pos, const PhColor& color, const float& depth)
 {
 
 
@@ -953,7 +953,7 @@ PhVertexLightSystem* PhRenderSystem::getVertexLightSystem() const
 //sets blending mode
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::setBlendMode(GLenum src, GLenum dst){
+void PhRenderSystem::setBlendMode(const GLenum& src, const GLenum& dst){
     glBlendFunc(src,dst);
 }
 
