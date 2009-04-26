@@ -25,6 +25,8 @@ THE SOFTWARE.
 #ifndef PHOENIXRECT
 #define PHOENIXRECT
 
+#include "PhPolygon.h"
+
 namespace phoenix
 {
 
@@ -54,7 +56,13 @@ namespace phoenix
             \param c Width
             \param d Height
         */
-        PhRect(float a, float b, float c, float d);
+        PhRect(const float& a, const float& b, const float& c, const float& d);
+
+        //! Implicit conversion from PhPolygon
+        /*!
+			Makes this rectangle a bounding box of the given polygon.
+        */
+        PhRect(const PhPolygon& other);
 
         //! Set.
         /*!
@@ -64,33 +72,33 @@ namespace phoenix
             \param c Width
             \param d Height
         */
-        void set (float a, float b, float c, float d);
+        void set (const float& a, const float& b, const float& c, const float& d);
 
         //! Get X.
-        float getX();
+        const float& getX() const;
 
         //! Get Y.
-        float getY();
+        const float& getY() const;
 
         //! Get Height.
-        float getHeight();
+        const float& getHeight() const;
 
         //! Get Width.
-        float getWidth();
+        const float& getWidth() const;
 
         //! Set X.
-        void setX(float a);
+        void setX(const float& a);
 
         //! Set Y.
-        void setY(float b);
+        void setY(const float& b);
 
         //! Set Height.
-        void setHeight(float c);
+        void setHeight(const float& c);
 
         //! Set Width.
-        void setWidth(float d);
+        void setWidth(const float& d);
 
-        PhRect operator= (PhRect other);
+        const PhRect& operator= (const PhRect& other);
 
     };
 

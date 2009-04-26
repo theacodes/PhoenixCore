@@ -35,12 +35,37 @@ PhRect::PhRect()
 {
 }
 
-PhRect::PhRect(float a, float b, float c, float d)
+PhRect::PhRect(const float& a, const float& b, const float& c, const float& d)
 	: x(a), y(b), w(c), h(d)
 {
 }
 
-void PhRect::set (float a, float b, float c, float d)
+PhRect::PhRect( const PhPolygon& other )
+{
+	if( other.getVertexCount() >= 3 )
+	{
+		float minx=INFINITY,miny=INFINITY,maxx=-INFINITY,maxy=-INFINITY;
+
+		for(unsigned int i = 0; i < other.getVertexCount(); ++i)
+		{
+			PhVector2d vertex = other.getPosition() + other.getVertex(i);
+			if( vertex.getX() < minx ) minx = vertex.getX();
+			if( vertex.getY() < miny ) miny = vertex.getY();
+			if( vertex.getX() > maxx ) maxx = vertex.getX();
+			if( vertex.getY() > maxy ) maxy = vertex.getY();
+		}
+		x = minx;
+		y = miny;
+		w = maxx - minx;
+		h = maxy - miny;
+	}
+	else
+	{
+		*this = PhRect();
+	}
+}
+
+void PhRect::set (const float& a, const float& b, const float& c, const float& d)
 {
     x=a;
     y=b;
@@ -52,47 +77,47 @@ void PhRect::set (float a, float b, float c, float d)
 // get and set methods
 ////////////////////////////////////////////////////////////////////////////////
 
-float PhRect::getX()
+const float& PhRect::getX() const
 {
     return x;
 }
 
-float PhRect::getY()
+const float& PhRect::getY() const
 {
     return y;
 }
 
-float PhRect::getHeight()
+const float& PhRect::getHeight() const
 {
     return h;
 }
 
-float PhRect::getWidth()
+const float& PhRect::getWidth() const
 {
     return w;
 }
 
-void PhRect::setX(float a)
+void PhRect::setX(const float& a)
 {
     x=a;
 }
 
-void PhRect::setY(float b)
+void PhRect::setY(const float& b)
 {
     y=b;
 }
 
-void PhRect::setHeight(float c)
+void PhRect::setHeight(const float& c)
 {
     h=c;
 }
 
-void PhRect::setWidth(float d)
+void PhRect::setWidth(const float& d)
 {
     w=d;
 }
 
-PhRect PhRect::operator= (const PhRect other)
+const PhRect& PhRect::operator= (const PhRect& other)
 {
     x = other.x;
     y = other.y;

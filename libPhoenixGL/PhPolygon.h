@@ -35,6 +35,10 @@ THE SOFTWARE.
 
 namespace phoenix
 {
+
+	//forward dcel of PhRect
+	class PhRect;
+
     //! Polygon class.
     /*!
         This class represents polygons for drawing and collision detection.
@@ -63,6 +67,12 @@ namespace phoenix
             \param a Vector representing the center (position) of the polygon.
         */
         PhPolygon(const PhVector2d& a);
+
+        //! Implict conversion from PhRect
+        /*!
+			This constructor makes a polygon from the given rectangle.
+        */
+        PhPolygon(const PhRect& other);
 
         //! Destructor.
         ~PhPolygon();
@@ -116,7 +126,7 @@ namespace phoenix
         /*!
             \return The current number of vertices in the polygon.
         */
-        const int getVertexCount() const;
+        const unsigned int getVertexCount() const;
 
         //! Get vertex.
         /*!
@@ -174,5 +184,7 @@ namespace phoenix
     };
 
 }
+
+#include "PhRect.h"
 
 #endif

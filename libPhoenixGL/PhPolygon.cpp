@@ -38,6 +38,15 @@ PhPolygon::PhPolygon(const PhVector2d& a)
 	verts.clear();
 }
 
+PhPolygon::PhPolygon(const PhRect& other)
+{
+	pos = PhVector2d(other.getX()+(other.getWidth()/2.0f), other.getY()+(other.getHeight()/2.0f));
+	addPoint( PhVector2d( other.getX(), other.getY() ));
+	addPoint( PhVector2d( other.getX() + other.getWidth(), other.getY() ));
+	addPoint( PhVector2d( other.getX() + other.getWidth(), other.getY()+other.getHeight() ));
+	addPoint( PhVector2d( other.getX(), other.getY()+other.getHeight() ));
+}
+
 PhPolygon::~PhPolygon()
 {
     verts.clear();
@@ -94,7 +103,7 @@ void PhPolygon::addPoint(const PhVector2d& a)
 
 }
 
-const int PhPolygon::getVertexCount() const
+const unsigned int PhPolygon::getVertexCount() const
 {
     return verts.size();
 }
