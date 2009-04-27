@@ -16,7 +16,7 @@ PhRotationMatrix::PhRotationMatrix()
 /*
     Element based construct.
 */
-PhRotationMatrix::PhRotationMatrix(float a, float b, float c, float d)
+PhRotationMatrix::PhRotationMatrix( const float& a, const float& b, const float& c, const float& d)
 {
     Elements[0] = a;
     Elements[1] = b;
@@ -27,7 +27,7 @@ PhRotationMatrix::PhRotationMatrix(float a, float b, float c, float d)
 /*
     Angle based construct
 */
-PhRotationMatrix::PhRotationMatrix( float a )
+PhRotationMatrix::PhRotationMatrix( const float& a )
 {
     float c = cos(a);
     float s = sin(a);
@@ -38,42 +38,11 @@ PhRotationMatrix::PhRotationMatrix( float a )
 }
 
 /*
-    Construct from other
-*/
-PhRotationMatrix::PhRotationMatrix(const PhRotationMatrix& other)
-{
-    (*this) = other;
-}
-
-/*
     Dtor
 */
 PhRotationMatrix::~PhRotationMatrix()
 {
     //dtor
-}
-
-void PhRotationMatrix::setRotation(const float& rad)
-{
-    (*this) = PhRotationMatrix(rad);
-}
-
-const float PhRotationMatrix::getRotation() const
-{
-    return acos(Elements[0]);
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////
-//ACCESS OPERATORS
-//////////////////////////////////////////////////////////////////////////////////
-
-/*
-    Element based acces
-*/
-float& PhRotationMatrix::operator[](const int& x)
-{
-    return Elements[x];
 }
 
 //////////////////////////////////////////////////////////////////////////////////

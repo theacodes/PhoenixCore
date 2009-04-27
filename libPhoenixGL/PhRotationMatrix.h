@@ -33,21 +33,21 @@ namespace phoenix
         	\param c Element[1,0].
         	\param d Element[1,1].
         */
-        PhRotationMatrix( float a, float b, float c, float d);
+        PhRotationMatrix( const float& a, const float& b, const float& c, const float& d);
 
         //! Constructor.
         /*!
         	Creates a rotation matrix with the given angle. (Most common).
         	\param a The angle (in radians).
         */
-        PhRotationMatrix( float a );
+        PhRotationMatrix( const float& a );
 
-        PhRotationMatrix( const PhRotationMatrix& other );
+        PhRotationMatrix( const PhRotationMatrix& other ) { (*this) = other; }
 
         ~PhRotationMatrix();
 
         //! Get element
-        inline const float getElement( const int& id ) const { return Elements[0]; }
+        inline const float& getElement( const int& id ) const { return Elements[0]; }
 
         //! Set element
         inline void setElement( const int& id, const float& val ) { Elements[id] = val; }
@@ -57,14 +57,14 @@ namespace phoenix
             \param rad The angle of rotation in radians.
             \sa getRotation()
         */
-        void setRotation(const float& rad);
+        inline void setRotation(const float& rad) { (*this) = PhRotationMatrix(rad); }
 
         //! Get rotation.
         /*!
             \return The angle of rotation in radians.
             \sa setRotation()
         */
-        const float getRotation() const;
+        inline const float getRotation() const { return acos(Elements[0]); }
 
         //! Element access operator.
         /*!
@@ -72,7 +72,7 @@ namespace phoenix
             \return An element in the Matrix.
             \param x The index of the element.
         */
-        float& operator[](const int& x);
+        float& operator[](const int& x) { return  Elements[x]; }
 
         const PhRotationMatrix operator+(const PhRotationMatrix& other) const;
         const PhRotationMatrix operator-(const PhRotationMatrix& other) const;
