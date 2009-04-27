@@ -16,16 +16,10 @@ PhRenderTexture::~PhRenderTexture()
     delete texture;
 }
 
-void PhRenderTexture::setTexture(PhTexture* t)
-{
-    texture = t;
-}
-
-PhTexture* PhRenderTexture::getTexture()
-{
-    return texture;
-}
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/* Start Render
+	Clears the viewport and gets ready to render.
+*/
 void PhRenderTexture::startRender()
 {
 
@@ -39,6 +33,12 @@ void PhRenderTexture::startRender()
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 }
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/* End Render
+	Copies the backbuffer to the texture.
+	Then clears the screen and restores the viewport.
+*/
 void PhRenderTexture::endRender()
 {
 
@@ -53,7 +53,6 @@ void PhRenderTexture::endRender()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // restore the viewport.
-
     glViewport(0,0,system->getScreenSize().getX(),system->getScreenSize().getY());
 
 }

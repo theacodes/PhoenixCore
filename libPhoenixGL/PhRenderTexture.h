@@ -39,13 +39,13 @@ namespace phoenix
             Sets the texture that things are rendered to.
             \param t A pointer to the new target texture.
         */
-        void setTexture(PhTexture* t);
+        inline void setTexture(PhTexture* t) { texture = t; }
 
         //! Get texture.
         /*!
             \return A pointer to the texture object.
         */
-        PhTexture* getTexture();
+        inline PhTexture* getTexture() const { return texture; }
 
         //! Start render.
         /*!
