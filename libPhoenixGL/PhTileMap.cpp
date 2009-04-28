@@ -41,7 +41,7 @@ void PhTileMap::allocateTiles()
 ////////////////////////////////////////////////////////////////////////////////
 
 PhTileMap::PhTileMap(PhSceneManager* sc , PhVector2d s, PhVector2d ts /*tilesize*/, PhTexture* t /*texture*/, float d /*DEPTH*/)
-	:  PhSceneNode(sc,d), tilesize(ts), tilemapsize(s), texture(t)
+        :  PhSceneNode(sc,d), tilesize(ts), tilemapsize(s), texture(t)
 {
     allocateTiles();
 }
@@ -53,109 +53,6 @@ PhTileMap::PhTileMap(PhSceneManager* sc , PhVector2d s, PhVector2d ts /*tilesize
 PhTileMap::~PhTileMap()
 {
     map.clear(); //clear the map
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//setTile function that accesses the tiles as a one-dimensional array
-//sets tile x to value t
-////////////////////////////////////////////////////////////////////////////////
-
-void PhTileMap::setTile(int x, int t)
-{
-    if (x < tilemapsize.getX() * tilemapsize.getY())
-    {
-        map[x] = t;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//setTile function that accesses the tiles as a two-dimensional array
-//sets tile pos(x,y) to value t
-////////////////////////////////////////////////////////////////////////////////
-
-void PhTileMap::setTile(PhVector2d pos, int t)
-{
-    if (pos.getX() < tilemapsize.getX() && pos.getY() < tilemapsize.getY())
-    {
-        map[int ( (pos.getY()*tilemapsize.getX())+pos.getX() )] = t;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//getTile function that accesses the tiles as a one-dimensional array
-//returns tile x
-////////////////////////////////////////////////////////////////////////////////
-
-int PhTileMap::getTile(int x)
-{
-    if (x < tilemapsize.getX() * tilemapsize.getY())
-    {
-        return map[x];
-    }
-    else
-    {
-        return -1;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//getTile function that accesses the tiles as a two-dimensional array
-//returns tile pos(x,y)
-////////////////////////////////////////////////////////////////////////////////
-
-int PhTileMap::getTile(PhVector2d pos)
-{
-    if (pos.getX() < tilemapsize.getX() && pos.getY() < tilemapsize.getY())
-    {
-        return map[int ( (pos.getY()*tilemapsize.getX())+pos.getX() )];
-    }
-    else
-    {
-        return -1;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//sets and gets the tilemap size, pretty self explainitory
-////////////////////////////////////////////////////////////////////////////////
-
-void PhTileMap::setMapSize(PhVector2d s)
-{
-    tilemapsize = s;
-    allocateTiles(); //we need to make (or reduce) room for the new tiles, so allocate
-}
-
-PhVector2d PhTileMap::getMapSize()
-{
-    return tilemapsize;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//set and get tile size, also easily understood
-////////////////////////////////////////////////////////////////////////////////
-
-void PhTileMap::setTileSize(PhVector2d s)
-{
-    tilesize = s;
-}
-
-PhVector2d PhTileMap::getTileSize()
-{
-    return tilesize;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//set and get the texture, simple.
-////////////////////////////////////////////////////////////////////////////////
-
-void PhTileMap::setTexture(PhTexture* t)
-{
-    texture = t;
-}
-
-PhTexture* PhTileMap::getTexture()
-{
-    return texture;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -252,14 +149,11 @@ void PhTileMap::onPreRender()
 
 void PhTileMap::onRender()
 {
-
-    for (int i = 0; i < tilemapsize.getY(); i++) //step through each tile
+    if (texture)
     {
-
-        for (int j =0; j <tilemapsize.getX(); j++)
+        for (int i = 0; i < tilemapsize.getY(); i++) //step through each tile
         {
-
-            if (texture)
+            for (int j =0; j <tilemapsize.getX(); j++)
             {
 
                 int x = int(getTile(PhVector2d(j,i)) * tilesize.getX());

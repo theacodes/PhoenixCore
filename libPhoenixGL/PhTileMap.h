@@ -47,7 +47,7 @@ namespace phoenix
     protected:
 
         //! Stores the values of the tiles.
-        vector<char> map;
+        vector<unsigned int> map;
 
         //! Stores the size of each tile (in pixels).
         PhVector2d tilesize;
@@ -84,7 +84,13 @@ namespace phoenix
             \param t New value of the tile.
             \sa getTile()
         */
-        void setTile(int x, int t);
+        inline void setTile(const unsigned int& x, const unsigned int& t)
+        {
+			if (x < tilemapsize.getX() * tilemapsize.getY())
+			{
+				map[x] = t;
+			}
+        }
 
         //! Set tile (2D).
         /*!
@@ -93,7 +99,13 @@ namespace phoenix
             \param t The new value of the tile.
             \sa getTile()
         */
-        void setTile(PhVector2d pos, int t);
+        inline void setTile( const PhVector2d& pos, const unsigned int& t)
+        {
+			if (pos.getX() < tilemapsize.getX() && pos.getY() < tilemapsize.getY())
+			{
+				map[int ( (pos.getY()*tilemapsize.getX())+pos.getX() )] = t;
+			}
+        }
 
         //! Get tile (1D)
         /*!
@@ -101,7 +113,14 @@ namespace phoenix
             \return The value of the tile at index X.
             \sa setTile()
         */
-        int getTile(int x);
+        inline const unsigned int& getTile( const unsigned int& x) const
+        {
+			if (x < tilemapsize.getX() * tilemapsize.getY())
+			{
+				return map[x];
+			}
+			return map[0];
+        }
 
         //! Get tile (2D)
         /*!
@@ -109,49 +128,53 @@ namespace phoenix
             \return The value of the tile at the given position.
             \sa setTile()
         */
-        int getTile(PhVector2d pos);
+        inline const unsigned int& getTile(const PhVector2d& pos) const { return getTile( (unsigned int)( (pos.getY()*tilemapsize.getX())+pos.getX() ) ); }
 
         //! Set map size.
         /*!
             \param s The new size of the map, in tiles.
             \sa getMapSize()
         */
-        void setMapSize(PhVector2d s);
+        inline void setMapSize(const PhVector2d& s)
+        {
+        	tilemapsize = s;
+        	allocateTiles();
+        }
 
         //! Get map size.
         /*!
             \return The size of the map, in tiles.
             \sa setMapSize()
         */
-        PhVector2d getMapSize();
+        inline const PhVector2d& getMapSize() const { return tilemapsize; }
 
         //! Set tile size.
         /*!
             \param s The new size of the tiles, in pixels.
             \sa getTileSize()
         */
-        void setTileSize(PhVector2d s);
+        inline void setTileSize(const PhVector2d& s) { tilesize = s; }
 
         //! Get tile size.
         /*!
             \return The size of the tiles, in pixels.
             \sa setTileSize()
         */
-        PhVector2d getTileSize();
+        inline const PhVector2d& getTileSize() const { return tilesize; }
 
         //! Set texture.
         /*!
             \param t The new tile sheet texture.
             \sa getTexture()
         */
-        void setTexture(PhTexture* t);
+        inline void setTexture(PhTexture* t) { texture = t; }
 
         //! Get texture.
         /*!
             \return The tile sheet texture.
             \sa setTexture()
         */
-        PhTexture* getTexture();
+        inline PhTexture* getTexture() const { return texture; }
 
         //! Save map.
         /*!
