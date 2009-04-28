@@ -35,6 +35,7 @@ void PhVertexLightSystem::clearLights()
         if (lights[i]!=NULL)
         {
             delete lights[i];
+            i--;
         }
     }
     lights.clear();

@@ -77,7 +77,7 @@ void PhLogManager::addLog(PhLog* log)
 */
 void PhLogManager::removeLog(PhLog* log)
 {
-	for (unsigned int i = 0; i < mLogList.size(); i++)
+	for (unsigned int i = 0; i < mLogList.size(); ++i)
 	{
 		if (mLogList[i] == log)
 		{
@@ -92,11 +92,12 @@ void PhLogManager::removeLog(PhLog* log)
 */
 void PhLogManager::deleteLogs()
 {
-	for (unsigned int i = 0; i < mLogList.size(); i++)
+	for (unsigned int i = 0; i < mLogList.size(); ++i)
 	{
 		if (mLogList[i] != NULL)
 		{
 			delete mLogList[i];
+			--i;
 		}
 	}
 
@@ -109,7 +110,7 @@ void PhLogManager::deleteLogs()
 */
 PhLog* PhLogManager::findLog(string n)
 {
-	for (unsigned int i = 0; i < mLogList.size(); i++)
+	for (unsigned int i = 0; i < mLogList.size(); ++i)
 	{
 		if ((mLogList[i] != NULL) && (mLogList[i]->getName() == n))
 		{

@@ -46,14 +46,12 @@ PhSceneManager::~PhSceneManager()
         if(nodes[i]!=NULL)
         {
             delete nodes[i];
+            --i;
         }
     }
-    //nodes.clear();
-    //rendernodes.clear();
 
     delete lmgr;
     delete defview;
-    //if( colhandle != NULL ) delete colhandle;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

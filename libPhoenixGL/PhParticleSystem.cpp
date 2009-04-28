@@ -50,6 +50,7 @@ void PhParticleSystem::removeParticle(PhParticle* p)
         if (particles[i] == p)
         {
             particles.erase(particles.begin()+i,particles.begin()+i+1);
+            break;
         }
     }
 }
@@ -70,6 +71,7 @@ void PhParticleSystem::removeEmitter(PhEmitter* e)
         if (emitters[i] == e)
         {
             emitters.erase(emitters.begin()+i,emitters.begin()+i+1);
+            break;
         }
     }
 }
@@ -90,6 +92,7 @@ void PhParticleSystem::removeEffector(PhEffector* f)
         if (effectors[i] == f)
         {
             effectors.erase(effectors.begin()+i,effectors.begin()+i+1);
+            break;
         }
     }
 }
@@ -101,27 +104,30 @@ void PhParticleSystem::removeEffector(PhEffector* f)
 */
 void PhParticleSystem::deleteParticles()
 {
-    for (unsigned int i = 0; i < particles.size(); i++)
+    for (unsigned int i = 0; i < particles.size(); ++i)
     {
         delete particles[i];
+        --i;
     }
     particles.clear();
 }
 
 void PhParticleSystem::deleteEmitters()
 {
-    for (unsigned int i = 0; i < emitters.size(); i++)
+    for (unsigned int i = 0; i < emitters.size(); ++i)
     {
         delete emitters[i];
+        --i;
     }
     emitters.clear();
 }
 
 void PhParticleSystem::deleteEffectors()
 {
-    for (unsigned int i = 0; i < effectors.size(); i++)
+    for (unsigned int i = 0; i < effectors.size(); ++i)
     {
         delete effectors[i];
+        --i;
     }
     effectors.clear();
 }
@@ -136,7 +142,7 @@ void PhParticleSystem::deleteEffectors()
 void PhParticleSystem::onPreRender()
 {
 
-    for (unsigned int i = 0; i < effectors.size(); i++)
+    for (unsigned int i = 0; i < effectors.size(); ++i)
     {
         (effectors[i])->preStep();
     }
@@ -151,7 +157,7 @@ void PhParticleSystem::onPreRender()
 */
 void PhParticleSystem::onRender()
 {
-    for (unsigned int i = 0; i < particles.size(); i++)
+    for (unsigned int i = 0; i < particles.size(); ++i)
     {
         (particles[i])->draw();
     }
@@ -164,11 +170,11 @@ void PhParticleSystem::onRender()
 */
 void PhParticleSystem::onPostRender()
 {
-    for (unsigned int i = 0; i < emitters.size(); i++)
+    for (unsigned int i = 0; i < emitters.size(); ++i)
     {
         (emitters[i])->step();
     }
-    for (unsigned int i = 0; i < effectors.size(); i++)
+    for (unsigned int i = 0; i < effectors.size(); ++i)
     {
         (effectors[i])->step();
     }

@@ -40,7 +40,7 @@ void PhLightManager::addLight(PhLight* l)
 */
 void PhLightManager::removeLight(PhLight* l)
 {
-    for (unsigned int i = 0; i < lights.size(); i++)
+    for (unsigned int i = 0; i < lights.size(); ++i)
     {
         if (lights[i] == l)
         {
@@ -56,11 +56,12 @@ void PhLightManager::removeLight(PhLight* l)
 */
 void PhLightManager::clearLights()
 {
-    for (unsigned int i = 0; i < lights.size(); i++)
+    for (unsigned int i = 0; i < lights.size(); ++i)
     {
         if (lights[i]!=NULL)
         {
             delete lights[i];
+            --i;
         }
     }
     lights.clear();
