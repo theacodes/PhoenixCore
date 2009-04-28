@@ -21,6 +21,7 @@ PhLightManager::PhLightManager(PhSceneManager* s, PhVector2d ts) :
 */
 PhLightManager::~PhLightManager()
 {
+	if( rtexture!=NULL ) delete rtexture;
     clearLights();
 }
 

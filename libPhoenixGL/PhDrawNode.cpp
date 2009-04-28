@@ -32,10 +32,9 @@ using namespace phoenix;
 ////////////////////////////////////////////////////////////////////////////////
 
 PhDrawSceneNode::PhDrawSceneNode(PhSceneManager* s, PhTexture* i, const PhVector2d& p, const bool& c)
-	: PhSceneNode(0), pos(p), image(i), fod(c), smgr(s), system( s->getRenderSystem() )
+	: PhSceneNode(s,0.0f), pos(p), image(i), fod(c)
 {
-    //tell the scenemanager that we exist.
-    smgr->addNode((PhSceneNode*)this);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +47,6 @@ PhDrawSceneNode::~PhDrawSceneNode()
     {
         delete image;
     }
-    smgr->removeNode(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +87,7 @@ PhTexture* PhDrawSceneNode::getTexture() const
 
 void PhDrawSceneNode::onPreRender()
 {
-    smgr->registerForRendering(this);
+    smanager->registerForRendering(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -101,15 +99,6 @@ void PhDrawSceneNode::onRender()
 {
     if(image!=NULL)
     {
-        system->drawTexture(image,pos,depth);
+        smanager->getRenderSystem()->drawTexture(image,pos,depth);
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//PostRender call, this is called after everything is rendered. This should
-//only be called by the scenenmanager.
-////////////////////////////////////////////////////////////////////////////////
-
-void PhDrawSceneNode::onPostRender()
-{
 }

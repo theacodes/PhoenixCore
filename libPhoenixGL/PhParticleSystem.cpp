@@ -10,10 +10,8 @@ using namespace phoenix;
 	it also manages children.
 */
 PhParticleSystem::PhParticleSystem(PhSceneManager* s)
+	: PhSceneNode( s, 0.0f)
 {
-    smgr = s;
-    smgr->addNode((PhSceneNode*)this);
-    depth = 0.0f;
     particles.clear();
     emitters.clear();
     effectors.clear();
@@ -29,7 +27,6 @@ PhParticleSystem::~PhParticleSystem()
     deleteEmitters();
     deleteParticles();
     deleteEffectors();
-    smgr->removeNode(this);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -144,7 +141,7 @@ void PhParticleSystem::onPreRender()
         (effectors[i])->preStep();
     }
 
-    smgr->registerForRendering(this);
+    smanager->registerForRendering(this);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -184,12 +181,7 @@ void PhParticleSystem::onPostRender()
 
 PhRenderSystem* PhParticleSystem::getRenderSystem() const
 {
-    return smgr->getRenderSystem();
-}
-
-PhSceneManager* PhParticleSystem::getSceneManager() const
-{
-    return smgr;
+    return smanager->getRenderSystem();
 }
 
 const int PhParticleSystem::getParticleCount() const

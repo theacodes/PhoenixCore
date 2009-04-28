@@ -38,16 +38,8 @@ using namespace phoenix;
 \param o Texture offset. Default [0,0].
 */
 PhExtendedBackground::PhExtendedBackground(PhSceneManager* s, PhTexture* t, PhColor c, float d, bool xt, bool yt, PhVector2d sp, PhVector2d po, PhVector2d o)
-	: PhSceneNode(d), smgr(s), source(t), color(c), tilex(xt), tiley(yt), position(po), offset(o), speed(sp)
+	: PhSceneNode(s,d), source(t), color(c), tilex(xt), tiley(yt), position(po), offset(o), speed(sp)
 {
-    //register us with the scenemanager
-    smgr->addNode( this );
-
-}
-
-PhExtendedBackground::~PhExtendedBackground()
-{
-    smgr->removeNode( this );
 }
 
 //! Set color function.
@@ -189,7 +181,7 @@ void PhExtendedBackground::onPreRender()
     // Add to our offset.
     offset += speed;
 
-    smgr->registerForRendering(this);
+    smanager->registerForRendering(this);
 
 }
 
@@ -206,15 +198,15 @@ void PhExtendedBackground::onRender()
 
     glPushMatrix();
 
-    glTranslatef(smgr->getView()->getX()+position.getX(),smgr->getView()->getY()+position.getY(),depth);
+    glTranslatef(smanager->getView()->getX()+position.getX(),smanager->getView()->getY()+position.getY(),depth);
 
     glEnable(GL_TEXTURE_2D); //enable textures
 
     source->bindTexture(); //bind the texture.
 
     //get our width and height, and do tests to see if we're tiling.
-    float width = smgr->getRenderSystem()->getScreenSize().getX();
-    float height = smgr->getRenderSystem()->getScreenSize().getY();
+    float width = smanager->getRenderSystem()->getScreenSize().getX();
+    float height = smanager->getRenderSystem()->getScreenSize().getY();
 
     if(!tilex){
         width = (float)source->getWidth();
@@ -249,7 +241,7 @@ void PhExtendedBackground::onRender()
     GLuint indexlist[] = {0,1,3,1,2,3};
 
     //now just tell the engine to draw it
-    smgr->getRenderSystem()->drawIndexedTriangleList(vertices,normals,tcoords,colorarray,indexlist, 2 );
+    smanager->getRenderSystem()->drawIndexedTriangleList(vertices,normals,tcoords,colorarray,indexlist, 2 );
 
     //restore our matricies.
 
@@ -261,10 +253,5 @@ void PhExtendedBackground::onRender()
 
     glPopMatrix();
 
-
-}
-
-void PhExtendedBackground::onPostRender()
-{
 
 }

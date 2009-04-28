@@ -65,7 +65,7 @@ PhTexture::PhTexture(PhTextureManager* t, const int& a, const int& b)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     //clear the data (not needed until the texture is locked agian)
-    delete data;
+    delete [] data;
     data = NULL;
 
 }
@@ -79,7 +79,7 @@ PhTexture::~PhTexture()
 
     if (data!=NULL)
     {
-        delete data;
+        delete [] data;
     }
 
     txtmgr->removeTexture(this);
@@ -208,7 +208,7 @@ void PhTexture::unlockTexture()
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-        delete data;
+        delete [] data;
 
         data = NULL;
 

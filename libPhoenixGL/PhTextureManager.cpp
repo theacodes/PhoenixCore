@@ -73,7 +73,7 @@ void PhTextureManager::removeTexture(PhTexture* texture)
 
 void PhTextureManager::deleteTextures()
 {
-    for (unsigned int i = 0; i < texturelist.size(); i++)
+    for (unsigned int i = 0; i < texturelist.size(); ++i)
     {
         if (texturelist[i]!=NULL)
         {

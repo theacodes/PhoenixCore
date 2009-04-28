@@ -312,9 +312,6 @@ PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool&
         //Return our texture
         return ctext;
 
-        //add it to the texture list to be cleaned up
-        textures->addTexture(ctext);
-
     }
 
     catch(int e)
@@ -328,9 +325,6 @@ PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool&
 
         //Return our texture
         return ctext;
-
-        //add it to the texture list to be cleaned up
-        textures->addTexture(ctext);
 
     }
 
@@ -555,11 +549,11 @@ void PhRenderSystem::drawPolygon (const PhPolygon& P, const float& depth, const 
     int vertexCount = P.getVertexCount();
 
     //make some space for the arrays
-    GLuint* colors = new GLuint[vertexCount];
-    GLuint* indexlist = new GLuint[vertexCount];
-    GLfloat* normals = new GLfloat[vertexCount*3];
-    GLfloat* vertices = new GLfloat[vertexCount*3];
-    GLfloat* tcoords = new GLfloat[vertexCount*2];
+    GLuint colors[vertexCount];
+    GLuint indexlist[vertexCount];
+    GLfloat normals[vertexCount*3];
+    GLfloat vertices[vertexCount*3];
+    GLfloat tcoords[vertexCount*2];
 
     //fill them
     for (int i = 0; i < vertexCount; i ++)
@@ -585,11 +579,6 @@ void PhRenderSystem::drawPolygon (const PhPolygon& P, const float& depth, const 
     drawIndexedTriangleFan(vertices,normals,tcoords,colors,indexlist,vertexCount);
 
     glPopMatrix();
-
-    delete[] colors;
-    delete[] normals;
-    delete[] indexlist;
-    delete[] vertices;
 
     // enable texturing
     glEnable(GL_TEXTURE_2D);
@@ -642,11 +631,11 @@ void PhRenderSystem::drawTexturedPolygon (const PhPolygon& P, PhTexture* texture
     int vertexCount = P.getVertexCount();
 
     //make some space for the arrays
-    GLuint* colors = new GLuint[vertexCount];
-    GLuint* indexlist = new GLuint[vertexCount];
-    GLfloat* normals = new GLfloat[vertexCount*3];
-    GLfloat* vertices = new GLfloat[vertexCount*3];
-    GLfloat* tcoords = new GLfloat[vertexCount*2];
+    GLuint colors[vertexCount];
+    GLuint indexlist[vertexCount];
+    GLfloat normals[vertexCount*3];
+    GLfloat vertices[vertexCount*3];
+    GLfloat tcoords[vertexCount*2];
 
     //fill them
     for (int i = 0; i < vertexCount; i ++)
@@ -675,11 +664,6 @@ void PhRenderSystem::drawTexturedPolygon (const PhPolygon& P, PhTexture* texture
 
     glDisable(GL_TEXTURE_GEN_S);
 	glDisable(GL_TEXTURE_GEN_T);
-
-    delete[] colors;
-    delete[] normals;
-    delete[] indexlist;
-    delete[] vertices;
 
 }
 

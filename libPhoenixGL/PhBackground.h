@@ -50,13 +50,6 @@ namespace phoenix
         */
         PhColor color;
 
-        //! Scenemager.
-        /*!
-        Pointer to the scenemanger, this is required by all scene nodes.
-        \sa phoenix::PhSceneManager
-        */
-        PhSceneManager* smgr;
-
         //! Texture.
         /*!
         Pointer to the texture to fill the screen with.
@@ -75,12 +68,6 @@ namespace phoenix
         \param d The depth to be drawn at, defaults at -100.0f, but as long as it's behind all objects you should be fine.
         */
         PhBackground(PhSceneManager* s, PhTexture* t, const PhColor& c = PhColor(255,255,255), const float& d = -100.0f);
-
-        //! Destructor.
-        /*!
-        Destructs the node, nothing to see here...
-        */
-        ~PhBackground();
 
         //! Set color function.
         /*!
@@ -125,14 +112,6 @@ namespace phoenix
         \sa phoenix::PhSceneNode::onRender()
         */
         void onRender();
-
-        //! Overloaded onPostRender
-        /*!
-        Blank overload of PhSceneNode::onPostRender(), this class does
-        not need to do anything after it draws.
-        \sa phoenix::PhSceneNode::onPostRender()
-        */
-        void onPostRender();
 
     };
 

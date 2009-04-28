@@ -31,7 +31,7 @@ using namespace phoenix;
 ////////////////////////////////////////////////////////////////////////////////
 
 PhSceneManager::PhSceneManager(PhRenderSystem* s)
-	: system(s), colhandle(NULL), lightenable(false), nodecount(0), rnodecount(0)
+	: system(s), colhandle(NULL), lightenable(false)
 {
     defview = new PhView(system);
     lmgr = new PhLightManager(this);
@@ -41,35 +41,35 @@ PhSceneManager::PhSceneManager(PhRenderSystem* s)
 PhSceneManager::~PhSceneManager()
 {
     //remove all the nodes........
-    for(int i=0;i<nodecount;i++)
+    for(unsigned int i=0;i<nodes.size();++i)
     {
         if(nodes[i]!=NULL)
         {
             delete nodes[i];
         }
     }
-    nodes.clear();
-    rendernodes.clear();
+    //nodes.clear();
+    //rendernodes.clear();
+
+    delete lmgr;
+    delete defview;
+    //if( colhandle != NULL ) delete colhandle;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//Returns a pointer to the rendersystem
+// Sort function
 ////////////////////////////////////////////////////////////////////////////////
 
-PhRenderSystem* PhSceneManager::getRenderSystem()
+bool PhSceneManager::depthSort(PhSceneNode* a, PhSceneNode* b)
 {
-    return system;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//This adds a scenenode to the list, only a scenenode should call this during
-//construction
-////////////////////////////////////////////////////////////////////////////////
-
-void PhSceneManager::addNode(PhSceneNode* ptr)
-{
-    nodes.push_back(ptr);
-    nodecount+=1;
+	if ( a->getDepth() < b->getDepth() )
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,26 +79,14 @@ void PhSceneManager::addNode(PhSceneNode* ptr)
 
 void PhSceneManager::removeNode(PhSceneNode* ptr)
 {
-    for(int i=0;i<nodecount;i++)
+    for(unsigned int i=0;i<nodes.size();++i)
     {
         if(nodes[i]==ptr)
         {
             nodes.erase(nodes.begin()+i);
-            nodecount-=1;
             break;
         }
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//This registers a scenenode to have onRender() called. The node is depth
-//sorted according to what itss getDepth() function returns
-////////////////////////////////////////////////////////////////////////////////
-
-void PhSceneManager::registerForRendering(PhSceneNode* ptr)
-{
-    rendernodes.push_back(ptr);
-    rnodecount+=1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +106,7 @@ void PhSceneManager::drawAll()
     if(lightenable) lmgr->generateBuffer();
 
     //prerender
-    for(int i=0;i<nodecount;i++)
+    for(unsigned int i=0;i<nodes.size();++i)
     {
         if(nodes[i]!=NULL)
         {
@@ -138,7 +126,7 @@ void PhSceneManager::drawAll()
     }
 
     //render
-    for(int i=0;i<rnodecount;i++)
+    for(unsigned int i=0;i<rendernodes.size();++i)
     {
         if(rendernodes[i]!=NULL)
         {
@@ -150,7 +138,7 @@ void PhSceneManager::drawAll()
     if(lightenable) lmgr->renderBuffer();
 
     //postrender
-    for(int i=0;i<nodecount;i++)
+    for(unsigned int i=0;i<nodes.size();++i)
     {
         if(nodes[i]!=NULL)
         {
@@ -160,63 +148,4 @@ void PhSceneManager::drawAll()
 
     //clear stuff
     rendernodes.clear();
-    rnodecount=0;
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Get and set collision handler, if it isn't null, then collisions are tested
-// after PreRender() and before Render()
-////////////////////////////////////////////////////////////////////////////////
-
-PhPolygonCollisionHandler* PhSceneManager::getCollisionHandler() {
-    return colhandle;
-}
-
-void PhSceneManager::setCollisionHandler(PhPolygonCollisionHandler* a){
-    colhandle = a;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// View management functions, should be self-explainitory
-////////////////////////////////////////////////////////////////////////////////
-
-PhView* PhSceneManager::getView()
-{
-    return defview;
-}
-
-void PhSceneManager::setView(PhView* a)
-{
-    defview = a;
-}
-
-void PhSceneManager::setView(int x, int y)
-{
-    defview->setX((float)x);
-    defview->setY((float)y);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Light related functions
-////////////////////////////////////////////////////////////////////////////////
-
-PhLightManager* PhSceneManager::getLightManager()
-{
-    return lmgr;
-}
-
-void PhSceneManager::setLightManager(PhLightManager* l)
-{
-    lmgr = l;
-}
-
-void PhSceneManager::enableLighting()
-{
-    lightenable = true;
-}
-
-void PhSceneManager::disableLighting()
-{
-    lightenable = false;
 }

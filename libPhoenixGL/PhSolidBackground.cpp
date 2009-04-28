@@ -27,14 +27,8 @@ THE SOFTWARE.
 using namespace phoenix;
 
 PhSolidBackground::PhSolidBackground(PhSceneManager* s, PhColor c, float d)
-	: PhSceneNode(d), color(c), smgr(s)
+	: PhSceneNode(s,d), color(c)
 {
-    smgr->addNode((PhSceneNode*)this);
-}
-
-PhSolidBackground::~PhSolidBackground()
-{
-    smgr->removeNode(this);
 }
 
 void PhSolidBackground::setColor(PhColor c)
@@ -49,12 +43,10 @@ PhColor PhSolidBackground::getColor()
 
 void PhSolidBackground::onPreRender()
 {
-    smgr->registerForRendering(this);
+    smanager->registerForRendering(this);
 }
 
 void PhSolidBackground::onRender()
 {
-    smgr->getRenderSystem()->drawRectangle( PhRect( smgr->getView()->getX(), smgr->getView()->getY(), smgr->getRenderSystem()->getScreenSize().getX(), smgr->getRenderSystem()->getScreenSize().getY()), depth, color, color, color, color);
+    smanager->getRenderSystem()->drawRectangle( PhRect( smanager->getView()->getX(), smanager->getView()->getY(), smanager->getRenderSystem()->getScreenSize().getX(), smanager->getRenderSystem()->getScreenSize().getY()), depth, color, color, color, color);
 }
-
-void PhSolidBackground::onPostRender(){}

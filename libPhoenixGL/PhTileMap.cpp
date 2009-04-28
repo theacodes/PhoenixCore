@@ -41,10 +41,9 @@ void PhTileMap::allocateTiles()
 ////////////////////////////////////////////////////////////////////////////////
 
 PhTileMap::PhTileMap(PhSceneManager* sc , PhVector2d s, PhVector2d ts /*tilesize*/, PhTexture* t /*texture*/, float d /*DEPTH*/)
-	:  PhSceneNode(d), tilesize(ts), tilemapsize(s), texture(t), smgr(sc)
+	:  PhSceneNode(sc,d), tilesize(ts), tilemapsize(s), texture(t)
 {
     allocateTiles();
-    smgr->addNode((PhSceneNode*)this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +53,6 @@ PhTileMap::PhTileMap(PhSceneManager* sc , PhVector2d s, PhVector2d ts /*tilesize
 PhTileMap::~PhTileMap()
 {
     map.clear(); //clear the map
-    smgr->removeNode(this); //remove us from the scenegraph
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -249,7 +247,7 @@ void PhTileMap::saveMap(string f)
 
 void PhTileMap::onPreRender()
 {
-    smgr->registerForRendering(this); //register us for rendering
+    smanager->registerForRendering(this); //register us for rendering
 };
 
 void PhTileMap::onRender()
@@ -273,7 +271,7 @@ void PhTileMap::onRender()
                     int(tilesize.getX()),
                     int(tilesize.getY()));
 
-                smgr->getRenderSystem()->drawTexturePart( texture, PhVector2d(j*tilesize.getX(),i*tilesize.getY()), clip, depth, 0.0f, PhVector2d(1.0f,1.0f), PhColor(255,255,255), false );
+                smanager->getRenderSystem()->drawTexturePart( texture, PhVector2d(j*tilesize.getX(),i*tilesize.getY()), clip, depth, 0.0f, PhVector2d(1.0f,1.0f), PhColor(255,255,255), false );
 
             }
         }

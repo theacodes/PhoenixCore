@@ -43,9 +43,6 @@ namespace phoenix
         //! Color of the background.
         PhColor color;
 
-        //! Pointer to the scenemanager.
-        PhSceneManager* smgr;
-
     public:
 
         //! Constructor.
@@ -56,9 +53,6 @@ namespace phoenix
             \param d The depth of the background, default -100.0f
         */
         PhSolidBackground(PhSceneManager* s, PhColor c = PhColor(255,255,255), float d = -100.0f);
-
-        //! Destructor.
-        ~PhSolidBackground();
 
         //! Set color.
         /*!
@@ -79,9 +73,6 @@ namespace phoenix
 
         //! Overloaded render
         void onRender();
-
-        //! Overloaded postrender
-        void onPostRender();
 
     };
 

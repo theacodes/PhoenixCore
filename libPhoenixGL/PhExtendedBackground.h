@@ -58,8 +58,6 @@ namespace phoenix
         */
         PhExtendedBackground(PhSceneManager* s, PhTexture* t, PhColor c = PhColor(255,255,255,255), float d = -100.0f, bool xt = true, bool yt = true, PhVector2d sp = PhVector2d(0.0f,0.0f), PhVector2d po = PhVector2d(0.0f,0.0f) , PhVector2d o = PhVector2d(0.0f,0.0f) );
 
-        virtual ~PhExtendedBackground();
-
         //! Set color function.
         /*!
         Sets the color used to colorize the texture.
@@ -161,11 +159,8 @@ namespace phoenix
 
         void onRender();
 
-        void onPostRender();
-
     protected:
 
-        PhSceneManager* smgr;
         PhTexture* source;
         PhColor color;
         bool tilex, tiley;

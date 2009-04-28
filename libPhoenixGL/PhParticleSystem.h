@@ -31,7 +31,7 @@ namespace phoenix
         PhParticleSystem(PhSceneManager* s);
 
         //! Destructor
-        virtual ~PhParticleSystem();
+        ~PhParticleSystem();
 
         //! Add particle
         /*!
@@ -130,13 +130,6 @@ namespace phoenix
         */
         PhRenderSystem* getRenderSystem() const;
 
-        //! Get scene manager
-        /*!
-            Used by PhParticle to get scene information
-            \return A pointer to the scenemanager
-        */
-        PhSceneManager* getSceneManager() const;
-
         //! Get particle count
         /*!
             Used by PhEffector to know how many particles to effect.
@@ -163,7 +156,6 @@ namespace phoenix
 
     protected:
 
-        PhSceneManager* smgr;
         std::vector<PhParticle*> particles;
         std::vector<PhEmitter*> emitters;
         std::vector<PhEffector*> effectors;

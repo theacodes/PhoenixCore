@@ -48,12 +48,6 @@ namespace phoenix
         //! Free on destroy.
         bool fod;
 
-        //! Scene manager.
-        PhSceneManager* smgr;
-
-        //! Render system.
-        PhRenderSystem* system;
-
     public:
 
         //! Construct.
@@ -115,9 +109,6 @@ namespace phoenix
 
         //! Render.
         void onRender();
-
-        //! Post render.
-        void onPostRender();
 
     };
 

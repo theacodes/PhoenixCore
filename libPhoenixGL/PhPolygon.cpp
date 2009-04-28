@@ -27,18 +27,19 @@ THE SOFTWARE.
 using namespace phoenix;
 
 PhPolygon::PhPolygon()
-        : pos(0,0), radius(0.0f)
+	: pos(0,0), radius(0.0f)
 {
 	verts.clear();
 }
 
 PhPolygon::PhPolygon(const PhVector2d& a)
-        : pos(a), radius(0.0f)
+	: pos(a), radius(0.0f)
 {
 	verts.clear();
 }
 
 PhPolygon::PhPolygon(const PhRect& other)
+	: radius(0.0f)
 {
 	pos = PhVector2d(other.getX()+(other.getWidth()/2.0f), other.getY()+(other.getHeight()/2.0f));
 	addPoint( PhVector2d( other.getX(), other.getY() ));

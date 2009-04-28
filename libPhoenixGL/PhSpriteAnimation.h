@@ -47,7 +47,6 @@ namespace phoenix
         bool flip;
         PhColor color;
         PhVector2d pos;
-        PhSceneManager* smgr;
         bool enabled;
         PhVector2d scale;
 
@@ -69,9 +68,6 @@ namespace phoenix
             \param p Position.
         */
         PhSpriteAnimation(PhSceneManager* s, PhTexture* t, PhVector2d a, PhVector2d p = PhVector2d(0.0f,0.0f));
-
-        //! Destructor.
-        ~PhSpriteAnimation();
 
         //! Set texture.
         /*!

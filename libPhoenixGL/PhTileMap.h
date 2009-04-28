@@ -58,9 +58,6 @@ namespace phoenix
         //! Texture that is used to peice together the map.
         PhTexture* texture;
 
-        //! Pointer to the scene manager.
-        PhSceneManager* smgr;
-
         //! Allocates the map vector.
         void allocateTiles();
 
@@ -180,8 +177,6 @@ namespace phoenix
 
         void onRender();
         void onPreRender();
-        void onPostRender()
-        {};
 
     };
 
