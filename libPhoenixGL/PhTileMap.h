@@ -119,7 +119,7 @@ namespace phoenix
 			{
 				return map[x];
 			}
-			return map[0];
+			return *(map.begin());
         }
 
         //! Get tile (2D)
