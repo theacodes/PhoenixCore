@@ -89,14 +89,14 @@ namespace phoenix
             \param n The name of the texture you want to find.
             \return A pointer to the texture if found, else NULL.
         */
-        PhTexture* findTexture(std::string n);
+        PhTexture* findTexture(const std::string& n);
 
         //! Find texture.
         /*!
             \param n The GL id of the texture you want to find.
             \return A pointer to the texture if found, else NULL.
         */
-        PhTexture* findTexture(GLuint n);
+        PhTexture* findTexture(const GLuint& n);
 
     };
 

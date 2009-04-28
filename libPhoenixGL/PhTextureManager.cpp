@@ -45,27 +45,19 @@ PhTextureManager::~PhTextureManager()
 
 void PhTextureManager::addTexture(PhTexture* texture)
 {
-
     texturelist.push_back(texture);
-
 }
 
 void PhTextureManager::removeTexture(PhTexture* texture)
 {
-
     for (unsigned int i = 0; i < texturelist.size(); i++)
     {
-
         if (texturelist[i] == texture)
         {
-
             texturelist.erase(texturelist.begin()+i,texturelist.begin()+i+1);
             break;
-
         }
-
     }
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +83,7 @@ void PhTextureManager::deleteTextures()
     \param n The name of the texture you want to find.
     \return A pointer to the texture if found, else NULL.
 */
-PhTexture* PhTextureManager::findTexture(std::string n)
+PhTexture* PhTextureManager::findTexture(const std::string& n)
 {
     for (unsigned int i=0;i<texturelist.size();i++)
     {
@@ -108,7 +100,7 @@ PhTexture* PhTextureManager::findTexture(std::string n)
     \param n The GL id of the texture you want to find.
     \return A pointer to the texture if found, else NULL.
 */
-PhTexture* PhTextureManager::findTexture(GLuint n)
+PhTexture* PhTextureManager::findTexture(const GLuint& n)
 {
     for (unsigned int i=0;i<texturelist.size();i++)
     {
