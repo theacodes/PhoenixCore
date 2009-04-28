@@ -72,6 +72,7 @@ PhTexture::PhTexture(PhTextureManager* t, const int& a, const int& b)
 
 PhTexture::~PhTexture()
 {
+
     if (glIsTexture(texture))
     {
        glDeleteTextures(1, &texture);

@@ -60,6 +60,7 @@ void PhTextureManager::removeTexture(PhTexture* texture)
         {
 
             texturelist.erase(texturelist.begin()+i,texturelist.begin()+i+1);
+            break;
 
         }
 
@@ -78,6 +79,7 @@ void PhTextureManager::deleteTextures()
         if (texturelist[i]!=NULL)
         {
             delete texturelist[i];
+            --i;
         }
     }
     texturelist.clear();
