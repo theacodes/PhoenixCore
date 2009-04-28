@@ -26,17 +26,17 @@ THE SOFTWARE.
 
 using namespace phoenix;
 
-PhSolidBackground::PhSolidBackground(PhSceneManager* s, PhColor c, float d)
+PhSolidBackground::PhSolidBackground(PhSceneManager* s, const PhColor& c, const float& d)
 	: PhSceneNode(s,d), color(c)
 {
 }
 
-void PhSolidBackground::setColor(PhColor c)
+void PhSolidBackground::setColor(const PhColor& c)
 {
     color = c;
 }
 
-PhColor PhSolidBackground::getColor()
+const PhColor& PhSolidBackground::getColor() const
 {
     return color;
 }

@@ -67,21 +67,21 @@ namespace phoenix
             \param a Size of one cell (sprite).
             \param p Position.
         */
-        PhSpriteAnimation(PhSceneManager* s, PhTexture* t, PhVector2d a, PhVector2d p = PhVector2d(0.0f,0.0f));
+        PhSpriteAnimation(PhSceneManager* s, PhTexture* t, const PhVector2d a, const PhVector2d p = PhVector2d(0.0f,0.0f));
 
         //! Set texture.
         /*!
             \param t New texture.
             \sa getTexture()
         */
-        void setTexture(PhTexture* t);
+        inline void setTexture(PhTexture* t) { texture = t; }
 
         //! GEt Texture.
         /*!
             \return The current texture.
             \sa setTexture()
         */
-        PhTexture* getTexture();
+        inline PhTexture* getTexture() const { return texture; }
 
         //! Set animation.
         /*!
@@ -89,7 +89,7 @@ namespace phoenix
             \param b The begining frame.
             \param e The ending frame.
         */
-        void setAnimation(int b, int e);
+        void setAnimation(const int& b, const int& e);
 
         //! Set frame.
         /*!
@@ -97,14 +97,14 @@ namespace phoenix
             \param a The desired frame number.
             \sa getFrame()
         */
-        void setFrame(int a);
+        inline void setFrame(const float& a) { frame = a; }
 
         //! Get frame.
         /*!
             \return The current frame.
             \sa setFrame()
         */
-        int getFrame();
+        inline const float& getFrame() const { return frame; }
 
         //! Set animation speed.
         /*!
@@ -114,14 +114,14 @@ namespace phoenix
             \param a The animation speed.
             \sa getAnimationSpeed()
         */
-        void setAnimationSpeed(float a);
+        inline void setAnimationSpeed(const float& a) { framerate = a; }
 
         //! Get animation speed.
         /*!
             \return The current animation speed.
             \sa setAnimationSpeed()
         */
-        float getAnimationSpeed();
+        inline const float& getAnimationSpeed() const { return framerate; }
 
         //! Set frame size.
         /*!
@@ -129,88 +129,90 @@ namespace phoenix
             \param s The new cell size.
             \sa getFrameSize()
         */
-        void setFrameSize(PhVector2d s);
+        inline void setFrameSize(const PhVector2d& s) { framesize = s; }
 
         //! Get frame size.
         /*!
             \return The current frame (cell) size.
             \sa setFrameSize()
         */
-        PhVector2d getFrameSize();
+        inline const PhVector2d& getFrameSize() const { return framesize; }
 
         //! Set position.
         /*!
             \param s The new position.
             \sa getPosition()
         */
-        void setPosition(PhVector2d s);
+        inline void setPosition(const PhVector2d& s) { pos = s; }
 
         //! Get position.
         /*!
             \return The current position.
             \sa setPosition()
         */
-        PhVector2d getPosition();
+        inline const PhVector2d& getPosition() const { return pos; }
 
         //! Get rotation.
         /*!
             \return The current rotation (in degrees).
         */
-        float getRotation();
+        inline const float& getRotation() const { return rot; }
 
         //! Set rotation.
         /*!
             \param r New rotation (in degrees).
         */
-        void setRotation(float r);
+        inline void setRotation(const float& r) { rot = r; }
 
         //! Get flip.
         /*!
             \return If the sprite is being flipped (horizontally).
         */
-        bool getFlip();
+        inline const bool& getFlip() const { return flip; }
 
         //! Set flip.
         /*!
             \param f Pass true to flip the sprite (horizontally).
         */
-        void setFlip(bool f);
+        inline void setFlip(const bool& f) { flip = f; }
 
         //! Get color.
         /*!
             \return The current blending color.
         */
-        PhColor getColor();
+        inline const PhColor& getColor() const { return color; }
 
         //! Set color.
         /*!
             \param c The new blending color.
         */
-        void setColor(PhColor c);
+        inline void setColor(const PhColor& c) { color = c; }
 
         //! Get scale
         /*!
             \return The current scale of the sprite.
         */
-        PhVector2d getScale();
+        inline const PhVector2d& getScale() const { return scale; }
 
         //! Set scale
         /*!
             \param s The new scale.
         */
-        void setScale( PhVector2d s );
+        inline void setScale( const PhVector2d& s ) { scale = s; }
 
-        //! Enable
+        //! Set enabled
         /*!
-            Enables this sprite.
+            Enables or disables this sprite.
+            \sa getEnabled()
         */
-        void enable();
+        inline void setEnabled(  const bool& e ) {  enabled = e; }
 
-        //! Disable
+        //! Get enabled
         /*!
-            Disables this sprite.
+            \return True if the sprite is enabled
+            \sa setEnabled()
         */
-        void disable();
+        inline const bool& getEnabled() const { return enabled;}
 
         void onPreRender();
 

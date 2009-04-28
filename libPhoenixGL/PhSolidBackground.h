@@ -52,7 +52,7 @@ namespace phoenix
             \param c The color you want this background to use.
             \param d The depth of the background, default -100.0f
         */
-        PhSolidBackground(PhSceneManager* s, PhColor c = PhColor(255,255,255), float d = -100.0f);
+        PhSolidBackground(PhSceneManager* s, const PhColor& c = PhColor(255,255,255), const float& d = -100.0f);
 
         //! Set color.
         /*!
@@ -60,13 +60,13 @@ namespace phoenix
             \param c The new color.
             \sa getColor(), color
         */
-        void setColor(PhColor c);
+        void setColor(const PhColor& c);
 
         //! Get color.
         /*!
             \return The color of the background.
         */
-        PhColor getColor();
+        const PhColor& getColor() const;
 
         //! Overloaded prerender
         void onPreRender();

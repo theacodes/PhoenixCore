@@ -38,17 +38,8 @@ PhSpriteAnimation::PhSpriteAnimation(PhSceneManager* s, PhTexture* t, PhVector2d
 {
 }
 
-void PhSpriteAnimation::setTexture(PhTexture* t)
-{
-    texture = t;
-}
 
-PhTexture* PhSpriteAnimation::getTexture()
-{
-    return texture;
-}
-
-void PhSpriteAnimation::setAnimation(int b, int e)
+void PhSpriteAnimation::setAnimation(const int& b, const int& e)
 {
     mMin = b;
     mMax = e;
@@ -60,94 +51,6 @@ void PhSpriteAnimation::setAnimation(int b, int e)
     {
         frame = (float)mMax;
     }
-}
-
-void PhSpriteAnimation::setFrame(int a)
-{
-    frame = float(a);
-}
-
-int PhSpriteAnimation::getFrame()
-{
-    return int(floor(frame));
-}
-
-void PhSpriteAnimation::setAnimationSpeed(float a)
-{
-    framerate = a;
-}
-
-float PhSpriteAnimation::getAnimationSpeed()
-{
-    return framerate;
-}
-
-void PhSpriteAnimation::setFrameSize(PhVector2d s)
-{
-    framesize = s;
-}
-
-PhVector2d PhSpriteAnimation::getFrameSize()
-{
-    return framesize;
-}
-
-void PhSpriteAnimation::setPosition(PhVector2d s)
-{
-    pos = s;
-}
-
-PhVector2d PhSpriteAnimation::getPosition()
-{
-    return pos;
-}
-
-float PhSpriteAnimation::getRotation()
-{
-    return rot;
-}
-
-void PhSpriteAnimation::setRotation(float r)
-{
-    rot = r;
-}
-
-bool PhSpriteAnimation::getFlip()
-{
-    return flip;
-}
-
-void PhSpriteAnimation::setFlip(bool f)
-{
-    flip = f;
-}
-
-PhColor PhSpriteAnimation::getColor()
-{
-    return color;
-}
-
-void PhSpriteAnimation::setColor(PhColor c)
-{
-    color = c;
-}
-
-PhVector2d PhSpriteAnimation::getScale()
-{
-    return scale;
-}
-
-void PhSpriteAnimation::setScale( PhVector2d s )
-{
-    scale = s;
-}
-
-void PhSpriteAnimation::enable() {
-    enabled = true;
-}
-
-void PhSpriteAnimation::disable() {
-    enabled = false;
 }
 
 void PhSpriteAnimation::onPreRender()
