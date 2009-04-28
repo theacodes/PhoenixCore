@@ -304,7 +304,7 @@ PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool&
         }
 
         //Set up the PhTexture class
-        ctext->setTexture(texture);
+        ctext->setTextureId(texture);
         ctext->setWidth(width);
         ctext->setHeight(height);
         ctext->setName(filename);
@@ -318,7 +318,7 @@ PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool&
     {
 
         PhTexture* ctext = new PhTexture(textures);
-        ctext->setTexture(0);
+        ctext->setTextureId(0);
         ctext->setWidth(0);
         ctext->setHeight(0);
         ctext->setName("FAILEDTOLOAD");
@@ -330,6 +330,7 @@ PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool&
 
     //should never happen
     return NULL;
+    assert(false);
 
 }
 
