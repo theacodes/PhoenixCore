@@ -111,9 +111,9 @@ void PhLightManager::renderBuffer( float depth )
 
     glPushMatrix();
 
-    glScalef(1.0f/smgr->getView()->getScale(),1.0f/smgr->getView()->getScale(),1.0f);
+    glScalef(1.0f/smgr->getView()->getScale().getX(),1.0f/smgr->getView()->getScale().getY(),1.0f);
 
-    glTranslatef(smgr->getView()->getX(),smgr->getView()->getY(),depth);
+    glTranslatef(smgr->getView()->getPosition().getX(),smgr->getView()->getPosition().getY(),depth);
 
     glEnable(GL_TEXTURE_2D); //enable textures
 

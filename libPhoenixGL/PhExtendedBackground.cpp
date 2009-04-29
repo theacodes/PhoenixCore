@@ -198,7 +198,7 @@ void PhExtendedBackground::onRender()
 
     glPushMatrix();
 
-    glTranslatef(smanager->getView()->getX()+position.getX(),smanager->getView()->getY()+position.getY(),depth);
+    glTranslatef(smanager->getView()->getPosition().getX()+position.getX(),smanager->getView()->getPosition().getY()+position.getY(),depth);
 
     glEnable(GL_TEXTURE_2D); //enable textures
 

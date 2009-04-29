@@ -48,5 +48,5 @@ void PhSolidBackground::onPreRender()
 
 void PhSolidBackground::onRender()
 {
-    smanager->getRenderSystem()->drawRectangle( PhRect( smanager->getView()->getX(), smanager->getView()->getY(), smanager->getRenderSystem()->getScreenSize().getX(), smanager->getRenderSystem()->getScreenSize().getY()), depth, color, color, color, color);
+    smanager->getRenderSystem()->drawRectangle( PhRect( smanager->getView()->getPosition().getX(), smanager->getView()->getPosition().getY(), smanager->getRenderSystem()->getScreenSize().getX(), smanager->getRenderSystem()->getScreenSize().getY()), depth, color, color, color, color);
 }
