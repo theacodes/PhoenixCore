@@ -74,28 +74,28 @@ namespace phoenix
         Sets the color used to colorize the texture.
         \param c The new color.
         */
-        void setColor(const PhColor& c) { color = c; }
+        inline void setColor(const PhColor& c) { color = c; }
 
         //! Get color function.
         /*!
         Get the current color used to colorize the texture.
         \return The current color.
         */
-        const PhColor& getColor() const { return color; }
+        inline const PhColor& getColor() const { return color; }
 
         //! Set texture function.
         /*!
         Sets the texture used by this node.
         \param t The new texture.
         */
-        void setTexture(PhTexture* t) { texture = t; }
+        inline void setTexture(PhTexture* t) { texture = t; }
 
         //! Get texture function.
         /*!
         Gets the current texture used by this node.
         \return The current texture.
         */
-        PhTexture* getTexture() const { return texture; }
+        inline PhTexture* getTexture() const { return texture; }
 
         //! Overloaded onPreRender
         /*!

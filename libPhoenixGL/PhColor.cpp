@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,54 +44,6 @@ PhColor::PhColor()
 PhColor::PhColor( const int& x, const int& y, const int& z, const int& a )
 	: red(x), green(y), blue(z), alpha(a)
 {
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//gets the values of red, green, and blue
-////////////////////////////////////////////////////////////////////////////////
-
-const int& PhColor::getRed() const
-{
-    return red;
-}
-
-const int& PhColor::getGreen() const
-{
-    return green;
-}
-
-const int& PhColor::getBlue() const
-{
-    return blue;
-}
-
-const int& PhColor::getAlpha() const
-{
-    return alpha;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//sets the values of red, green, and blue
-////////////////////////////////////////////////////////////////////////////////
-
-void PhColor::setRed(const int& a)
-{
-    red=a;
-}
-
-void PhColor::setGreen(const int& a)
-{
-    green=a;
-}
-
-void PhColor::setBlue(const int& a)
-{
-    blue=a;
-}
-
-void PhColor::setAlpha(const int& a)
-{
-    alpha=a;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
