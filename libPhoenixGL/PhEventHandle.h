@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -110,7 +110,7 @@ namespace phoenix
             \return State of the given key.
             \sa getKeyPressed(), getKeyReleased()
         */
-        const bool& getKey(const PhKey& a) const;
+        inline const bool& getKey(const PhKey& a) const { return keys[a]; }
 
         //! Get pressed.
         /*!
@@ -119,7 +119,7 @@ namespace phoenix
             \return True if the key was just pressed.
             \sa getKey(), getKeyReleased()
         */
-        const bool getKeyPressed(const PhKey& a) const;
+        inline const bool getKeyPressed(const PhKey& a) const { return (keysdown[a]&&keys[a]); }
 
         //! Get released.
         /*!
@@ -128,13 +128,13 @@ namespace phoenix
             \return True if the key was just released.
             \sa getKey(), getKeyPressed()
         */
-        const bool getKeyReleased(const PhKey& a) const;
+        inline const bool getKeyReleased(const PhKey& a) const { return (keysdown[a]&&(!keys[a])); }
 
         //! Get mouse position.
         /*!
             \return A vector that represents the mouse's position relative to the top of the window.
         */
-        const PhVector2d& getMousePosition() const;
+        inline const PhVector2d& getMousePosition() const { return mousepos; }
 
         //! Get mouse button
         /*!
@@ -143,7 +143,7 @@ namespace phoenix
             \return State of the given button.
             \sa getMouseButtonPressed()
         */
-        const bool& getMouseButton(const PhMouseKey& a) const;
+        inline const bool& getMouseButton(const PhMouseKey& a) const { return mousebutton[a]; }
 
         //! Get mouse button pressed
         /*!
@@ -152,7 +152,7 @@ namespace phoenix
             \return True if the mouse button was just pressed.
             \sa getMouseButton()
         */
-        const bool& getMouseButtonPressed(const PhMouseKey& a) const;
+        inline const bool& getMouseButtonPressed(const PhMouseKey& a) const { return mousebuttondown[a]; }
 
         //! Get mouse wheel position.
         /*!
@@ -160,7 +160,7 @@ namespace phoenix
         	axis.
         	\return The amount of rotation.
         */
-        const int& getMouseWheelPosition() const;
+        inline const int& getMouseWheelPosition() const { return mousewheelpos; }
 
         //! Return quit.
         /*!
