@@ -83,25 +83,3 @@ void PhLog::writeToLog(string text)
 	fputc('\n', mLogFile);
 }
 
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-/*
-	Parameters.
-*/
-void PhLog::useTabs(bool tabs) { mUseTabs = tabs; }
-void PhLog::useSpaces(bool spaces) { mUseSpaces = spaces; }
-bool PhLog::areTabsUsed() { return mUseTabs; }
-bool PhLog::areSpacesUsed() { return mUseSpaces; }
-void PhLog::setNumberOfTabs(int numTabs) { mNumTabs = numTabs; }
-void PhLog::setNumberOfSpaces(int numSpaces) { mNumSpaces = numSpaces; }
-int PhLog::getNumberOfTabs() { return mNumTabs; }
-int PhLog::getNumberOfSpaces() { return mNumSpaces; }
-void PhLog::setNumberOfSpacesPerTab(int spacesPerTab) { mNumSpacesPerTab = spacesPerTab; }
-int PhLog::getNumberOfSpacesPerTab() { return mNumSpacesPerTab; }
-
-void PhLog::setTreeView(bool treeView) { mTreeView = treeView; }
-bool PhLog::getTreeView() { return mTreeView; }
-
-void PhLog::setName(string n) { name = n; }
-string PhLog::getName() { return name; }
-
