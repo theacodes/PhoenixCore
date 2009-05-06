@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,31 +31,15 @@ PhBackground::PhBackground(PhSceneManager* s, PhTexture* t, const PhColor& c, co
 {
 }
 
-void PhBackground::setColor(const PhColor& c)
-{
-    color = c;
-}
-
-const PhColor& PhBackground::getColor() const
-{
-    return color;
-}
-
-void PhBackground::setTexture(PhTexture* t)
-{
-    texture = t;
-}
-
-PhTexture* PhBackground::getTexture() const
-{
-    return texture;
-}
-
+//! On pre render.
+//! Just register for rendering
 void PhBackground::onPreRender()
 {
     smanager->registerForRendering(this);
 }
 
+//! On render, here we'll draw one big
+//! texture where the view is.
 void PhBackground::onRender()
 {
 

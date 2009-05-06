@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -74,28 +74,28 @@ namespace phoenix
         Sets the color used to colorize the texture.
         \param c The new color.
         */
-        void setColor(const PhColor& c);
+        void setColor(const PhColor& c) { color = c; }
 
         //! Get color function.
         /*!
         Get the current color used to colorize the texture.
         \return The current color.
         */
-        const PhColor& getColor() const;
+        const PhColor& getColor() const { return color; }
 
         //! Set texture function.
         /*!
         Sets the texture used by this node.
         \param t The new texture.
         */
-        void setTexture(PhTexture* t);
+        void setTexture(PhTexture* t) { texture = t; }
 
         //! Get texture function.
         /*!
         Gets the current texture used by this node.
         \return The current texture.
         */
-        PhTexture* getTexture() const;
+        PhTexture* getTexture() const { return texture; }
 
         //! Overloaded onPreRender
         /*!
