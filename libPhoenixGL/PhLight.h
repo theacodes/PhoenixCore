@@ -1,3 +1,27 @@
+/*
+
+Copyright (c) 2008, Jonathan Wayne Parrott, Denzel Morris.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
 #ifndef PHLIGHT_H
 #define PHLIGHT_H
 
@@ -42,52 +66,52 @@ namespace phoenix
 			Gets the texture of the light.
 			\sa setTexture()
         */
-        PhTexture* getTexture() const;
+        inline PhTexture* getTexture() const { return texture; }
 
         //! Set texture.
         /*!
 			Sets the texture of the light.
 			\sa getTexture()
         */
-        void setTexture(PhTexture* t);
+        inline void setTexture(PhTexture* t) { texture = t; }
 
         //! Get position.
         /*!
 			Gets the position of the light. The texture is drawn centered on this position
 			\sa setPosition()
         */
-        const PhVector2d& getPosition() const;
+        inline const PhVector2d& getPosition() const { return position; }
 
         //! Set position.
         /*!
 			Sets the position of the light. The texture is drawn centered on this position
 			\sa setPosition()
         */
-        void setPosition(const PhVector2d& p);
+        inline void setPosition(const PhVector2d& p) { position = p; }
 
         //! Get color.
         /*!
 			\sa setColor()
         */
-        const PhColor& getColor() const;
+        inline const PhColor& getColor() const { return color; }
 
         //! Set color.
         /*!
 			\sa getColor()
         */
-        void setColor(const PhColor& c);
+        inline void setColor(const PhColor& c) { color = c; }
 
         //! Get scale.
         /*!
 			\sa setScale()
         */
-		const PhVector2d& getScale() const;
+		inline const PhVector2d& getScale() const { return scale; }
 
 		//! Set scale.
         /*!
 			\sa getScale()
         */
-        void setScale(const PhVector2d& s);
+        inline void setScale(const PhVector2d& s) { scale = s; }
 
     protected:
 

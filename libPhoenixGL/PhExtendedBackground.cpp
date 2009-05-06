@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,152 +27,9 @@ THE SOFTWARE.
 using namespace phoenix;
 
 //! Constuctor.
-/*!
-\param s Pointer to the scenemanager.
-\param t Texture to use.
-\param c Color to use. Default white.
-\param d Depth. Default -100.0f.
-\param xt Horizontal tile. Default true.
-\param yt Vertical tile. Default true.
-\param sp Scroll speed. Defualt [0,0].
-\param o Texture offset. Default [0,0].
-*/
 PhExtendedBackground::PhExtendedBackground(PhSceneManager* s, PhTexture* t, PhColor c, float d, bool xt, bool yt, PhVector2d sp, PhVector2d po, PhVector2d o)
 	: PhSceneNode(s,d), source(t), color(c), tilex(xt), tiley(yt), position(po), offset(o), speed(sp)
 {
-}
-
-//! Set color function.
-/*!
-Sets the color used to colorize the texture.
-\param c The new color.
-\sa getColor()
-*/
-void PhExtendedBackground::setColor(const PhColor& c)
-{
-    color = c;
-}
-
-//! Get color function.
-/*!
-Get the current color used to colorize the texture.
-\return The current color.
-\sa setColor()
-*/
-const PhColor& PhExtendedBackground::getColor() const
-{
-    return color;
-}
-
-//! Set texture function.
-/*!
-Sets the texture used by this node.
-\param t The new texture.
-\sa getTexture()
-*/
-void PhExtendedBackground::setTexture(PhTexture* t)
-{
-    source = t;
-}
-
-//! Get texture function.
-/*!
-Gets the current texture used by this node.
-\return The current texture.
-\sa setTexture()
-*/
-PhTexture* PhExtendedBackground::getTexture() const
-{
-    return source;
-}
-
-//! Set horizontal tile.
-/*!
-Sets whether of not to tile this background horizontally.
-\param b Tile boolean.
-\sa setVerticalTile()
-*/
-void PhExtendedBackground::setHorizontalTile(const bool& b)
-{
-    tilex = b;
-}
-
-//! Set vertical tile.
-/*!
-Sets whether of not to tile this background vertically.
-\param b Tile boolean.
-\sa setVerticalTile()
-*/
-void PhExtendedBackground::setVerticalTile(const bool& b)
-{
-    tiley = b;
-}
-
-//! Set position.
-/*!
-Sets the position of this background.
-\note Position is relative to the top-left corner of the VIEW, it is a relative position, not an absolute one.
-\param v New position.
-\sa getPosition()
-*/
-void PhExtendedBackground::setPosition(const PhVector2d& v)
-{
-    position = v;
-}
-
-//! Get position.
-/*!
-\note Position is relative to the top-left corner of the VIEW, it is a relative position, not an absolute one.
-\return The current position of the background.
-\sa setPosition()
-*/
-const PhVector2d& PhExtendedBackground::getPosition() const
-{
-    return position;
-}
-
-//! Set texture offset.
-/*!
-Sets the texture offset of the background. The texture offset is a normalized value and simply modifies
-The texture coords of the background. Can be use to achieve effects such as paralax and scrolling backgrounds.
-\param v The new texture offset.
-\sa getTextureOffset()
-*/
-void PhExtendedBackground::setTextureOffset(const PhVector2d& v)
-{
-    offset = v;
-}
-
-//! Get texture offset.
-/*!
-\return The texture offset.
-\sa setTextureOffset()
-*/
-const PhVector2d& PhExtendedBackground::getTextureOffset() const
-{
-    return offset;
-}
-
-//! Set scroll speed.
-/*!
-Using scroll speed the background will automatically change its texture offset every frame,
-creating the illusion of moving backgrounds.
-\param v The new speed;
-\sa setTextureOffset(), getScrollSpeed()
-*/
-void PhExtendedBackground::setScrollSpeed(const PhVector2d& v)
-{
-    speed = v;
-}
-
-//! Get scroll speed.
-/*!
-    \return The current scroll speed.
-    \sa setTextureOffset(), setScrollSpeed()
-*/
-const PhVector2d& PhExtendedBackground::getScrollSpeed() const
-{
-    return speed;
 }
 
 void PhExtendedBackground::onPreRender()
