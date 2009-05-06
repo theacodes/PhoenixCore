@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -67,28 +67,28 @@ namespace phoenix
             \return The position of the node.
             \sa setPosition()
         */
-        const PhVector2d& getPosition (void) const;
+        inline const PhVector2d& getPosition () const { return pos; }
 
         //! Set position.
         /*!
             \param a The new position of the node.
             \sa getPosition()
         */
-        void setPosition(const PhVector2d& a);
+        inline void setPosition(const PhVector2d& a) { pos = a; }
 
         //! Set texture.
         /*!
             \param img The new texture of the node.
             \sa getTexture()
         */
-        void setTexture(PhTexture* img);
+        inline void setTexture(PhTexture* img) { image = img; }
 
         //! Get texture.
         /*!
             \return The current texture of the node.
             \sa setTexture()
         */
-        PhTexture* getTexture() const;
+        inline PhTexture* getTexture() const { return image; }
 
         //! Free on destroy.
         /*!

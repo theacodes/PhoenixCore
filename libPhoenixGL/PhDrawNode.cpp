@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,37 +47,6 @@ PhDrawSceneNode::~PhDrawSceneNode()
     {
         delete image;
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Get and set functions for X and Y
-////////////////////////////////////////////////////////////////////////////////
-
-const PhVector2d& PhDrawSceneNode::getPosition () const
-{
-    return pos;
-}
-
-void PhDrawSceneNode::setPosition(const PhVector2d& a)
-{
-    pos=a;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Get and set image functions
-////////////////////////////////////////////////////////////////////////////////
-
-void PhDrawSceneNode::setTexture(PhTexture* img)
-{
-    if(img!=NULL)
-    {
-        image=img;
-    }
-}
-
-PhTexture* PhDrawSceneNode::getTexture() const
-{
-    return image;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
