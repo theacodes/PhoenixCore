@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -75,28 +75,28 @@ namespace phoenix
         void set (const float& a, const float& b, const float& c, const float& d);
 
         //! Get X.
-        const float& getX() const;
+        inline const float& getX() const { return x; }
 
         //! Get Y.
-        const float& getY() const;
+        inline const float& getY() const { return y; }
 
         //! Get Height.
-        const float& getHeight() const;
+        inline const float& getHeight() const { return h; }
 
         //! Get Width.
-        const float& getWidth() const;
+        inline const float& getWidth() const { return w; }
 
         //! Set X.
-        void setX(const float& a);
+        inline void setX(const float& a) { x = a; }
 
         //! Set Y.
-        void setY(const float& b);
+        inline void setY(const float& b) { y = b; }
 
         //! Set Height.
-        void setHeight(const float& c);
+        inline void setHeight(const float& c) { h = c; }
 
         //! Set Width.
-        void setWidth(const float& d);
+        inline void setWidth(const float& d) { w = d; }
 
         const PhRect& operator= (const PhRect& other);
 

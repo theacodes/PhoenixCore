@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ THE SOFTWARE.
 namespace phoenix
 {
 
-	//forward dcel of PhRect
+	//forward decl of PhRect
 	class PhRect;
 
     //! Polygon class.
@@ -88,7 +88,7 @@ namespace phoenix
             \return The center of the polygon (The position).
             \sa setPosition()
         */
-        const PhVector2d& getPosition() const;
+        inline const PhVector2d& getPosition() const { return pos; }
 
         //! Set position.
         /*!
@@ -97,7 +97,7 @@ namespace phoenix
             \param a The new center of the polygon.
             \sa getPosition()
         */
-        void setPosition(const PhVector2d& a);
+        inline void setPosition(const PhVector2d& a) { pos = a; }
 
         //! Add vertex.
         /*!
@@ -126,34 +126,51 @@ namespace phoenix
         /*!
             \return The current number of vertices in the polygon.
         */
-        const unsigned int getVertexCount() const;
+        inline const unsigned int getVertexCount() const { return verts.size(); }
 
         //! Get vertex.
         /*!
             \param a The index of the vertex wanted.
             \return The vertex at index a.
         */
-        const PhVector2d& getVertex(const unsigned int& a) const;
+        inline const PhVector2d& getVertex(const unsigned int& a) const
+        {
+			if (a < verts.size())
+			{
+				return verts[a];
+			}
+			return *verts.end();
+		}
 
         //! Set vertex.
         /*!
             \param a The index of the vertex to set.
             \param v What to set it to.
         */
-        void setVertex(const unsigned int& a, const PhVector2d& v);
+        inline void setVertex(const unsigned int& a, const PhVector2d& v)
+		{
+			if (a < verts.size())
+			{
+				verts[a] = v;
+			}
+		}
 
         //! Get radius.
         /*!
             \return The magnitude of the largest vertex in the polygon.
         */
-        const float& getRadius() const;
+        inline const float& getRadius() const { return radius; }
 
         //! Rotate
         /*!
             Rotates the polygon by the given measurement.
             \param rad Angle measurement in Radians.
         */
-        void rotate(const float& rad);
+        inline void rotate(const float& rad)
+		{
+			PhRotationMatrix m(rad);
+			rotate(m);
+		}
 
         //! Rotate (Matrix)
         /*!

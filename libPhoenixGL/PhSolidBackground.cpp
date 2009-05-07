@@ -31,16 +31,6 @@ PhSolidBackground::PhSolidBackground(PhSceneManager* s, const PhColor& c, const 
 {
 }
 
-void PhSolidBackground::setColor(const PhColor& c)
-{
-    color = c;
-}
-
-const PhColor& PhSolidBackground::getColor() const
-{
-    return color;
-}
-
 void PhSolidBackground::onPreRender()
 {
     smanager->registerForRendering(this);

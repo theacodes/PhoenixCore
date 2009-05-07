@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -196,14 +196,14 @@ namespace phoenix
             \sa PhLightManager, setLightManager(), enableLighting()
             \return A pointer to the current light manager.
         */
-        PhLightManager* getLightManager() const { return lmgr; }
+        inline PhLightManager* getLightManager() const { return lmgr; }
 
         //! Set light manager.
         /*!
             Changes the currently active light manager.
             \sa PhLightManager, getLightManager(), setLightingEnabled()
         */
-        void setLightManager(PhLightManager* l) { lmgr = l; }
+        inline void setLightManager(PhLightManager* l) { lmgr = l; }
 
         //! Get lighting state
         /*!

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -60,16 +60,6 @@ void PhPolygon::clear()
     verts.clear();
 }
 
-const PhVector2d& PhPolygon::getPosition() const
-{
-    return pos;
-}
-
-void PhPolygon::setPosition(const PhVector2d& a)
-{
-    pos = a;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 //push vertex and push point need some explaining
 // push vertex pushes a vector directly into the polygon, regardless of the position
@@ -102,39 +92,6 @@ void PhPolygon::addPoint(const PhVector2d& a)
         radius = (a-pos).getMagnitude();
     }
 
-}
-
-const unsigned int PhPolygon::getVertexCount() const
-{
-    return verts.size();
-}
-
-const PhVector2d& PhPolygon::getVertex(const unsigned int& a) const
-{
-    if (a < verts.size())
-    {
-        return verts[a];
-    }
-    return *verts.end();
-}
-
-void PhPolygon::setVertex(const unsigned int& a, const PhVector2d& v)
-{
-    if (a < verts.size())
-    {
-        verts[a] = v;
-    }
-}
-
-const float& PhPolygon::getRadius() const
-{
-    return radius;
-}
-
-void PhPolygon::rotate(const float& rad)
-{
-    PhRotationMatrix m(rad);
-    rotate(m);
 }
 
 void PhPolygon::rotate(const PhRotationMatrix& m)

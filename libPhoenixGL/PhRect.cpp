@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -71,50 +71,6 @@ void PhRect::set (const float& a, const float& b, const float& c, const float& d
     y=b;
     w=c;
     h=d;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// get and set methods
-////////////////////////////////////////////////////////////////////////////////
-
-const float& PhRect::getX() const
-{
-    return x;
-}
-
-const float& PhRect::getY() const
-{
-    return y;
-}
-
-const float& PhRect::getHeight() const
-{
-    return h;
-}
-
-const float& PhRect::getWidth() const
-{
-    return w;
-}
-
-void PhRect::setX(const float& a)
-{
-    x=a;
-}
-
-void PhRect::setY(const float& b)
-{
-    y=b;
-}
-
-void PhRect::setHeight(const float& c)
-{
-    h=c;
-}
-
-void PhRect::setWidth(const float& d)
-{
-    w=d;
 }
 
 const PhRect& PhRect::operator= (const PhRect& other)

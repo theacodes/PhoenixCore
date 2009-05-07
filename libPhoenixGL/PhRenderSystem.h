@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -123,7 +123,7 @@ namespace phoenix
         /*!
             \param str The new caption of the window.
         */
-        void setWindowCaption(const std::string& str);
+        inline void setWindowCaption(const std::string& str) { glfwSetWindowTitle(str.c_str()); }
 
         //! Run.
         /*!
@@ -136,13 +136,13 @@ namespace phoenix
         /*!
             \return The average FPS over the total run time of the program.
         */
-        const float getFPS() const;
+        inline const float getFPS() const { return ( float(frame) / float(fpstimer.getTicks()) ); }
 
         //! Get ticks.
         /*!
             \return The number of ticks (ms) that have occured since the engine started.
         */
-        const double getTicks() const;
+        inline const double getTicks() const { return fpstimer.getTicks(); }
 
         //! Init system
         /*!
@@ -158,7 +158,7 @@ namespace phoenix
         /*!
             \return The size of the screen.
         */
-        const PhVector2d& getScreenSize() const;
+        inline const PhVector2d& getScreenSize() const { return screensize; }
 
         //! Load texture.
         /*!
@@ -314,38 +314,38 @@ namespace phoenix
             \param t The new font.
             \sa getFont()
         */
-        void setFont( PhTexture* t );
+        inline void setFont( PhTexture* t ) { font = t; }
 
         //! Get font.
         /*!
             \return The current textured used as a font.
             \sa setFont()
         */
-        PhTexture* getFont() const;
+        inline PhTexture* getFont() const { return font; }
 
         //! Get event handler.
         /*!
             \return A pointer to the event handler used by the system.
         */
-        PhEventHandler* getEventHandler() const;
+        inline PhEventHandler* getEventHandler() const { return events; }
 
         //! Get texture manager.
         /*!
             \return A pointer to the texture manager.
         */
-        PhTextureManager* getTextureManager() const;
+        inline PhTextureManager* getTextureManager() const { return textures; }
 
         //! Get log manager.
         /*!
         	\return A pointer to the log manager.
         */
-        PhLogManager* getLogManager() const;
+        inline PhLogManager* getLogManager() const { return logs; }
 
         //! Get vertex light system.
         /*!
         	\return A pointer to vertex light system.
         */
-        PhVertexLightSystem* getVertexLightSystem() const;
+        inline PhVertexLightSystem* getVertexLightSystem() const { return vlsys; }
 
         //! Set vertex light system.
         /*!
@@ -366,26 +366,38 @@ namespace phoenix
             GL_ONE_MINUS_DST_ALPHA
             \sa setDefaultBlendMode()
         */
-        void setBlendMode(const GLenum& src, const GLenum& dst);
+        inline void setBlendMode(const GLenum& src, const GLenum& dst) { glBlendFunc(src,dst); }
 
         //! Set defualt blend mode.
         /*!
             Restores the engine to it's default blend mode (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA).
             \sa setBlendMode()
         */
-        void setDefaultBlendMode();
+        inline void setDefaultBlendMode() { setBlendMode(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); }
 
         //! Set vertex light state.
         /*!
 			Enables or disables vertex lighting.
         */
-        void setVertexLighting(const bool& a);
+        inline void setVertexLighting(const bool& a)
+        {
+			if (a)
+			{
+				glEnable(GL_LIGHTING);
+				vertexlighting = true;
+			}
+			else
+			{
+				glDisable(GL_LIGHTING);
+				vertexlighting = false;
+			}
+		}
 
         //! Get vertex light state.
         /*!
 			Gets the current state of vertex lighting.
         */
-        const bool& getVertexLighting() const;
+        const bool& getVertexLighting() const { return vertexlighting; }
 
     };
 

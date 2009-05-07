@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -60,13 +60,13 @@ namespace phoenix
             \param c The new color.
             \sa getColor(), color
         */
-        void setColor(const PhColor& c);
+        inline void setColor(const PhColor& c) { color = c; }
 
         //! Get color.
         /*!
             \return The color of the background.
         */
-        const PhColor& getColor() const;
+        inline const PhColor& getColor() const { return color; }
 
         //! Overloaded prerender
         void onPreRender();
