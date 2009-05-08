@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>PhoenixGL: svn/0.3/libPhoenixGL/PhRenderSystem.h Source File</title>
+<title>PhoenixGL: svn/0.3/libPhoenixGL/.PhRenderSystem.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -60,7 +60,7 @@ window.onload = initDynSections;
       <li><a href="files.htm"><span>File&nbsp;List</span></a></li>
     </ul>
   </div>
-<h1>svn/0.3/libPhoenixGL/PhRenderSystem.h</h1><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<h1>svn/0.3/libPhoenixGL/.PhRenderSystem.h</h1><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment"></span>
 <a name="l00003"></a>00003 <span class="comment">Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris</span>
 <a name="l00004"></a>00004 <span class="comment"></span>
@@ -101,46 +101,46 @@ window.onload = initDynSections;
 <a name="l00039"></a>00039 <span class="preprocessor">#include "PhVertexLightSystem.h"</span>
 <a name="l00040"></a>00040 
 <a name="l00042"></a>00042 
-<a name="l00063"></a>00063 <span class="keyword">namespace </span>phoenix
+<a name="l00063"></a><a class="code" href="namespacephoenix.htm">00063</a> <span class="keyword">namespace </span>phoenix
 <a name="l00064"></a>00064 {
 <a name="l00065"></a>00065 
 <a name="l00067"></a>00067 
-<a name="l00072"></a>00072     <span class="keyword">class </span>PhRenderSystem
+<a name="l00072"></a><a class="code" href="classphoenix_1_1PhRenderSystem.htm">00072</a>     <span class="keyword">class </span><a class="code" href="classphoenix_1_1PhRenderSystem.htm" title="The render system.">PhRenderSystem</a>
 <a name="l00073"></a>00073     {
 <a name="l00074"></a>00074 
 <a name="l00075"></a>00075     <span class="keyword">private</span>:
 <a name="l00076"></a>00076 
 <a name="l00077"></a>00077         <span class="comment">//Event handler</span>
-<a name="l00078"></a>00078         PhEventHandler* events;
+<a name="l00078"></a>00078         <a class="code" href="classphoenix_1_1PhEventHandler.htm" title="Event handler.">PhEventHandler</a>* events;
 <a name="l00079"></a>00079 
 <a name="l00080"></a>00080         <span class="comment">//Texture manager</span>
-<a name="l00081"></a>00081         PhTextureManager* textures;
+<a name="l00081"></a>00081         <a class="code" href="classphoenix_1_1PhTextureManager.htm" title="Texture manager.">PhTextureManager</a>* textures;
 <a name="l00082"></a>00082 
 <a name="l00083"></a>00083         <span class="comment">//Log manager</span>
-<a name="l00084"></a>00084         PhLogManager* logs;
+<a name="l00084"></a>00084         <a class="code" href="classphoenix_1_1PhLogManager.htm" title="Log manager.">PhLogManager</a>* logs;
 <a name="l00085"></a>00085 
 <a name="l00086"></a>00086         <span class="comment">//Timer for FPS and getTicks()</span>
-<a name="l00087"></a>00087         PhTimer fpstimer;
+<a name="l00087"></a>00087         <a class="code" href="classphoenix_1_1PhTimer.htm" title="Timer class.">PhTimer</a> fpstimer;
 <a name="l00088"></a>00088 
 <a name="l00089"></a>00089         <span class="comment">//Counts the number of frames, width, height</span>
 <a name="l00090"></a>00090         <span class="keywordtype">int</span> frame;
 <a name="l00091"></a>00091 
 <a name="l00092"></a>00092         <span class="comment">//stores the size of the screen</span>
-<a name="l00093"></a>00093         PhVector2d screensize;
+<a name="l00093"></a>00093         <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> screensize;
 <a name="l00094"></a>00094 
 <a name="l00095"></a>00095         <span class="comment">//The font used to draw text</span>
-<a name="l00096"></a>00096         PhTexture* font;
+<a name="l00096"></a>00096         <a class="code" href="classphoenix_1_1PhTexture.htm" title="Texture class.">PhTexture</a>* font;
 <a name="l00097"></a>00097 
 <a name="l00098"></a>00098         <span class="comment">//determines if vertexlighting is enable</span>
 <a name="l00099"></a>00099         <span class="keywordtype">bool</span> vertexlighting;
 <a name="l00100"></a>00100 
 <a name="l00101"></a>00101         <span class="comment">//Light system</span>
-<a name="l00102"></a>00102         PhVertexLightSystem* vlsys;
+<a name="l00102"></a>00102         <a class="code" href="classphoenix_1_1PhVertexLightSystem.htm" title="Light System class.">PhVertexLightSystem</a>* vlsys;
 <a name="l00103"></a>00103 
 <a name="l00104"></a>00104         <span class="comment">//Glyph structure</span>
 <a name="l00105"></a>00105         <span class="keyword">struct </span>PhGlyph
 <a name="l00106"></a>00106         {
-<a name="l00107"></a>00107             PhVector2d t;
+<a name="l00107"></a>00107             <a class="code" href="classphoenix_1_1PhVector2d.htm" title="2D Vector class">PhVector2d</a> t;
 <a name="l00108"></a>00108         };
 <a name="l00109"></a>00109 
 <a name="l00110"></a>00110         <span class="comment">//Array of glyphs</span>
