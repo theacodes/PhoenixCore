@@ -213,6 +213,12 @@ namespace phoenix
         */
         bool bindTexture();
 
+        //! Copy texture.
+        /*!
+			Makes a hard (separate) copy of the texture.
+		*/
+		PhTexture* copy();
+
     };
 
 }

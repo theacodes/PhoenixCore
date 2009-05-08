@@ -184,3 +184,35 @@ bool PhTexture::bindTexture()
     }
     return false;
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Copy texture
+////////////////////////////////////////////////////////////////////////////////
+
+PhTexture* PhTexture::copy()
+{
+     // Generate the destination texture
+     GLuint nTexID_out = 0;
+     glGenTextures( 1, &nTexID_out );
+     glBindTexture( GL_TEXTURE_2D, nTexID_out );
+     glTexParameteri( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+     glTexParameteri( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+     // bind the source texture and get the texels
+     lockTexture();
+
+     // bind the output texture and copy the image
+     glBindTexture( GL_TEXTURE_2D, nTexID_out );
+     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width,height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data );
+
+     unlockTexture();
+
+     PhTexture* newtexture = new PhTexture(txtmgr);
+     newtexture->setTextureId( nTexID_out );
+     newtexture->setWidth( width );
+     newtexture->setHeight( width );
+     newtexture->setName( name + " copy" );
+
+     return newtexture;
+}
