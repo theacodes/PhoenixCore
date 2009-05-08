@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,8 @@ THE SOFTWARE.
 
 */
 
-#ifndef PHOENIXTIME
-#define PHOENIXTIME
+#ifndef __PHOENIXTIME__
+#define __PHOENIXTIME__
 
 namespace phoenix
 {
@@ -83,13 +83,13 @@ namespace phoenix
         /*!
             \return True if the timer has started.
         */
-        const bool isStarted() const;
+        inline const bool& isStarted() const { return started; }
 
         //! Is paused.
         /*!
             \return True if the timer is paused.
         */
-        const bool isPaused() const;
+        inline const bool& isPaused() const { return paused; }
 
     };
 

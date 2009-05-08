@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,8 @@ THE SOFTWARE.
 #ifndef PHOENIXFUNCS
 #define PHOENIXFUNCS
 
+#include <cstdlib> //For rand()
+
 namespace phoenix
 {
 
@@ -42,7 +44,7 @@ namespace phoenix
     \param find The parameter you wanna find, a being 0 and d being 3.
     \return The value you seek.
     */
-    template <class a_type> a_type porportion(a_type a,a_type b,a_type c,a_type d,int find)
+    template <class a_type> const a_type porportion(const a_type& a,const a_type& b,const a_type& c,const a_type& d,const int& find)
     {
         switch (find)
         {
@@ -61,6 +63,18 @@ namespace phoenix
         }
         return 0;
     }
+
+    //! Random function.
+	/*!
+		\param low The lowest possible value.
+		\param high The highest possible value.
+		\return A pseudo random value between low and high.
+	*/
+	///random function
+	template <class a_type> const a_type random(const a_type& low,const a_type& high)
+	{
+		return (a_type(rand()) % (high - low + a_type(1)) + low);
+	}
 
 }
 

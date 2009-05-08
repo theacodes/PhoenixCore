@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,12 +31,10 @@ using namespace phoenix;
 //x, y, and free on destroy.
 ////////////////////////////////////////////////////////////////////////////////
 
-PhDrawSceneNode::PhDrawSceneNode(PhSceneManager* s, PhTexture* i, PhVector2d p, bool c)
-	: PhSceneNode(0), pos(p), image(i), fod(c), smgr(s)
+PhDrawSceneNode::PhDrawSceneNode(PhSceneManager* s, PhTexture* i, const PhVector2d& p, const bool& c)
+	: PhSceneNode(s,0.0f), pos(p), image(i), fod(c)
 {
-    system=smgr->getRenderSystem();
-    //tell the scenemanager that we exist.
-    smgr->addNode((PhSceneNode*)this);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,38 +47,6 @@ PhDrawSceneNode::~PhDrawSceneNode()
     {
         delete image;
     }
-    smgr->removeNode(this);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Get and set functions for X and Y
-////////////////////////////////////////////////////////////////////////////////
-
-const PhVector2d& PhDrawSceneNode::getPosition () const
-{
-    return pos;
-}
-
-void PhDrawSceneNode::setPosition(const PhVector2d& a)
-{
-    pos=a;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Get and set image functions
-////////////////////////////////////////////////////////////////////////////////
-
-void PhDrawSceneNode::setTexture(PhTexture* img)
-{
-    if(img!=NULL)
-    {
-        image=img;
-    }
-}
-
-PhTexture* PhDrawSceneNode::getTexture() const
-{
-    return image;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +56,7 @@ PhTexture* PhDrawSceneNode::getTexture() const
 
 void PhDrawSceneNode::onPreRender()
 {
-    smgr->registerForRendering(this);
+    smanager->registerForRendering(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -102,15 +68,6 @@ void PhDrawSceneNode::onRender()
 {
     if(image!=NULL)
     {
-        system->drawTexture(image,pos,depth);
+        smanager->getRenderSystem()->drawTexture(image,pos,depth);
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//PostRender call, this is called after everything is rendered. This should
-//only be called by the scenenmanager.
-////////////////////////////////////////////////////////////////////////////////
-
-void PhDrawSceneNode::onPostRender()
-{
 }

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,8 @@ THE SOFTWARE.
 
 #ifndef PHOENIXRECT
 #define PHOENIXRECT
+
+#include "PhPolygon.h"
 
 namespace phoenix
 {
@@ -54,7 +56,13 @@ namespace phoenix
             \param c Width
             \param d Height
         */
-        PhRect(float a, float b, float c, float d);
+        PhRect(const float& a, const float& b, const float& c, const float& d);
+
+        //! Implicit conversion from PhPolygon
+        /*!
+			Makes this rectangle a bounding box of the given polygon.
+        */
+        PhRect(const PhPolygon& other);
 
         //! Set.
         /*!
@@ -64,33 +72,33 @@ namespace phoenix
             \param c Width
             \param d Height
         */
-        void set (float a, float b, float c, float d);
+        void set (const float& a, const float& b, const float& c, const float& d);
 
         //! Get X.
-        float getX();
+        inline const float& getX() const { return x; }
 
         //! Get Y.
-        float getY();
+        inline const float& getY() const { return y; }
 
         //! Get Height.
-        float getHeight();
+        inline const float& getHeight() const { return h; }
 
         //! Get Width.
-        float getWidth();
+        inline const float& getWidth() const { return w; }
 
         //! Set X.
-        void setX(float a);
+        inline void setX(const float& a) { x = a; }
 
         //! Set Y.
-        void setY(float b);
+        inline void setY(const float& b) { y = b; }
 
         //! Set Height.
-        void setHeight(float c);
+        inline void setHeight(const float& c) { h = c; }
 
         //! Set Width.
-        void setWidth(float d);
+        inline void setWidth(const float& d) { w = d; }
 
-        PhRect operator= (PhRect other);
+        const PhRect& operator= (const PhRect& other);
 
     };
 

@@ -54,7 +54,7 @@ namespace phoenix
 		public:
 
 			//! Constructor
-			PhLog(PhLogManager* lmgr);
+			PhLog(PhLogManager* lmgr, std::string filename = std::string(""));
 
 			//! Destructor
 			~PhLog();
@@ -82,7 +82,7 @@ namespace phoenix
 				\param tabs True = yes, False = no.
 				\sa useSpaces()
 			*/
-			void useTabs(bool tabs);
+			inline void useTabs(const bool& tabs) { mUseTabs = tabs; }
 
 			//! Use spaces.
 			/*!
@@ -90,49 +90,49 @@ namespace phoenix
 				\param spaces True = yes, False = no.
 				\sa useTabs()
 			*/
-			void useSpaces(bool spaces);
+			inline void useSpaces(const bool& spaces) { mUseSpaces = spaces; }
 
 			//! Are tabs used.
 			/*!
 				Tells whether tabs are used or not.
 				\return Whether tabs are enabled.
 			*/
-			bool areTabsUsed();
+			inline const bool& areTabsUsed() const { return mUseTabs; }
 
 			//! Are spaces used.
 			/*!
 				Tells whether spaces are used or not
 				\return Whether spaces are enabled.
 			*/
-			bool areSpacesUsed();
+			inline const bool& areSpacesUsed() const { return mUseSpaces; }
 
 			//! Set number of tabs.
 			/*!
 				Sets the number of tabs to be used when writing to the file.
 				\param numTabs Specify the number of tabs to use.
 			*/
-			void setNumberOfTabs(int numTabs);
+			inline void setNumberOfTabs(const int& numTabs) { mNumTabs = numTabs; }
 
 			//! Set number of spaces.
 			/*!
 				Sets the number of spaces to be used when writing to the file.
 				\param numSpaces Specify the number of spaces to use.
 			*/
-			void setNumberOfSpaces(int numSpaces);
+			inline void setNumberOfSpaces(const int& numSpaces) { mNumSpaces = numSpaces; }
 
 			//! Get number of tabs.
 			/*!
 				Returns the number of tabs used when writing to the file.
 				\return The number of tabs used.
 			*/
-			int getNumberOfTabs();
+			inline const int& getNumberOfTabs() const { return mNumTabs; }
 
 			//! Get number of spaces.
 			/*!
 				Returns the number of spaces used when writing to the file.
 				\return The number of spaces used.
 			*/
-			int getNumberOfSpaces();
+			inline const int& getNumberOfSpaces() const { return mNumSpaces; }
 
 			//! Set number of spaces per tab.
 			/*!
@@ -141,7 +141,7 @@ namespace phoenix
 				\param spacesPerTab Specify the number of spaces you want per tab
 				\sa getNumberOfSpacesPerTab()
 			*/
-			void setNumberOfSpacesPerTab(int spacesPerTab);
+			inline void setNumberOfSpacesPerTab(const int& spacesPerTab) { mNumSpacesPerTab = spacesPerTab; }
 
 			//! Get number of spaces per tab.
 			/*!
@@ -149,7 +149,7 @@ namespace phoenix
 				\return The number of spaces per tab that are used.
 				\sa setNumberOfSpacesPerTab()
 			*/
-			int getNumberOfSpacesPerTab();
+			inline const int& getNumberOfSpacesPerTab() const { return mNumSpacesPerTab; }
 
 			//! Set tree view.
 			/*!
@@ -157,34 +157,29 @@ namespace phoenix
 				in tree view or not. (Note: Tree view looks cool!)
 				\param treeView Enable or disable tree view.
 			*/
-			void setTreeView(bool treeView);
+			inline void setTreeView(const bool& treeView) { mTreeView = treeView; }
 
 			//! Get tree view.
 			/*!
 				Tells whether tree view is enabled or disabled.
 				\return Is tree view enabled or not.
 			*/
-			bool getTreeView();
+			inline const bool& getTreeView() const { return mTreeView; }
 
 			//! Set name.
 			/*!
 				Sets the name that will be used to look up this log with PhLogManager.
 				\param n The name you want for the log.
 			*/
-			void setName(std::string n);
+			inline void setName(const std::string& n) { name = n; }
 
 			//! Get name.
 			/*!
 				Returns the name of this log.
 				\return The name of this log.
 			*/
-			std::string getName();
+			inline const std::string& getName() { return name; }
 
-			//! Drop.
-			/*!
-				Flushes the file, and closes it. This is a manual destructor.
-			*/
-			void drop();
 	};
 
 }

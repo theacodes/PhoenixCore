@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,35 +27,19 @@ THE SOFTWARE.
 using namespace phoenix;
 
 PhSpriteAnimation::PhSpriteAnimation(PhSceneManager* s)
-	: PhSceneNode(0.0f), texture(NULL), framesize(0,0), frame(0), framerate(0), rot(0.0f), mMin(0), mMax(0), flip(false),
-	color(255,255,255), pos(0,0), smgr(s), enabled(true), scale(1.0f,1.0f)
+	: PhSceneNode(s,0.0f), texture(NULL), framesize(0,0), frame(0), framerate(0), rot(0.0f), mMin(0), mMax(0), flip(false),
+	color(255,255,255), pos(0,0), enabled(true), scale(1.0f,1.0f)
 {
-    smgr->addNode(this);
 }
 
 PhSpriteAnimation::PhSpriteAnimation(PhSceneManager* s, PhTexture* t, PhVector2d a, PhVector2d p)
-	: PhSceneNode(0.0f), texture(t), framesize(a), frame(0), framerate(1.0f), rot(0.0f), mMin(0), mMax(0), flip(false),
-	color(255,255,255), pos(p), smgr(s), enabled(true), scale(1.0f,1.0f)
+	: PhSceneNode(s,0.0f), texture(t), framesize(a), frame(0), framerate(1.0f), rot(0.0f), mMin(0), mMax(0), flip(false),
+	color(255,255,255), pos(p), enabled(true), scale(1.0f,1.0f)
 {
-    smgr->addNode(this);
 }
 
-PhSpriteAnimation::~PhSpriteAnimation()
-{
-    smgr->removeNode(this);
-}
 
-void PhSpriteAnimation::setTexture(PhTexture* t)
-{
-    texture = t;
-}
-
-PhTexture* PhSpriteAnimation::getTexture()
-{
-    return texture;
-}
-
-void PhSpriteAnimation::setAnimation(int b, int e)
+void PhSpriteAnimation::setAnimation(const int& b, const int& e)
 {
     mMin = b;
     mMax = e;
@@ -69,98 +53,10 @@ void PhSpriteAnimation::setAnimation(int b, int e)
     }
 }
 
-void PhSpriteAnimation::setFrame(int a)
-{
-    frame = float(a);
-}
-
-int PhSpriteAnimation::getFrame()
-{
-    return int(floor(frame));
-}
-
-void PhSpriteAnimation::setAnimationSpeed(float a)
-{
-    framerate = a;
-}
-
-float PhSpriteAnimation::getAnimationSpeed()
-{
-    return framerate;
-}
-
-void PhSpriteAnimation::setFrameSize(PhVector2d s)
-{
-    framesize = s;
-}
-
-PhVector2d PhSpriteAnimation::getFrameSize()
-{
-    return framesize;
-}
-
-void PhSpriteAnimation::setPosition(PhVector2d s)
-{
-    pos = s;
-}
-
-PhVector2d PhSpriteAnimation::getPosition()
-{
-    return pos;
-}
-
-float PhSpriteAnimation::getRotation()
-{
-    return rot;
-}
-
-void PhSpriteAnimation::setRotation(float r)
-{
-    rot = r;
-}
-
-bool PhSpriteAnimation::getFlip()
-{
-    return flip;
-}
-
-void PhSpriteAnimation::setFlip(bool f)
-{
-    flip = f;
-}
-
-PhColor PhSpriteAnimation::getColor()
-{
-    return color;
-}
-
-void PhSpriteAnimation::setColor(PhColor c)
-{
-    color = c;
-}
-
-PhVector2d PhSpriteAnimation::getScale()
-{
-    return scale;
-}
-
-void PhSpriteAnimation::setScale( PhVector2d s )
-{
-    scale = s;
-}
-
-void PhSpriteAnimation::enable() {
-    enabled = true;
-}
-
-void PhSpriteAnimation::disable() {
-    enabled = false;
-}
-
 void PhSpriteAnimation::onPreRender()
 {
     if(enabled) {
-        smgr->registerForRendering(this);
+        smanager->registerForRendering(this);
     }
 }
 
@@ -171,7 +67,7 @@ void PhSpriteAnimation::onRender()
     x =  floor(frame) * framesize.getX();
     y = (floor(frame/(texture->getWidth()/framesize.getX()))) * framesize.getY();
 
-    smgr->getRenderSystem()->drawTexturePart( texture, pos, PhRect( x, y, framesize.getX(), framesize.getY() ), depth, rot, scale, color, flip );
+    smanager->getRenderSystem()->drawTexturePart( texture, pos, PhRect( x, y, framesize.getX(), framesize.getY() ), depth, rot, scale, color, flip );
 
 }
 

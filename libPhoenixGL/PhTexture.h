@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ THE SOFTWARE.
 #include "GL/gl.h"
 #include "PhColor.h"
 #include "PhTextureManager.h"
+#include "PhVector2d.h"
 
 namespace phoenix
 {
@@ -80,7 +81,7 @@ namespace phoenix
             \param a The width of the texture.
             \param b The height of the texture.
         */
-        PhTexture(PhTextureManager* t, int a, int b);
+        PhTexture(PhTextureManager* t, const int& a, const int& b);
 
         //! Destructor.
         /*!
@@ -95,13 +96,13 @@ namespace phoenix
             \param text An OpenGL texture identifier.
             \sa getTexture()
         */
-        void setTexture(const GLuint& text);
+        inline void setTextureId(const GLuint& text) { texture = text; }
 
         //! Get texture.
         /*!
             \return The openGL texture identifier stored by this object.
         */
-        const GLuint getTexture() const;
+        inline const GLuint& getTexture() const { return texture; }
 
         //! Set name.
         /*!
@@ -109,7 +110,7 @@ namespace phoenix
             \param nm The name of the string (It is usually the filename of the texture loaded).
             \sa setName(), phoenix::PhTextureManager
         */
-        void setName(const std::string& nm);
+        inline void setName(const std::string& nm) { name = nm; }
 
         //! Get name.
         /*!
@@ -117,7 +118,7 @@ namespace phoenix
             \return A string containing the name of this texture.
             \sa getName(), phoenix::PhTextureManager
         */
-        const std::string getName() const;
+        inline const std::string& getName() const { return name; }
 
         //! Set width.
         /*!
@@ -125,14 +126,14 @@ namespace phoenix
             \param var The new width.
             \sa getWidth()
         */
-        void setWidth(const int& var);
+        inline void setWidth(const int& var) { width = var; }
 
         //! Get width.
         /*!
             \return The current width of the texture.
             \sa setWidth()
         */
-        const int getWidth() const;
+        inline const int& getWidth() const { return width; }
 
         //! Set height.
         /*!
@@ -140,14 +141,33 @@ namespace phoenix
             \param var The new height.
             \sa getHeight()
         */
-        void setHeight(const int& var);
+        inline void setHeight(const int& var) { height = var; }
 
         //! Get height.
         /*!
             \return The current height of the texture.
             \sa setHeight()
         */
-        const int getHeight() const;
+        inline const int& getHeight() const { return height; }
+
+        //! Get size.
+        /*!
+            \return The current size of the texture
+            \sa setSize()
+        */
+        inline const PhVector2d getSize() const { return PhVector2d( width, height ); }
+
+        //! Set size.
+        /*!
+            Sets the current size of the texture.
+            \note Be careful
+            \sa getSize()
+        */
+        inline void setSize(const PhVector2d& sz)
+        {
+			width = int(sz.getX());
+			height = int(sz.getY());
+		}
 
         //! Lock texture.
         /*!
@@ -192,6 +212,12 @@ namespace phoenix
             \return True if it was able to bind.
         */
         bool bindTexture();
+
+        //! Copy texture.
+        /*!
+			Makes a hard (separate) copy of the texture.
+		*/
+		PhTexture* copy();
 
     };
 

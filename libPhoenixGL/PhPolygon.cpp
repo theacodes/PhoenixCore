@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,13 +27,25 @@ THE SOFTWARE.
 using namespace phoenix;
 
 PhPolygon::PhPolygon()
-        : vertcount(0), pos(0,0), radius(0.0f)
+	: pos(0,0), radius(0.0f)
 {
+	verts.clear();
 }
 
-PhPolygon::PhPolygon(PhVector2d a)
-        : vertcount(0), pos(a), radius(0.0f)
+PhPolygon::PhPolygon(const PhVector2d& a)
+	: pos(a), radius(0.0f)
 {
+	verts.clear();
+}
+
+PhPolygon::PhPolygon(const PhRect& other)
+	: radius(0.0f)
+{
+	pos = PhVector2d(other.getX()+(other.getWidth()/2.0f), other.getY()+(other.getHeight()/2.0f));
+	addPoint( PhVector2d( other.getX(), other.getY() ));
+	addPoint( PhVector2d( other.getX() + other.getWidth(), other.getY() ));
+	addPoint( PhVector2d( other.getX() + other.getWidth(), other.getY()+other.getHeight() ));
+	addPoint( PhVector2d( other.getX(), other.getY()+other.getHeight() ));
 }
 
 PhPolygon::~PhPolygon()
@@ -43,20 +55,9 @@ PhPolygon::~PhPolygon()
 
 void PhPolygon::clear()
 {
-    vertcount = 0;
     pos = PhVector2d(0,0);
     radius = 0.0f;
     verts.clear();
-}
-
-PhVector2d PhPolygon::getPosition()
-{
-    return pos;
-}
-
-void PhPolygon::setPosition(PhVector2d a)
-{
-    pos = a;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,64 +72,26 @@ void PhPolygon::setPosition(PhVector2d a)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Another note about this exception to the naming conventions.
-// Although this shold be "addVertex" and "addPoint" the names are misleading
 // The class does not automatically sort the vectors by angle.
-// so you're actually "pushing" the vertex or point to the back of the stack
-// of vectors on the polygon, the same way you push data into a std::vector
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhPolygon::pushVertex(PhVector2d a)
+void PhPolygon::addVertex(const PhVector2d& a)
 {
     verts.push_back(a);
-    vertcount+=1;
     if (a.getMagnitude()>radius)
     {
         radius = a.getMagnitude();
     }
 }
 
-void PhPolygon::pushPoint(PhVector2d a)
+void PhPolygon::addPoint(const PhVector2d& a)
 {
     verts.push_back( a-pos );
-    vertcount+=1;
     if ((a-pos).getMagnitude()>radius)
     {
         radius = (a-pos).getMagnitude();
     }
 
-}
-
-int PhPolygon::getVertexCount()
-{
-    return vertcount;
-}
-
-PhVector2d PhPolygon::getVertex(int a)
-{
-    if (a < vertcount)
-    {
-        return verts[a];
-    }
-    return verts[0];
-}
-
-void PhPolygon::setVertex(int a, PhVector2d v)
-{
-    if (a < vertcount)
-    {
-        verts[a] = v;
-    }
-}
-
-float PhPolygon::getRadius()
-{
-    return radius;
-}
-
-void PhPolygon::rotate(const float& rad)
-{
-    PhRotationMatrix m(rad);
-    rotate(m);
 }
 
 void PhPolygon::rotate(const PhRotationMatrix& m)
@@ -141,18 +104,17 @@ void PhPolygon::rotate(const PhRotationMatrix& m)
 
 const PhPolygon& PhPolygon::operator= (const PhPolygon& other)
 {
-    vertcount = other.vertcount;
     verts = other.verts;
     pos = other.pos;
     radius = other.radius;
     return *this;
 }
 
-bool PhPolygon::operator== (PhPolygon other)
+const bool PhPolygon::operator== (const PhPolygon& other) const
 {
-    if (other.vertcount == vertcount&&other.pos == pos&&other.radius == radius)
+    if (other.pos == pos&&other.radius == radius)
     {
-        for (int i = 0; i < vertcount; i++)
+        for (unsigned int i = 0; i < verts.size(); i++)
         {
             if (!(verts[i] == other.verts[i]))
             {
@@ -164,14 +126,14 @@ bool PhPolygon::operator== (PhPolygon other)
     return false;
 }
 
-PhPolygon PhPolygon::operator* (float scalar)
+const PhPolygon PhPolygon::operator* (const float& scalar) const
 {
     PhPolygon temp = *this;
     temp.rotate(scalar);
     return temp;
 }
 
-PhPolygon& PhPolygon::operator*= (float scalar)
+const PhPolygon& PhPolygon::operator*= (const float& scalar)
 {
     rotate(scalar);
     return *this;

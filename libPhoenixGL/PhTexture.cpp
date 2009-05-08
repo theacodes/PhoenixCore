@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ PhTexture::PhTexture(PhTextureManager* t)
     txtmgr->addTexture(this);
 }
 
-PhTexture::PhTexture(PhTextureManager* t, int a, int b)
+PhTexture::PhTexture(PhTextureManager* t, const int& a, const int& b)
 	: txtmgr(t), width(a), height(b), name("")
 {
 
@@ -65,13 +65,14 @@ PhTexture::PhTexture(PhTextureManager* t, int a, int b)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     //clear the data (not needed until the texture is locked agian)
-    delete data;
+    delete [] data;
     data = NULL;
 
 }
 
 PhTexture::~PhTexture()
 {
+
     if (glIsTexture(texture))
     {
        glDeleteTextures(1, &texture);
@@ -79,65 +80,13 @@ PhTexture::~PhTexture()
 
     if (data!=NULL)
     {
-        delete data;
+        delete [] data;
     }
 
     txtmgr->removeTexture(this);
 
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// set and get the texture ID
-////////////////////////////////////////////////////////////////////////////////
-
-void PhTexture::setTexture(const GLuint& text)
-{
-    texture=text;
-}
-
-const GLuint PhTexture::getTexture() const
-{
-    return texture;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// set and get the texture name
-////////////////////////////////////////////////////////////////////////////////
-
-void PhTexture::setName(const std::string& nm)
-{
-    name=nm;
-}
-
-const std::string PhTexture::getName() const
-{
-    return name;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-// get and set width and height
-////////////////////////////////////////////////////////////////////////////////
-
-const int PhTexture::getWidth() const
-{
-    return width;
-}
-
-const int PhTexture::getHeight() const
-{
-    return height;
-}
-
-void PhTexture::setWidth(const int& var)
-{
-    width = var;
-}
-
-void PhTexture::setHeight(const int& var)
-{
-    height = var;
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // write and read pixel functions
@@ -195,7 +144,7 @@ void PhTexture::unlockTexture()
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-        delete data;
+        delete [] data;
 
         data = NULL;
 
@@ -234,4 +183,36 @@ bool PhTexture::bindTexture()
         return true;
     }
     return false;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Copy texture
+////////////////////////////////////////////////////////////////////////////////
+
+PhTexture* PhTexture::copy()
+{
+     // Generate the destination texture
+     GLuint nTexID_out = 0;
+     glGenTextures( 1, &nTexID_out );
+     glBindTexture( GL_TEXTURE_2D, nTexID_out );
+     glTexParameteri( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+     glTexParameteri( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+     // bind the source texture and get the texels
+     lockTexture();
+
+     // bind the output texture and copy the image
+     glBindTexture( GL_TEXTURE_2D, nTexID_out );
+     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width,height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data );
+
+     unlockTexture();
+
+     PhTexture* newtexture = new PhTexture(txtmgr);
+     newtexture->setTextureId( nTexID_out );
+     newtexture->setWidth( width );
+     newtexture->setHeight( width );
+     newtexture->setName( name + " copy" );
+
+     return newtexture;
 }

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ namespace phoenix
             \param z Blue component.
             \param a Alpha component (default 255)
         */
-        PhColor( int x, int y, int z, int a = 255);
+        PhColor( const int& x, const int& y, const int& z, const int& a = 255);
 
         //! Set red.
         /*!
@@ -59,7 +59,7 @@ namespace phoenix
             \param a Value from 0 to 255.
             \sa getRed()
         */
-        void setRed(const int& a);
+        inline void setRed(const int& a) { red = a; }
 
         //! Set green.
         /*!
@@ -67,7 +67,7 @@ namespace phoenix
             \param a Value from 0 to 255.
             \sa getGreen()
         */
-        void setGreen(const int& a);
+        inline void setGreen(const int& a) { green = a; }
 
         //! Set blue.
         /*!
@@ -75,7 +75,7 @@ namespace phoenix
             \param a Value from 0 to 255.
             \sa getBlue()
         */
-        void setBlue(const int& a);
+        inline void setBlue(const int& a) { blue = a; }
 
         //! Set alpha.
         /*!
@@ -84,35 +84,35 @@ namespace phoenix
             \param a Value from 0 to 255.
             \sa getAlpha().
         */
-        void setAlpha(const int& a);
+        inline void setAlpha(const int& a) { alpha = a; }
 
         //! Get red.
         /*!
             \return The red component of the color.
             \sa setRed()
         */
-        const int getRed() const;
+        inline const int& getRed() const { return red; }
 
         //! Get green.
         /*!
             \return The green component of the color.
             \sa setGreen()
         */
-        const int getGreen() const;
+        inline const int& getGreen() const { return green; }
 
         //! Get blue.
         /*!
             \return The blue component of the color.
             \sa setBlue()
         */
-        const int getBlue() const;
+        inline const int& getBlue() const { return blue; }
 
         //! Get alpha.
         /*!
             \return The alpha component of the color.
             \sa setAlpha()
         */
-        const int getAlpha()const;
+        inline const int& getAlpha() const { return alpha; }
 
         //! Set active color.
         /*!
@@ -126,7 +126,7 @@ namespace phoenix
             \return This color in encoded opengl format.
             \sa phoenix::PhRenderSystem::drawIndexedTriangleList()
         */
-        int toGLColor();
+        const int toGLColor() const;
 
         //! Interpolate.
         /*!
@@ -135,7 +135,7 @@ namespace phoenix
             \param dest The final color.
             \param percent What percent to interpolate.
         */
-        const PhColor interpolate(const PhColor& dest, const float& percent);
+        const PhColor interpolate(const PhColor& dest, const float& percent) const;
 
         PhColor& operator = (const PhColor& other);
 

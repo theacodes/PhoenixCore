@@ -1,18 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Name: Phoenix Game Library
-//  Copyright: GPL
-//  Author: Jon Parrott
+//  Copyright: MIT License
+//  Author: Jon Parrott, Denzel Morris
 //  Date: 16/05/06 21:10
 //  Description: Phoenix game library: started as
-//               a wrapper for SDL and OpenGL aimed
-//               at the fast creation of 2D games.
+//               a wrapper for OpenGL aimed
+//               at the creation of 2D games.
 //               It now includes many features needed
 //               For game development and is packaged
 //               As a staticly linked library.
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef PHOENIXINC
-#define PHOENIXINC
+#ifndef __PHOENIXINC__
+#define __PHOENIXINC__
 
 ////////////////////////////////////////////////////////////////////////////////
 //Headers that we need
@@ -119,12 +119,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "PhDrawNode.h"             //Draws a texture on the screen
-#include "PhBackground.h"  //Background node
-#include "PhSolidBackground.h"  //Background node
-#include "PhExtendedBackground.h" //background node
-#include "PhTileMap.h"             //tilemap
-#include "PhParticleSystem.h"      //particle system
-#include "PhVertexLightSystem.h"      //vertex light system.
-#include "PhLightManager.h"          //Pixel light system.
+#include "PhBackground.h"  			//Background node
+#include "PhSolidBackground.h"  	//Background node
+#include "PhExtendedBackground.h" 	//background node
+#include "PhTileMap.h"             	//tilemap
+#include "PhParticleSystem.h"      	//particle system.
 
 #endif

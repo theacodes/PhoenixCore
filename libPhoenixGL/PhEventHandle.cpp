@@ -86,6 +86,9 @@ void PhEventHandler::updateEvents()
 	{
 		mousebuttondown[i]=0;
 	}
+
+	//Now the magic happens
+	glfwPollEvents();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -99,6 +102,7 @@ void PhEventHandler::KeyboardCallback( int key, int action )
     	keys[key]=true;
     } else if (action == GLFW_RELEASE) {
     	keys[key] = false;
+    	keysdown[key] = true;
 	}
 }
 
@@ -129,52 +133,6 @@ void PhEventHandler::MouseWheelPosCallback( int pos )
 	mousewheelpos = pos;
 }
 
-
-////////////////////////////////////////////////////////////////////////////////
-//Get key function, it returns true if the given key was pressed
-////////////////////////////////////////////////////////////////////////////////
-
-const bool& PhEventHandler::getKey(const PhKey& a) const
-{
-    return keys[a];
-}
-
-const bool& PhEventHandler::getKeyPressed(const PhKey& a) const
-{
-    return keysdown[a];
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Get key function, it returns true if the given key was pressed
-////////////////////////////////////////////////////////////////////////////////
-
-const bool& PhEventHandler::getMouseButton(const PhMouseKey& a) const
-{
-    return mousebutton[a];
-}
-
-const bool& PhEventHandler::getMouseButtonPressed(const PhMouseKey& a) const
-{
-    return mousebuttondown[a];
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Get mouse wheel position function, returns the amount turned on the axis
-////////////////////////////////////////////////////////////////////////////////
-
-const int& PhEventHandler::getMouseWheelPosition() const
-{
-	return mousewheelpos;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Get mouse position functions
-////////////////////////////////////////////////////////////////////////////////
-
-const PhVector2d& PhEventHandler::getMousePosition() const
-{
-    return mousepos;
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 //This function will  return true if the user closed the window

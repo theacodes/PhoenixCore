@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,12 +35,37 @@ PhRect::PhRect()
 {
 }
 
-PhRect::PhRect(float a, float b, float c, float d)
+PhRect::PhRect(const float& a, const float& b, const float& c, const float& d)
 	: x(a), y(b), w(c), h(d)
 {
 }
 
-void PhRect::set (float a, float b, float c, float d)
+PhRect::PhRect( const PhPolygon& other )
+{
+	if( other.getVertexCount() >= 3 )
+	{
+		float minx=INFINITY,miny=INFINITY,maxx=-INFINITY,maxy=-INFINITY;
+
+		for(unsigned int i = 0; i < other.getVertexCount(); ++i)
+		{
+			PhVector2d vertex = other.getPosition() + other.getVertex(i);
+			if( vertex.getX() < minx ) minx = vertex.getX();
+			if( vertex.getY() < miny ) miny = vertex.getY();
+			if( vertex.getX() > maxx ) maxx = vertex.getX();
+			if( vertex.getY() > maxy ) maxy = vertex.getY();
+		}
+		x = minx;
+		y = miny;
+		w = maxx - minx;
+		h = maxy - miny;
+	}
+	else
+	{
+		*this = PhRect();
+	}
+}
+
+void PhRect::set (const float& a, const float& b, const float& c, const float& d)
 {
     x=a;
     y=b;
@@ -48,51 +73,7 @@ void PhRect::set (float a, float b, float c, float d)
     h=d;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// get and set methods
-////////////////////////////////////////////////////////////////////////////////
-
-float PhRect::getX()
-{
-    return x;
-}
-
-float PhRect::getY()
-{
-    return y;
-}
-
-float PhRect::getHeight()
-{
-    return h;
-}
-
-float PhRect::getWidth()
-{
-    return w;
-}
-
-void PhRect::setX(float a)
-{
-    x=a;
-}
-
-void PhRect::setY(float b)
-{
-    y=b;
-}
-
-void PhRect::setHeight(float c)
-{
-    h=c;
-}
-
-void PhRect::setWidth(float d)
-{
-    w=d;
-}
-
-PhRect PhRect::operator= (const PhRect other)
+const PhRect& PhRect::operator= (const PhRect& other)
 {
     x = other.x;
     y = other.y;

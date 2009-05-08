@@ -1,3 +1,27 @@
+/*
+
+Copyright (c) 2008, Jonathan Wayne Parrott, Denzel Morris.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
 #ifndef PHPARTICLESYSTEM_H
 #define PHPARTICLESYSTEM_H
 
@@ -15,7 +39,8 @@ namespace phoenix
     /*!
         The particle system provides an abstract way to create, manage, and effect particles.
         The user creates new particles by overloading PhParticle, adds them to the system by
-        overloading PhEmitter, and controls them using PhEffector.
+        overloading PhEmitter, and controls them using PhEffector. It's a fairly high-level
+        way of doing advanced efffects.
         \sa PhParticle, PhEffector, PhEmitter
     */
     class PhParticleSystem : public PhSceneNode
@@ -28,6 +53,8 @@ namespace phoenix
             \param s Pointer to the Scene Manager
         */
         PhParticleSystem(PhSceneManager* s);
+
+        //! Destructor
         ~PhParticleSystem();
 
         //! Add particle
@@ -125,21 +152,14 @@ namespace phoenix
             Used by PhParticle to draw itself.
             \return A pointer to the render system
         */
-        PhRenderSystem* getRenderSystem();
+        inline PhRenderSystem* getRenderSystem() const { return smanager->getRenderSystem(); }
 
-        //! Get scene manager
-        /*!
-            Used by PhParticle to get scene information
-            \return A pointer to the scenemanager
-        */
-        PhSceneManager* getSceneManager();
-
-        //! Get particle count
+		//! Get particle count
         /*!
             Used by PhEffector to know how many particles to effect.
             \return The current number of particles
         */
-        int getParticleCount();
+        inline const int getParticleCount() const { return particles.size(); }
 
         //! Get particle list
         /*!
@@ -147,7 +167,7 @@ namespace phoenix
             \return A pointer to the particle vector
             \sa getParticle()
         */
-        std::vector<PhParticle*>* getParticleList();
+        inline std::vector<PhParticle*>* getParticleList() { return &particles; }
 
         //! Get particle
         /*!
@@ -156,11 +176,10 @@ namespace phoenix
             \return A pointer to the particle at index n
             \sa getParticleCount(), getParticleList()
         */
-        PhParticle* getParticle(unsigned int n);
+        inline PhParticle* getParticle(const unsigned int& n) const { return particles[n]; }
 
     protected:
 
-        PhSceneManager* smgr;
         std::vector<PhParticle*> particles;
         std::vector<PhEmitter*> emitters;
         std::vector<PhEffector*> effectors;

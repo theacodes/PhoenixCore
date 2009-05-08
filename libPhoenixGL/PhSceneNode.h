@@ -25,6 +25,8 @@ THE SOFTWARE.
 #ifndef PHOENIXSN
 #define PHOENIXSN
 
+#include "PhSceneManager.h"
+
 namespace phoenix
 {
 
@@ -46,24 +48,36 @@ namespace phoenix
         */
         float depth;
 
+        //! Scenemanager value
+		PhSceneManager* smanager;
+
     public:
 
         //! Constructor.
         /*!
             Does nothing as this is a base class meant to be derived from.
         */
-        PhSceneNode()
+        PhSceneNode() : depth(0.0f), smanager( NULL )
         {}
 
-        PhSceneNode(float d) : depth(d)
-        {}
+		//! Constructor.
+		/*!
+			This one will actually set the scene manager value and depth, and add this blank node to the scenemanager
+			should be called in the initialization list of the constructor of derived classes.
+		*/
+        PhSceneNode(PhSceneManager* s, const float& d = 0.0f) : depth(d) , smanager(s)
+        {
+			if(smanager!=NULL) smanager->addNode(this);
+		}
 
         //! Virtual destructor.
         /*!
-            Does nothing. In overloaded destructors the node should remove itself from the scenemanager.
+            Removes the node from the list
         */
         virtual ~PhSceneNode()
-        {}
+        {
+        	if( smanager != NULL ) smanager->removeNode(this);
+		}
 
         //! Pre-render call.
         /*!
@@ -100,10 +114,7 @@ namespace phoenix
             \param d The new depth.
             \sa depth
         */
-        void setDepth(float d)
-        {
-            depth = d;
-        }
+        inline void setDepth(const float& d) { depth = d; }
 
         //! Get depth function.
         /*!
@@ -111,10 +122,16 @@ namespace phoenix
             \return Current depth.
             \sa depth
         */
-        float getDepth()
-        {
-            return depth;
-        }
+        inline const float& getDepth() const { return depth; }
+
+        //! Get scene manager.
+        inline PhSceneManager* getSceneManager( ) const { return smanager; }
+
+		//! Set scene manager.
+		/*!
+			\warning This does _not_ remove the node from the current scene manager, nor will it add the node to the new one.
+		*/
+		inline void setSceneManager( PhSceneManager* s ) { smanager = s; }
 
     };
 

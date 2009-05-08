@@ -1,3 +1,27 @@
+/*
+
+Copyright (c) 2008, Jonathan Wayne Parrott, Denzel Morris.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
 #ifndef PHLIGHTMANAGER_H
 #define PHLIGHTMANAGER_H
 
@@ -15,6 +39,10 @@ namespace phoenix
     //! Pixel-Based Light Manager.
     /*!
         This is the advanced pixel-based light manager, it provides ways to draw and manage pixel-based lights.
+        The pixel-based light manager works like this: PhSceneManager calls generateBuffer() at the
+        beginning of drawing, which goes through each light and draws them on the backbuffer. The light
+        manager then copies that buffer to a texture. After PhSceneManager is finished drawing all the nodes,
+        it calls drawBuffer(), which overlays the lights over the whole scene.
         \sa PhVertexLightManager
     */
     class PhLightManager
@@ -30,7 +58,7 @@ namespace phoenix
         */
         PhLightManager(PhSceneManager* s, PhVector2d ts = PhVector2d(256,256));
 
-        //! Destructor.
+        //! Dtor.
         /*!
             Deletes all the lights in the list.
         */
@@ -39,7 +67,7 @@ namespace phoenix
         //! Add light.
         /*!
             Adds a light to the manager, this is usually taken care of the the Light itself: Created lights
-            must register themselves with the light manager to be down (Similar to scenenodes).
+            must register themselves with the light manager to be drawn (Similar to scenenodes).
             \param l Pointer the the light to add.
             \sa removeLight(),clearLights()
         */
@@ -72,26 +100,27 @@ namespace phoenix
 
         //! Render buffer.
         /*!
-            This renders the buffer that all the lights were rendered to over the scene (at a depth of 99.0f).
-            This should be called after everything else is draw. This function is automatically called by
+            This renders the buffer that all the lights were rendered to over the scene (at a depth of 99.0f by default).
+            This should be called after everything else is drawn. This function is automatically called by
             PhSceneeManager after the onRender() step and before the onPostRender() step if lights are
             enabled.
+            \param depth The depth at which to draw the light buffer.s
             \sa PhSceneManager::drawAll(), generateBuffer()
         */
-        void renderBuffer();
+        void renderBuffer( float depth = 99.0f );
 
         //! Get buffer.
         /*!
             \return A pointer to the texture currently being used as a buffer for drawing lights.
             \sa generateBuffer(), renderBuffer()
         */
-        PhTexture* getBuffer() const;
+        inline PhTexture* getBuffer() const { return rtexture->getTexture(); }
 
         //! Get scenemanager.
         /*!
             \return A pointer to the scenemanager that manages us.
         */
-        PhSceneManager* getSceneManager() const;
+        inline PhSceneManager* getSceneManager() const { return smgr; }
 
     protected:
 

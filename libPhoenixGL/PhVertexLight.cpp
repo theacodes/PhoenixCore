@@ -1,8 +1,33 @@
+/*
+
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+
 #include "PhVertexLight.h"
 
 using namespace phoenix;
 
-PhVertexLight::PhVertexLight(PhVertexLightSystem* l, PhVector2d Position, PhColor c)
+PhVertexLight::PhVertexLight(PhVertexLightSystem* l, const PhVector2d& Position, const PhColor& c)
         : lsys(l), ambient(c), diffuse(c), specular(PhColor(127,127,127,255)), position(Position), catten(1.0f), latten(0.0f), qatten(0.0f), depth(0.0f)
 {
     lsys->addLight(this);
@@ -16,79 +41,7 @@ PhVertexLight::~PhVertexLight()
     }
 }
 
-void PhVertexLight::setAmbient(PhColor a)
-{
-    ambient = a;
-}
-void PhVertexLight::setDiffuse(PhColor d)
-{
-    diffuse = d;
-}
-void PhVertexLight::setSpecular(PhColor s)
-{
-    specular = s;
-}
-void PhVertexLight::setPosition(PhVector2d p)
-{
-    position = p;
-}
-void PhVertexLight::setDepth(float d)
-{
-    depth = d;
-}
-void PhVertexLight::setConstantAttenuation(float c)
-{
-    catten = c;
-}
-void PhVertexLight::setLinearAttenuation(float l)
-{
-    latten = l;
-}
-void PhVertexLight::setQuadraticAttenation(float q)
-{
-    qatten = q;
-}
-void PhVertexLight::setAttenuation(float c, float l, float q)
-{
-    catten = c;
-    latten = l;
-    qatten = q;
-}
-
-PhColor PhVertexLight::getAmbient()
-{
-    return ambient;
-}
-PhColor PhVertexLight::getDiffuse()
-{
-    return diffuse;
-}
-PhColor PhVertexLight::getSpecular()
-{
-    return specular;
-}
-PhVector2d PhVertexLight::getPosition()
-{
-    return position;
-}
-float PhVertexLight::getDepth()
-{
-    return depth;
-}
-float PhVertexLight::getConstantAttenuation()
-{
-    return catten;
-}
-float PhVertexLight::getLinearAttenuation()
-{
-    return latten;
-}
-float PhVertexLight::getQuadraticAttenuation()
-{
-    return qatten;
-}
-
-void PhVertexLight::setLight(int n)
+void PhVertexLight::setLight(const int& n)
 {
 
     GLfloat light_position[] = { position.getX(), position.getY(), 0.0f, 1.0f };

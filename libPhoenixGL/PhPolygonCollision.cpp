@@ -195,9 +195,9 @@ void PhPolygonCollisionHandler::removeStaticGeometry(PhStaticGeometry g)
 }
 
 //get all the static geometry
-vector<PhStaticGeometry> PhPolygonCollisionHandler::getStaticGeometry()
+vector<PhStaticGeometry>* PhPolygonCollisionHandler::getStaticGeometry()
 {
-    return level;
+    return &level;
 }
 
 //remove all the static geometry

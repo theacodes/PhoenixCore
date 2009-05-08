@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -43,9 +43,6 @@ namespace phoenix
         //! Color of the background.
         PhColor color;
 
-        //! Pointer to the scenemanager.
-        PhSceneManager* smgr;
-
     public:
 
         //! Constructor.
@@ -55,10 +52,7 @@ namespace phoenix
             \param c The color you want this background to use.
             \param d The depth of the background, default -100.0f
         */
-        PhSolidBackground(PhSceneManager* s, PhColor c = PhColor(255,255,255), float d = -100.0f);
-
-        //! Destructor.
-        ~PhSolidBackground();
+        PhSolidBackground(PhSceneManager* s, const PhColor& c = PhColor(255,255,255), const float& d = -100.0f);
 
         //! Set color.
         /*!
@@ -66,22 +60,19 @@ namespace phoenix
             \param c The new color.
             \sa getColor(), color
         */
-        void setColor(PhColor c);
+        inline void setColor(const PhColor& c) { color = c; }
 
         //! Get color.
         /*!
             \return The color of the background.
         */
-        PhColor getColor();
+        inline const PhColor& getColor() const { return color; }
 
         //! Overloaded prerender
         void onPreRender();
 
         //! Overloaded render
         void onRender();
-
-        //! Overloaded postrender
-        void onPostRender();
 
     };
 

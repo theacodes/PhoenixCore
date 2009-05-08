@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ THE SOFTWARE.
 
 //! The phoenix namespace.
 /*!
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -123,26 +123,26 @@ namespace phoenix
         /*!
             \param str The new caption of the window.
         */
-        void setWindowCaption(const std::string& str);
+        inline void setWindowCaption(const std::string& str) { glfwSetWindowTitle(str.c_str()); }
 
         //! Run.
         /*!
             This is one of the required functions of the render system. This should be called before
             all drawing functions and should be called once per frame. (perferably in a while loop).
         */
-        bool run();
+        const bool run();
 
         //! Get frames per second.
         /*!
             \return The average FPS over the total run time of the program.
         */
-        const float getFPS() const;
+        inline const float getFPS() const { return ( float(frame) / float(fpstimer.getTicks()) ); }
 
         //! Get ticks.
         /*!
             \return The number of ticks (ms) that have occured since the engine started.
         */
-        const double getTicks() const;
+        inline const double getTicks() const { return fpstimer.getTicks(); }
 
         //! Init system
         /*!
@@ -152,23 +152,24 @@ namespace phoenix
             \param fs Full screen (default false).
             \return True if it succeeded in creating a window & an opengl render context.
         */
-        bool initSystem( const PhVector2d& sc = PhVector2d(640,480),const bool& fs = false);
+        const bool initSystem( const PhVector2d& sc = PhVector2d(640,480),const bool& fs = false);
 
         //! Get screen size.
         /*!
             \return The size of the screen.
         */
-        const PhVector2d getScreenSize() const;
+        inline const PhVector2d& getScreenSize() const { return screensize; }
 
         //! Load texture.
         /*!
             Loads an image as a texture and adds it to the texture manager for garbage collection.
             Currently only .png files are supported. More formats are planned.
             \param filename The filename of the image to load.
-            \param linear Tells the loader to use linear filtering or not. (default false).
+            \param linear Tells the loader to use linear filtering or not. (default true).
+            \note Use nearest filtering for tilemaps, or anything that may look bad when scaled.
             \note Textures must be sizes that are a power of two. NPOT textures will experience artifacts.
         */
-        PhTexture* loadTexture( const std::string& filename , const bool& linear = false);
+        PhTexture* loadTexture( const std::string& filename , const bool& linear = true);
 
         //! Draw indexed trangle list.
         /*!
@@ -181,7 +182,7 @@ namespace phoenix
             \param tricount The number of trangles.
             \sa drawIndexedTriangleFan(), drawIndexedLine()
         */
-        void drawIndexedTriangleList(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int tricount );
+        void drawIndexedTriangleList(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& tricount );
 
         //! Draw indexed trangle fan.
         /*!
@@ -194,7 +195,7 @@ namespace phoenix
             \param vertcount The number of vertices.
             \sa drawIndexedTriangleList(), drawIndexedLine()
         */
-        void drawIndexedTriangleFan(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int vertcount );
+        void drawIndexedTriangleFan(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& vertcount );
 
         //! Draw indexed line.
         /*!
@@ -207,7 +208,7 @@ namespace phoenix
             \param vertcount The number of vertices.
             \sa drawIndexedTriangleFran(), drawIndexedTriangleList(), drawLine(), drawRay()
         */
-        void drawIndexedLine(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int vertcount );
+        void drawIndexedLine(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& vertcount );
 
 		//! Draw line.
 		/*!
@@ -219,7 +220,7 @@ namespace phoenix
 			\param b Color of the second vertex.
 			\sa drawRay()
 		*/
-		void drawLine(PhVector2d v1 = PhVector2d(0,0), PhVector2d v2 = PhVector2d(0,0), float depth = 0.0f, PhColor a = PhColor(255,255,255), PhColor b = PhColor(255,255,255,255));
+		void drawLine(const PhVector2d& v1 = PhVector2d(0,0), const PhVector2d& v2 = PhVector2d(0,0), const float& depth = 0.0f, const PhColor& a = PhColor(255,255,255), const PhColor& b = PhColor(255,255,255,255));
 
 		//! Draw ray.
 		/*!
@@ -231,7 +232,7 @@ namespace phoenix
 			\param b Color of the second vertex.
 			\sa drawLine()
 		*/
-		void drawRay(PhVector2d origin = PhVector2d(0,0), PhVector2d ray = PhVector2d(0,0), float depth = 0.0f, PhColor a = PhColor(255,255,255), PhColor b = PhColor(255,255,255,255));
+		void drawRay(const PhVector2d& origin = PhVector2d(0,0), const PhVector2d& ray = PhVector2d(0,0), const float& depth = 0.0f, const PhColor& a = PhColor(255,255,255), const PhColor& b = PhColor(255,255,255,255));
 
 		//! Draw rectangle.
         /*!
@@ -243,7 +244,7 @@ namespace phoenix
             \param c Color of the bottom-right corner.
             \param d Color of the bottom-left corner.
         */
-        void drawRectangle( PhRect r = PhRect(0,0,0,0), float depth = 0.0f, PhColor a = PhColor(255,255,255), PhColor b = PhColor(255,255,255), PhColor c = PhColor(255,255,255), PhColor d = PhColor(255,255,255) );
+        void drawRectangle( const PhRect& r = PhRect(0,0,0,0), const float& depth = 0.0f, const PhColor& a = PhColor(255,255,255), const PhColor& b = PhColor(255,255,255), const PhColor& c = PhColor(255,255,255), const PhColor& d = PhColor(255,255,255) );
 
         //! Draws a polygon.
         /*!
@@ -253,7 +254,7 @@ namespace phoenix
             \param a Color to draw it with.
             \param textured If this is false, then texturing will be disabled while this polygon is draw. If it is enabled then the currently binded texture will be used.
         */
-        void drawPolygon (PhPolygon P, float depth = 0.0f, PhColor a = PhColor(255,255,255));
+        void drawPolygon (const PhPolygon& P, const float& depth = 0.0f, const PhColor& a = PhColor(255,255,255));
 
         //! Draws a textured polygon.
         /*!
@@ -262,8 +263,9 @@ namespace phoenix
             \param texture The texture that will be applied to the polygon.
             \param depth Depth to draw it at.
             \param a Color to draw it with.
+            \param eyespace If true, it generates texture coordinates in eyespace instead of object space.
         */
-        void drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth = 0.0f, PhColor a = PhColor(255,255,255));
+        void drawTexturedPolygon (const PhPolygon& P, PhTexture* texture, const float& depth = 0.0f, const PhColor& a = PhColor(255,255,255), const bool& eyespace = false);
 
         //! Draw texture.
         /*!
@@ -277,7 +279,7 @@ namespace phoenix
             \param vflip If true, vertically.
             \sa drawTexturePart()
         */
-        void drawTexture( PhTexture* source, PhVector2d pos, float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool hflip = false, bool vflip = false);
+        void drawTexture( PhTexture* source, const PhVector2d& pos, const float& depth = 0.0f, const float& rot = 0.0f, const PhVector2d& scale = PhVector2d(1.0f,1.0f), const PhColor& color = PhColor(255,255,255), const bool& hflip = false, const bool& vflip = false);
 
         //! Draw texture part.
         /*!
@@ -293,7 +295,7 @@ namespace phoenix
             \param vflip If true, vertically.
             \sa drawTexture()
         */
-        void drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth = 0.0f, float rot = 0.0f, PhVector2d scale=PhVector2d(1.0f,1.0f), PhColor color=PhColor(255,255,255), bool hflip = false, bool vflip =false);
+        void drawTexturePart( PhTexture* source, const PhVector2d& pos, const PhRect& rect, const float& depth = 0.0f, const float& rot = 0.0f, const PhVector2d& scale=PhVector2d(1.0f,1.0f), const PhColor& color=PhColor(255,255,255), const bool& hflip = false, const bool& vflip =false);
 
         //! Draw text
         /*!
@@ -304,7 +306,7 @@ namespace phoenix
             \param depth The depth to draw it at.
             \sa loadFont()
         */
-        void drawText( std::string text, PhVector2d pos, PhColor color=PhColor(255,255,255), float depth = 0.0f);
+        void drawText( const std::string& text, const PhVector2d& pos, const PhColor& color=PhColor(255,255,255), const float& depth = 0.0f);
 
         //! Set font.
         /*!
@@ -312,38 +314,44 @@ namespace phoenix
             \param t The new font.
             \sa getFont()
         */
-        void setFont( PhTexture* t );
+        inline void setFont( PhTexture* t ) { font = t; }
 
         //! Get font.
         /*!
             \return The current textured used as a font.
             \sa setFont()
         */
-        PhTexture* getFont() const;
+        inline PhTexture* getFont() const { return font; }
 
         //! Get event handler.
         /*!
             \return A pointer to the event handler used by the system.
         */
-        PhEventHandler* getEventHandler() const;
+        inline PhEventHandler* getEventHandler() const { return events; }
 
         //! Get texture manager.
         /*!
             \return A pointer to the texture manager.
         */
-        PhTextureManager* getTextureManager() const;
+        inline PhTextureManager* getTextureManager() const { return textures; }
 
         //! Get log manager.
         /*!
         	\return A pointer to the log manager.
         */
-        PhLogManager* getLogManager() const;
+        inline PhLogManager* getLogManager() const { return logs; }
 
         //! Get vertex light system.
         /*!
         	\return A pointer to vertex light system.
         */
-        PhVertexLightSystem* getVertexLightSystem() const;
+        inline PhVertexLightSystem* getVertexLightSystem() const { return vlsys; }
+
+        //! Set vertex light system.
+        /*!
+			Allows you to change the light system to another
+        */
+        inline void setVertexLightSystem( PhVertexLightSystem* v ) { vlsys = v; }
 
         //! Set blend mode.
         /*!
@@ -358,18 +366,38 @@ namespace phoenix
             GL_ONE_MINUS_DST_ALPHA
             \sa setDefaultBlendMode()
         */
-        void setBlendMode(GLenum src, GLenum dst);
+        inline void setBlendMode(const GLenum& src, const GLenum& dst) { glBlendFunc(src,dst); }
 
         //! Set defualt blend mode.
         /*!
             Restores the engine to it's default blend mode (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA).
             \sa setBlendMode()
         */
-        void setDefaultBlendMode();
+        inline void setDefaultBlendMode() { setBlendMode(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA); }
 
+        //! Set vertex light state.
+        /*!
+			Enables or disables vertex lighting.
+        */
+        inline void setVertexLighting(const bool& a)
+        {
+			if (a)
+			{
+				glEnable(GL_LIGHTING);
+				vertexlighting = true;
+			}
+			else
+			{
+				glDisable(GL_LIGHTING);
+				vertexlighting = false;
+			}
+		}
 
-        void setVertexLighting(const bool& a);
-        const bool& getVertexLighting() const;
+        //! Get vertex light state.
+        /*!
+			Gets the current state of vertex lighting.
+        */
+        const bool& getVertexLighting() const { return vertexlighting; }
 
     };
 

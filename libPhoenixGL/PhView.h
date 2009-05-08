@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,8 @@ THE SOFTWARE.
 
 */
 
-#ifndef PHOENIXVIEW
-#define PHOENIXVIEW
+#ifndef __PHOENIXVIEW__
+#define __PHOENIXVIEW__
 
 #include "PhRenderSystem.h"
 
@@ -53,7 +53,7 @@ namespace phoenix
         /*!
             Stores the current scale factor of the scene, 1 is default.
         */
-        float scale;
+        PhVector2d scale;
 
         //! Render system pointer.
         /*!
@@ -66,72 +66,47 @@ namespace phoenix
         //! Constructor.
         /*!
             \param s A pointer to the phoenix::PhRenderSystem that this view will control
-            \param a X of the top-left corner of the view
-            \param b Y of the top-left corner of the view
+            \param p The position of the top-left corner of the view.
         */
-        PhView(PhRenderSystem* s,float a = 0, float b = 0);
-
-        //! Get X function.
-        /*!
-            \return Simply returns the X value of the view.
-        */
-        float getX();
-
-        //! Get Y function.
-        /*!
-            \return Simply returns the Y value of the view.
-        */
-        float getY();
+        PhView(PhRenderSystem* s, const PhVector2d& p = PhVector2d(0.0f,0.0f));
 
         //! Get rotation.
         /*!
             \return The current rotation of the view (in degrees).
         */
-        float getRotation();
+        inline const float& getRotation() const { return rot; }
 
         //! Get position (vector).
         /*!
             Gets the position of the current view as phoenix::PhVector2d().
             \return PhVector2d containing the top-left corner of the view.
         */
-        PhVector2d getPosition();
+        inline const PhVector2d& getPosition() const { return pos; }
 
         //! Get scale.
         /*!
             \return Returns the current scale of the view.
         */
-        float getScale();
+        inline const PhVector2d& getScale() const { return scale; }
 
-        //! Set X function.
-        /*!
-            Sets the X value of the top-left corner of the view.
-        */
-        void setX(float);
-
-        //! Set Y function.
-        /*!
-            Sets the Y value of the top-left corner of the view.
-        */
-        void setY(float);
-
-        //! Set position (vector).
+        //! Set position.
         /*!
             Sets the top-left corner of the view.
             \param p A phoenix::PhVector2d representing the new position.
         */
-        void setPosition(PhVector2d p);
+        inline void setPosition(const PhVector2d& p) { pos = p; }
 
         //! Set rotation.
         /*!
             Sets the rotation of the view (in degrees).
         */
-        void setRotation(float);
+        inline void setRotation(const float& r) { rot = r; }
 
         //! Set scale.
         /*!
             Sets the scale factor of the view.
         */
-        void setScale(float);
+        inline void setScale(const PhVector2d& s) { scale = s; }
 
         //! Set GL view
         /*!

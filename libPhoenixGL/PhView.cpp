@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,67 +30,9 @@ using namespace phoenix;
 // Constructors
 ////////////////////////////////////////////////////////////////////////////////
 
-PhView::PhView(PhRenderSystem* s, float a, float b)
-	: pos(a,b), rot(0.0f), scale(1.0f), system(s)
+PhView::PhView(PhRenderSystem* s, const PhVector2d& p)
+	: pos(p), rot(0.0f), scale(1.0f,1.0f), system(s)
 {
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Get X and Y functions
-////////////////////////////////////////////////////////////////////////////////
-
-float PhView::getX()
-{
-    return pos.getX();
-}
-
-float PhView::getY()
-{
-    return pos.getY();
-}
-
-float PhView::getRotation()
-{
-    return rot;
-}
-
-float PhView::getScale()
-{
-    return scale;
-}
-
-PhVector2d PhView::getPosition()
-{
-    return pos;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Set X and Y functions
-////////////////////////////////////////////////////////////////////////////////
-
-void PhView::setX(float a)
-{
-    pos.setX(a);
-}
-
-void PhView::setY(float a)
-{
-    pos.setY(a);
-}
-
-void PhView::setRotation(float a)
-{
-    rot = a;
-}
-
-void PhView::setScale(float a)
-{
-    scale = a;
-}
-
-void PhView::setPosition(PhVector2d p)
-{
-    pos = p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +49,7 @@ void PhView::setGLView()
 
     glLoadIdentity();
 
-    glScalef(scale,scale,1.0f);
+    glScalef(scale.getX(),scale.getY(),1.0f);
 
     glTranslatef(-x + (system->getScreenSize().getX()/2.0f),-y + (system->getScreenSize().getY()/2.0f),0.0f);
 

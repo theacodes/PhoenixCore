@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,15 +28,15 @@ THE SOFTWARE.
 #include "PhRenderSystem.h"
 #include "PhView.h"
 #include "PhPolygonCollision.h"
-#include "PhSceneNode.h"
-
-
 
 namespace phoenix
 {
 
     // forward declaration of PhLightManager
     class PhLightManager;
+
+    // forward declartion of PhSceneNode
+    class PhSceneNode;
 
     //! Scene Manager Class
     /*!
@@ -94,18 +94,6 @@ namespace phoenix
         */
         bool lightenable;
 
-        //! Number of nodes.
-        /*!
-            A simple count of all the nodes, probably not needed. (Could use std::vector::size())
-        */
-        int nodecount;
-
-        //! Number of nodes to be rendered.
-        /*!
-            A simple count of all the nodes to be rendered, probably not needed. (Could use std::vector::size())
-        */
-        int rnodecount;
-
         //! The default view.
         /*!
             A simple count of all the nodes, probably not needed. (Could use std::vector::size())
@@ -119,17 +107,7 @@ namespace phoenix
         /*!
             Function that sorts the nodes according to depth.
         */
-        static bool depthSort(PhSceneNode* a, PhSceneNode* b)
-        {
-            if ( a->getDepth() < b->getDepth() )
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        static bool depthSort(PhSceneNode* a, PhSceneNode* b);
 
     public:
 
@@ -153,14 +131,14 @@ namespace phoenix
             \sa phoenix::PhRenderSystem()
             \return A pointer to phoenix::PhRenderSystem().
         */
-        PhRenderSystem* getRenderSystem();
+        inline PhRenderSystem* getRenderSystem() const { return system; }
 
         //! Adds a scene node to the list.
         /*!
             Pushes a scene node onto the list.
             \param ptr A pointer to an instance of phoenix::PhSceneNode.
         */
-        void addNode(PhSceneNode* ptr);
+        inline void addNode(PhSceneNode* ptr) { nodes.push_back(ptr); }
 
         //! Removes a node from the list
         /*!
@@ -177,7 +155,7 @@ namespace phoenix
             \param ptr A pointer to an instance of phoenix::PhSceneNode.
             \sa phoenix::PhSceneNode::onRender(), drawAll()
         */
-        void registerForRendering(PhSceneNode* ptr);
+        inline void registerForRendering(PhSceneNode* ptr) { rendernodes.push_back(ptr); }
 
         //! Does one step for all the nodes.
         /*!
@@ -201,7 +179,7 @@ namespace phoenix
             \return A pointer to phoenix::PhPolygonCollisionHandler
             \sa setCollisionHandler(), phoenix::PhPolygonCollisionHandler.
         */
-        PhPolygonCollisionHandler* getCollisionHandler();
+        inline PhPolygonCollisionHandler* getCollisionHandler() const { return colhandle; }
 
         //! Sets a collision handler.
         /*!
@@ -211,35 +189,34 @@ namespace phoenix
             \param a A pointer to an instance of phoenix::PhPolygonCollisionHandler.
             \sa getCollisionHandler(), phoenix::PhPolygonCollisionHandler, drawAll(), colhandle
         */
-        void setCollisionHandler(PhPolygonCollisionHandler* a);
+        inline void setCollisionHandler(PhPolygonCollisionHandler* a) { colhandle = a; }
 
         //! Get light manager.
         /*!
             \sa PhLightManager, setLightManager(), enableLighting()
             \return A pointer to the current light manager.
         */
-        PhLightManager* getLightManager();
+        inline PhLightManager* getLightManager() const { return lmgr; }
 
         //! Set light manager.
         /*!
             Changes the currently active light manager.
-            \sa PhLightManager, getLightManager(), enableLighting()
+            \sa PhLightManager, getLightManager(), setLightingEnabled()
         */
-        void setLightManager(PhLightManager* l);
+        inline void setLightManager(PhLightManager* l) { lmgr = l; }
 
-        //! Enable lighting
+        //! Get lighting state
         /*!
-            Enables the lighting manager.
-            \sa PhLightManager, getLightManager(), disableLighting()
+			\returns True if lights are enabled, otherwise false.
+			\sa setLightingEnabled()
         */
-        void enableLighting();
+        inline bool& getLightingEnabled() { return lightenable; }
 
-        //! Disable lighting
-        /*!
-            Disables the lighting manager.
-            \sa PhLightManager, getLightManager(), enableLighting()
-        */
-        void disableLighting();
+        //! Set lighting state
+		/*!
+			\param s True if you want to enable lights, otherwise false.
+		*/
+		inline void setLightingEnabled(const bool& s) { lightenable = s; }
 
         //! Gets the current view.
         /*!
@@ -247,7 +224,7 @@ namespace phoenix
             \return a pointer to phoenix::PhView containing the current view.
             \sa setView(), phoenix::PhView
         */
-        PhView* getView();
+        inline PhView* getView() const { return defview; }
 
         //! Sets the current view
         /*!
@@ -255,21 +232,21 @@ namespace phoenix
             \param a a pointer to the new view
             \sa getView(), phoenix::PhView
         */
-        void setView(PhView* a);
+        inline void setView(PhView* a) { defview = a; }
 
         //! Sets the current view
         /*!
             Lazy version that simply changes the x and y of the current view.
-            \param x The new X coordinate of the view.
-            \param y The new Y coordinate of the view.
+            \param pos The new position of the view
             \sa getView(), phoenix::PhView
         */
-        void setView(int x, int y);
+        inline void setView( const PhVector2d& pos ) { defview->setPosition( pos ); }
 
     };
 
 }
 
+#include "PhSceneNode.h"
 #include "PhLightManager.h"
 
 #endif

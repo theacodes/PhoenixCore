@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -50,13 +50,6 @@ namespace phoenix
         */
         PhColor color;
 
-        //! Scenemager.
-        /*!
-        Pointer to the scenemanger, this is required by all scene nodes.
-        \sa phoenix::PhSceneManager
-        */
-        PhSceneManager* smgr;
-
         //! Texture.
         /*!
         Pointer to the texture to fill the screen with.
@@ -74,41 +67,35 @@ namespace phoenix
         \param c The color to colorize the texture with, defualts to (255,255,255).
         \param d The depth to be drawn at, defaults at -100.0f, but as long as it's behind all objects you should be fine.
         */
-        PhBackground(PhSceneManager* s, PhTexture* t, PhColor c = PhColor(255,255,255), float d = -100.0f);
-
-        //! Destructor.
-        /*!
-        Destructs the node, nothing to see here...
-        */
-        ~PhBackground();
+        PhBackground(PhSceneManager* s, PhTexture* t, const PhColor& c = PhColor(255,255,255), const float& d = -100.0f);
 
         //! Set color function.
         /*!
         Sets the color used to colorize the texture.
         \param c The new color.
         */
-        void setColor(const PhColor& c);
+        inline void setColor(const PhColor& c) { color = c; }
 
         //! Get color function.
         /*!
         Get the current color used to colorize the texture.
         \return The current color.
         */
-        const PhColor& getColor() const;
+        inline const PhColor& getColor() const { return color; }
 
         //! Set texture function.
         /*!
         Sets the texture used by this node.
         \param t The new texture.
         */
-        void setTexture(PhTexture* t);
+        inline void setTexture(PhTexture* t) { texture = t; }
 
         //! Get texture function.
         /*!
         Gets the current texture used by this node.
         \return The current texture.
         */
-        PhTexture* getTexture() const;
+        inline PhTexture* getTexture() const { return texture; }
 
         //! Overloaded onPreRender
         /*!
@@ -125,14 +112,6 @@ namespace phoenix
         \sa phoenix::PhSceneNode::onRender()
         */
         void onRender();
-
-        //! Overloaded onPostRender
-        /*!
-        Blank overload of PhSceneNode::onPostRender(), this class does
-        not need to do anything after it draws.
-        \sa phoenix::PhSceneNode::onPostRender()
-        */
-        void onPostRender();
 
     };
 

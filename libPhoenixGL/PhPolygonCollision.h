@@ -156,7 +156,7 @@ namespace phoenix
             if you really wanted to.
             \return a std::vector list of all the static geometry.
         */
-        vector<PhStaticGeometry> getStaticGeometry();
+        vector<PhStaticGeometry>* getStaticGeometry();
 
         //! Clear static geometry.
         /*!

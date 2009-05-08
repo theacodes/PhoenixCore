@@ -1,28 +1,72 @@
+/*
+
+Copyright (c) 2008, Jonathan Wayne Parrott, Denzel Morris.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
 #include "PhParticleSystem.h"
 
 using namespace phoenix;
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Ctor
+	The particle system behaves much like any
+	other scene node, save for the fact that
+	it also manages children.
+*/
 PhParticleSystem::PhParticleSystem(PhSceneManager* s)
+	: PhSceneNode( s, 0.0f)
 {
-    smgr = s;
-    smgr->addNode((PhSceneNode*)this);
-    depth = 0.0f;
     particles.clear();
     emitters.clear();
+    effectors.clear();
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Ctor
+	Just deletes all particles, effectors and emitters.
+*/
 PhParticleSystem::~PhParticleSystem()
 {
     deleteEmitters();
     deleteParticles();
-    smgr->removeNode(this);
+    deleteEffectors();
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Much like addSceneNode, this just adds a particle
+	to the list
+*/
 void PhParticleSystem::addParticle(PhParticle* p)
 {
     particles.push_back(p);
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	And the removal of a particle.
+*/
 void PhParticleSystem::removeParticle(PhParticle* p)
 {
     for (unsigned int i = 0; i < particles.size(); i++)
@@ -30,10 +74,15 @@ void PhParticleSystem::removeParticle(PhParticle* p)
         if (particles[i] == p)
         {
             particles.erase(particles.begin()+i,particles.begin()+i+1);
+            break;
         }
     }
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Repeat the same concept for the next couple of functions.
+*/
 void PhParticleSystem::addEmitter(PhEmitter* e)
 {
     emitters.push_back(e);
@@ -46,10 +95,15 @@ void PhParticleSystem::removeEmitter(PhEmitter* e)
         if (emitters[i] == e)
         {
             emitters.erase(emitters.begin()+i,emitters.begin()+i+1);
+            break;
         }
     }
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	And once more for effectors.
+*/
 void PhParticleSystem::addEffector(PhEffector* f)
 {
     effectors.push_back(f);
@@ -62,88 +116,90 @@ void PhParticleSystem::removeEffector(PhEffector* f)
         if (effectors[i] == f)
         {
             effectors.erase(effectors.begin()+i,effectors.begin()+i+1);
+            break;
         }
     }
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	These functions delete every particle,
+	emitter, or effector, respectively.
+*/
 void PhParticleSystem::deleteParticles()
 {
-    for (unsigned int i = 0; i < particles.size(); i++)
+    for (unsigned int i = 0; i < particles.size(); ++i)
     {
         delete particles[i];
+        --i;
     }
     particles.clear();
 }
 
 void PhParticleSystem::deleteEmitters()
 {
-    for (unsigned int i = 0; i < emitters.size(); i++)
+    for (unsigned int i = 0; i < emitters.size(); ++i)
     {
         delete emitters[i];
+        --i;
     }
     emitters.clear();
 }
 
 void PhParticleSystem::deleteEffectors()
 {
-    for (unsigned int i = 0; i < effectors.size(); i++)
+    for (unsigned int i = 0; i < effectors.size(); ++i)
     {
         delete effectors[i];
+        --i;
     }
     effectors.clear();
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Pre render call we go through every effector
+	and call preStep().
+	We'll also register to render just like
+	every other scene node
+*/
 void PhParticleSystem::onPreRender()
 {
 
-    for (unsigned int i = 0; i < effectors.size(); i++)
+    for (unsigned int i = 0; i < effectors.size(); ++i)
     {
         (effectors[i])->preStep();
     }
 
-    smgr->registerForRendering(this);
+    smanager->registerForRendering(this);
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Render call time. All we need to do is draw
+	every particle.
+*/
 void PhParticleSystem::onRender()
 {
-    for (unsigned int i = 0; i < particles.size(); i++)
+    for (unsigned int i = 0; i < particles.size(); ++i)
     {
         (particles[i])->draw();
     }
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+/*
+	Post render. All emitters are called,
+	Then all effectors.
+*/
 void PhParticleSystem::onPostRender()
 {
-    for (unsigned int i = 0; i < emitters.size(); i++)
+    for (unsigned int i = 0; i < emitters.size(); ++i)
     {
         (emitters[i])->step();
     }
-    for (unsigned int i = 0; i < effectors.size(); i++)
+    for (unsigned int i = 0; i < effectors.size(); ++i)
     {
         (effectors[i])->step();
     }
-}
-
-PhRenderSystem* PhParticleSystem::getRenderSystem()
-{
-    return smgr->getRenderSystem();
-}
-
-PhSceneManager* PhParticleSystem::getSceneManager()
-{
-    return smgr;
-}
-
-int PhParticleSystem::getParticleCount()
-{
-    return particles.size();
-}
-
-vector<PhParticle*>* PhParticleSystem::getParticleList(){
-    return &particles;
-}
-
-PhParticle* PhParticleSystem::getParticle(unsigned int n)
-{
-    return particles[n];
 }

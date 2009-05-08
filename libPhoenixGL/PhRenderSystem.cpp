@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2007, Jonathan Wayne Parrott.
+Copyright (c) 2007, Jonathan Wayne Parrott, Denzel Morris
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -57,26 +57,15 @@ PhRenderSystem::~PhRenderSystem()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//Sets the caption of the window
-////////////////////////////////////////////////////////////////////////////////
-
-void PhRenderSystem::setWindowCaption(const std::string& str)
-{
-	glfwSetWindowTitle(str.c_str());
-}
-
-////////////////////////////////////////////////////////////////////////////////
 //run function, should be called once every loop, it makes things ready for
 //a render.
 ////////////////////////////////////////////////////////////////////////////////
 
-bool PhRenderSystem::run()
+const bool PhRenderSystem::run()
 {
 
     //update events
     events->updateEvents();
-
-    glfwPollEvents();
 
     //flip the screen
     glfwSwapBuffers();
@@ -99,33 +88,10 @@ bool PhRenderSystem::run()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//Gets how fast the system is rendering
-////////////////////////////////////////////////////////////////////////////////
-
-const float PhRenderSystem::getFPS() const
-{
-
-    //Calculate the frames per second and create the string
-    return ( float(frame) / float(fpstimer.getTicks()) );
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Get the number of ticks since this thing was created
-////////////////////////////////////////////////////////////////////////////////
-
-const double PhRenderSystem::getTicks() const
-{
-
-    return fpstimer.getTicks();
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
 //This initializes the system
 ////////////////////////////////////////////////////////////////////////////////
 
-bool PhRenderSystem::initSystem( const PhVector2d& sc , const bool& fs )
+const bool PhRenderSystem::initSystem( const PhVector2d& sc , const bool& fs )
 {
 
     //somevars up everything else
@@ -233,15 +199,6 @@ bool PhRenderSystem::initSystem( const PhVector2d& sc , const bool& fs )
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//Get screen size
-////////////////////////////////////////////////////////////////////////////////
-
-const PhVector2d PhRenderSystem::getScreenSize() const
-{
-    return screensize;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 //Load texture function
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -306,7 +263,7 @@ PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool&
         }
 
         //Set up the PhTexture class
-        ctext->setTexture(texture);
+        ctext->setTextureId(texture);
         ctext->setWidth(width);
         ctext->setHeight(height);
         ctext->setName(filename);
@@ -314,16 +271,13 @@ PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool&
         //Return our texture
         return ctext;
 
-        //add it to the texture list to be cleaned up
-        textures->addTexture(ctext);
-
     }
 
     catch(int e)
     {
 
         PhTexture* ctext = new PhTexture(textures);
-        ctext->setTexture(0);
+        ctext->setTextureId(0);
         ctext->setWidth(0);
         ctext->setHeight(0);
         ctext->setName("FAILEDTOLOAD");
@@ -331,13 +285,11 @@ PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool&
         //Return our texture
         return ctext;
 
-        //add it to the texture list to be cleaned up
-        textures->addTexture(ctext);
-
     }
 
     //should never happen
     return NULL;
+    assert(false);
 
 }
 
@@ -345,7 +297,7 @@ PhTexture* PhRenderSystem::loadTexture( const std::string& filename, const bool&
 //Draws an indexed trangle list
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawIndexedTriangleList(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int tricount )
+void PhRenderSystem::drawIndexedTriangleList(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& tricount )
 {
 
     //enable the states first
@@ -375,7 +327,7 @@ void PhRenderSystem::drawIndexedTriangleList(GLfloat* vertices, GLfloat* normals
 //Draws an indexed triangle fan
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawIndexedTriangleFan(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int vertcount )
+void PhRenderSystem::drawIndexedTriangleFan(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& vertcount )
 {
 
     //enable the states first
@@ -405,7 +357,7 @@ void PhRenderSystem::drawIndexedTriangleFan(GLfloat* vertices, GLfloat* normals,
 //Draws an indexed line.
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawIndexedLine(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, int vertcount )
+void PhRenderSystem::drawIndexedLine(GLfloat* vertices, GLfloat* normals, GLfloat* tcoords, GLuint* colors, GLuint* indexlist, const int& vertcount )
 {
 
     //enable the states first
@@ -435,7 +387,7 @@ void PhRenderSystem::drawIndexedLine(GLfloat* vertices, GLfloat* normals, GLfloa
 //Draws a line
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawLine(PhVector2d v1, PhVector2d v2, float depth, PhColor a, PhColor b)
+void PhRenderSystem::drawLine(const PhVector2d& v1, const PhVector2d& v2, const float& depth, const PhColor& a, const PhColor& b)
 {
 
     //load the idenity
@@ -467,7 +419,7 @@ void PhRenderSystem::drawLine(PhVector2d v1, PhVector2d v2, float depth, PhColor
 //Draws a line
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawRay(PhVector2d origin, PhVector2d ray, float depth, PhColor a, PhColor b)
+void PhRenderSystem::drawRay(const PhVector2d& origin, const PhVector2d& ray, const float& depth, const PhColor& a, const PhColor& b)
 {
 
     //load the idenity
@@ -499,7 +451,7 @@ void PhRenderSystem::drawRay(PhVector2d origin, PhVector2d ray, float depth, PhC
 //Draws a rectangle
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawRectangle( PhRect r, float depth, PhColor a, PhColor b, PhColor c, PhColor d )
+void PhRenderSystem::drawRectangle( const PhRect& r, const float& depth, const PhColor& a, const PhColor& b, const PhColor& c, const PhColor& d )
 {
     //load the idenity
     glMatrixMode(GL_MODELVIEW);
@@ -539,7 +491,7 @@ void PhRenderSystem::drawRectangle( PhRect r, float depth, PhColor a, PhColor b,
 //Draws a polygon
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
+void PhRenderSystem::drawPolygon (const PhPolygon& P, const float& depth, const PhColor& a)
 {
 
     //load the idenity
@@ -557,11 +509,11 @@ void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
     int vertexCount = P.getVertexCount();
 
     //make some space for the arrays
-    GLuint* colors = new GLuint[vertexCount];
-    GLuint* indexlist = new GLuint[vertexCount];
-    GLfloat* normals = new GLfloat[vertexCount*3];
-    GLfloat* vertices = new GLfloat[vertexCount*3];
-    GLfloat* tcoords = new GLfloat[vertexCount*2];
+    GLuint colors[vertexCount];
+    GLuint indexlist[vertexCount];
+    GLfloat normals[vertexCount*3];
+    GLfloat vertices[vertexCount*3];
+    GLfloat tcoords[vertexCount*2];
 
     //fill them
     for (int i = 0; i < vertexCount; i ++)
@@ -588,11 +540,6 @@ void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
 
     glPopMatrix();
 
-    delete[] colors;
-    delete[] normals;
-    delete[] indexlist;
-    delete[] vertices;
-
     // enable texturing
     glEnable(GL_TEXTURE_2D);
 
@@ -602,7 +549,7 @@ void PhRenderSystem::drawPolygon (PhPolygon P, float depth, PhColor a)
 //Draws a polygon
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float depth, PhColor a)
+void PhRenderSystem::drawTexturedPolygon (const PhPolygon& P, PhTexture* texture, const float& depth, const PhColor& a, const bool& eyespace)
 {
 
     //load the idenity
@@ -622,10 +569,20 @@ void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float
 	float s_plane[] = { 1.0f/texture->getWidth(), 0.0, 0.0, 0.0};
 	float t_plane[] = { 0.0, 1.0f/texture->getHeight(), 0.0, 0.0};
 
-    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-	glTexGenfv(GL_S, GL_OBJECT_PLANE, s_plane);
-	glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-	glTexGenfv(GL_T, GL_OBJECT_PLANE, t_plane);
+	if( eyespace )
+	{
+		glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+		glTexGenfv(GL_S, GL_EYE_PLANE, s_plane);
+		glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+		glTexGenfv(GL_T, GL_EYE_PLANE, t_plane);
+	}
+	else
+	{
+		glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+		glTexGenfv(GL_S, GL_OBJECT_PLANE, s_plane);
+		glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+		glTexGenfv(GL_T, GL_OBJECT_PLANE, t_plane);
+	}
 
     //move where we need to be
     glTranslatef(P.getPosition().getX(), P.getPosition().getY(), depth);
@@ -634,11 +591,11 @@ void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float
     int vertexCount = P.getVertexCount();
 
     //make some space for the arrays
-    GLuint* colors = new GLuint[vertexCount];
-    GLuint* indexlist = new GLuint[vertexCount];
-    GLfloat* normals = new GLfloat[vertexCount*3];
-    GLfloat* vertices = new GLfloat[vertexCount*3];
-    GLfloat* tcoords = new GLfloat[vertexCount*2];
+    GLuint colors[vertexCount];
+    GLuint indexlist[vertexCount];
+    GLfloat normals[vertexCount*3];
+    GLfloat vertices[vertexCount*3];
+    GLfloat tcoords[vertexCount*2];
 
     //fill them
     for (int i = 0; i < vertexCount; i ++)
@@ -668,11 +625,6 @@ void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float
     glDisable(GL_TEXTURE_GEN_S);
 	glDisable(GL_TEXTURE_GEN_T);
 
-    delete[] colors;
-    delete[] normals;
-    delete[] indexlist;
-    delete[] vertices;
-
 }
 
 
@@ -680,7 +632,7 @@ void PhRenderSystem::drawTexturedPolygon (PhPolygon P, PhTexture* texture, float
 //Renders a Texture
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float depth, float rot, PhVector2d scale, PhColor color, bool hflip, bool vflip)
+void PhRenderSystem::drawTexture(  PhTexture* source, const PhVector2d& pos, const float& depth, const float& rot, const PhVector2d& scale, const PhColor& color, const bool& hflip, const bool& vflip)
 {
 
     glMatrixMode(GL_MODELVIEW);
@@ -740,12 +692,12 @@ void PhRenderSystem::drawTexture(  PhTexture* source, PhVector2d pos, float dept
 
     glPopMatrix();
 
-    glDisable(GL_TEXTURE_2D); //enable textures
+    glDisable(GL_TEXTURE_2D); //disable textures
 
 }
 
 //this draws a texture with a clipping rectangle
-void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect rect,  float depth, float rot, PhVector2d scale, PhColor color, bool hflip, bool vflip)
+void PhRenderSystem::drawTexturePart( PhTexture* source, const PhVector2d& pos, const PhRect& rect, const float& depth, const float& rot, const PhVector2d& scale, const PhColor& color, const bool& hflip, const bool& vflip)
 {
     //now for texture manipulations
     glMatrixMode(GL_TEXTURE);
@@ -818,24 +770,10 @@ void PhRenderSystem::drawTexturePart( PhTexture* source, PhVector2d pos, PhRect 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//font stuff.
-////////////////////////////////////////////////////////////////////////////////
-
-void PhRenderSystem::setFont( PhTexture* t )
-{
-    font = t;
-}
-
-PhTexture* PhRenderSystem::getFont() const
-{
-    return font;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 //Draw text on the screen
 ////////////////////////////////////////////////////////////////////////////////
 
-void PhRenderSystem::drawText( std::string text, PhVector2d pos, PhColor color, float depth)
+void PhRenderSystem::drawText( const std::string& text, const PhVector2d& pos, const PhColor& color, const float& depth)
 {
 
 
@@ -901,77 +839,5 @@ void PhRenderSystem::drawText( std::string text, PhVector2d pos, PhColor color, 
         glPopMatrix();
     }
 
-
-
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//Returns a pointer to the events handler
-////////////////////////////////////////////////////////////////////////////////
-
-PhEventHandler* PhRenderSystem::getEventHandler() const
-{
-    return events;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Returns a pointer to the texture manager
-////////////////////////////////////////////////////////////////////////////////
-
-PhTextureManager* PhRenderSystem::getTextureManager() const
-{
-    return textures;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Returns a pointer to the log manager
-////////////////////////////////////////////////////////////////////////////////
-
-PhLogManager* PhRenderSystem::getLogManager() const
-{
-	return logs;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//Returns a pointer to the light system.
-////////////////////////////////////////////////////////////////////////////////
-
-PhVertexLightSystem* PhRenderSystem::getVertexLightSystem() const
-{
-	return vlsys;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//sets blending mode
-////////////////////////////////////////////////////////////////////////////////
-
-void PhRenderSystem::setBlendMode(GLenum src, GLenum dst){
-    glBlendFunc(src,dst);
-}
-
-void PhRenderSystem::setDefaultBlendMode(){
-    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//sets and gets the vertexlighting state
-////////////////////////////////////////////////////////////////////////////////
-
-void PhRenderSystem::setVertexLighting(const bool& a)
-{
-    if (a)
-    {
-        glEnable(GL_LIGHTING);
-        vertexlighting = true;
-    }
-    else
-    {
-        glDisable(GL_LIGHTING);
-        vertexlighting = false;
-    }
-}
-
-const bool& PhRenderSystem::getVertexLighting() const
-{
-    return vertexlighting;
-}

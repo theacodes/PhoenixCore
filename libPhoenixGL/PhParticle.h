@@ -1,3 +1,27 @@
+/*
+
+Copyright (c) 2008, Jonathan Wayne Parrott, Denzel Morris.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
 #ifndef PHPARTICLE_H
 #define PHPARTICLE_H
 
@@ -19,12 +43,15 @@ namespace phoenix
 
         //! Constructor
         /*!
-            The defualt constructor initializes the type to zero and the partsys pointer to null.
+            The default constructor initializes the type to zero and the partsys pointer to null.
             In order for your particle to be managed by the partsys, you must set the pointer and
-            call PhParticleSystem::addParticle().
+            call PhParticleSystem::addParticle(). This is done automatically by the default
+            constructor.
+            \param p The particle system that will manage this particle.
+            \param t The particle type
             \sa getType(), setType()
         */
-        PhParticle();
+        PhParticle( PhParticleSystem* p = NULL, const int t = 0);
 
         //! Destructor
         /*!
@@ -42,7 +69,7 @@ namespace phoenix
             do all the particle behavior, including drawing itself.
             \sa destroy()
         */
-        virtual void draw();
+        virtual void draw() = 0;
 
         //! Destroy function
         /*!
@@ -58,14 +85,14 @@ namespace phoenix
             This returns the type of the particle that was set by the user (defualt 0).
             \sa type
         */
-        int getType();
+        inline const int& getType() const { return type; }
 
         //! Set user-defined type
         /*!
             This set the type of the particle (defualt 0).
             \sa type
         */
-        void setType(int i);
+        void setType(const int& i) { type = i; }
 
     protected:
 
