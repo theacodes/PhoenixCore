@@ -6,6 +6,11 @@ Please see the license.txt file included with this source
 distribution for more information.
 
 */
+#ifdef MSVC
+#ifndef ENABLECONSOLE
+#include <windows.h>
+#endif
+#endif
 #include <iostream>
 #include <cstdio>
 
@@ -74,7 +79,6 @@ int main()
 //! MSVC WinMain
 #ifdef MSVC
 #ifndef ENABLECONSOLE
-#include <windows.h>
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
     return main();
 }

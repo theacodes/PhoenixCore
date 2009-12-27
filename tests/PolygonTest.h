@@ -40,29 +40,29 @@ class PolygonTest
             //! Let's make some polys.
 
             //! Poly 1 - Triangle. Basic constructor, addVertex
-            Polygon poly1;
+            phoenix::Polygon poly1;
             poly1.setPosition( Vector2d(50,150) );
             poly1.addVertex( Vector2d( 0,-30 ) );
             poly1.addVertex( Vector2d( 30,20 ) );
             poly1.addVertex( Vector2d( -30, 20 ) );
 
             //! Poly 2 - Square, Constructed from Rectangle.
-            Polygon poly2( Rectangle(180,150,150,150) );
+            phoenix::Polygon poly2( phoenix::Rectangle(180,150,150,150) );
 
             //! Poly 3 - Rectangleangle, Basic constructor, addPoint
-            Polygon poly3( Vector2d(0,0) );
+            phoenix::Polygon poly3( Vector2d(0,0) );
             poly3.addPoint( Vector2d(60,-30) );
             poly3.addPoint( Vector2d(-60,-30) );
             poly3.addPoint( Vector2d(-60,30) );
             poly3.addPoint( Vector2d(60,30) );
 
             //! Poly 4 is poly 1 scaled.
-            Polygon poly4( poly1 * 2.0f );
+            phoenix::Polygon poly4( poly1 * 2.0f );
             poly4.setPosition( Vector2d( 350,250 ) );
 
 
             //! Some sanity comparisons
-            Polygon Poly1Copy = poly1;
+            phoenix::Polygon Poly1Copy = poly1;
             cout<<"Poly 1 Copy == Poly1 ? "<< ( poly1 == Poly1Copy? "True" : "False" )<< endl;
             cout<<"Poly 1 Copy * 10.0f == Poly1 * 10.0f ? "<< ( (poly1*10.0f) == (Poly1Copy*10.f)? "True" : "False" )<< endl;
             cout<<"Poly 1 == Poly2 ? "<< ( poly1 == poly2? "True" : "False" )<< endl;

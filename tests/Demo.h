@@ -108,7 +108,7 @@ public:
         if ( EventReceiver::getKey( PHK_DOWN ) ) position += (Vector2d( 0.0f, -1.0f ) * (radius*5.0f / 1.2f)) * dtime * 1000.0f;
 
         // Update our geometry
-        geometry->fromRectangle( Rectangle( -16, -16, 32, 32 ) );
+        geometry->fromRectangle( phoenix::Rectangle( -16, -16, 32, 32 ) );
         geometry->colorize( color );
         geometry->scale( Vector2d( radius, radius ) );
         geometry->rotate( DegreesToRadians(rot) );
