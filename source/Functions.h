@@ -22,7 +22,7 @@ namespace phoenix
 		\return A pseudo random value between low and high.
 	*/
 	///random function
-	int random(int low,int high)
+	inline int random(int low,int high)
 	{
 		return ( rand() % (high - low + 1) + low);
 	}
