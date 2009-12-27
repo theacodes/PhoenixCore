@@ -7,6 +7,8 @@ project ( PhoenixCore)
 
 # Build oenix Core
 add_library( PhoenixCore STATIC
+	2dGraphicsFactory.h
+	2dGraphicsFactory.cpp
 	AbstractGarbageCollector.h
 	AbstractGeometryFactory.h
 	BatchGeometry.h

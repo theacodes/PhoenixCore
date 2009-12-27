@@ -102,9 +102,9 @@ class TextureTest
                 //! Draw some text to it.
                 rendertexture->startRender();
                 {
-                    boost::shared_ptr<BatchGeometry> geom = BatchGeometry::create( tbatch, phoenix::Rectangle(50,50,150,150) );
-                    geom->colorize( Color(255,0,0) );
-                    geom->setImmediate( true );
+                    system.setBatchRenderer( &tbatch );
+                    system.drawRectangle( phoenix::Rectangle(50,50,150,150), Color(255,0,0) );
+                    system.setBatchRenderer( &system );
                     tbatch.draw();
                 }
                 rendertexture->endRender();

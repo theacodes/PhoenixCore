@@ -26,7 +26,7 @@ enum E_GEOMFACTORY_FLAGS
     EFF_TEXTURE = 0x0004, //!< Texture applied.
     EFF_FUNCTIONS = 0x0008, //!< Group Functions applied.
     EFF_UPDATE = 0x0010, //!< Update Called.
-    EFF_ALL_NO_UPDATE, //!< All applied but update not called.
+    EFF_ALL_NO_UPDATE = 0x000F, //!< All applied but update not called.
     EFF_ALL = 0x001F //!< Alll applied & updated called.
 };
 

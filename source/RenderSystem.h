@@ -23,6 +23,7 @@ distribution for more information.
 #include "BatchRenderer.h"
 #include "AbstractGeometryFactory.h"
 #include "DebugConsole.h"
+#include "2dGraphicsFactory.h"
 
 //! The phoenix namespace.
 namespace phoenix
@@ -38,14 +39,6 @@ namespace phoenix
         ERT_BITMAP_FONT = 3
     };
 
-    //! Geometry Factory Flags
-    enum E_GEOMETRY_FLAGS
-    {
-        EGF_NONE = 0x0000,
-        EGF_HFLIP = 0x0001, //!< Horizontal Flip
-        EGF_VFLIP = 0x0002 //!< Vertical Flip
-    };
-
     //! The render system.
     /*!
         This is the heart of the Core. It ties together a ResourceManager, a BatchRender, Timer, and Fonts
@@ -54,7 +47,7 @@ namespace phoenix
         It also provides one entry point to initialize all of phoenix's subsystems.
     */
     class RenderSystem
-		: public BatchRenderer, public AbstractGeometryFactory
+		: public BatchRenderer, public GraphicsFactory2d
     {
 
     public:
@@ -172,87 +165,6 @@ namespace phoenix
 
         //! Find texture by OpenGL Texture ID.
         boost::shared_ptr<Texture> findTexture(const GLuint& _i);
-
-		//! Draws a 2D line segment with a color for each end.
-		/*!
-            This is a geometry factory.
-			\param _v1 The vector to the first point of the line.
-			\param _v2 The vector to the second point of the line.
-			\param _a Color of the first vertex.
-			\param _b Color of the second vertex.
-			\sa drawRay()
-		*/
-		boost::shared_ptr<BatchGeometry> drawLine(const Vector2d& _v1 = Vector2d(0,0), const Vector2d& _v2 = Vector2d(0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255,255));
-
-		//! Draws a 2D ray with a color for each end starting from the origin.
-		/*!
-            This is a geometry factory.
-			\param _o The Point of origin.
-			\param _r The Ray.
-			\param _a Color of the start of the ray.
-			\param _b Color of the end of the ray.
-			\sa drawLine()
-		*/
-		inline boost::shared_ptr<BatchGeometry> drawRay(const Vector2d& _o = Vector2d(0,0), const Vector2d& _r = Vector2d(0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255,255))
-        {
-            return drawLine( _o, _o+_r, _a, _b );
-        }
-
-		//! Draw rectangle.
-        /*!
-            Draws a rectangle with a color for each corner. This is a geometry factory.
-            \param _r The rectangle to be drawn.
-            \param _a Color of the top-left corner.
-            \param _b Color of the top-right corner.
-            \param _c Color of the bottom-right corner.
-            \param _d Color of the bottom-left corner.
-        */
-        boost::shared_ptr<BatchGeometry> drawRectangle( const Rectangle& _r = Rectangle(0,0,0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255), const Color& _c = Color(255,255,255), const Color& _d = Color(255,255,255) );
-
-        //! Draws a polygon.
-        /*!
-            Simply draws a polygon with the given depth and color. This is a geometry factory.
-        */
-        boost::shared_ptr<BatchGeometry> drawPolygon (const Polygon& _p, const Color& _a = Color(255,255,255));
-
-        //! Draws a textured polygon.
-        /*!
-            Draws a polygon with the given depth and color and applies the given texture to the polygon. This function
-            automatically generates texture coordinates for the polygon in either eye space or object space.
-            By default, it generates them in object space. This is a geometry factory.
-            \param _p The Polygon to draw.
-            \param _t The Texture of the polygon.
-            \param _c The Color to be applied to the polygon.
-            \param _e Set to true to generate coordniates in eye space instead of object space.
-        */
-        boost::shared_ptr<BatchGeometry> drawTexturedPolygon (const Polygon& _p, boost::shared_ptr<Texture> _t, const Color& _c = Color(255,255,255), bool _e = false);
-
-        //! Draw texture.
-        /*!
-            Draws a textured rectangle with the same dimensions as the given texture at the specified position. This is a geometry factory.
-            \param _t The texture to draw.
-            \param _p Where to draw it at.
-            \param _rot Rotation Matrix.
-            \param _scale Scale.
-            \param _color Color.
-            \param _flags E_GEOMETRY_FLAGS for certain effects.
-            \sa drawTexturePart()
-        */
-        boost::shared_ptr<BatchGeometry> drawTexture( boost::shared_ptr<Texture> _t, const Vector2d& _p, const RotationMatrix& _rot = RotationMatrix( 0.0f ), const Vector2d& _scale = Vector2d(1.0f,1.0f), const Color& _color = Color(255,255,255), unsigned int _flags = EGF_NONE );
-
-        //! Draws a texture with a clipping rectangle.
-        /*!
-            Draws a textured rectangle with the same dimensions as the given rectangle. This is a geometry factory.
-            \param _t The texture to draw.
-            \param _p Where to draw it at.
-            \param _rect The clipping rectangle, this defines the region of the texture to use.
-            \param _rot Rotation.
-            \param _scale Scale.
-            \param _color Color.
-            \param _flags E_GEOMETRY_FLAGS for certain effects.
-            \sa drawTexture()
-        */
-        boost::shared_ptr<BatchGeometry> drawTexturePart( boost::shared_ptr<Texture> _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot = RotationMatrix(0.0f), const Vector2d& _scale=Vector2d(1.0f,1.0f), const Color& _color=Color(255,255,255), unsigned int _flags = EGF_NONE );
 
         //! Draw text
         /*!

@@ -17,7 +17,7 @@ class RenderSystem;
     by default, accessible from RenderSystem::getDebugConsole().
 */
 class DebugConsole
-    : public AbstractGeometryFactory
+    : public virtual AbstractGeometryFactory
 {
 public:
 
