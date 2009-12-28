@@ -45,8 +45,9 @@ public:
 		Initializes the geometry graph and starts the garbage collection routines.
 	*/
 	BatchRenderer( )
-		: geometry(), recyclelist(), AbstractGarbageCollector( boost::bind( &BatchRenderer::pruneGeometry, this ) )
+		: geometry(), recyclelist(), AbstractGarbageCollector()
 	{
+        setGarbageCollectionFunction( boost::bind( &BatchRenderer::pruneGeometry, this ) );
 		//collect fast.
 		setSleepTime( 5 );
         setCollectionRate( 2 );

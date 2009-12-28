@@ -45,8 +45,9 @@ namespace phoenix
 
         //! Constructor
         ResourceManager( )
-			: resourcelist(), recyclelist(), AbstractGarbageCollector( boost::bind( &ResourceManager::garbageCollect, this ) )
+			: resourcelist(), recyclelist(), AbstractGarbageCollector()
 		{
+            setGarbageCollectionFunction( boost::bind( &ResourceManager::garbageCollect, this ) );
 		}
 
         //! Destructor
