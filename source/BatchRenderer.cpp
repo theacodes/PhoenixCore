@@ -100,10 +100,13 @@ void BatchRenderer::removeGeometryProper( boost::shared_ptr<BatchGeometry> _g, b
 		//now check the above containers.
 		if( geometry[ depth ][ groupid ][ textureid ][ primitivetype ].empty() ){
 			geometry[ depth ][ groupid ][ textureid ].erase( primitivetype );
+
 			if( geometry[ depth ][ groupid ][ textureid ].empty() ){
 				geometry[ depth ][ groupid ].erase( textureid );
+
 				if( geometry[ depth ][ groupid ].empty() ){
 					geometry[ depth ].erase( groupid );
+
 					if( geometry[ depth ].empty() ){
 						geometry.erase( depth );
 					}
@@ -160,6 +163,11 @@ void BatchRenderer::draw( )
 	glMatrixMode( GL_MODELVIEW );
 	glPushMatrix();
 
+    // Enable states
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+
 	//vector to store vertices.
 	std::vector< Vertex > vlist(10000);
 
@@ -167,27 +175,30 @@ void BatchRenderer::draw( )
 	boost::recursive_mutex::scoped_lock l( getMutex() );
 
 	//depth
-	BOOST_FOREACH( BATCHMAPDELTA::value_type& deltapair, geometry )
+    BATCHMAPDELTA::iterator deltaend = geometry.end();
+    for( BATCHMAPDELTA::iterator deltapair = geometry.begin(); deltapair != deltaend; ++deltapair )
 	{
 
 		//Iterate through each group
-		BOOST_FOREACH( BATCHMAPGAMMA::value_type& gammapair, deltapair.second )
+        BATCHMAPGAMMA::iterator gammaend = deltapair->second.end();
+        for( BATCHMAPGAMMA::iterator gammapair = deltapair->second.begin(); gammapair != gammaend; ++gammapair )
 		{
 
-			GEOMCONTAINER::iterator groupmaster  = gammapair.second.begin()->second.begin()->second.begin();
+            shared_ptr<BatchGeometry> groupmaster  = (*gammapair->second.begin()->second.begin()->second.begin());
 
-			if( (*groupmaster) )
-				(*groupmaster)->groupBegin();
+			if( groupmaster )
+				groupmaster->groupBegin();
 
 			//Iterate through each texture.
-			BOOST_FOREACH( BATCHMAPBETA::value_type& betapair, gammapair.second )
+            BATCHMAPBETA::iterator betaend = gammapair->second.end();
+			for( BATCHMAPBETA::iterator betapair = gammapair->second.begin(); betapair != betaend; ++betapair )
 			{
 
 				//set our texture
 				glEnable( GL_TEXTURE_2D );
-				if( (betapair.first) )
+				if( (betapair->first) )
 				{
-					(*(betapair.second.begin())->second.begin())->getTexture()->bind();
+					(*(betapair->second.begin())->second.begin())->getTexture()->bind();
 				}
 				else
 				{
@@ -195,19 +206,18 @@ void BatchRenderer::draw( )
 				}
 
 				// Now run down through each primitive type
-				BOOST_FOREACH( BATCHMAPALPHA::value_type& alphapair, betapair.second )
+                BATCHMAPALPHA::iterator alphaend = betapair->second.end();
+				for( BATCHMAPALPHA::iterator alphapair = betapair->second.begin(); alphapair != alphaend; ++alphapair )
 				{
 
-					//clear the vlist
-					vlist.clear();
-
 					//now loop for each piece of geometry.
-					BOOST_FOREACH( boost::shared_ptr<BatchGeometry>& g , alphapair.second )
-					{
-						if( ! g->dropped() )
+                    GEOMCONTAINER::iterator geomend = alphapair->second.end();
+                    for( GEOMCONTAINER::iterator geom = alphapair->second.begin(); geom != geomend; ++geom )
+                    {
+						if( (*geom) && ! (*geom)->dropped() )
 						{
 							try{
-								g->batch( vlist );
+								(*geom)->batch( vlist );
 							}catch(...)
 							{
 								assert( false ); // Not enough space.
@@ -218,8 +228,14 @@ void BatchRenderer::draw( )
 					// Check for empty then send it to the graphics card.
 					if( ! vlist.empty() )
 					{
-						glInterleavedArrays( GL_T2F_C4UB_V3F, 0, &vlist[0] );
-						glDrawArrays( alphapair.first , 0, vlist.size() );
+                        glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vlist[0].tcoords);
+                        glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), &vlist[0].color);
+                        glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &vlist[0].position);
+
+						glDrawArrays( alphapair->first , 0, vlist.size() );
+
+                        //clear the vlist
+					    vlist.clear();
 					}
 
 				} // Primitive Type
@@ -227,8 +243,8 @@ void BatchRenderer::draw( )
 			} // Texture
 
 			// call the end group function
-			if( (*groupmaster) )
-				(*groupmaster)->groupEnd();
+			if( groupmaster )
+				groupmaster->groupEnd();
 
 		} // Group
 
@@ -236,6 +252,11 @@ void BatchRenderer::draw( )
 
 	//matrix
 	glPopMatrix();
+
+    // disabled states
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
 
 	// Prune.
 	pruneGeometry();

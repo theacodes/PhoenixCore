@@ -326,8 +326,9 @@ public:
 		{
 			if( ! vertices.empty() )
 			{
-				BOOST_FOREACH( Vertex& v, vertices )
-					list.push_back( v );
+                std::vector<Vertex>::iterator verticesend = vertices.end();
+                for( std::vector<Vertex>::iterator v = vertices.begin(); v != verticesend; ++v )
+					list.push_back( *v );
 			}
 			return 1;
 		}
@@ -417,14 +418,14 @@ public:
 		setPrimitiveType( GL_TRIANGLES ); //primive type must be triangles.
 		update();
 		vertices.clear();
-		//simple vertex to triangle expansion.
+		//simple polygon to triangle expansion.
 		if( rhs.getVertexCount() > 2 )
 		{
-			for( unsigned int i = 0; i < rhs.getVertexCount(); ++i )
+			for( signed int i = 0; i < (signed int)rhs.getVertexCount(); ++i )
 			{
-				vertices.push_back( rhs.getPosition() );
-				vertices.push_back( rhs.getPosition() + rhs.getVertex(i) );
 				vertices.push_back( rhs.getPosition() + rhs.getVertex(i+1) );
+                vertices.push_back( rhs.getPosition() + rhs.getVertex(i) );
+                vertices.push_back( rhs.getPosition() );
 			}
 		}
 	}
