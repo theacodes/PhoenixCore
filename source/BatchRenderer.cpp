@@ -163,13 +163,9 @@ void BatchRenderer::draw( )
 	glMatrixMode( GL_MODELVIEW );
 	glPushMatrix();
 
-    // Enable states
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
-    glEnableClientState(GL_VERTEX_ARRAY);
-
 	//vector to store vertices.
-	std::vector< Vertex > vlist(10000);
+	std::vector< Vertex > vlist;
+    vlist.reserve( 1000 );
 
 	//iterate through the graph.
 	boost::recursive_mutex::scoped_lock l( getMutex() );
@@ -228,14 +224,25 @@ void BatchRenderer::draw( )
 					// Check for empty then send it to the graphics card.
 					if( ! vlist.empty() )
 					{
+                        // Enable states
+                        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                        glEnableClientState(GL_COLOR_ARRAY);
+                        glEnableClientState(GL_VERTEX_ARRAY);
+
                         glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vlist[0].tcoords);
                         glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), &vlist[0].color);
                         glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &vlist[0].position);
 
 						glDrawArrays( alphapair->first , 0, vlist.size() );
 
+                        // disable states
+                        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+                        glDisableClientState(GL_COLOR_ARRAY);
+                        glDisableClientState(GL_VERTEX_ARRAY);
+
                         //clear the vlist
 					    vlist.clear();
+
 					}
 
 				} // Primitive Type
@@ -252,11 +259,6 @@ void BatchRenderer::draw( )
 
 	//matrix
 	glPopMatrix();
-
-    // disabled states
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_COLOR_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
 
 	// Prune.
 	pruneGeometry();
