@@ -58,6 +58,9 @@ namespace phoenix
         */
         virtual ~ResourceManager()
         {
+            //clear the gc function
+            setGarbageCollectionFunction();
+            //drop all resources.
 			clearResourceList();
         }
 

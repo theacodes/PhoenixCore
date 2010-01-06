@@ -47,6 +47,7 @@ public:
 
 	/*!
 		Stops the thread.
+        \note If the garbage collection thread accesses derived members, you should reset the function first!
 	*/
 	virtual ~AbstractGarbageCollector()
 	{
@@ -98,7 +99,7 @@ public:
 		for example implementations.
 		\sa BatchRenderer::pruneGeometry(), ResourceManager::garbageCollect()
 	*/
-	void setGarbageCollectionFunction( const boost::function< void() >& _f ){
+    void setGarbageCollectionFunction( const boost::function< void() >& _f = boost::function< void() >() ){
 		boost::mutex::scoped_lock( gc_param_mutex );
 		gc_function = _f;
 	}

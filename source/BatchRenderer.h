@@ -59,6 +59,8 @@ public:
 	*/
 	virtual ~BatchRenderer()
 	{
+        //clear the gc function
+        setGarbageCollectionFunction();
 		//drop all geometry.
 		clearGeometry();
 	}
