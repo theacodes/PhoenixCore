@@ -43,13 +43,6 @@ int main()
         */
         system.drawText( "Hello, World!", Vector2d(50,50), Color( 255,0,0 ) );
 
-        /*!
-            The last call we'll need is to tell the system to draw everything. The previous
-            drawText call just tells the system that it needs to draw text, it doesn't
-            actually make it do it immediately. 
-        */
-        system.draw();
-
     }
 
     return 0;
