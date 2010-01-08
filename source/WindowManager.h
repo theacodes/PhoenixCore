@@ -37,57 +37,7 @@ public:
 		\param _sz The size of the window.
 		\param _f Fullscreen.
 	*/
-	inline static void open( Vector2d _sz = Vector2d( 640, 480 ), bool _f = false )
-	{
-
-        // Set our internal screen size variable.
-        screensize = _sz;
-
-		// No GLFW functions may be called before this
-		glfwInit();
-
-		// Important defines
-		#define RED_BITS 8
-		#define BLUE_BITS 8
-		#define GREEN_BITS 8
-		#define ALPHA_BITS 8
-		#define STENCIL_BITS 0
-		#ifdef DISABLE_DEPTHBUFFER
-			#define DEPTH_BITS 0
-		#else
-			#define DEPTH_BITS 8
-		#endif
-
-		// No resize
-		//glfwOpenWindowHint( GLFW_WINDOW_NO_RESIZE, GL_TRUE ); 
-
-		if(_f)
-		{
-			glfwOpenWindow(int(_sz.getX()), int(_sz.getY()), RED_BITS, BLUE_BITS, GREEN_BITS, ALPHA_BITS, DEPTH_BITS, STENCIL_BITS, GLFW_FULLSCREEN);
-		}
-		else
-		{
-			glfwOpenWindow(int(_sz.getX()), int(_sz.getY()), RED_BITS, BLUE_BITS, GREEN_BITS, ALPHA_BITS, DEPTH_BITS, STENCIL_BITS, GLFW_WINDOW);
-		}
-
-		// Now, disable vsync.
-		glfwSwapInterval( 0 );
-
-		// Set the window caption
-		setWindowCaption("PhoenixCore v0.1 Alpha");
-
-		// set GLFW callbacks
-		glfwSetKeyCallback( &EventReceiver::KeyboardCallback );
-		glfwSetMouseButtonCallback( &EventReceiver::MouseButtonCallback );
-		glfwSetMousePosCallback( &EventReceiver::MousePosCallback );
-		glfwSetWindowCloseCallback( &EventReceiver::WindowCloseCallback );
-		glfwSetMouseWheelCallback( &EventReceiver::MouseWheelPosCallback );
-        glfwSetWindowSizeCallback( &WindowManager::windowResizeDispatch );
-
-		// Disable key repeat; event receiver manages that.
-		glfwDisable(GLFW_KEY_REPEAT);
-
-	}
+	static void open( Vector2d _sz = Vector2d( 640, 480 ), bool _f = false );
 
 	/*!
 		Closes and terminates the window.
@@ -122,6 +72,12 @@ public:
 
 	//! Restore
 	inline static void restore() { glfwRestoreWindow(); }
+
+    /*! Set Cursor Visibility.
+        Can hide or show the mouse cursor. Hiding it has three effects: The mouse cursor is invisible, the mouse is confined to the screen,
+        and coordinates are no long limited to the window size. By default, the mouse is hidden in fullscreen, but otherwise visible.
+    */
+    inline static void setCursorVisible(const bool _v) { _v ? glfwEnable( GLFW_MOUSE_CURSOR ) : glfwDisable( GLFW_MOUSE_CURSOR ); }
 
 	//! Swap Buffers and Update Events.
 	inline static void swapBuffers() 
