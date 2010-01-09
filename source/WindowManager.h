@@ -75,7 +75,7 @@ public:
 
     /*! Set Cursor Visibility.
         Can hide or show the mouse cursor. Hiding it has three effects: The mouse cursor is invisible, the mouse is confined to the screen,
-        and coordinates are no long limited to the window size. By default, the mouse is hidden in fullscreen, but otherwise visible.
+        and coordinates are no longer limited to the window size. By default, the mouse is hidden in fullscreen, but otherwise visible.
     */
     inline static void setCursorVisible(const bool _v) { _v ? glfwEnable( GLFW_MOUSE_CURSOR ) : glfwDisable( GLFW_MOUSE_CURSOR ); }
 
