@@ -22,7 +22,7 @@ public:
         We'll befriend Resource so we can use it's create()
         function, as you'll see.
     */
-    friend Resource;
+    friend class Resource;
 
     /*!
         Because of the way phoenix works internally, all resources
