@@ -12,13 +12,16 @@ project( PhoenixCore )
 ############################################
 
 # Hello, World!
-add_executable( HelloWorld 01\ helloworld.cpp )
-target_link_libraries( HelloWorld PhoenixCore ${LIBRARIES} )
+add_executable( 01HelloWorld 01\ helloworld.cpp )
+target_link_libraries( 01HelloWorld PhoenixCore ${LIBRARIES} )
 
 # Shapes
-add_executable( Shapes 02\ shapes.cpp )
-target_link_libraries( Shapes PhoenixCore ${LIBRARIES} )
+add_executable( 02Shapes 02\ shapes.cpp )
+target_link_libraries(  02Shapes PhoenixCore ${LIBRARIES} )
 
+# Textures
+add_executable( 03Textures 03\ textures.cpp )
+target_link_libraries( 03Textures PhoenixCore ${LIBRARIES} )
 
 # Box2d
 if( BOX2D )
