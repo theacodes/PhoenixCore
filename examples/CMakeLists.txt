@@ -23,6 +23,10 @@ target_link_libraries(  02Shapes PhoenixCore ${LIBRARIES} )
 add_executable( 03Textures 03\ textures.cpp )
 target_link_libraries( 03Textures PhoenixCore ${LIBRARIES} )
 
+# Persistent geometry
+add_executable( 04Persistence 04\ persistence.cpp )
+target_link_libraries( 04Persistence PhoenixCore ${LIBRARIES} )
+
 # Box2d
 if( BOX2D )
     add_executable( Box2d box2d.cpp )
