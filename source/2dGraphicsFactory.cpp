@@ -10,6 +10,7 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawLine(const Vector2d& _v1
 {
     // Just make some new geometry, set it to immediate, and add the line's vertices.
     boost::shared_ptr<BatchGeometry> linegeom = BatchGeometry::create( *renderer, GL_LINES, getTexture(), getGroup(), getDepth() );
+    apply( linegeom, EFF_FUNCTIONS );
 	linegeom->setImmediate( true );
 	linegeom->addVertex( Vertex( _v1, _a, TextureCoords(0,0) ) );
 	linegeom->addVertex( Vertex( _v2, _b, TextureCoords(1,1) ) );
@@ -26,6 +27,7 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawRectangle( const Rectang
 {
     // Use BatchGeometry's factory for it.
 	boost::shared_ptr<BatchGeometry> rectgeom = BatchGeometry::create( *renderer, _r, getTexture(), getGroup(), getDepth() );
+    apply( rectgeom, EFF_FUNCTIONS );
 	rectgeom->setImmediate( true );
 
     // now just set the colors.
@@ -45,6 +47,7 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawPolygon (const Polygon& 
 {
     // just use the BatchGeometry's factory
 	boost::shared_ptr<BatchGeometry> polygeom = BatchGeometry::create( *renderer, _p, getTexture(), getGroup(), getDepth());
+    apply( polygeom, EFF_FUNCTIONS );
 	polygeom->setImmediate( true );
 	polygeom->colorize( _c );
     return polygeom;
@@ -60,6 +63,7 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexturedPolygon (const P
     // Use the regular draw poly function to save us effort.
     setTexture( _t );
     boost::shared_ptr<BatchGeometry> polygeom = drawPolygon( _p, _c );
+    apply( polygeom, EFF_FUNCTIONS );
     setTexture();
 
     // planes for coordinate generation
@@ -93,6 +97,7 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexture(  boost::shared_
     // Use BatchGeometry's factory for rectangles.
 	boost::shared_ptr<BatchGeometry> geom = BatchGeometry::create( *renderer, Rectangle( -_t->getSize()/2.0f, _t->getSize()) , _t, getGroup(), getDepth() );
     geom->setImmediate( true );
+    apply( geom, EFF_FUNCTIONS );
 
     // scale, rotate it, and then translate it.
     geom->scale( _scale );
@@ -128,6 +133,7 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexturePart( boost::shar
     // Use BatchGeometry's factory for rectangles.
     boost::shared_ptr<BatchGeometry> geom = BatchGeometry::create( *renderer, Rectangle( -_rect.getDimensions()/2, _rect.getDimensions() ) , _t, getGroup(), getDepth() );
     geom->setImmediate( true );
+    apply( geom, EFF_FUNCTIONS );
 
     // scale, rotate it, and then translate it.
     geom->scale( _scale );
