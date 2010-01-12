@@ -35,6 +35,10 @@ target_link_libraries( 05Resources PhoenixCore ${LIBRARIES} )
 add_executable( 06Geometry 06\ geometry.cpp )
 target_link_libraries( 06Geometry PhoenixCore ${LIBRARIES} )
 
+# Views
+add_executable( 07Views 07\ views.cpp )
+target_link_libraries( 07Views PhoenixCore ${LIBRARIES} )
+
 # Box2d
 if( BOX2D )
     add_executable( Box2d box2d.cpp )
