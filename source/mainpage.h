@@ -22,8 +22,6 @@ int main()
 
         system.drawText( "Hello, World!", Vector2d(50,50) );
 
-        system.draw();
-
     }
 
 }
