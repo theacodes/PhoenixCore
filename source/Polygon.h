@@ -92,10 +92,7 @@ namespace phoenix
         inline void addVertex(const Vector2d& _v)
         {
             verts.push_back(_v);
-            if (_v.getMagnitude()>radius)
-            {
-                radius = _v.getMagnitude();
-            }
+            if (_v.getMagnitude()>radius){ radius = _v.getMagnitude(); }
         }
 
         //! Add point.
@@ -110,10 +107,7 @@ namespace phoenix
         inline void addPoint(const Vector2d& _v)
         {
             verts.push_back( _v-pos );
-            if ((_v-pos).getMagnitude()>radius)
-            {
-                radius = (_v-pos).getMagnitude();
-            }
+            if ((_v-pos).getMagnitude()>radius){ radius = (_v-pos).getMagnitude(); }
         }
 
         //! Get the current number of vertices in the polygon.
@@ -136,18 +130,19 @@ namespace phoenix
         /*!
 			\note This function acts like a ring buffer, this is to reduce the complexity of implementing some geometric algorithms.
         */
-        inline const Vector2d& getVertex(const signed int& a) const
+        inline const Vector2d& getVertex(const signed int& _i) const
         {
-            return verts[ a % verts.size() ];
+            return verts[ _i % verts.size() ];
         }
 
         //! Set a vertex's value.
         /*!
 			\note This function acts like a ring buffer, this is to reduce the complexity of implementing some geometric algorithms.
         */
-        inline void setVertex(const signed int& a, const Vector2d& v)
+        inline void setVertex(const signed int& _i, const Vector2d& _v)
         {
-            verts[ a % verts.size() ] = v;
+            verts[ _i % verts.size() ] = _v;
+            if ((_v).getMagnitude()>radius){ radius = (_v).getMagnitude(); }
         }
 
         //! Get the polygon's radius, the magnitude of the largest vertex in the polygon.
