@@ -324,7 +324,7 @@ public:
             // print some stats
             system.getDebugConsole()<<"\nSprites: "<<system.getResourceManager().getResourceCount()
                 <<"\nGeometry: "<<system.geometryCount()
-                <<"\nFrames Per Seconds: "<<system.getLastFPS()
+                <<"\nFrames Per Seconds: "<<system.getFPS()
                 <<"\nScreen Size: "<<WindowManager::getScreenSize().getX()<<", "<<WindowManager::getScreenSize().getY()
                 <<"\nBlend Mode: "<< (DemoParticle::blendmode ? "Smoke" : "Additive")
                 ;

@@ -181,7 +181,7 @@ int main()
             drawBody( system, body, Color(255,127,0));
             drawBody( system, ground );
 
-            system.getDebugConsole()<<"\nFPS: "<<system.getLastFPS();
+            system.getDebugConsole()<<"\nFPS: "<<system.getFPS();
         }
     }
 

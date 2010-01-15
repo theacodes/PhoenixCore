@@ -133,20 +133,11 @@ namespace phoenix
         }
 
         //! Get frames per second.
-        /*!
-            \return The FPS since the last time run() was called.
-        */
-        inline const double getFPS() const { return 1.0f/fpstimer.getTime(); }
-
-        //! Get last FPS
-        /*!
-			\return The previous FPS. Usually a little bit more stable.
-		*/
-		inline const double& getLastFPS() const { return framerate; }
+        inline const double getFPS() const { return framerate; }
 
         //! Get time.
         /*!
-            \return The amout in time (ms) that has occured since the engine started.
+            \return The amout in time ( in seconds ) that has occured since the last time run was called.
         */
         inline const double getTime() const { return fpstimer.getTime(); }
 

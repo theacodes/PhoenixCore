@@ -37,60 +37,56 @@ class ViewTest
             {
 
                 //! limit to 30fps
-                if( system.getFPS() < 30.0f ) 
-                {
+                if( system.getTime() < 1.0f/30.0f ) continue;
 
-                    // Run the system
-                    if( ! system.run() )
-                        break;
+                // Run the system
+                if( ! system.run() )
+                    break;
 
-                    //! Move the view with the arrow keys
-                    if(EventReceiver::getKey( PHK_LEFT ) )
-                        system.getView().setPosition( system.getView().getPosition()+Vector2d( -5,0 ) );
-                    if(EventReceiver::getKey( PHK_RIGHT ) )
-                        system.getView().setPosition( system.getView().getPosition()+Vector2d( 5,0 ) );
-                    if(EventReceiver::getKey( PHK_UP ) )
-                        system.getView().setPosition( system.getView().getPosition()+Vector2d( 0,-5 ) );
-                    if(EventReceiver::getKey( PHK_DOWN ) )
-                        system.getView().setPosition( system.getView().getPosition()+Vector2d( 0,5 ) );
+                //! Move the view with the arrow keys
+                if(EventReceiver::getKey( PHK_LEFT ) )
+                    system.getView().setPosition( system.getView().getPosition()+Vector2d( -5,0 ) );
+                if(EventReceiver::getKey( PHK_RIGHT ) )
+                    system.getView().setPosition( system.getView().getPosition()+Vector2d( 5,0 ) );
+                if(EventReceiver::getKey( PHK_UP ) )
+                    system.getView().setPosition( system.getView().getPosition()+Vector2d( 0,-5 ) );
+                if(EventReceiver::getKey( PHK_DOWN ) )
+                    system.getView().setPosition( system.getView().getPosition()+Vector2d( 0,5 ) );
 
-                    //! Rotate with q and w
-                    if(EventReceiver::getKey( PHK_W ) )
-                        system.getView().setRotation( system.getView().getRotation() + 10.0f );
-                    if(EventReceiver::getKey( PHK_Q ) )
-                        system.getView().setRotation( system.getView().getRotation() - 10.0f );
+                //! Rotate with q and w
+                if(EventReceiver::getKey( PHK_W ) )
+                    system.getView().setRotation( system.getView().getRotation() + 10.0f );
+                if(EventReceiver::getKey( PHK_Q ) )
+                    system.getView().setRotation( system.getView().getRotation() - 10.0f );
 
-                    //! Scale with a and s
-                    if(EventReceiver::getKey( PHK_A ) )
-                        system.getView().setScale( system.getView().getScale() * 0.99f );
-                    if(EventReceiver::getKey( PHK_S ) )
-                        system.getView().setScale( system.getView().getScale() * 1.01f );
+                //! Scale with a and s
+                if(EventReceiver::getKey( PHK_A ) )
+                    system.getView().setScale( system.getView().getScale() * 0.99f );
+                if(EventReceiver::getKey( PHK_S ) )
+                    system.getView().setScale( system.getView().getScale() * 1.01f );
 
-                    //! Draw some lines
-                    system.drawRay( Vector2d(0,0), Vector2d(640,480) );
-                    system.drawRay( Vector2d(0,0), Vector2d(640,-480) );
-                    system.drawRay( Vector2d(0,0), Vector2d(-640,-480));
-                    system.drawRay( Vector2d(0,0), Vector2d(-640,480));
+                //! Draw some lines
+                system.drawRay( Vector2d(0,0), Vector2d(640,480) );
+                system.drawRay( Vector2d(0,0), Vector2d(640,-480) );
+                system.drawRay( Vector2d(0,0), Vector2d(-640,-480));
+                system.drawRay( Vector2d(0,0), Vector2d(-640,480));
 
-                    //! Draw some markers.
-                    system.drawText("100%", Vector2d(640,480) );
-                    system.drawText("100%", Vector2d(640,-480) );
-                    system.drawText("100%", Vector2d(-640,-480) );
-                    system.drawText("100%", Vector2d(-640,480) );
+                //! Draw some markers.
+                system.drawText("100%", Vector2d(640,480) );
+                system.drawText("100%", Vector2d(640,-480) );
+                system.drawText("100%", Vector2d(-640,-480) );
+                system.drawText("100%", Vector2d(-640,480) );
 
-                    //! Draw some more markers.
-                    system.drawText("50%", Vector2d(640,480)/2 );
-                    system.drawText("50%", Vector2d(640,-480)/2 );
-                    system.drawText("50%", Vector2d(-640,-480)/2 );
-                    system.drawText("50%", Vector2d(-640,480)/2 );
-
-
-                    //! Draw some info.
-                    system.drawText( "View Test", Vector2d(0,0) );
-                    system.drawText( "", Vector2d(16,48) );
+                //! Draw some more markers.
+                system.drawText("50%", Vector2d(640,480)/2 );
+                system.drawText("50%", Vector2d(640,-480)/2 );
+                system.drawText("50%", Vector2d(-640,-480)/2 );
+                system.drawText("50%", Vector2d(-640,480)/2 );
 
 
-                }
+                //! Draw some info.
+                system.drawText( "View Test", Vector2d(0,0) );
+                system.drawText( "", Vector2d(16,48) );
 
             }
 

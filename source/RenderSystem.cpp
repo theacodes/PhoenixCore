@@ -21,7 +21,7 @@ using namespace phoenix;
 ////////////////////////////////////////////////////////////////////////////////
 
 RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
-: BatchRenderer(), GraphicsFactory2d( this ), console( *this ), fpstimer(), framerate(0.0f), font(), resources(), exitTest( &RenderSystem::defaultExitTestFunction )
+: BatchRenderer(), GraphicsFactory2d( this ), console( *this ), fpstimer(), framerate(1.0f), font(), resources(), exitTest( &RenderSystem::defaultExitTestFunction )
 {
 
 	// Create our window
@@ -126,11 +126,11 @@ bool RenderSystem::run()
     clearScreen();
 
     //store the new framerate
-    framerate = 1.0f/ fpstimer.getTime();
+    double newframerate = 1.0f / fpstimer.getTime();
+    framerate = (0.6f * newframerate) + (0.4f * framerate);
 
     //Start our fps timer
-    fpstimer.stop();
-    fpstimer.start();
+    fpstimer.reset();
 
     //draw the debug console.
     console.draw();
