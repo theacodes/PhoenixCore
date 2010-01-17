@@ -151,6 +151,23 @@ namespace phoenix
             return radius;
         }
 
+        //! Updates the polygon's radius.
+        /*!
+            You should call this after modifying vertices with the
+            element access operator[].
+        */
+        inline void update()
+        {
+            float radiussq = pow( radius, 2 );
+            float maxmagsq = 0.0f;
+            BOOST_FOREACH( Vector2d& vert, verts )
+            {
+                float magsq = vert.getMagnitudeSquared();
+                if( magsq > maxmagsq ) maxmagsq = magsq;
+            }
+            if( maxmagsq != radiussq ) radius = sqrt( maxmagsq );
+        }
+
         //! Rotate
         /*!
             Rotates the polygon by the given matrix.
@@ -171,7 +188,8 @@ namespace phoenix
 
         //! Array operator
         /*!
-            This allows you to treat the polygon like a const array of vectors.
+            This allows you to treat the polygon like an array of vectors.
+            \note If you modify the vertices in the Polygon, it is advisable to call update() before doing anything with the radius.
         */
         inline const Vector2d& operator[] (const unsigned int& _i)
         {
