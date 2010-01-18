@@ -94,7 +94,7 @@ public:
 
 #ifdef DEBUG_BATCHRENDERER
 	//! Lists all the geometry in the list.
-	void listGeomery();
+	void listGeometry();
 #endif
 
 	//! Draws everything in the graph.

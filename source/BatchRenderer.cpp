@@ -15,7 +15,7 @@ using namespace std;
 
 #ifdef DEBUG_BATCHRENDERER
 //! Lists all the geometry in the list.
-void BatchRenderer::listGeomery()
+void BatchRenderer::listGeometry()
 {
 	BOOST_FOREACH( BATCHMAPDELTA::value_type& deltapair, geometry ){
 		BOOST_FOREACH( BATCHMAPGAMMA::value_type& gammapair, deltapair.second ){
