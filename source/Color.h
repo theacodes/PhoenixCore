@@ -115,6 +115,8 @@ namespace phoenix
         */
         inline const Color interpolate(const Color& _dest, float _percent) const
 		{
+            if( _percent > 100.0f ) _percent = 100.0f;
+            if( _percent < 0.0f ) _percent = 0.0f;
 			Color temp;
 			temp.red = red + int( float(_dest.red-red) * _percent/100.0f );
 			temp.green = green + int( float(_dest.green-green) * _percent/100.0f );
