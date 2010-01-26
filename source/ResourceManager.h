@@ -69,7 +69,7 @@ namespace phoenix
         	This should be called when a resource is constructed.
         	\sa removeResource
         */
-        inline virtual void addResource( boost::shared_ptr<Resource> rc )
+        inline void addResource( boost::shared_ptr<Resource> rc )
         {
 			boost::recursive_mutex::scoped_lock l( getMutex() );
             resourcelist.push_back( rc );
@@ -80,7 +80,7 @@ namespace phoenix
         	This should be called in the drop() function of any resources.
         	\sa addResource
         */
-        inline virtual void removeResource( boost::shared_ptr<Resource> rc )
+        inline void removeResource( boost::shared_ptr<Resource> rc )
         {
 			boost::recursive_mutex::scoped_lock l( getMutex() );
 			recyclelist.push_back( rc );
@@ -90,7 +90,7 @@ namespace phoenix
         /*!
         	Releases the reference to every resource in the list by clearing the resource list.
         */
-        inline virtual void clearResourceList()
+        inline void clearResourceList()
         {
 			boost::recursive_mutex::scoped_lock l( getMutex()  );
 			recyclelist.clear();
@@ -98,7 +98,7 @@ namespace phoenix
         }
 
         //! Gets the resource at the given index.
-        inline virtual boost::shared_ptr<Resource> getResource( const unsigned int index )
+        inline boost::shared_ptr<Resource> getResource( const unsigned int index )
         {
 			boost::recursive_mutex::scoped_lock l( getMutex() );
             if ( index < resourcelist.size() )
@@ -118,7 +118,7 @@ namespace phoenix
         }
 
         //! Finds the resource with the given name.
-        virtual boost::shared_ptr<Resource> findResource( const std::string& name );
+        boost::shared_ptr<Resource> findResource( const std::string& name );
 
         //! Get resource list
 		/*!

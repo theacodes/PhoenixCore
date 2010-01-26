@@ -35,14 +35,13 @@ class AbstractGarbageCollector
 public:
 
 	/*!
-		Creates an abstract garbage collector and starts the garbage collection thread. You
-		can pass the Garbage Collection function to immediately start the collection process.
+		Creates an abstract garbage collector. Does not start the thread automatically, you must call
+        start() to begin collecting.
 		\sa setGarbageCollectionFunction()
 	*/
 	AbstractGarbageCollector( boost::function< void() > _f = boost::function< void() >() )
 		: gc_thread(), gc_mutex(), gc_param_mutex(), gc_function( _f ), gc_sleep_time( 50 ), gc_collect_rate( 10 )
 	{
-		gc_thread = boost::thread( boost::bind( &AbstractGarbageCollector::gcThreadMain, this ) );
 	}
 
 	/*!
@@ -51,9 +50,12 @@ public:
 	*/
 	virtual ~AbstractGarbageCollector()
 	{
-		gc_thread.interrupt();
-		gc_thread.join();
+		stop();
 	}
+
+    //! Start Garbage Collecting
+    inline void start() { gc_thread = boost::thread( boost::bind( &AbstractGarbageCollector::gcThreadMain, this ) ); }
+    inline void stop() { gc_thread.interrupt(); gc_thread.join(); gc_thread = boost::thread(); }
 
 	//! Get a pointer to the thread's handle.
 	inline boost::thread& getThreadHandle() { return gc_thread; }
