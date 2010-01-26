@@ -85,31 +85,31 @@ namespace phoenix
 		}
 
         //! Get resource manager.
-        inline virtual ResourceManager& getResourceManager()
+        inline ResourceManager& getResourceManager()
         {
             return _rmanager;
         }
 
         //! Get Type.
-        inline virtual const signed int& getType() const
+        inline signed int getType() const
         {
             return _type;
         }
 
         //! Set Type.
-        inline virtual void setType(const signed int& t)
+        inline void setType(const signed int& t)
         {
             _type = t;
         }
 
         //! Get Name
-        inline virtual const std::string& getName() const
+        inline const std::string& getName() const
         {
             return _name;
         }
 
         //! Set Name
-        inline virtual void setName(const std::string& n)
+        inline void setName(const std::string& n)
         {
             _name = n;
         }
