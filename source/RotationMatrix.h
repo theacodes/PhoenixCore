@@ -74,14 +74,14 @@ namespace phoenix
 			Follows this indexing scheme:
 			\f$ \left[\begin{array}{cc} 0 & 1 \\ 2 & 3 \end{array}\right] \f$
 		*/
-        inline float getElement( int _i ) const { return Elements[_i]; }
+        inline float getElement( int _i ) const { return Elements[_i % 4]; }
 
         //! Set element
 		/*
 			Follows this indexing scheme:
 			\f$ \left[\begin{array}{cc} 0 & 1 \\ 2 & 3 \end{array}\right] \f$
 		*/
-        inline void setElement( int _i, float _v ) { Elements[_i] = _v; }
+        inline void setElement( int _i, float _v ) { Elements[_i % 4] = _v; }
 
         //! Set rotation in radians.
         inline void setRotation(float _theta) { (*this) = RotationMatrix(_theta); }
