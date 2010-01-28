@@ -31,7 +31,7 @@ class FontTest
 			bluefont->setColor( Color(200,200,255) );
 			bluefont->setSpacing( 5.0f );
 			bluefont->setScale( Vector2d(5, 2.5) );
-			boost::shared_ptr<BatchGeometry> hellotext = bluefont->drawText( "Hello, World!", Vector2d( 50,50 ) );
+			BatchGeometryPtr hellotext = bluefont->drawText( "Hello, World!", Vector2d( 50,50 ) );
 			hellotext->setImmediate( false );
 
 

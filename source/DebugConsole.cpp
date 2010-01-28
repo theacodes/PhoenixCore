@@ -37,7 +37,7 @@ void DebugConsole::draw( )
     {
 
         // Draw our overlay rectangle at depth- 0.01;
-        boost::shared_ptr<BatchGeometry> geom = system.drawRectangle( Rectangle( Vector2d(0,0), WindowManager::getScreenSize() ), backcolor, backcolor, backcolor, backcolor);
+        BatchGeometryPtr geom = system.drawRectangle( Rectangle( Vector2d(0,0), WindowManager::getScreenSize() ), backcolor, backcolor, backcolor, backcolor);
         setDepth( getDepth() - 0.01f );
         apply( geom );
         setDepth( getDepth() + 0.01f );

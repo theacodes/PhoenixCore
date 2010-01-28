@@ -161,7 +161,7 @@ namespace phoenix
             Draws the given string at the given position with the given color using the current font. This a geometry factory.
             \sa loadFont()
         */
-        boost::shared_ptr<BatchGeometry> drawText( const std::string& _s, const Vector2d& _p, const Color& _c=Color(255,255,255));
+        BatchGeometryPtr drawText( const std::string& _s, const Vector2d& _p, const Color& _c=Color(255,255,255));
 
     private:
 

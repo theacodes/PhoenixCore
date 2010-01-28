@@ -262,7 +262,7 @@ TexturePtr RenderSystem::findTexture(const GLuint& _n)
 //Draw text on the screen
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<BatchGeometry> RenderSystem::drawText( const std::string& _s, const Vector2d& _p, const Color& _c)
+BatchGeometryPtr RenderSystem::drawText( const std::string& _s, const Vector2d& _p, const Color& _c)
 {
 	font->setColor( _c );
     font->setDepth( getDepth() );

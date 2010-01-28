@@ -29,7 +29,7 @@ public:
     Vector2d position, direction;
     Color color;
     float rot;
-    shared_ptr<BatchGeometry> geometry;
+    BatchGeometryPtr geometry;
     RenderSystem& rsystem;
 
 public:
@@ -49,7 +49,7 @@ public:
         rot = random(0,360);
 
         // Make some geometry.
-        geometry = BatchGeometry::create( s, GL_QUADS, t, 5, (EventReceiver::getKey( PHK_S ) ? random(1,150) : 0) );
+        geometry = new BatchGeometry( s, GL_QUADS, t, 5, (EventReceiver::getKey( PHK_S ) ? random(1,150) : 0) );
         geometry->setGroupBeginFunction( boost::bind( &DemoParticle::startBlend, intrusive_ptr<DemoParticle>(this) ) );
         geometry->setGroupEndFunction( boost::bind( &DemoParticle::endBlend, intrusive_ptr<DemoParticle>(this) ) );
     }

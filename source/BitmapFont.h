@@ -49,7 +49,7 @@ public:
     virtual ~BitmapFont()
     {}
 
-	virtual boost::shared_ptr<BatchGeometry> drawText( const std::string& s, const Vector2d& p = Vector2d(0,0) );
+	virtual BatchGeometryPtr drawText( const std::string& s, const Vector2d& p = Vector2d(0,0) );
 
     //! Gets the spacing between words, default is 10.0f.
     inline float getSpacing() const { return spacing; }

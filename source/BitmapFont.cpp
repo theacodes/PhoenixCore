@@ -13,10 +13,10 @@ using namespace phoenix;
 using namespace std;
 using namespace boost;
 
-boost::shared_ptr<BatchGeometry> BitmapFont::drawText( const string& s, const Vector2d& p )
+BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 {
 
-	shared_ptr<BatchGeometry> geom = BatchGeometry::create( renderer, GL_QUADS, getTexture(), getGroup(), getDepth() );
+	BatchGeometryPtr geom = new BatchGeometry( renderer, GL_QUADS, getTexture(), getGroup(), getDepth() );
 	geom->setImmediate( true );
 
     static float ratio = 1.0f/16.0f;

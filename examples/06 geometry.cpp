@@ -54,7 +54,7 @@ int main()
         Now we can draw some things, and they'll all
         be additively blended.
     */
-    shared_ptr<BatchGeometry> tgeom; // a temporary pointer for geometry.
+    BatchGeometryPtr tgeom; // a temporary pointer for geometry.
 
     //! Here we just draw a basic scaled texture.
     tgeom = system.drawTexture( feather, Vector2d( 240,320 ), 0, Vector2d( 3.0f, 3.0f ) );
@@ -79,7 +79,7 @@ int main()
         We'll first use BatchGeometry's create function.
     */
     system.setDepth( 2.0f );
-    tgeom = BatchGeometry::create( system, GL_TRIANGLES, feather, system.getGroup(), system.getDepth() );
+    tgeom = new BatchGeometry( system, GL_TRIANGLES, feather, system.getGroup(), system.getDepth() );
     tgeom->setImmediate( false );
 
     //! We need to apply our group functions to the geometry.

@@ -18,13 +18,18 @@ distribution for more information.
 #include "Rectangle.h"
 #include "TrackingInvariant.h"
 #include "BatchRenderer.h"
+#include "Droppable.h"
 #include <boost/foreach.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/function.hpp>
+#include <boost/noncopyable.hpp>
 
 namespace phoenix
 {
+
+class BatchGeometry;
+
+//! Friendly Batch Geometry Pointer
+typedef boost::intrusive_ptr<BatchGeometry> BatchGeometryPtr;
 
 //! Batch Geometry Class.
 /*
@@ -36,27 +41,27 @@ namespace phoenix
 	to any of these properties must be followed by an update() call.
 */
 class BatchGeometry
-	: public boost::enable_shared_from_this<BatchGeometry>, public virtual Droppable
+    : public Droppable, boost::noncopyable
 {
 
 public:
 
-
-	
-	//! Create
-	/*!
-		Factory for creating new geometry. The geometry is automatically added to the given BatchRenderer.
+    //! Default Constructor
+    /*!
+        The geometry is automatically added to the given BatchRenderer.
 		\param _r The batch renderer that will display this geometry.
 		\param _p The primitive type.
 		\param _t The texture.
 		\param _g The group id.
 		\param _d The depth.
-	*/
-	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
+    */
+	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
+		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
 	{
-		boost::shared_ptr< BatchGeometry > newgeom( new BatchGeometry( _r, _p, _t, _g, _d ) );
-		_r.addGeometry( newgeom->grab<BatchGeometry>() );
-		return newgeom->grab<BatchGeometry>();
+#ifdef DEBUG_BATCHGEOMETRY
+		std::cout<<"\nBatch Geometry Created: "<<_r<<", "<<_p<<", "<<_t.get()<<", "<<_g<<", "<<_d<<std::endl;
+#endif
+		_r.addGeometry( this );
 	}
 
 	//! Create from Rectangle
@@ -71,13 +76,11 @@ public:
 		\param _g The group id.
 		\param _d The depth.
 	*/
-	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
+	BatchGeometry( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
+        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
 	{
-
-		boost::shared_ptr< BatchGeometry > newgeom( new BatchGeometry( _r, GL_QUADS, _t, _g, _d ) );
-		newgeom->fromRectangle( _rect );
-		_r.addGeometry( newgeom->grab<BatchGeometry>() );
-		return newgeom->grab<BatchGeometry>();
+		fromRectangle( _rect );
+		_r.addGeometry( this );
 	}
 
 	//! Create from Polygon
@@ -91,13 +94,11 @@ public:
 		\param _g The group id.
 		\param _d The depth.
 	*/
-	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
+	BatchGeometry( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
+        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
 	{
-
-		boost::shared_ptr< BatchGeometry > newgeom( new BatchGeometry( _r, GL_TRIANGLES, _t, _g, _d ) );
-		newgeom->fromPolygon( _poly );
-		_r.addGeometry( newgeom->grab<BatchGeometry>() );
-		return newgeom->grab<BatchGeometry>();
+        fromPolygon( _poly );
+		_r.addGeometry( this );
 	}
 
 	/*!
@@ -106,6 +107,39 @@ public:
 	*/
 	virtual ~BatchGeometry()
 	{
+	}
+
+    //! Grab
+	/*!
+		Grabs a pointer to this geometry. This is very akin to Resource::grab().
+	*/
+	template <typename T>
+    inline boost::intrusive_ptr<T> grab()
+    {
+        try
+        {
+            return boost::static_pointer_cast<T,BatchGeometry>( this );
+        }
+        catch ( ... )
+        {
+            return boost::intrusive_ptr<T>();
+        }
+    }
+
+	//! Drop
+	/*!
+		Drops this geometry from the renderer, and adds it to the garbage collection
+		list. The geometry should be considered deleted. Derived classes should
+		call this manually. This is very akin to Resource::drop().
+		\sa dropped(), grab(), Droppable::drop(), Resource::drop()
+	*/
+	inline virtual void drop()
+	{
+		if( ! dropped() )
+		{
+			Droppable::drop();
+			renderer.removeGeometry( this );
+		}
 	}
 
 	//! Get vertex
@@ -266,44 +300,11 @@ public:
 #ifdef DEBUG_BATCHGEOMETRY
 			std::cout<<"\n - Invariant "<<primitivetype.check()<<textureid.check()<<groupid.check()<<depth.check()<<" failed on "<<this<<std::endl;
 #endif
-			renderer.moveGeometry( grab<BatchGeometry>() );
+			renderer.moveGeometry( this );
 			primitivetype.reset();
 			textureid.reset();
 			groupid.reset();
 			depth.reset();
-		}
-	}
-
-	//! Grab
-	/*!
-		Grabs a pointer to this geometry. This is very akin to Resource::grab().
-	*/
-	template <typename T>
-    inline boost::shared_ptr<T> grab()
-    {
-        try
-        {
-            return boost::static_pointer_cast<T,BatchGeometry>( shared_from_this() );
-        }
-        catch ( ... )
-        {
-            return boost::shared_ptr<T>();
-        }
-    }
-
-	//! Drop
-	/*!
-		Drops this geometry from the renderer, and adds it to the garbage collection
-		list. The geometry should be considered deleted. Derived classes should
-		call this manually. This is very akin to Resource::drop().
-		\sa dropped(), grab(), Droppable::drop(), Resource::drop()
-	*/
-	inline virtual void drop()
-	{
-		if( ! dropped() )
-		{
-			Droppable::drop();
-			renderer.removeGeometry( grab<BatchGeometry>() );
 		}
 	}
 
@@ -505,15 +506,6 @@ protected:
 		geometry of the same type should have the same group functions.
 	*/
 	boost::function< void() > groupend;
-
-	//! Private Constructor
-	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
-	{
-#ifdef DEBUG_BATCHGEOMETRY
-		std::cout<<"\nBatch Geometry Created: "<<_r<<", "<<_p<<", "<<_t.get()<<", "<<_g<<", "<<_d<<std::endl;
-#endif
-	}
 
 
 };

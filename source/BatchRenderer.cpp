@@ -21,7 +21,7 @@ void BatchRenderer::listGeometry()
 		BOOST_FOREACH( BATCHMAPGAMMA::value_type& gammapair, deltapair.second ){
 			BOOST_FOREACH( BATCHMAPBETA::value_type& betapair, gammapair.second ){
 				BOOST_FOREACH( BATCHMAPALPHA::value_type& alphapair, betapair.second ){
-					BOOST_FOREACH( shared_ptr<BatchGeometry>& geom, alphapair.second )
+					BOOST_FOREACH( intrusive_ptr<BatchGeometry>& geom, alphapair.second )
 					{
 						std::cout<<"\n Geometry "<<geom.get()
 							<<" at "
@@ -58,19 +58,19 @@ unsigned int BatchRenderer::geometryCount()
 }
 
 
-void BatchRenderer::addGeometry( boost::shared_ptr<BatchGeometry> _g )
+void BatchRenderer::addGeometry( boost::intrusive_ptr<BatchGeometry> _g )
 {
 	boost::recursive_mutex::scoped_lock l( getMutex() );
 	geometry[_g->getDepth()][ _g->getGroup() ][ _g->getTextureId() ][_g->getPrimitiveType()].push_back( _g );
 }
 
-void BatchRenderer::removeGeometry( boost::shared_ptr<BatchGeometry> _g )
+void BatchRenderer::removeGeometry( boost::intrusive_ptr<BatchGeometry> _g )
 {
 	boost::recursive_mutex::scoped_lock l( getMutex() );
 	recyclelist.push_back( _g );
 }
 
-void BatchRenderer::removeGeometryProper( boost::shared_ptr<BatchGeometry> _g, bool _inv )
+void BatchRenderer::removeGeometryProper( boost::intrusive_ptr<BatchGeometry> _g, bool _inv )
 {
 
 	unsigned int textureid = _g->getTextureId();
@@ -120,7 +120,7 @@ void BatchRenderer::removeGeometryProper( boost::shared_ptr<BatchGeometry> _g, b
 	}
 }
 
-void BatchRenderer::moveGeometry( boost::shared_ptr<BatchGeometry> _g )
+void BatchRenderer::moveGeometry( boost::intrusive_ptr<BatchGeometry> _g )
 {
 	lock();
 	removeGeometryProper( _g, true );
@@ -141,7 +141,7 @@ void BatchRenderer::pruneGeometry()
 	{
 		if( ! recyclelist.empty() )
 		{
-			boost::shared_ptr<BatchGeometry>& g = recyclelist.back();
+			boost::intrusive_ptr<BatchGeometry>& g = recyclelist.back();
 			if( g )
 				removeGeometryProper( g );
 			recyclelist.pop_back();
@@ -185,7 +185,7 @@ void BatchRenderer::draw( )
         for( BATCHMAPGAMMA::iterator gammapair = deltapair->second.begin(); gammapair != gammaend; ++gammapair )
 		{
 
-            shared_ptr<BatchGeometry> groupmaster  = (*gammapair->second.begin()->second.begin()->second.begin());
+            intrusive_ptr<BatchGeometry> groupmaster  = (*gammapair->second.begin()->second.begin()->second.begin());
 
 			if( groupmaster )
 				groupmaster->groupBegin();

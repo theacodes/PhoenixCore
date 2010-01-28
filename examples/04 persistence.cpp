@@ -35,9 +35,9 @@ int main()
     /*!
         Here we have the drawRectangle call just as we do in the shapes example,
         but this time we are keeping the return value. BatchGeometry is dynamically
-        allocated, so it is a shared_ptr.
+        allocated, so it is a pointer.
     */
-    shared_ptr<BatchGeometry> rectgeom = system.drawRectangle( Rectangle( 200,200, 200,200 ) );
+    BatchGeometryPtr rectgeom = system.drawRectangle( Rectangle( 200,200, 200,200 ) );
 
     /*!
         Now we can manipulate our geometry. The first thing we want to do is make

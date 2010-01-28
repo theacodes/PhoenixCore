@@ -96,7 +96,7 @@ public:
         Sets all the given geometry's properties enabled in flags to the factories properties (including group functions) and calls update().
         The _flags parameter is a combination of E_GEOMFACTORY_FLAGS.
     */
-    inline void apply( boost::shared_ptr<BatchGeometry> _g, unsigned int _flags = EFF_ALL )
+    inline void apply( BatchGeometryPtr _g, unsigned int _flags = EFF_ALL )
     {
         if( _flags & EFF_DEPTH ) _g->setDepth( factory_depth );
         if( _flags & EFF_GROUP ) _g->setGroup( factory_group );

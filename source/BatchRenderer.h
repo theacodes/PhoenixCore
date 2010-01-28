@@ -16,10 +16,10 @@ distribution for more information.
 #include <iostream>
 #include <GL/glfw.h>
 #include <boost/unordered_map.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
 #include "AbstractGarbageCollector.h"
 #include "View.h"
+#include "Droppable.h"
 
 namespace phoenix
 {
@@ -66,13 +66,13 @@ public:
 	}
 
 	//! Add geometry to the render graph. (Automatically called by BatchGeometry::create() ).
-	void addGeometry( boost::shared_ptr<BatchGeometry> _g );
+	void addGeometry( boost::intrusive_ptr<BatchGeometry> _g );
 
 	//! Add geometry to the recycle list. ( Automatically called by BatchGeometry::drop() ).
-	void removeGeometry( boost::shared_ptr<BatchGeometry> _g );
+	void removeGeometry( boost::intrusive_ptr<BatchGeometry> _g );
 
 	//! Update a geometry's position in the graph. ( Automatically called by BatchGeometry::update() ).
-	void moveGeometry( boost::shared_ptr<BatchGeometry> _g );
+	void moveGeometry( boost::intrusive_ptr<BatchGeometry> _g );
 
 	//! Drops all geometry.
 	void clearGeometry()
@@ -102,7 +102,7 @@ public:
 
 private:
 
-	typedef std::list< boost::shared_ptr<BatchGeometry> > GEOMCONTAINER;
+	typedef std::list< boost::intrusive_ptr<BatchGeometry> > GEOMCONTAINER;
 	typedef boost::unordered_map< unsigned int, GEOMCONTAINER > BATCHMAPALPHA; // Primitive Keyed
 	typedef boost::unordered_map< unsigned int, BATCHMAPALPHA > BATCHMAPBETA; // Texture Keyed
 	typedef boost::unordered_map< signed int, BATCHMAPBETA > BATCHMAPGAMMA; // Group Keyed
@@ -112,7 +112,7 @@ private:
 	BATCHMAPDELTA geometry;
 
 	//! Recycle list
-	std::vector< boost::shared_ptr<BatchGeometry> > recyclelist;
+	std::vector< boost::intrusive_ptr<BatchGeometry> > recyclelist;
 
     //! View
     View view;
@@ -121,7 +121,7 @@ private:
 	virtual void pruneGeometry();
 
 	//! Real removal routine ( used by pruneGeometry() and moveGeometry() ).
-	void removeGeometryProper( boost::shared_ptr<BatchGeometry> _g , bool _inv = false);
+	void removeGeometryProper( boost::intrusive_ptr<BatchGeometry> _g , bool _inv = false);
 };
 
 } //namespace phoenix

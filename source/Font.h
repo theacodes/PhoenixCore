@@ -52,7 +52,7 @@ public:
         \param _s The string to print to the screen.
         \param _p The position to draw it at.
     */
-    virtual boost::shared_ptr<BatchGeometry> drawText( const std::string& _s, const Vector2d& _p = Vector2d(0,0) ) = 0;
+    virtual BatchGeometryPtr drawText( const std::string& _s, const Vector2d& _p = Vector2d(0,0) ) = 0;
 
 	//! Gets the current color of the font.
 	inline virtual const Color& getColor() { return color; }
