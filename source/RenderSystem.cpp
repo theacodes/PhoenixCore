@@ -74,7 +74,7 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
 
     //load our default font
 	std::string ffn = saveBuiltinFont();
-	font = BitmapFont::create( resources, *this ,loadTexture(ffn));
+	font = new BitmapFont( resources, *this ,loadTexture(ffn));
     remove(ffn.c_str());
 
     //!start the timer
@@ -151,11 +151,11 @@ bool RenderSystem::run()
 //Load texture function
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<Texture> RenderSystem::loadTexture( const std::string& _fn, bool _l )
+TexturePtr RenderSystem::loadTexture( const std::string& _fn, bool _l )
 {
 
 	//This is the class that will hold our texture
-	boost::shared_ptr<Texture> ctext = Texture::create( resources );
+	TexturePtr ctext = new Texture( resources );
 
 	int width=0,height=0;
 
@@ -204,7 +204,7 @@ boost::shared_ptr<Texture> RenderSystem::loadTexture( const std::string& _fn, bo
     else
     {
 
-        boost::shared_ptr<Texture> ctext = Texture::create( resources );
+        TexturePtr ctext = new Texture( resources );
         ctext->setTextureId(0);
         ctext->setWidth(0);
         ctext->setHeight(0);
@@ -216,7 +216,7 @@ boost::shared_ptr<Texture> RenderSystem::loadTexture( const std::string& _fn, bo
     }
 
     //should never happen
-    return boost::shared_ptr<Texture>();
+    return TexturePtr();
     assert(true);
 
 }
@@ -226,35 +226,35 @@ boost::shared_ptr<Texture> RenderSystem::loadTexture( const std::string& _fn, bo
 ////////////////////////////////////////////////////////////////////////////////
 
 //! Find texture.
-boost::shared_ptr<phoenix::Texture> RenderSystem::findTexture(const std::string& _i)
+TexturePtr RenderSystem::findTexture(const std::string& _i)
 {
-    boost::shared_ptr<phoenix::Resource> findtexture = resources.findResource(_i);
+    ResourcePtr findtexture = resources.findResource(_i);
     if( findtexture )
     {
-        return findtexture->grab<phoenix::Texture>();
+        return findtexture->grab< Texture >();
     }
     else
     {
-        return boost::shared_ptr<phoenix::Texture>();
+        return TexturePtr();
     }
 
 }
 
 //! Find texture.
-boost::shared_ptr<phoenix::Texture> RenderSystem::findTexture(const GLuint& _n)
+TexturePtr RenderSystem::findTexture(const GLuint& _n)
 {
 	boost::recursive_mutex::scoped_lock( resources.getMutex() );
     for (unsigned int i=0;i<resources.getResourceCount();i++)
     {
         if( resources.getResource(i)->getType() == ERT_TEXTURE )
         {
-            if ( resources.getResource(i)->grab<phoenix::Texture>()->getTextureId() == _n )
+            if ( resources.getResource(i)->grab<Texture>()->getTextureId() == _n )
             {
-                return resources.getResource(i)->grab<phoenix::Texture>();
+                return resources.getResource(i)->grab<Texture>();
             }
         }
     }
-    return boost::shared_ptr<phoenix::Texture>();
+    return TexturePtr();
 }
 
 

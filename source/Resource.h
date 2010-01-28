@@ -13,8 +13,6 @@ distribution for more information.
 #include "ResourceManager.h"
 #include "Droppable.h"
 
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include <string>
 
 namespace phoenix
@@ -27,10 +25,22 @@ namespace phoenix
     	automatic garbage collection.
     */
     class Resource
-                : public boost::enable_shared_from_this<Resource>, public virtual Droppable
+        : public virtual Droppable
     {
 
     public:
+
+        //! Private constructor.
+        /*!
+            Constructs the resource and initializes its members. It adds the resource to
+            the resource manager's list.
+        */
+        Resource( ResourceManager& rm, const signed int& t = 0 )
+                : Droppable(), _rmanager(rm), _type(t), _name("None")
+        {
+            rm.addResource( this );
+        }
+
 
         //! Destructor.
         /*!
@@ -40,24 +50,6 @@ namespace phoenix
         {
         }
 
-        //! Create
-        /*!
-        	This is a simple create function that just returns a smart pointer to a
-        	new resource. It also adds the new resource to the given resource manager.
-        	Derived classes can easily use this to construct themselves, but in order to
-        	do so they must declare Resource as a friend class, because constructors
-        	are private. They also must make their constructor only require a pointer to
-        	a resource manager. Examples of doing this can be seen in Texture::create() and
-			in BatchGeometry::create().
-        */
-        template <typename T>
-        static boost::shared_ptr<T> create( ResourceManager& r )
-        {
-            boost::shared_ptr<T> newnode(new T(r));
-            r.addResource( newnode->grab<Resource>() );
-            return newnode->grab<T>();
-        }
-
         //! Grab
         /*!
         	This should be used to grab a pointer to this resource.
@@ -65,9 +57,9 @@ namespace phoenix
         	to grab a valid pointer, or fails to cast, it will throw an exception.
         */
         template <typename T>
-        inline boost::shared_ptr<T> grab()
+        inline boost::intrusive_ptr<T> grab()
         {
-			return boost::static_pointer_cast<T,Resource>( shared_from_this() );
+			return boost::static_pointer_cast<T,Resource>( this );
         }
 
         //! Drop
@@ -80,7 +72,7 @@ namespace phoenix
 			if( ! dropped() )
 			{
 				Droppable::drop();
-				_rmanager.removeResource( grab<Resource>() );
+				_rmanager.removeResource( this );
 			}
 		}
 
@@ -125,18 +117,10 @@ namespace phoenix
         //! User-defined name
         std::string _name;
 
-        //! Private constructor.
-        /*!
-            Constructs the resource and initializes its members. It is private, and all
-            derived classes should have a private constructor and should use the create()
-			method instead.
-        */
-        Resource( ResourceManager& rm, const signed int& t = 0 )
-                : Droppable(), _rmanager(rm), _type(t), _name("None")
-        {
-        }
-
     };
+
+    //! Friendly name for Resource pointers.
+    typedef boost::intrusive_ptr<Resource> ResourcePtr;
 
 }// namespace phoenix
 

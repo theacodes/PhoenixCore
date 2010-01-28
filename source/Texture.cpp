@@ -134,7 +134,7 @@ bool Texture::lock()
 // Copy texture
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<Texture> Texture::copy()
+boost::intrusive_ptr<Texture> Texture::copy()
 {
      // Generate the destination texture
      GLuint nTexID_out = 0;
@@ -152,7 +152,7 @@ boost::shared_ptr<Texture> Texture::copy()
 
      unlock();
 
-     boost::shared_ptr<Texture> newtexture = Texture::create( getResourceManager() );
+     TexturePtr newtexture = new Texture( getResourceManager() );
      newtexture->setTextureId( nTexID_out );
      newtexture->setWidth( width );
      newtexture->setHeight( width );

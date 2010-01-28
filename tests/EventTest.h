@@ -34,8 +34,8 @@ class EventTest
             //! We'll make our font have a colored background, so we can see certain keys when they're pressed.
 
             // duplicate the system's font.
-            boost::shared_ptr<Texture> newfonttexture = system.getFont()->getTexture()->copy();
-            boost::shared_ptr<BitmapFont> newfont = BitmapFont::create( system.getResourceManager(), system, newfonttexture );
+            TexturePtr newfonttexture = system.getFont()->getTexture()->copy();
+            BitmapFontPtr newfont = new BitmapFont( system.getResourceManager(), system, newfonttexture );
             
             // run through and change the background color.
             newfont->getTexture()->lock();

@@ -32,7 +32,7 @@ int main()
     /*!
         Let's load up a texture to play with.
     */
-    shared_ptr<Texture> feather = system.loadTexture( "feather.png" );
+    TexturePtr feather = system.loadTexture( "feather.png" );
 
     /*!
         let's make our group of geometry, with this

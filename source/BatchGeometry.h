@@ -52,7 +52,7 @@ public:
 		\param _g The group id.
 		\param _d The depth.
 	*/
-	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, unsigned int _p = GL_QUADS, boost::shared_ptr<Texture> _t = boost::shared_ptr<Texture>(), signed int _g = 0, float _d = 0.0f )
+	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
 	{
 		boost::shared_ptr< BatchGeometry > newgeom( new BatchGeometry( _r, _p, _t, _g, _d ) );
 		_r.addGeometry( newgeom->grab<BatchGeometry>() );
@@ -71,7 +71,7 @@ public:
 		\param _g The group id.
 		\param _d The depth.
 	*/
-	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, const Rectangle& _rect, boost::shared_ptr<Texture> _t = boost::shared_ptr<Texture>(), signed int _g = 0, float _d = 0.0f )
+	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
 	{
 
 		boost::shared_ptr< BatchGeometry > newgeom( new BatchGeometry( _r, GL_QUADS, _t, _g, _d ) );
@@ -91,7 +91,7 @@ public:
 		\param _g The group id.
 		\param _d The depth.
 	*/
-	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, const Polygon& _poly, boost::shared_ptr<Texture> _t = boost::shared_ptr<Texture>(), signed int _g = 0, float _d = 0.0f )
+	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
 	{
 
 		boost::shared_ptr< BatchGeometry > newgeom( new BatchGeometry( _r, GL_TRIANGLES, _t, _g, _d ) );
@@ -164,7 +164,7 @@ public:
 	inline TrackingInvariant< float >& getDepthInvariant() { return depth; }
 
 	//! Get the texture associated with this geometry.
-	inline boost::shared_ptr< Texture > getTexture() { return texture; }
+	inline TexturePtr getTexture() { return texture; }
 
 	//! Get the OpenGL Primitive Type associated with this geometry.
 	inline const unsigned int& getPrimitiveType() const { return primitivetype; }
@@ -198,7 +198,7 @@ public:
 		pointer, the Id is set to 0 to disable texturing for this geometry. 
 		\see getTexture(), getTextureId(), update()
 	*/
-	inline void setTexture( boost::shared_ptr< Texture > _t ) 
+	inline void setTexture( TexturePtr _t ) 
 	{ 
 		texture = _t; 
 		textureid = _t ? _t->getTextureId() : 0 ;
@@ -465,7 +465,7 @@ protected:
 	TrackingInvariant< unsigned > textureid;
 
 	//! Texture
-	boost::shared_ptr<Texture> texture;
+	TexturePtr texture;
 
 	//! Group ID.
 	/*
@@ -507,7 +507,7 @@ protected:
 	boost::function< void() > groupend;
 
 	//! Private Constructor
-	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, boost::shared_ptr<Texture> _t = boost::shared_ptr<Texture>(), signed int _g = 0, float _d = 0.0f )
+	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
 		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
 	{
 #ifdef DEBUG_BATCHGEOMETRY

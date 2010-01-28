@@ -11,9 +11,9 @@ distribution for more information.
 #define __PHRESOURCEMANAGER_H__
 
 #include <list>
-#include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include "Droppable.h"
 #include "AbstractGarbageCollector.h"
 #include "Timer.h"
 
@@ -69,7 +69,7 @@ namespace phoenix
         	This should be called when a resource is constructed.
         	\sa removeResource
         */
-        inline void addResource( boost::shared_ptr<Resource> rc )
+        inline void addResource( boost::intrusive_ptr<Resource> rc )
         {
 			boost::recursive_mutex::scoped_lock l( getMutex() );
             resourcelist.push_back( rc );
@@ -80,7 +80,7 @@ namespace phoenix
         	This should be called in the drop() function of any resources.
         	\sa addResource
         */
-        inline void removeResource( boost::shared_ptr<Resource> rc )
+        inline void removeResource( boost::intrusive_ptr<Resource> rc )
         {
 			boost::recursive_mutex::scoped_lock l( getMutex() );
 			recyclelist.push_back( rc );
@@ -98,16 +98,16 @@ namespace phoenix
         }
 
         //! Gets the resource at the given index.
-        inline boost::shared_ptr<Resource> getResource( const unsigned int index )
+        inline boost::intrusive_ptr<Resource> getResource( const unsigned int index )
         {
 			boost::recursive_mutex::scoped_lock l( getMutex() );
             if ( index < resourcelist.size() )
             {
-                std::list< boost::shared_ptr<Resource> >::const_iterator it = resourcelist.begin();
+                std::list< boost::intrusive_ptr<Resource> >::const_iterator it = resourcelist.begin();
                 std::advance(it, index);
                 return (*it);
             }
-            return boost::shared_ptr<Resource>();
+            return boost::intrusive_ptr<Resource>();
         }
 
         //! The number of resources.
@@ -118,7 +118,7 @@ namespace phoenix
         }
 
         //! Finds the resource with the given name.
-        boost::shared_ptr<Resource> findResource( const std::string& name );
+        boost::intrusive_ptr<Resource> findResource( const std::string& name );
 
         //! Get resource list
 		/*!
@@ -127,7 +127,7 @@ namespace phoenix
 			you must call lock() before and unlock() after. If you do not, prepare for a crash
 			when the garbage collector comes around.
 		*/
-        inline std::list< boost::shared_ptr<Resource> >& getResourceList()
+        inline std::list< boost::intrusive_ptr<Resource> >& getResourceList()
         {
             return resourcelist;
         }
@@ -137,10 +137,10 @@ namespace phoenix
     protected:
 
 		//! list of resources
-        std::list< boost::shared_ptr<Resource> > resourcelist;
+        std::list< boost::intrusive_ptr<Resource> > resourcelist;
 
 		//! list of resources to be recycled
-		std::vector< boost::shared_ptr<Resource> > recyclelist;
+		std::vector< boost::intrusive_ptr<Resource> > recyclelist;
 
 		//! Garbage collection function
 		void garbageCollect();

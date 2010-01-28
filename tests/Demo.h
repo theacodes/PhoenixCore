@@ -32,40 +32,26 @@ public:
     shared_ptr<BatchGeometry> geometry;
     RenderSystem& rsystem;
 
-    DemoParticle( RenderSystem& s )
-            : Resource( s.getResourceManager() , 10), radius(1.f), speed(0.f), color(), rot(0), life(1), geometry(), rsystem(s)
-    {
-    }
-
 public:
-
-    friend class Resource;
 
     ~DemoParticle()
     {
     }
 
-    static boost::shared_ptr<DemoParticle> create( RenderSystem& s, shared_ptr<Texture> t, Vector2d p )
+    DemoParticle( RenderSystem& s, TexturePtr t, Vector2d p )
+            : Resource( s.getResourceManager() , 10), radius(1.f), position(p), speed(0.f), color(), rot(0), life(1), geometry(), rsystem(s)
     {
-        // make a new particle, and add it to the resource list.
-        boost::shared_ptr<DemoParticle> newparticle( new DemoParticle( s ) );
-        s.getResourceManager().addResource( newparticle->grab<Resource>() );
-
-        // set up it's properties.
-        newparticle->position = p;
-        newparticle->direction = (p - Vector2d(320,240)).getDirection() * RotationMatrix(DegreesToRadians(random(-40,40)));
-        newparticle->speed = random(100,5000)/1000.0f;
-        newparticle->color = Color( random( 127, 255 ), random( 127, 255 ), random( 127, 255 ) );
-        newparticle->life = random(10000,100000);
-        newparticle->radius = random(750,1250)/1000.0f;
-        newparticle->rot = random(0,360);
+        direction = (p - Vector2d(320,240)).getDirection() * RotationMatrix(DegreesToRadians(random(-40,40)));
+        speed = random(100,5000)/1000.0f;
+        color = Color( random( 127, 255 ), random( 127, 255 ), random( 127, 255 ) );
+        life = random(10000,100000);
+        radius = random(750,1250)/1000.0f;
+        rot = random(0,360);
 
         // Make some geometry.
-        newparticle->geometry = BatchGeometry::create( s, GL_QUADS, t, 5, EventReceiver::getKey( PHK_S ) ? random(1,150) : 0 );
-        newparticle->geometry->setGroupBeginFunction( boost::bind( &DemoParticle::startBlend, newparticle ) );
-        newparticle->geometry->setGroupEndFunction( boost::bind( &DemoParticle::endBlend, newparticle ) );
-
-        return newparticle;
+        geometry = BatchGeometry::create( s, GL_QUADS, t, 5, (EventReceiver::getKey( PHK_S ) ? random(1,150) : 0) );
+        geometry->setGroupBeginFunction( boost::bind( &DemoParticle::startBlend, intrusive_ptr<DemoParticle>(this) ) );
+        geometry->setGroupEndFunction( boost::bind( &DemoParticle::endBlend, intrusive_ptr<DemoParticle>(this) ) );
     }
 
     //! Start blend function
@@ -170,7 +156,7 @@ public:
         // delta time
         float deltatime = timer.getTime();
 
-        BOOST_FOREACH( boost::shared_ptr<Resource>& r, system.getResourceManager().getResourceList() )
+        BOOST_FOREACH( ResourcePtr& r, system.getResourceManager().getResourceList() )
         {
             if ( ! r->dropped() )
             {
@@ -290,7 +276,7 @@ public:
             {
                 for ( int i = 0; i < (int)ceil(ts) ; ++i)
                 {
-                    DemoParticle::create( system ,glowtexture2, mouseposition.get() + dmouseposition*( float(i)/ts ) );
+                    new DemoParticle( system ,glowtexture2, mouseposition.get() + dmouseposition*( float(i)/ts ) );
                 }
             }
 
@@ -299,7 +285,7 @@ public:
             {
                 for ( int i = 0; i< (int)ceil(ts); ++i)
                 {
-                    DemoParticle::create( system, shared_ptr<Texture>(), mouseposition.get() + dmouseposition*(  float(i)/ts  ) );
+                    new DemoParticle( system, TexturePtr(), mouseposition.get() + dmouseposition*(  float(i)/ts  ) );
                 }
             }
 
@@ -307,7 +293,7 @@ public:
             {
                 for ( int i = 0; i< (int)ceil(ts); ++i)
                 {
-                    DemoParticle::create( system, glowtexture, mouseposition.get() + dmouseposition*(  float(i)/ts  ) );
+                    new DemoParticle( system, glowtexture, mouseposition.get() + dmouseposition*(  float(i)/ts  ) );
                 }
             }
 
@@ -338,8 +324,8 @@ public:
 protected:
 
     Timer timer;
-    shared_ptr<Texture> glowtexture;
-    shared_ptr<Texture> glowtexture2;
+    TexturePtr glowtexture;
+    TexturePtr glowtexture2;
     RenderSystem system;
 private:
 };

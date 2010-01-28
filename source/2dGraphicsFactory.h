@@ -108,7 +108,7 @@ public:
         \param _c The Color to be applied to the polygon.
         \param _e Set to true to generate coordniates in eye space instead of object space.
     */
-    boost::shared_ptr<BatchGeometry> drawTexturedPolygon (const Polygon& _p, boost::shared_ptr<Texture> _t, const Color& _c = Color(255,255,255), bool _e = false);
+    boost::shared_ptr<BatchGeometry> drawTexturedPolygon (const Polygon& _p, TexturePtr _t, const Color& _c = Color(255,255,255), bool _e = false);
 
     //! Draw texture.
     /*!
@@ -121,7 +121,7 @@ public:
         \param _flags E_GEOMETRY_FLAGS for certain effects.
         \sa drawTexturePart()
     */
-    boost::shared_ptr<BatchGeometry> drawTexture( boost::shared_ptr<Texture> _t, const Vector2d& _p, const RotationMatrix& _rot = RotationMatrix( 0.0f ), const Vector2d& _scale = Vector2d(1.0f,1.0f), const Color& _color = Color(255,255,255), unsigned int _flags = EGF_NONE );
+    boost::shared_ptr<BatchGeometry> drawTexture( TexturePtr _t, const Vector2d& _p, const RotationMatrix& _rot = RotationMatrix( 0.0f ), const Vector2d& _scale = Vector2d(1.0f,1.0f), const Color& _color = Color(255,255,255), unsigned int _flags = EGF_NONE );
 
     //! Draws a texture with a clipping rectangle.
     /*!
@@ -135,7 +135,7 @@ public:
         \param _flags E_GEOMETRY_FLAGS for certain effects.
         \sa drawTexture()
     */
-    boost::shared_ptr<BatchGeometry> drawTexturePart( boost::shared_ptr<Texture> _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot = RotationMatrix(0.0f), const Vector2d& _scale=Vector2d(1.0f,1.0f), const Color& _color=Color(255,255,255), unsigned int _flags = EGF_NONE );
+    boost::shared_ptr<BatchGeometry> drawTexturePart( TexturePtr _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot = RotationMatrix(0.0f), const Vector2d& _scale=Vector2d(1.0f,1.0f), const Color& _color=Color(255,255,255), unsigned int _flags = EGF_NONE );
 
 
 protected:

@@ -27,21 +27,12 @@ namespace phoenix
 
     public:
 
-        //! Create
-        /*!
-            This factory generates a new RenderTexture. It must be bound to a different BatchRenderer than RenderSystem.
-            It can use RenderSystem's resource manager.
-            \param _r A resource manager.
-            \param _s A pointer to the batch render.
-            \param _sz The size of the texture.
-        */
-        inline static boost::shared_ptr<RenderTexture> create( ResourceManager& _r, BatchRenderer& _s, const Vector2d& _sz = Vector2d(512,512) )
+        //! Private constructor
+        RenderTexture( ResourceManager& r, BatchRenderer& s, const Vector2d& _sz = Vector2d(512,512) )
+                : Texture(r), batcher(s), sview()
         {
-            boost::shared_ptr<RenderTexture> newtexture( new RenderTexture( _r, _s ) );
-            _r.addResource( newtexture );
-            newtexture->setName( "Untitled Render Target" );
-            newtexture->buildTexture( _sz );
-            return newtexture;
+            setName( "Untitled Render Target" );
+            buildTexture( _sz );
         }
 
         virtual ~RenderTexture()
@@ -98,14 +89,9 @@ namespace phoenix
         BatchRenderer& batcher;
         View sview;
 
-        //! Private constructor
-        RenderTexture( ResourceManager& r, BatchRenderer& s )
-                : Texture(r), batcher(s), sview()
-        {
-        }
-
     };
 
+    typedef boost::intrusive_ptr<RenderTexture> RenderTexturePtr;
 } //namespace phoenix
 
 #endif // __PHRENDERTEXTURE_H__

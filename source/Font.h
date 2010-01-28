@@ -12,7 +12,6 @@ distribution for more information.
 
 #include "Resource.h"
 #include "AbstractGeometryFactory.h"
-#include "RenderSystem.h"
 #include "string.h"
 #include "Color.h"
 
@@ -29,10 +28,18 @@ class Font :
     public Resource, public AbstractGeometryFactory
 {
 
-    // For create<...>( ... )
-    friend class Resource;
 
 public:
+
+    
+    //! Constructor
+    /*!
+        \param _r ResourceManager pointer.
+        \param _t Type, defaults to 2 ( ERT_FONT ) for abstract font.
+    */
+    Font(ResourceManager& _r, int _t = 2)
+        : Resource( _r, _t ), color(), scale( Vector2d( 1, 1 ) )
+    {}
 
     //! Destructor
     virtual ~Font()
@@ -61,15 +68,6 @@ public:
 
 protected:
 
-    //! Private Constructor
-    /*!
-        \param _r ResourceManager pointer.
-        \param _t Type, defaults to 2 ( ERT_FONT ) for abstract font.
-    */
-    Font(ResourceManager& _r, int _t = 2)
-        : Resource( _r, _t )
-    {}
-
 	//! Color
 	Color color;
 
@@ -77,6 +75,9 @@ protected:
     Vector2d scale;
 
 };
+
+//! Friendly Font pointer
+typedef boost::intrusive_ptr<Font> FontPtr;
 
 }//namespace phoenix
 #endif // __PHFONT_H__

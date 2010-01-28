@@ -31,23 +31,19 @@ class BitmapFont
 
 public:
 
-    //! Create Factory
+    //! Constructor
     /*!
         Makes a new Bitmap Font.
         \param _rm A resource manager to keep track of this object.
         \param _br A batch renderer for this font to draw to.
         \param _t The texture containing the glyphs.
+        \note Sets the resource type to ERT_BITMAP_FONT
     */
-    static boost::shared_ptr< BitmapFont > create( ResourceManager& _rm, BatchRenderer& _br,boost::shared_ptr<Texture> _t )
+    BitmapFont( ResourceManager& _r, BatchRenderer& _b, TexturePtr _t = TexturePtr() )
+        : Font( _r, 3), renderer( _b ), spacing( 10.0f )
     {
-        boost::shared_ptr< BitmapFont > newfont( new BitmapFont( _rm, _br ) );
-        _rm.addResource( newfont->grab<Resource>() );
-        newfont->setTexture(_t);
-        newfont->_name = _t->getName() + " font";
-        newfont->scale = Vector2d(1.0f,1.0f);
-        newfont->color = Color(255,255,255);
-        newfont->spacing = 10.0f;
-        return newfont;
+        setTexture( _t );
+        setName(_t->getName() + " font");
     }
 
     virtual ~BitmapFont()
@@ -64,14 +60,6 @@ public:
 
 protected:
 
-    //! Private Constructor
-    /*!
-        Sets the resource type to ERT_BITMAP_FONT
-    */
-    BitmapFont( ResourceManager& _r, BatchRenderer& _b )
-        : Font( _r, 3), renderer( _b )
-    {}
-
     //! Render system
     BatchRenderer& renderer;
 
@@ -79,6 +67,9 @@ protected:
     float spacing;
 
 };
+
+//! Friendly BitmapFont pointer
+typedef boost::intrusive_ptr<BitmapFont> BitmapFontPtr;
 
 } //namespace phoenix
 #endif // __PHBITMAPFONT_H__

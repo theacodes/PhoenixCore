@@ -77,7 +77,7 @@ class PolygonTest
 			Timer deltatime;
 
             //! texture.
-            boost::shared_ptr<Texture> feathertexture = system->loadTexture( "feather.png" );
+            TexturePtr feathertexture = system->loadTexture( "feather.png" );
 
             //! Now just draw some stuff.
             while( system->run() )

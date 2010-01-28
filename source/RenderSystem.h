@@ -24,12 +24,11 @@ distribution for more information.
 #include "AbstractGeometryFactory.h"
 #include "DebugConsole.h"
 #include "2dGraphicsFactory.h"
+#include "Font.h"
 
 //! The phoenix namespace.
 namespace phoenix
 {
-
-	class Font;
 
     //! Standard Resource Types
     enum E_RESOURCE_TYPES
@@ -95,10 +94,10 @@ namespace phoenix
         inline ResourceManager& getResourceManager() { return resources; }
 
         //! Set the system's current font for drawing text.
-        inline void setFont( boost::shared_ptr<Font> t ) { font = t; }
+        inline void setFont( FontPtr t ) { font = t; }
 
         //! Get the current font used for drawing text.
-        inline boost::shared_ptr<Font> getFont() const { return font; }
+        inline FontPtr getFont() const { return font; }
 
         //! Get the debug console used by the render system.
         inline DebugConsole& getDebugConsole() { return console; }
@@ -149,13 +148,13 @@ namespace phoenix
             \note Use nearest filtering for tilemaps, or anything that may look bad when scaled.
             \note Textures must be sizes that are a power of two. NPOT textures will experience artifacts (or may fail all together).
         */
-        boost::shared_ptr<Texture> loadTexture( const std::string& _fn , bool _l = true);
+        TexturePtr loadTexture( const std::string& _fn , bool _l = true);
 
         //! Find texture by name.
-        boost::shared_ptr<Texture> findTexture(const std::string& _n);
+        TexturePtr findTexture(const std::string& _n);
 
         //! Find texture by OpenGL Texture ID.
-        boost::shared_ptr<Texture> findTexture(const GLuint& _i);
+        TexturePtr findTexture(const GLuint& _i);
 
         //! Draw text
         /*!
@@ -188,7 +187,7 @@ namespace phoenix
         double framerate;
 
         //! The system font used to draw text
-        boost::shared_ptr<Font> font;
+        FontPtr font;
 
         //! Resource manager
         ResourceManager resources;
@@ -199,7 +198,5 @@ namespace phoenix
     };
 
 } //namespace phoenix
-
-#include "BitmapFont.h"
 
 #endif //__PHOENIXRS__

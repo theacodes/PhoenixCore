@@ -35,7 +35,7 @@ class TextureTest
         {
 
             //print out all the resources
-            BOOST_FOREACH( boost::shared_ptr<Resource>& resource, system.getResourceManager().getResourceList() )
+            BOOST_FOREACH( ResourcePtr& resource, system.getResourceManager().getResourceList() )
             {
                 system.getDebugConsole()<<"\n Resource "<<resource.get()<<" with name '"<<resource->getName()<<"'";
             }
@@ -44,7 +44,7 @@ class TextureTest
             system.getDebugConsole()<<"\nFont Name: "<<system.getFont()->grab<BitmapFont>()->getTexture()->getName()<<" Pointer: "<< system.getFont().get();
 
             //! Find the font texture in the resource manager.
-            boost::shared_ptr<Texture> testfind = system.findTexture( "deffont.png" );
+            TexturePtr testfind = system.findTexture( "deffont.png" );
 
             //! Print out if we actually found a texture.
             system.getDebugConsole()<<"\nTest find is valid: "<< testfind;
@@ -70,7 +70,7 @@ class TextureTest
             testfind->unlock();
 
             //! Now see if we can create a custom texture.
-            boost::shared_ptr<Texture> newtexture = Texture::create( system.getResourceManager(), Vector2d(512,512) );
+            TexturePtr newtexture = new Texture( system.getResourceManager(), Vector2d(512,512) );
 
             //! Tell me something about it.
             system.getDebugConsole()<<"\nNew texture name: "<<newtexture->getName()<<"Size: "<<newtexture->getSize().getX()<<","<<newtexture->getSize().getY();
@@ -88,7 +88,7 @@ class TextureTest
 
             //! Now just for fun, how about a render texture?
             BatchRenderer tbatch; // we need a separate renderer for it.
-            boost::shared_ptr<RenderTexture> rendertexture = RenderTexture::create( system.getResourceManager(), tbatch, Vector2d(256,256));
+            RenderTexturePtr rendertexture = new RenderTexture( system.getResourceManager(), tbatch, Vector2d(256,256));
             system.getDebugConsole()<<"\nRender Target Size: "<<rendertexture->getSize().getX()<<","<<rendertexture->getSize().getY();
             system.getDebugConsole()<<"\nRender Target Texture ID: "<<rendertexture->getTextureId();
 

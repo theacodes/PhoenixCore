@@ -44,7 +44,7 @@ public:
     /*!
         You can optionally pre-set the depth, group and texture of the factory.
     */
-    AbstractGeometryFactory( float _d = 0.0f, signed int _g = 0, boost::shared_ptr<Texture> _t = boost::shared_ptr<Texture>() )
+    AbstractGeometryFactory( float _d = 0.0f, signed int _g = 0, TexturePtr _t = TexturePtr() )
         : factory_depth( _d ), factory_group( _g ), factory_texture( _t ), factory_group_begin(), factory_group_end()
     {
     }
@@ -68,10 +68,10 @@ public:
     inline signed int getGroup() { return factory_group; }
 
     //! Set texture.
-    inline void setTexture( boost::shared_ptr<Texture> _t = boost::shared_ptr<Texture>() ) { factory_texture = _t; }
+    inline void setTexture( TexturePtr _t = TexturePtr() ) { factory_texture = _t; }
 
     //! Get texture.
-    inline boost::shared_ptr<Texture> getTexture() { return factory_texture; }
+    inline TexturePtr getTexture() { return factory_texture; }
 
     //! Set group begin function
     /*!
@@ -110,7 +110,7 @@ private:
 
     float factory_depth;
     signed int factory_group;
-    boost::shared_ptr<Texture> factory_texture;
+    TexturePtr factory_texture;
     boost::function< void() > factory_group_begin;
     boost::function< void() > factory_group_end;
 };

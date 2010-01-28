@@ -57,7 +57,7 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawPolygon (const Polygon& 
 //Draws a polygon
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexturedPolygon (const Polygon& _p, boost::shared_ptr<Texture> _t, const Color& _c, bool _e)
+boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexturedPolygon (const Polygon& _p, TexturePtr _t, const Color& _c, bool _e)
 {
 
     // Use the regular draw poly function to save us effort.
@@ -92,7 +92,7 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexturedPolygon (const P
 //Renders a Texture
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexture(  boost::shared_ptr<Texture> _t, const Vector2d& _p,  const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int _flags )
+boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexture(  TexturePtr _t, const Vector2d& _p,  const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int _flags )
 {
     // Use BatchGeometry's factory for rectangles.
 	boost::shared_ptr<BatchGeometry> geom = BatchGeometry::create( *renderer, Rectangle( -_t->getSize()/2.0f, _t->getSize()) , _t, getGroup(), getDepth() );
@@ -128,7 +128,7 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexture(  boost::shared_
 }
 
 //this draws a texture with a clipping rectangle
-boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexturePart( boost::shared_ptr<Texture> _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int  _flags )
+boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexturePart( TexturePtr _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int  _flags )
 {
     // Use BatchGeometry's factory for rectangles.
     boost::shared_ptr<BatchGeometry> geom = BatchGeometry::create( *renderer, Rectangle( -_rect.getDimensions()/2, _rect.getDimensions() ) , _t, getGroup(), getDepth() );

@@ -21,14 +21,13 @@ class TestResource
     : public Resource
 {
 protected:
+public:
 
     TestResource( ResourceManager& r )
         : Resource(r)
     {
         ++resourcecount;
     }
-
-public:
 
     virtual ~TestResource()
     {
@@ -69,7 +68,7 @@ class ResourceTest
             //! Add 10 resources to rmanager (Basic resource manager).
             for(int i = 0; i<10; ++i)
             {
-                TestResource::create<TestResource>(rmanager);
+                new TestResource(rmanager);
                 cout<<"Test Resource Count: "<<TestResource::resourcecount<<endl;
             }
             cout<<endl;
@@ -89,7 +88,7 @@ class ResourceTest
             //! Add 10 resources to irmanager (Iterative resource manager).
             for(int i = 0; i<10; ++i)
             {
-                TestResource::create<TestResource>(irmanager);
+                new TestResource(irmanager);
                 cout<<"Test Resource Count: "<<TestResource::resourcecount<<endl;
             }
 
@@ -99,7 +98,7 @@ class ResourceTest
                 if( i==5 )
                     irmanager.getResource(i)->drop();
 
-                boost::shared_ptr<TestResource> resource = irmanager.getResource(i)->grab<TestResource>();
+                boost::intrusive_ptr<TestResource> resource = irmanager.getResource(i)->grab<TestResource>();
 
                 if( resource )
                     resource->step();
