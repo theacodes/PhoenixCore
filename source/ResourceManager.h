@@ -45,10 +45,15 @@ namespace phoenix
 
         //! Constructor
         ResourceManager( )
-			: resourcelist(), recyclelist(), AbstractGarbageCollector()
+			: AbstractGarbageCollector(), resourcelist(), recyclelist()
 		{
-            setGarbageCollectionFunction( boost::bind( &ResourceManager::garbageCollect, this ) );
 		}
+
+        //! Starts Garbage Collecting. Overloaded from AbstractGarbageCollector::start()
+        inline virtual void start(){
+            setGarbageCollectionFunction( boost::bind( &ResourceManager::garbageCollect, this) );
+            AbstractGarbageCollector::start();
+        }
 
         //! Destructor
         /*!

@@ -13,6 +13,7 @@ distribution for more information.
 
 #include <boost/thread.hpp>
 #include <boost/function.hpp>
+#include <boost/noncopyable.hpp>
 
 namespace phoenix
 {
@@ -30,6 +31,7 @@ namespace phoenix
 	the objects- this is up to the object list manager.
 */
 class AbstractGarbageCollector
+    : boost::noncopyable
 {
 
 public:
@@ -54,7 +56,11 @@ public:
 	}
 
     //! Start Garbage Collecting
-    inline void start() { gc_thread = boost::thread( boost::bind( &AbstractGarbageCollector::gcThreadMain, this ) ); }
+    inline virtual void start() { 
+        gc_thread = boost::thread( boost::bind( &AbstractGarbageCollector::gcThreadMain, this ) ); 
+    }
+
+    //! Stop Garbage Collecting
     inline void stop() { gc_thread.interrupt(); gc_thread.join(); gc_thread = boost::thread(); }
 
 	//! Get a pointer to the thread's handle.
