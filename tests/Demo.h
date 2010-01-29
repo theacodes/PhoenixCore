@@ -156,7 +156,7 @@ public:
         // delta time
         float deltatime = timer.getTime();
 
-        BOOST_FOREACH( ResourcePtr& r, system.getResourceManager().getResourceList() )
+        BOOST_FOREACH( ResourcePtr& r, system.getResourceManager().getList() )
         {
             if ( ! r->dropped() )
             {
@@ -309,7 +309,7 @@ public:
 
             // print some stats
             system.getDebugConsole()<<"\nSprites: "<<system.getResourceManager().count()
-                <<"\nGeometry: "<<system.geometryCount()
+                <<"\nGeometry: "<<system.count()
                 <<"\nFrames Per Seconds: "<<system.getFPS()
                 <<"\nScreen Size: "<<WindowManager::getScreenSize().getX()<<", "<<WindowManager::getScreenSize().getY()
                 <<"\nBlend Mode: "<< (DemoParticle::blendmode ? "Smoke" : "Additive")

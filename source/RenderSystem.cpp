@@ -75,7 +75,7 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
     //load our default font
 	std::string ffn = saveBuiltinFont();
 	font = new BitmapFont( resources, *this ,loadTexture(ffn));
-    remove(ffn.c_str());
+    ::remove(ffn.c_str());
 
     //!start the timer
     fpstimer.start();

@@ -98,7 +98,7 @@ class EventTest
                 system.drawText( "Not all will change, but you should be able", Vector2d(16,32) );
                 system.drawText( "make some pretty colors by mashing keys.", Vector2d(16,48) );
 
-			    system.getDebugConsole()<<"\nGeoms "<<system.geometryCount()<<", FPS: "<<system.getFPS();
+			    system.getDebugConsole()<<"\nGeoms "<<system.count()<<", FPS: "<<system.getFPS();
 
             }
 

@@ -35,7 +35,7 @@ class TextureTest
         {
 
             //print out all the resources
-            BOOST_FOREACH( ResourcePtr& resource, system.getResourceManager().getResourceList() )
+            BOOST_FOREACH( ResourcePtr& resource, system.getResourceManager().getList() )
             {
                 system.getDebugConsole()<<"\n Resource "<<resource.get()<<" with name '"<<resource->getName()<<"'";
             }

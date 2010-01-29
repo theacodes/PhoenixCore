@@ -47,7 +47,7 @@ public:
 	BatchRenderer( )
 		: geometry(), recyclelist(), AbstractGarbageCollector()
 	{
-        setGarbageCollectionFunction( boost::bind( &BatchRenderer::pruneGeometry, this ) );
+        setGarbageCollectionFunction( boost::bind( &BatchRenderer::prune, this ) );
 		//collect fast.
 		setSleepTime( 5 );
         setCollectionRate( 2 );
@@ -59,23 +59,21 @@ public:
 	*/
 	virtual ~BatchRenderer()
 	{
-        //clear the gc function
-        setGarbageCollectionFunction();
-		//drop all geometry.
-		clearGeometry();
+        setGarbageCollectionFunction();//clear the gc function
+		clear(); //drop all geometry.
 	}
 
 	//! Add geometry to the render graph. (Automatically called by BatchGeometry::create() ).
-	void addGeometry( boost::intrusive_ptr<BatchGeometry> _g );
+	void add( boost::intrusive_ptr<BatchGeometry> _g );
 
 	//! Add geometry to the recycle list. ( Automatically called by BatchGeometry::drop() ).
-	void removeGeometry( boost::intrusive_ptr<BatchGeometry> _g );
+	void remove( boost::intrusive_ptr<BatchGeometry> _g );
 
 	//! Update a geometry's position in the graph. ( Automatically called by BatchGeometry::update() ).
-	void moveGeometry( boost::intrusive_ptr<BatchGeometry> _g );
+	void move( boost::intrusive_ptr<BatchGeometry> _g );
 
 	//! Drops all geometry.
-	void clearGeometry()
+	void clear()
 	{
 		lock();
 		recyclelist.clear();
@@ -84,7 +82,7 @@ public:
 	}
 
 	//! Counts all the geometry in the list (may be slow). 
-	unsigned int geometryCount();
+	unsigned int count();
 
     //! Sets the rendere's view.
     inline void setView( const View& other ) { view = other; }
@@ -118,10 +116,10 @@ private:
     View view;
 
 	//! Prune routine
-	virtual void pruneGeometry();
+	virtual void prune();
 
-	//! Real removal routine ( used by pruneGeometry() and moveGeometry() ).
-	void removeGeometryProper( boost::intrusive_ptr<BatchGeometry> _g , bool _inv = false);
+	//! Real removal routine ( used by prune() and move() ).
+	void removeProper( boost::intrusive_ptr<BatchGeometry> _g , bool _inv = false);
 };
 
 } //namespace phoenix

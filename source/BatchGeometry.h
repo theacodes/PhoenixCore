@@ -58,10 +58,7 @@ public:
 	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
 		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
 	{
-#ifdef DEBUG_BATCHGEOMETRY
-		std::cout<<"\nBatch Geometry Created: "<<_r<<", "<<_p<<", "<<_t.get()<<", "<<_g<<", "<<_d<<std::endl;
-#endif
-		_r.addGeometry( this );
+		_r.add( this );
 	}
 
 	//! Create from Rectangle
@@ -80,7 +77,7 @@ public:
         : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
 	{
 		fromRectangle( _rect );
-		_r.addGeometry( this );
+		_r.add( this );
 	}
 
 	//! Create from Polygon
@@ -98,7 +95,7 @@ public:
         : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
 	{
         fromPolygon( _poly );
-		_r.addGeometry( this );
+		_r.add( this );
 	}
 
 	/*!
@@ -138,7 +135,7 @@ public:
 		if( ! dropped() )
 		{
 			Droppable::drop();
-			renderer.removeGeometry( this );
+			renderer.remove( this );
 		}
 	}
 
@@ -297,10 +294,7 @@ public:
 	{
 		if( ! (primitivetype.check() && textureid.check() && groupid.check() && depth.check()) )
 		{
-#ifdef DEBUG_BATCHGEOMETRY
-			std::cout<<"\n - Invariant "<<primitivetype.check()<<textureid.check()<<groupid.check()<<depth.check()<<" failed on "<<this<<std::endl;
-#endif
-			renderer.moveGeometry( this );
+			renderer.move( this );
 			primitivetype.reset();
 			textureid.reset();
 			groupid.reset();

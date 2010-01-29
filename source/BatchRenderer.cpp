@@ -41,7 +41,7 @@ void BatchRenderer::listGeometry()
 }
 #endif
 
-unsigned int BatchRenderer::geometryCount()
+unsigned int BatchRenderer::count()
 {
 	boost::recursive_mutex::scoped_lock l( getMutex() );
 	unsigned int total = 0;
@@ -58,19 +58,19 @@ unsigned int BatchRenderer::geometryCount()
 }
 
 
-void BatchRenderer::addGeometry( boost::intrusive_ptr<BatchGeometry> _g )
+void BatchRenderer::add( boost::intrusive_ptr<BatchGeometry> _g )
 {
 	boost::recursive_mutex::scoped_lock l( getMutex() );
 	geometry[_g->getDepth()][ _g->getGroup() ][ _g->getTextureId() ][_g->getPrimitiveType()].push_back( _g );
 }
 
-void BatchRenderer::removeGeometry( boost::intrusive_ptr<BatchGeometry> _g )
+void BatchRenderer::remove( boost::intrusive_ptr<BatchGeometry> _g )
 {
 	boost::recursive_mutex::scoped_lock l( getMutex() );
 	recyclelist.push_back( _g );
 }
 
-void BatchRenderer::removeGeometryProper( boost::intrusive_ptr<BatchGeometry> _g, bool _inv )
+void BatchRenderer::removeProper( boost::intrusive_ptr<BatchGeometry> _g, bool _inv )
 {
 
 	unsigned int textureid = _g->getTextureId();
@@ -120,16 +120,16 @@ void BatchRenderer::removeGeometryProper( boost::intrusive_ptr<BatchGeometry> _g
 	}
 }
 
-void BatchRenderer::moveGeometry( boost::intrusive_ptr<BatchGeometry> _g )
+void BatchRenderer::move( boost::intrusive_ptr<BatchGeometry> _g )
 {
 	lock();
-	removeGeometryProper( _g, true );
-	addGeometry( _g );
+	removeProper( _g, true );
+	add( _g );
 	unlock();
 }
 
 
-void BatchRenderer::pruneGeometry()
+void BatchRenderer::prune()
 {
 	
 	boost::recursive_mutex::scoped_lock l( getMutex() );
@@ -143,7 +143,7 @@ void BatchRenderer::pruneGeometry()
 		{
 			boost::intrusive_ptr<BatchGeometry>& g = recyclelist.back();
 			if( g )
-				removeGeometryProper( g );
+				removeProper( g );
 			recyclelist.pop_back();
 		}
 		else
@@ -262,6 +262,6 @@ void BatchRenderer::draw( )
 	glPopMatrix();
 
 	// Prune.
-	pruneGeometry();
+	prune();
 
 }

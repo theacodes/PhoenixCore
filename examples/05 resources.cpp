@@ -117,7 +117,7 @@ int main()
                 BOOST_FOREACH( ResourcePtr& r, examples.getResourceList() )
             but for this example I wanted to show iterating without foreach.
         */
-        for( std::list< ResourcePtr >::iterator i = examples.getResourceList().begin(); i != examples.getResourceList().end(); ++i )
+        for( std::list< ResourcePtr >::iterator i = examples.getList().begin(); i != examples.getList().end(); ++i )
         {
             /*!
                 First, we make sure the resource hasn't been dropped. Usually it is

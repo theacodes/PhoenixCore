@@ -132,7 +132,7 @@ namespace phoenix
 			you must call lock() before and unlock() after. If you do not, prepare for a crash
 			when the garbage collector comes around.
 		*/
-        inline std::list< boost::intrusive_ptr<Resource> >& getResourceList()
+        inline std::list< boost::intrusive_ptr<Resource> >& getList()
         {
             return resourcelist;
         }
