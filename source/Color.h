@@ -90,13 +90,13 @@ namespace phoenix
             return alpha;
         }
 
-        //! To GL color.
+        //! Encode to GL color.
         /*!
 			This function packs the color into opengl ABGR format.
             This is used by all functions that draw things using indexed lists.
             \return This color in encoded opengl ABGR format.
         */
-        inline const unsigned int toGLColor() const
+        inline const unsigned int encode() const
         {
             // Pack the bytes in reverse order for opengl's GL_UNSIGNED_BYTE form for glColorPointer.
             return ( ((unsigned int)(alpha)<<24) |
@@ -104,6 +104,15 @@ namespace phoenix
                      ((unsigned int)(green)<<8) |
                      ((unsigned int)(red))
                    );
+        }
+
+        //! Decode from GL color.
+        inline void decode( const unsigned int glcolor )
+        {
+            alpha = unsigned char( glcolor>>24 & 0xFF);
+            blue = unsigned char( glcolor>>16 & 0xFF);
+            green = unsigned char( glcolor>>8 & 0xFF);
+            red = unsigned char( glcolor & 0xFF );
         }
 
         //! Interpolate.
