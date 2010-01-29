@@ -31,7 +31,7 @@ boost::intrusive_ptr<phoenix::Resource> phoenix::ResourceManager::find( const st
 }
 
 //Garbage collector
-void phoenix::ResourceManager::garbageCollect()
+void phoenix::ResourceManager::clean()
 {
 	
 	boost::recursive_mutex::scoped_lock l( getMutex() );

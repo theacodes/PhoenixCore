@@ -42,7 +42,7 @@ public:
 		\sa setGarbageCollectionFunction()
 	*/
 	AbstractGarbageCollector( boost::function< void() > _f = boost::function< void() >() )
-		: gc_thread(), gc_mutex(), gc_param_mutex(), gc_function( _f ), gc_sleep_time( 50 ), gc_collect_rate( 10 )
+		: gc_thread(), gc_mutex(), gc_param_mutex(), gc_sleep_time( 50 ), gc_collect_rate( 10 )
 	{
 	}
 
@@ -88,29 +88,13 @@ public:
 	*/
 	inline void unlock() { gc_mutex.unlock(); }
 
-	//! Get GC function.
-	/*!
-		Returns the function object (boost::function) of the current garbage 
-		collection function. This can possibly be used in conditional compiles 
-		with no threads. 
-	*/
-	const boost::function< void() >& getGarbageCollectionFunction() {
-		boost::mutex::scoped_lock( gc_param_mutex );
-		return gc_function; 
-	}
-
-	//! Set GC function.
-	/*!
-		Sets the function object of the garbage collection function. This
-		function is called every gc_sleep_time seconds. You can refer to
-		BatchRenderer::pruneGeometry() and ResourceManager::garbageCollect()
-		for example implementations.
-		\sa BatchRenderer::pruneGeometry(), ResourceManager::garbageCollect()
-	*/
-    void setGarbageCollectionFunction( const boost::function< void() >& _f = boost::function< void() >() ){
-		boost::mutex::scoped_lock( gc_param_mutex );
-		gc_function = _f;
-	}
+    //! Clean function.
+    /*!
+        This function is called by the thread or may be called manually. Derived classes
+        are expected to overload this to define their own functions. Derived classes
+        are responsible for locking their own mutexes!
+    */
+    virtual void clean() { }
 
 	//! Get Sleep Time.
 	unsigned int getSleepTime(){
@@ -148,9 +132,6 @@ private:
 	//! Parameter mutex
 	boost::mutex gc_param_mutex;
 
-	//! Garbage Collection function.
-	boost::function< void() > gc_function;
-
 	//! Sleep time.
 	/*!
 		How long (in milliseconds) the thread sleeps before calling
@@ -183,9 +164,8 @@ private:
 				//sleep
 				boost::this_thread::sleep( boost::posix_time::milliseconds( getSleepTime() ) );
 
-				//call the user's gc function
-				if( gc_function )
-					gc_function();
+			    //clean
+				clean();
 			}
 		}
 		catch( boost::thread_interrupted )

@@ -47,7 +47,6 @@ public:
 	BatchRenderer( )
 		: geometry(), recyclelist(), AbstractGarbageCollector()
 	{
-        setGarbageCollectionFunction( boost::bind( &BatchRenderer::prune, this ) );
 		//collect fast.
 		setSleepTime( 5 );
         setCollectionRate( 2 );
@@ -59,7 +58,6 @@ public:
 	*/
 	virtual ~BatchRenderer()
 	{
-        setGarbageCollectionFunction();//clear the gc function
 		clear(); //drop all geometry.
 	}
 
@@ -84,19 +82,22 @@ public:
 	//! Counts all the geometry in the list (may be slow). 
 	unsigned int count();
 
+    //! Cleaning routine
+	void clean();
+
     //! Sets the rendere's view.
     inline void setView( const View& other ) { view = other; }
 
     //! Gets a reference to the renderer's view.
     inline View& getView() {return view; }
 
+	//! Draws everything in the graph.
+	void draw( );
+
 #ifdef DEBUG_BATCHRENDERER
 	//! Lists all the geometry in the list.
 	void listGeometry();
 #endif
-
-	//! Draws everything in the graph.
-	void draw( );
 
 private:
 
@@ -114,9 +115,6 @@ private:
 
     //! View
     View view;
-
-	//! Prune routine
-	virtual void prune();
 
 	//! Real removal routine ( used by prune() and move() ).
 	void removeProper( boost::intrusive_ptr<BatchGeometry> _g , bool _inv = false);

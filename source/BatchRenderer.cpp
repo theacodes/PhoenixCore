@@ -129,7 +129,7 @@ void BatchRenderer::move( boost::intrusive_ptr<BatchGeometry> _g )
 }
 
 
-void BatchRenderer::prune()
+void BatchRenderer::clean()
 {
 	
 	boost::recursive_mutex::scoped_lock l( getMutex() );
@@ -262,6 +262,6 @@ void BatchRenderer::draw( )
 	glPopMatrix();
 
 	// Prune.
-	prune();
+	clean();
 
 }

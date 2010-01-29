@@ -49,12 +49,6 @@ namespace phoenix
 		{
 		}
 
-        //! Starts Garbage Collecting. Overloaded from AbstractGarbageCollector::start()
-        inline virtual void start(){
-            setGarbageCollectionFunction( boost::bind( &ResourceManager::garbageCollect, this) );
-            AbstractGarbageCollector::start();
-        }
-
         //! Destructor
         /*!
             Destructing the resource manager lets go of all the references to its resouces,
@@ -63,8 +57,6 @@ namespace phoenix
         */
         virtual ~ResourceManager()
         {
-            //clear the gc function
-            setGarbageCollectionFunction();
             //drop all resources.
 			clear();
         }
@@ -137,7 +129,8 @@ namespace phoenix
             return resourcelist;
         }
 
-		
+		//! Clean function
+		void clean();
 
     protected:
 
@@ -146,9 +139,6 @@ namespace phoenix
 
 		//! list of resources to be recycled
 		std::vector< boost::intrusive_ptr<Resource> > recyclelist;
-
-		//! Garbage collection function
-		void garbageCollect();
 
     private:
     };
