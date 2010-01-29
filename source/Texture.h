@@ -73,10 +73,10 @@ namespace phoenix
             Sets the OpenGL texture identifier of this texture. Should never be called directly by the user, but
             can be used by custom image loading routines.
         */
-        inline void setTextureId(const GLuint& _t) { texture = _t; }
+        inline void setTextureId(GLuint _t) { texture = _t; }
 
         //! Get the OpenGL texture identifier.
-        inline const GLuint& getTextureId() const { return texture; }
+        inline GLuint getTextureId() const { return texture; }
 
         //! Changes the texture's width (Must be a power of 2).
         inline void setWidth(int _w) { width = _w; }
