@@ -38,7 +38,7 @@ namespace phoenix
         Resource( ResourceManager& rm, const signed int& t = 0 )
                 : Droppable(), _rmanager(rm), _type(t), _name("None")
         {
-            rm.addResource( this );
+            rm.add( this );
         }
 
 
@@ -72,7 +72,7 @@ namespace phoenix
 			if( ! dropped() )
 			{
 				Droppable::drop();
-				_rmanager.removeResource( this );
+				_rmanager.remove( this );
 			}
 		}
 

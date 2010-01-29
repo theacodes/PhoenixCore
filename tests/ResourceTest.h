@@ -74,14 +74,14 @@ class ResourceTest
             cout<<endl;
 
             //! Now Remove one.
-            rmanager.getResource(0)->drop();
+            rmanager.get(0)->drop();
             cout<<"Test Resource Count: "<<TestResource::resourcecount<<endl<<endl;
 
             //! Now delete them all.
-            rmanager.clearResourceList();
+            rmanager.clear();
 
             cout<<"Test Resource Count: "<<TestResource::resourcecount<<endl;
-            cout<<"Resource Manager Resource Count: "<<rmanager.getResourceCount()<<endl;
+            cout<<"Resource Manager Resource Count: "<<rmanager.count()<<endl;
 
             //! Now we'll do iteration.
 
@@ -93,12 +93,12 @@ class ResourceTest
             }
 
             //! Now iterate, and remove 5.
-            for( unsigned int i = 0; i < irmanager.getResourceCount(); ++i )
+            for( unsigned int i = 0; i < irmanager.count(); ++i )
             {
                 if( i==5 )
-                    irmanager.getResource(i)->drop();
+                    irmanager.get(i)->drop();
 
-                boost::intrusive_ptr<TestResource> resource = irmanager.getResource(i)->grab<TestResource>();
+                boost::intrusive_ptr<TestResource> resource = irmanager.get(i)->grab<TestResource>();
 
                 if( resource )
                     resource->step();

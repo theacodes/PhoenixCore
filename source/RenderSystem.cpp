@@ -228,7 +228,7 @@ TexturePtr RenderSystem::loadTexture( const std::string& _fn, bool _l )
 //! Find texture.
 TexturePtr RenderSystem::findTexture(const std::string& _i)
 {
-    ResourcePtr findtexture = resources.findResource(_i);
+    ResourcePtr findtexture = resources.find(_i);
     if( findtexture )
     {
         return findtexture->grab< Texture >();
@@ -244,13 +244,13 @@ TexturePtr RenderSystem::findTexture(const std::string& _i)
 TexturePtr RenderSystem::findTexture(const GLuint& _n)
 {
 	boost::recursive_mutex::scoped_lock( resources.getMutex() );
-    for (unsigned int i=0;i<resources.getResourceCount();i++)
+    for (unsigned int i=0;i<resources.count();i++)
     {
-        if( resources.getResource(i)->getType() == ERT_TEXTURE )
+        if( resources.get(i)->getType() == ERT_TEXTURE )
         {
-            if ( resources.getResource(i)->grab<Texture>()->getTextureId() == _n )
+            if ( resources.get(i)->grab<Texture>()->getTextureId() == _n )
             {
-                return resources.getResource(i)->grab<Texture>();
+                return resources.get(i)->grab<Texture>();
             }
         }
     }

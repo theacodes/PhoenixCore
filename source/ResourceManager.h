@@ -66,7 +66,7 @@ namespace phoenix
             //clear the gc function
             setGarbageCollectionFunction();
             //drop all resources.
-			clearResourceList();
+			clear();
         }
 
         //! Adds a resource to the list.
@@ -74,7 +74,7 @@ namespace phoenix
         	This should be called when a resource is constructed.
         	\sa removeResource
         */
-        inline void addResource( boost::intrusive_ptr<Resource> rc )
+        inline void add( boost::intrusive_ptr<Resource> rc )
         {
 			boost::recursive_mutex::scoped_lock l( getMutex() );
             resourcelist.push_back( rc );
@@ -85,7 +85,7 @@ namespace phoenix
         	This should be called in the drop() function of any resources.
         	\sa addResource
         */
-        inline void removeResource( boost::intrusive_ptr<Resource> rc )
+        inline void remove( boost::intrusive_ptr<Resource> rc )
         {
 			boost::recursive_mutex::scoped_lock l( getMutex() );
 			recyclelist.push_back( rc );
@@ -95,7 +95,7 @@ namespace phoenix
         /*!
         	Releases the reference to every resource in the list by clearing the resource list.
         */
-        inline void clearResourceList()
+        inline void clear()
         {
 			boost::recursive_mutex::scoped_lock l( getMutex()  );
 			recyclelist.clear();
@@ -103,7 +103,7 @@ namespace phoenix
         }
 
         //! Gets the resource at the given index.
-        inline boost::intrusive_ptr<Resource> getResource( const unsigned int index )
+        inline boost::intrusive_ptr<Resource> get( const unsigned int index )
         {
 			boost::recursive_mutex::scoped_lock l( getMutex() );
             if ( index < resourcelist.size() )
@@ -116,14 +116,14 @@ namespace phoenix
         }
 
         //! The number of resources.
-        inline const unsigned int getResourceCount()
+        inline const unsigned int count()
         {
 			boost::recursive_mutex::scoped_lock l( getMutex() );
             return resourcelist.size();
         }
 
         //! Finds the resource with the given name.
-        boost::intrusive_ptr<Resource> findResource( const std::string& name );
+        boost::intrusive_ptr<Resource> find( const std::string& name );
 
         //! Get resource list
 		/*!

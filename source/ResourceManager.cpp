@@ -17,7 +17,7 @@ using namespace phoenix;
 /*!---------------------
 Find resource
 -----------------------*/
-boost::intrusive_ptr<phoenix::Resource> phoenix::ResourceManager::findResource( const std::string& name )
+boost::intrusive_ptr<phoenix::Resource> phoenix::ResourceManager::find( const std::string& name )
 {
 	boost::recursive_mutex::scoped_lock( *getMutex() );
     for( std::list< boost::intrusive_ptr<phoenix::Resource> >::iterator i = resourcelist.begin(); i != resourcelist.end(); ++i )

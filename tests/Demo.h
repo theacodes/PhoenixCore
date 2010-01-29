@@ -308,7 +308,7 @@ public:
 
 
             // print some stats
-            system.getDebugConsole()<<"\nSprites: "<<system.getResourceManager().getResourceCount()
+            system.getDebugConsole()<<"\nSprites: "<<system.getResourceManager().count()
                 <<"\nGeometry: "<<system.geometryCount()
                 <<"\nFrames Per Seconds: "<<system.getFPS()
                 <<"\nScreen Size: "<<WindowManager::getScreenSize().getX()<<", "<<WindowManager::getScreenSize().getY()
