@@ -130,9 +130,6 @@ public:
         // Enable resizing
         system.enableResize();
 
-        //lower sleep time, we'll be moving a lot around.
-        system.getResourceManager().setSleepTime( 10 );
-
         //start timer
         timer.start();
     }

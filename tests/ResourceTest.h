@@ -104,6 +104,8 @@ class ResourceTest
                     resource->step();
 			}
 
+            irmanager.clean();
+
 			cout<<"Test Resource Count: "<<TestResource::resourcecount<<endl;
 
             cin.get();

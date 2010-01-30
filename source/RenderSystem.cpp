@@ -86,9 +86,6 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
     //set the debug console's line limit
     console.updateLineLimit();
 
-    //start the resource manager's gc thread.
-    resources.start();
-
 }
 
 
@@ -124,6 +121,9 @@ bool RenderSystem::run()
 
     //flip the screen (this also polls events).
 	WindowManager::swapBuffers();
+
+    //Clean resources
+    resources.clean();
 
     //clear screen
     clearScreen();
