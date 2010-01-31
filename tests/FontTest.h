@@ -39,7 +39,7 @@ class FontTest
             while( system.run() )
             {
 
-				hellotext->rotate( 0.001 );
+				hellotext->rotate( 0.001f );
 
                 //! Draw some info.
                 system.drawText( "Font Test", Vector2d(16,16) );

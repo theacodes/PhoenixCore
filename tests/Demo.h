@@ -41,15 +41,15 @@ public:
     DemoParticle( RenderSystem& s, TexturePtr t, Vector2d p )
             : Resource( s.getResourceManager() , 10), radius(1.f), position(p), speed(0.f), color(), rot(0), life(1), geometry(), rsystem(s)
     {
-        direction = (p - Vector2d(320,240)).getDirection() * RotationMatrix(DegreesToRadians(random(-40,40)));
+        direction = (p - Vector2d(320,240)).getDirection() * RotationMatrix(DegreesToRadians((float)random(-40,40)));
         speed = random(100,5000)/1000.0f;
         color = Color( random( 127, 255 ), random( 127, 255 ), random( 127, 255 ) );
-        life = random(10000,100000);
+        life = (float)random(10000,100000);
         radius = random(750,1250)/1000.0f;
-        rot = random(0,360);
+        rot = (float)random(0,360);
 
         // Make some geometry.
-        geometry = new BatchGeometry( s.getBatchRenderer(), GL_QUADS, t, 5, (EventReceiver::getKey( PHK_S ) ? random(1,150) : 0) );
+        geometry = new BatchGeometry( s.getBatchRenderer(), GL_QUADS, t, 5, (EventReceiver::getKey( PHK_S ) ? float(random(1,150)) : 0.0f) );
         geometry->setGroupBeginFunction( boost::bind( &DemoParticle::startBlend, intrusive_ptr<DemoParticle>(this) ) );
         geometry->setGroupEndFunction( boost::bind( &DemoParticle::endBlend, intrusive_ptr<DemoParticle>(this) ) );
     }
@@ -101,10 +101,10 @@ public:
         geometry->translate( position );
 
         // lose some life, rotate a little, and scale down.
-        color.setAlpha( (life*255) /100000 );
+        color.setAlpha( (unsigned char)((life*255.0f) /100000.0f) );
         life -= int(dtime*100);
         rot -= dtime*500.0f;
-        radius -= 0.05 * (dtime*15.0f) ;
+        radius -= 0.05f*(dtime*15.0f) ;
 
         // drop if too small/dead.
         if ( radius < 0.05 ) drop();
@@ -151,7 +151,7 @@ public:
         system.getResourceManager().lock();
 
         // delta time
-        float deltatime = timer.getTime();
+        float deltatime = (float)timer.getTime();
 
         BOOST_FOREACH( ResourcePtr& r, system.getResourceManager().getList() )
         {
@@ -227,7 +227,7 @@ public:
             system.clearScreen( (*currentcolors)[ currentcolor ].interpolate( (*currentcolors)[ destcolor ], colorpercent ) );
 
             // add to our interpolation percentage.
-            colorpercent += colortimer.getTime() * 5.0f;
+            colorpercent += (float)colortimer.getTime() * 5.0f;
 
             // If we're all the way at the destination color,
             // make our current color the destination color
@@ -263,7 +263,7 @@ public:
             system.getDebugConsole()<<"\nMouse Delta: "<<dmouseposition.getX()<<", "<<dmouseposition.getY();
 
             // we wanna generate 1 per 0.05ms, or 5000 per second.
-            float ts = colortimer.getTime()/0.0005f;
+            float ts = (float)colortimer.getTime()/0.0005f;
             system.getDebugConsole()<<"\nParticles to Generate: "<<ceil(ts);
 
             //reset the timer.

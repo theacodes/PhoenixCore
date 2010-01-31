@@ -84,10 +84,10 @@ class PolygonTest
             {
 
                 //! Rotate poly 1 with a scalar
-                poly1.rotate( DegreesToRadians( 60.0f * deltatime.getTime() ) );
+                poly1.rotate( DegreesToRadians( 60.0f * (float)deltatime.getTime() ) );
 
                 //! Rotate poly 2 with a rotation matrix
-                poly2 *= RotationMatrix( DegreesToRadians( -80.f * deltatime.getTime() ) );
+                poly2 *= RotationMatrix( DegreesToRadians( -80.f * (float)deltatime.getTime() ) );
 
                 //! Move poly 3 to the mouse's position
                 poly3.setPosition( EventReceiver::getMousePosition() );
@@ -95,13 +95,13 @@ class PolygonTest
                 //!Rotate 3 and four with mouse buttons.
                 if( EventReceiver::getMouseButton(PHK_MB_LEFT))
                 {
-                    poly3.rotate( DegreesToRadians(80.0f * deltatime.getTime()) );
-                    poly4.rotate( DegreesToRadians(-100.0f * deltatime.getTime()) );
+                    poly3.rotate( DegreesToRadians(80.0f * (float)deltatime.getTime()) );
+                    poly4.rotate( DegreesToRadians(-100.0f * (float)deltatime.getTime()) );
                 }
                 if( EventReceiver::getMouseButton(PHK_MB_RIGHT))
                 {
-                    poly3.rotate( DegreesToRadians(-80.0f * deltatime.getTime()) );
-                    poly4.rotate( DegreesToRadians(100.0f * deltatime.getTime()) );
+                    poly3.rotate( DegreesToRadians(-80.0f * (float)deltatime.getTime()) );
+                    poly4.rotate( DegreesToRadians(100.0f * (float)deltatime.getTime()) );
                 }
 
                 //! if the spacebar is pressed, draw some bounding boxes.

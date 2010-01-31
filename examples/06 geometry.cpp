@@ -95,8 +95,8 @@ int main()
     for( int i = 0; i < 360; i+=10 )
     {
         tgeom->addVertex( Vertex( center, Color(), TextureCoords( 0.0f, 1.0f ) ) );
-        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( i ) ) ), Color(), TextureCoords( 1.0f, 0.0f ) ) );
-        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( i + 10 ) ) ), Color(), TextureCoords( 1.0f, 0.0f ) ) );
+        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( (float)i ) ) ), Color(), TextureCoords( 1.0f, 0.0f ) ) );
+        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( (float)i + 10.0f ) ) ), Color(), TextureCoords( 1.0f, 0.0f ) ) );
     }
 
     /*!

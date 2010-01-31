@@ -131,18 +131,18 @@ int main()
                 break;
 
             //! Do a step of the simulation.
-            world.Step( physicstimer.getTime()*3.0f, iterations);
+            world.Step( float(physicstimer.getTime())*3.0f, iterations);
             physicstimer.reset();
 
             //! Platform creation code.
             if( EventReceiver::getMouseButtonPressed( PHK_MB_LEFT ) )
             {
                 /*!
-                    We just get the mouse's position in thw world, then create a platform with a random orientation.
+                    We just get the mouse's position in the world, then create a platform with a random orientation.
                 */
                 Vector2d absmouseposition = system.getView().getPosition() + EventReceiver::getMousePosition();
                 b2Vec2 worldpoint( absmouseposition.getX()/scale_factor,  absmouseposition.getY()/scale_factor );
-                sd.SetAsBox(1.0f, random(8,15), ground->GetLocalPoint(worldpoint), ( -0.5f + ( random(-8,8)/100.0f ) ) * b2_pi);
+                sd.SetAsBox(1.0f, (float)random(8,15), ground->GetLocalPoint(worldpoint), ( -0.5f + ( random(-8,8)/100.0f ) ) * b2_pi);
 	            ground->CreateShape(&sd);
             }
 

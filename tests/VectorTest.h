@@ -63,10 +63,10 @@ class VectorTest
                 //! Draw the vector of vectors
                 for( unsigned int i = 0; i < vectorlist.size(); ++i )
                 {
-					system.drawRay( Vector2d(320,240), vectorlist[i], Color(255,255,255).interpolate( Color(255,127,127), i*4 ), Color(127,255,127).interpolate( Color(127,127,255), i*4 ) );
+					system.drawRay( Vector2d(320,240), vectorlist[i], Color(255,255,255).interpolate( Color(255,127,127), (float)i*4 ), Color(127,255,127).interpolate( Color(127,127,255), (float)i*4 ) );
                     char tbuffer[32];
                     sprintf(tbuffer,"%i",i);
-                    system.drawText( tbuffer, Vector2d(320,240)+vectorlist[i] * 1.1 - Vector2d(8,8), Color(127,255,127).interpolate( Color(127,127,255), i*4 ) );
+                    system.drawText( tbuffer, Vector2d(320,240)+vectorlist[i] * 1.1f - Vector2d(8,8), Color(127,255,127).interpolate( Color(127,127,255), (float)i*4 ) );
                 }
 
                 //! Draw some info.

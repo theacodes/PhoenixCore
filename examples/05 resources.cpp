@@ -30,7 +30,7 @@ public:
             random color and position.
         */
         color = Color( random(127,255), random(127,255), random(127,255) );
-        position = Vector2d( random(0,620), random(0,440) );
+        position = Vector2d( (float)random(0,620), (float)random(0,440) );
     }
 
     /*!
