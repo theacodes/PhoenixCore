@@ -88,7 +88,7 @@ namespace phoenix
         inline BatchRenderer& getBatchRenderer() { return renderer; }
 
         //! Get the system's graphics factory.
-        inline GraphicsFactory2d getGraphicsFactory(){ return factory; }
+        inline GraphicsFactory2d& getGraphicsFactory(){ return factory; }
 
         //! Get the system's internal resource manager.
         /*!
