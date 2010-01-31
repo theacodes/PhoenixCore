@@ -131,14 +131,14 @@ BatchGeometryPtr GraphicsFactory2d::drawTexture(  TexturePtr _t, const Vector2d&
 BatchGeometryPtr GraphicsFactory2d::drawTexturePart( TexturePtr _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int  _flags )
 {
     // Use BatchGeometry's factory for rectangles.
-    BatchGeometryPtr geom = new BatchGeometry( renderer, Rectangle( -_rect.getDimensions()/2, _rect.getDimensions() ) , _t, getGroup(), getDepth() );
+    BatchGeometryPtr geom = new BatchGeometry( renderer, Rectangle( -_rect.getSize()/2, _rect.getSize() ) , _t, getGroup(), getDepth() );
     geom->setImmediate( true );
     apply( geom, EFF_FUNCTIONS );
 
     // scale, rotate it, and then translate it.
     geom->scale( _scale );
     geom->rotate( _rot );
-    geom->translate( _p + _rect.getDimensions()/2.0f );
+    geom->translate( _p + _rect.getSize()/2.0f );
 
     // colorize
     geom->colorize( _color );

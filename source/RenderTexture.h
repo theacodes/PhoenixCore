@@ -32,7 +32,7 @@ namespace phoenix
                 : Texture(r), batcher(s), sview()
         {
             setName( "Untitled Render Target" );
-            buildTexture( _sz );
+            build( _sz );
         }
 
         virtual ~RenderTexture()
@@ -48,7 +48,7 @@ namespace phoenix
             will not be rendered to the screen, but to the texture.
             \note This function clears the screen.
         */
-        inline void startRender()
+        inline void start()
 		{
 
             // Our view port has to be the same size as the texture.
@@ -68,7 +68,7 @@ namespace phoenix
             Copies the backbuffer to the texture object, restores the viewport,
             and then clears the screen.
         */
-        inline void endRender()
+        inline void end()
 		{
 			// copy the framebuffer pixels to a texture
 			this->bind();

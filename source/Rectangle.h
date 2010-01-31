@@ -18,7 +18,7 @@ namespace phoenix
     //! Rectangle class.
     /*!
         Simple class that represents a rectangle. Rectangles have a position (x and y) and
-		dimensions ( width and height ).
+		size ( width and height ).
         \sa phoenix::RenderSystem::drawRectangle, pheonix::RenderSystem::drawTexturePart
     */
     class Rectangle
@@ -28,31 +28,31 @@ namespace phoenix
 
         //! Blank Constructor.
         Rectangle()
-                : position(0,0), dimensions(0,0)
+                : position(0,0), size(0,0)
         {
         }
 
         //! Standard Constructor
         /*!
-            Creates a rectangle with the given position and dimensions.
+            Creates a rectangle with the given position and size.
             \param p Position of the rectangle.
-            \param d Dimensions of the rectangle.
+            \param d Size of the rectangle.
         */
-        Rectangle( const Vector2d& p, const Vector2d& d)
-            : position(p), dimensions(d)
+        Rectangle( const Vector2d& p, const Vector2d& s)
+            : position(p), size(s)
         {
         }
 
         //! Lazy Constructor.
         /*!
-            Makes a rectangle with the given dimensions.
+            Makes a rectangle with the given position and size.
             \param a X
             \param b Y
             \param c Width
             \param d Height
         */
         Rectangle( float a, float b, float c, float d)
-                : position(a,b), dimensions(c,d)
+                : position(a,b), size(c,d)
         {
         }
 
@@ -78,15 +78,15 @@ namespace phoenix
         }
 
         //! Get Dimensions
-        inline const Vector2d& getDimensions() const
+        inline const Vector2d& getSize() const
         {
-            return dimensions;
+            return size;
         }
 
         //! Set Dimensions
-        inline void setDimensions( const Vector2d& d )
+        inline void setSize( const Vector2d& s )
         {
-            dimensions = d;
+            size = s;
         }
 
         //! Get X.
@@ -104,13 +104,13 @@ namespace phoenix
         //! Get Height.
         inline const float getHeight() const
         {
-            return dimensions.getY();
+            return size.getY();
         }
 
         //! Get Width.
         inline const float getWidth() const
         {
-            return dimensions.getX();
+            return size.getX();
         }
 
         //! Set X.
@@ -128,13 +128,13 @@ namespace phoenix
         //! Set Width.
         inline void setWidth(float d)
         {
-            dimensions.setX(d);
+            size.setX(d);
         }
 
         //! Set Height.
         inline void setHeight(float c)
         {
-            dimensions.setY(c);
+            size.setY(c);
         }
 
 	private:
@@ -143,7 +143,7 @@ namespace phoenix
         Vector2d position;
 
         //! Dimensions
-        Vector2d dimensions;
+        Vector2d size;
 
     };
 

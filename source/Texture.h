@@ -45,7 +45,7 @@ namespace phoenix
 			: Resource(t,1), texture(0), width(0), height(0), data(NULL) 
         {
             setName( "Untitled" );
-			buildTexture(_s);
+			build(_s);
         }
 
         //! Destructor
@@ -66,7 +66,7 @@ namespace phoenix
 
 
         //! Creates a solid texture with the given size and color.
-        virtual void buildTexture( const Vector2d& _s, const Color& _c = Color(255,255,255) );
+        virtual void build( const Vector2d& _s, const Color& _c = Color(255,255,255) );
 
         //! Set texture ID.
         /*!

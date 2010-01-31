@@ -435,9 +435,9 @@ public:
 		update();
 		vertices.clear();
 		vertices.push_back( Vertex( Vector2d(0,0), Color(), TextureCoords(0,0) ) );
-		vertices.push_back( Vertex( Vector2d(0, rhs.getDimensions().getY() ), Color(), TextureCoords(0,1) ) );
-		vertices.push_back( Vertex( rhs.getDimensions(), Color(), TextureCoords(1,1) ) );
-		vertices.push_back( Vertex( Vector2d( rhs.getDimensions().getX(), 0 ), Color(), TextureCoords(1,0) ) );
+		vertices.push_back( Vertex( Vector2d(0, rhs.getSize().getY() ), Color(), TextureCoords(0,1) ) );
+		vertices.push_back( Vertex( rhs.getSize(), Color(), TextureCoords(1,1) ) );
+		vertices.push_back( Vertex( Vector2d( rhs.getSize().getX(), 0 ), Color(), TextureCoords(1,0) ) );
 		translate( rhs.getPosition() );
 	}
 

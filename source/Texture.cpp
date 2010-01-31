@@ -1,4 +1,4 @@
-/*
+ /*
 
 Copyright (c) 2009, Jonathan Wayne Parrott
 
@@ -15,7 +15,7 @@ using namespace phoenix;
 /*!--------------------------
 Build a blank texture
 ----------------------------*/
-void Texture::buildTexture( const Vector2d& _s, const Color& _c )
+void Texture::build( const Vector2d& _s, const Color& _c )
 {
 
     unsigned int a = (unsigned int)_s.getX();
