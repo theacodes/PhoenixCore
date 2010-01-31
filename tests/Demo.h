@@ -49,7 +49,7 @@ public:
         rot = random(0,360);
 
         // Make some geometry.
-        geometry = new BatchGeometry( s, GL_QUADS, t, 5, (EventReceiver::getKey( PHK_S ) ? random(1,150) : 0) );
+        geometry = new BatchGeometry( s.getBatchRenderer(), GL_QUADS, t, 5, (EventReceiver::getKey( PHK_S ) ? random(1,150) : 0) );
         geometry->setGroupBeginFunction( boost::bind( &DemoParticle::startBlend, intrusive_ptr<DemoParticle>(this) ) );
         geometry->setGroupEndFunction( boost::bind( &DemoParticle::endBlend, intrusive_ptr<DemoParticle>(this) ) );
     }
@@ -306,7 +306,7 @@ public:
 
             // print some stats
             system.getDebugConsole()<<"\nSprites: "<<system.getResourceManager().count()
-                <<"\nGeometry: "<<system.count()
+                <<"\nGeometry: "<<system.getBatchRenderer().count()
                 <<"\nFrames Per Seconds: "<<system.getFPS()
                 <<"\nScreen Size: "<<WindowManager::getScreenSize().getX()<<", "<<WindowManager::getScreenSize().getY()
                 <<"\nBlend Mode: "<< (DemoParticle::blendmode ? "Smoke" : "Additive")

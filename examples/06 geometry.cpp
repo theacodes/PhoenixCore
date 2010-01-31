@@ -46,9 +46,9 @@ int main()
         that are made have specific properties. We'll set the group
         id and the group functions.
     */
-    system.setGroup( 1 );
-    system.setGroupBeginFunction( &AdditiveStart );
-    system.setGroupEndFunction( &AdditiveEnd );
+    system.getGraphicsFactory().setGroup( 1 );
+    system.getGraphicsFactory().setGroupBeginFunction( &AdditiveStart );
+    system.getGraphicsFactory().setGroupEndFunction( &AdditiveEnd );
 
     /*!
         Now we can draw some things, and they'll all
@@ -79,11 +79,11 @@ int main()
         We'll first use BatchGeometry's create function.
     */
     system.setDepth( 2.0f );
-    tgeom = new BatchGeometry( system, GL_TRIANGLES, feather, system.getGroup(), system.getDepth() );
+    tgeom = new BatchGeometry( system.getBatchRenderer(), GL_TRIANGLES, feather, system.getGraphicsFactory().getGroup(), system.getDepth() );
     tgeom->setImmediate( false );
 
     //! We need to apply our group functions to the geometry.
-    system.apply( tgeom, EFF_FUNCTIONS );
+    system.getGraphicsFactory().apply( tgeom, EFF_FUNCTIONS );
 
     /*!
         Now we'll generate a simple circular peice of geometry. This is a 
@@ -105,10 +105,10 @@ int main()
         the properties all the rest of the geometry would have these properties
         too!
     */
-    system.setDepth();
-    system.setGroup();
-    system.setGroupBeginFunction();
-    system.setGroupEndFunction();
+    system.getGraphicsFactory().setDepth();
+    system.getGraphicsFactory().setGroup();
+    system.getGraphicsFactory().setGroupBeginFunction();
+    system.getGraphicsFactory().setGroupEndFunction();
 
     while( system.run() )
     {

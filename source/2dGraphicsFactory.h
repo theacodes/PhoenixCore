@@ -41,7 +41,7 @@ public:
     /*!
         Makes a new factory and ties it to BatchRenderer.
     */
-    GraphicsFactory2d( BatchRenderer* _r )
+    GraphicsFactory2d( BatchRenderer& _r )
         : AbstractGeometryFactory(), renderer( _r )
     {
     }
@@ -49,12 +49,6 @@ public:
     //! Destructor
     virtual ~GraphicsFactory2d()
     {}
-
-    //! Sets the batch renderer to attach newly created geometry to.
-    inline void setBatchRenderer( BatchRenderer* _r ) { renderer = _r; }
-
-    //! Gets the batch renderer that newly created geometry is attched to.
-    inline BatchRenderer* getBatchRenderer( ) { return renderer; }
 
     //! Draws a 2D line segment with a color for each end.
 	/*!
@@ -140,7 +134,7 @@ public:
 
 protected:
 
-    BatchRenderer* renderer;
+    BatchRenderer& renderer;
 };
 
 }

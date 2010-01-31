@@ -46,7 +46,6 @@ namespace phoenix
         It also provides one entry point to initialize all of phoenix's subsystems.
     */
     class RenderSystem
-		: public BatchRenderer, public GraphicsFactory2d
     {
 
     public:
@@ -85,7 +84,13 @@ namespace phoenix
         */
         inline static void setBlendMode(const GLenum& src = GL_SRC_ALPHA, const GLenum& dst = GL_ONE_MINUS_SRC_ALPHA ) { glBlendFunc(src,dst); }
 
-        //! Get a pointer to the system's internal resource manager.
+        //! Get the system's batch renderer.
+        inline BatchRenderer& getBatchRenderer() { return renderer; }
+
+        //! Get the system's graphics factory.
+        inline GraphicsFactory2d getGraphicsFactory(){ return factory; }
+
+        //! Get the system's internal resource manager.
         /*!
             You can add arbitrary resources to the system's resource manager. The system
             uses it to keep track of Textures and Fonts, but it is freely availible for the user
@@ -163,6 +168,60 @@ namespace phoenix
         */
         BatchGeometryPtr drawText( const std::string& _s, const Vector2d& _p, const Color& _c=Color(255,255,255));
 
+        //! Delegates to BatchRenderer::getView
+        inline View& getView() { return renderer.getView(); }
+
+        //! Delegates to BatchRenderer::setView
+        inline void setView( const View& _v ) { renderer.setView( _v ); }
+
+        //! Delegates to GraphicsFactory2d::getDept
+        inline float getDepth(){ return factory.getDepth(); }
+
+        //! Delegates to GraphicsFactory2d::setDepth
+        inline void setDepth( float _d = 0.0f ) { factory.setDepth( _d ); }
+            
+        //! Delegates to GraphicsFactory2d::drawLine
+	    inline BatchGeometryPtr drawLine(const Vector2d& _v1 = Vector2d(0,0), const Vector2d& _v2 = Vector2d(0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255,255))
+        {
+            return factory.drawLine( _v1, _v2, _a, _b );
+        }
+
+	    //! Delegates to GraphicsFactory2d::drawRay
+	    inline BatchGeometryPtr drawRay(const Vector2d& _o = Vector2d(0,0), const Vector2d& _r = Vector2d(0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255,255))
+        {
+            return factory.drawRay( _o, _r, _a, _b );
+        }
+
+	    //! Delegates to GraphicsFactory2d::drawRectangle
+        inline BatchGeometryPtr drawRectangle( const Rectangle& _r = Rectangle(0,0,0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255), const Color& _c = Color(255,255,255), const Color& _d = Color(255,255,255) )
+        {
+            return factory.drawRectangle( _r, _a, _b, _c, _d );
+        }
+
+        //! Delegates to GraphicsFactory2d::drawPolygon
+        inline BatchGeometryPtr drawPolygon (const Polygon& _p, const Color& _a = Color(255,255,255))
+        {
+            return factory.drawPolygon( _p, _a );
+        }
+
+        //! Delegates to GraphicsFactory2d::drawTexturedPolygon
+        inline BatchGeometryPtr drawTexturedPolygon (const Polygon& _p, TexturePtr _t, const Color& _c = Color(255,255,255), bool _e = false)
+        {
+            return factory.drawTexturedPolygon( _p, _t, _c, _e );
+        }
+
+        //! Delegates to GraphicsFactory2d::drawTexture
+        inline BatchGeometryPtr drawTexture( TexturePtr _t, const Vector2d& _p, const RotationMatrix& _rot = RotationMatrix( 0.0f ), const Vector2d& _scale = Vector2d(1.0f,1.0f), const Color& _color = Color(255,255,255), unsigned int _flags = EGF_NONE )
+        {
+            return factory.drawTexture( _t, _p, _rot, _scale, _color, _flags );
+        }
+
+        //! Delegates to GraphicsFactory2d::drawTexturePart
+        inline BatchGeometryPtr drawTexturePart( TexturePtr _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot = RotationMatrix(0.0f), const Vector2d& _scale=Vector2d(1.0f,1.0f), const Color& _color=Color(255,255,255), unsigned int _flags = EGF_NONE )
+        {
+            return factory.drawTexturePart( _t, _p, _rect, _rot, _scale, _color, _flags );
+        }
+
     private:
 
         //! The default exit test function.
@@ -174,23 +233,29 @@ namespace phoenix
             return ( !EventReceiver::getKey( PHK_ESC ) && !EventReceiver::getWindowClosed() );
         }
 
-        //! Resize callback
-        void resizeCallback( Vector2d _sz );
+        //! Batch Renderer
+        BatchRenderer renderer;
+
+        //! Graphics Factory.
+        GraphicsFactory2d factory;
+
+        //! Resource manager
+        ResourceManager resources;
+
+        //! The system font used to draw text
+        FontPtr font;
 
         //! Debug Console
         DebugConsole console;
+
+        //! Resize callback
+        void resizeCallback( Vector2d _sz );
 
         //! Timer for FPS.
         Timer fpstimer;
 
         //! Counts the number of frames per second
         double framerate;
-
-        //! The system font used to draw text
-        FontPtr font;
-
-        //! Resource manager
-        ResourceManager resources;
 
         //! Tests if the system to exit, see run() and setExitTest().
         boost::function< bool ( void ) > exitTest;

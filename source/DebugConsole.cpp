@@ -37,26 +37,25 @@ void DebugConsole::draw( )
     {
 
         // Draw our overlay rectangle at depth- 0.01;
-        BatchGeometryPtr geom = system.drawRectangle( Rectangle( Vector2d(0,0), WindowManager::getScreenSize() ), backcolor, backcolor, backcolor, backcolor);
+        BatchGeometryPtr geom = drawRectangle( Rectangle( Vector2d(0,0), WindowManager::getScreenSize() ), backcolor, backcolor, backcolor, backcolor);
         setDepth( getDepth() - 0.01f );
         apply( geom );
         setDepth( getDepth() + 0.01f );
 
-        geom = system.drawText( "== PhoenixCore 0.1 Debug Console ==", Vector2d( 8,8 ) , fontcolor );
+        font->setColor( fontcolor );
+        geom = font->drawText( "== PhoenixCore 0.1 Debug Console ==", Vector2d( 8,8 ) );
         apply( geom, EFF_ALL - EFF_TEXTURE );
 
         unsigned int count = 1;
         for( std::deque< std::string >::iterator i = lines.begin(); i != lines.end(); ++i, ++count )
         {
-            geom = system.drawText( (*i), Vector2d( 8.0f, 8.0f+(16.0f* (float)(count) ) ), fontcolor);
+            geom = font->drawText( (*i), Vector2d( 8.0f, 8.0f+(16.0f* (float)(count) ) ) );
             apply( geom, EFF_ALL - EFF_TEXTURE );
         }
-
-        system.setDepth();
     }
 }
 
 void DebugConsole::groupEnd()
 {
-    system.getView().activate();
+    renderer.getView().activate();
 }

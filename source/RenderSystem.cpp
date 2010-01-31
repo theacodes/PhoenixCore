@@ -21,7 +21,7 @@ using namespace phoenix;
 ////////////////////////////////////////////////////////////////////////////////
 
 RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
-: BatchRenderer(), GraphicsFactory2d( this ), console( *this ), fpstimer(), framerate(1.0f), font(), resources(), exitTest( &RenderSystem::defaultExitTestFunction )
+: renderer(), factory( renderer ), fpstimer(), framerate(1.0f), font(0), console( renderer, font ), resources(), exitTest( &RenderSystem::defaultExitTestFunction )
 {
 
 	// Create our window
@@ -29,7 +29,7 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
 
     // viewport the same as the window size.
     //glViewport(0,0,int(_sz.getX()), int(_sz.getY())); 
-    getView().setSize();
+    renderer.getView().setSize();
 
     // Orthogonal projection.
     glMatrixMode(GL_PROJECTION); 
@@ -74,7 +74,7 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
 
     //load our default font
 	std::string ffn = saveBuiltinFont();
-	font = new BitmapFont( resources, *this ,loadTexture(ffn));
+	font = new BitmapFont( resources, renderer ,loadTexture(ffn));
     ::remove(ffn.c_str());
 
     //!start the timer
@@ -82,6 +82,9 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
 
 	//store the new framerate
     framerate = 1.0f;
+
+    //set the debug console's font.
+    console.setFont( font );
 
     //set the debug console's line limit
     console.updateLineLimit();
@@ -101,7 +104,7 @@ RenderSystem::~RenderSystem()
 void RenderSystem::resizeCallback( Vector2d _sz )
 {
     WindowManager::setScreenSize( _sz );
-    getView().setSize( _sz );
+    renderer.getView().setSize( _sz );
     glMatrixMode(GL_PROJECTION); 
     glLoadIdentity();
     glOrtho(0.0f, _sz.getX(), _sz.getY(), 0.0f, 1000.0f, -1000.0f);
@@ -117,7 +120,7 @@ bool RenderSystem::run()
 {
 
     //Call our own draw function
-    draw();
+    renderer.draw();
 
     //flip the screen (this also polls events).
 	WindowManager::swapBuffers();
@@ -265,8 +268,8 @@ TexturePtr RenderSystem::findTexture(const GLuint& _n)
 BatchGeometryPtr RenderSystem::drawText( const std::string& _s, const Vector2d& _p, const Color& _c)
 {
 	font->setColor( _c );
-    font->setDepth( getDepth() );
-    font->setGroup( getGroup() );
+    font->setDepth( factory.getDepth() );
+    font->setGroup( factory.getGroup() );
 	return font->drawText( _s, _p );
 }
 

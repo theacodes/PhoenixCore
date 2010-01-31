@@ -9,7 +9,7 @@ using namespace phoenix;
 BatchGeometryPtr GraphicsFactory2d::drawLine(const Vector2d& _v1, const Vector2d& _v2, const Color& _a, const Color& _b)
 {
     // Just make some new geometry, set it to immediate, and add the line's vertices.
-    BatchGeometryPtr linegeom = new BatchGeometry( *renderer, GL_LINES, getTexture(), getGroup(), getDepth() );
+    BatchGeometryPtr linegeom = new BatchGeometry( renderer, GL_LINES, getTexture(), getGroup(), getDepth() );
     apply( linegeom, EFF_FUNCTIONS );
 	linegeom->setImmediate( true );
 	linegeom->addVertex( Vertex( _v1, _a, TextureCoords(0,0) ) );
@@ -26,7 +26,7 @@ BatchGeometryPtr GraphicsFactory2d::drawLine(const Vector2d& _v1, const Vector2d
 BatchGeometryPtr GraphicsFactory2d::drawRectangle( const Rectangle& _r, const Color& _a, const Color& _b, const Color& _c, const Color& _d )
 {
     // Use BatchGeometry's factory for it.
-	BatchGeometryPtr rectgeom = new BatchGeometry( *renderer, _r, getTexture(), getGroup(), getDepth() );
+	BatchGeometryPtr rectgeom = new BatchGeometry( renderer, _r, getTexture(), getGroup(), getDepth() );
     apply( rectgeom, EFF_FUNCTIONS );
 	rectgeom->setImmediate( true );
 
@@ -46,7 +46,7 @@ BatchGeometryPtr GraphicsFactory2d::drawRectangle( const Rectangle& _r, const Co
 BatchGeometryPtr GraphicsFactory2d::drawPolygon (const Polygon& _p, const Color& _c)
 {
     // just use the BatchGeometry's factory
-	BatchGeometryPtr polygeom = new BatchGeometry( *renderer, _p, getTexture(), getGroup(), getDepth());
+	BatchGeometryPtr polygeom = new BatchGeometry( renderer, _p, getTexture(), getGroup(), getDepth());
     apply( polygeom, EFF_FUNCTIONS );
 	polygeom->setImmediate( true );
 	polygeom->colorize( _c );
@@ -95,7 +95,7 @@ BatchGeometryPtr GraphicsFactory2d::drawTexturedPolygon (const Polygon& _p, Text
 BatchGeometryPtr GraphicsFactory2d::drawTexture(  TexturePtr _t, const Vector2d& _p,  const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int _flags )
 {
     // Use BatchGeometry's factory for rectangles.
-	BatchGeometryPtr geom = new BatchGeometry( *renderer, Rectangle( -_t->getSize()/2.0f, _t->getSize()) , _t, getGroup(), getDepth() );
+	BatchGeometryPtr geom = new BatchGeometry( renderer, Rectangle( -_t->getSize()/2.0f, _t->getSize()) , _t, getGroup(), getDepth() );
     geom->setImmediate( true );
     apply( geom, EFF_FUNCTIONS );
 
@@ -131,7 +131,7 @@ BatchGeometryPtr GraphicsFactory2d::drawTexture(  TexturePtr _t, const Vector2d&
 BatchGeometryPtr GraphicsFactory2d::drawTexturePart( TexturePtr _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int  _flags )
 {
     // Use BatchGeometry's factory for rectangles.
-    BatchGeometryPtr geom = new BatchGeometry( *renderer, Rectangle( -_rect.getDimensions()/2, _rect.getDimensions() ) , _t, getGroup(), getDepth() );
+    BatchGeometryPtr geom = new BatchGeometry( renderer, Rectangle( -_rect.getDimensions()/2, _rect.getDimensions() ) , _t, getGroup(), getDepth() );
     geom->setImmediate( true );
     apply( geom, EFF_FUNCTIONS );
 

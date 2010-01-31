@@ -2,7 +2,8 @@
 #define __PH_DEBUG_CONSOLE_H__
 
 #include <string>
-#include "AbstractGeometryFactory.h"
+#include "2dGraphicsFactory.h"
+#include "Font.h"
 #include "Color.h"
 #include "View.h"
 
@@ -17,7 +18,7 @@ class RenderSystem;
     by default, accessible from RenderSystem::getDebugConsole().
 */
 class DebugConsole
-    : public virtual AbstractGeometryFactory
+    : public virtual GraphicsFactory2d
 {
 public:
 
@@ -25,9 +26,11 @@ public:
     /*!
         Makes a new debug console. Requires a reference to a RenderSystem.
     */
-    DebugConsole( RenderSystem& r )
-        : AbstractGeometryFactory( 1000.f, -10 ), enabled( false ), lines(), linelimit(0), system(r), backcolor(0,0,0,200), fontcolor(127,127,255)
+    DebugConsole( BatchRenderer& _r, FontPtr _f )
+        : GraphicsFactory2d( _r ), font(_f), enabled( false ), lines(), linelimit(0), backcolor(0,0,0,200), fontcolor(127,127,255)
     {
+        setDepth( 999.0f );
+        setGroup( -10 );
         setGroupBeginFunction( boost::function< void() >( &DebugConsole::groupBegin ) );
         setGroupEndFunction( boost::bind( &DebugConsole::groupEnd, this ) );
         updateLineLimit();
@@ -35,6 +38,12 @@ public:
 
     //! Does nothing.
     virtual ~DebugConsole() {}
+
+    //! Get the font.
+    FontPtr getFont() { return font; }
+
+    //! Set the font.
+    void setFont( FontPtr _f ) { font = _f; }
 
     //! Set the background color.
     void setBackgroundColor( const Color& _c = Color(0,0,0,200) ) { backcolor = _c; }
@@ -133,8 +142,8 @@ public:
 
 protected:
 
+    FontPtr font;
     bool enabled;
-    RenderSystem& system;
     std::deque< std::string > lines;
     unsigned int linelimit;
     Color backcolor;

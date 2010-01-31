@@ -27,7 +27,7 @@ class FontTest
         {
 
 			//! Font
-            BitmapFontPtr bluefont = new BitmapFont( system.getResourceManager(), system, system.getFont()->grab<BitmapFont>()->getTexture() );
+            BitmapFontPtr bluefont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), system.getFont()->grab<BitmapFont>()->getTexture() );
 			bluefont->setColor( Color(200,200,255) );
 			bluefont->setSpacing( 5.0f );
 			bluefont->setScale( Vector2d(5, 2.5) );

@@ -35,7 +35,7 @@ class EventTest
 
             // duplicate the system's font.
             TexturePtr newfonttexture = system.getFont()->getTexture()->copy();
-            BitmapFontPtr newfont = new BitmapFont( system.getResourceManager(), system, newfonttexture );
+            BitmapFontPtr newfont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), newfonttexture );
             
             // run through and change the background color.
             newfont->getTexture()->lock();
@@ -98,7 +98,7 @@ class EventTest
                 system.drawText( "Not all will change, but you should be able", Vector2d(16,32) );
                 system.drawText( "make some pretty colors by mashing keys.", Vector2d(16,48) );
 
-			    system.getDebugConsole()<<"\nGeoms "<<system.count()<<", FPS: "<<system.getFPS();
+			    system.getDebugConsole()<<"\nGeoms "<<system.getBatchRenderer().count()<<", FPS: "<<system.getFPS();
 
             }
 
