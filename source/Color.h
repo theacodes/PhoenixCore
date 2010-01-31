@@ -107,12 +107,12 @@ namespace phoenix
         }
 
         //! Decode from GL color.
-        inline void decode( const unsigned int glcolor )
+        inline void decode( unsigned int glcolor )
         {
-            alpha = unsigned char( glcolor>>24 & 0xFF);
-            blue = unsigned char( glcolor>>16 & 0xFF);
-            green = unsigned char( glcolor>>8 & 0xFF);
-            red = unsigned char( glcolor & 0xFF );
+            alpha = (unsigned char)( glcolor>>24 & 0xFF );
+            blue = (unsigned char)( glcolor>>16 & 0xFF );
+            green = (unsigned char)( glcolor>>8 & 0xFF );
+            red = (unsigned char)( glcolor & 0xFF );
         }
 
         //! Interpolate.
