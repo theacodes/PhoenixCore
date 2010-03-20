@@ -43,6 +43,7 @@ void WindowManager::open( Vector2d _sz, bool _f )
 
 	// Set GLFW event callbacks
 	glfwSetKeyCallback( &EventReceiver::KeyboardCallback );
+	glfwSetCharCallback( &EventReceiver::CharacterCallback );
 	glfwSetMouseButtonCallback( &EventReceiver::MouseButtonCallback );
 	glfwSetMousePosCallback( &EventReceiver::MousePosCallback );
 	glfwSetWindowCloseCallback( &EventReceiver::WindowCloseCallback );

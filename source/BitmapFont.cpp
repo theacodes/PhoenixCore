@@ -27,21 +27,25 @@ BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 
 		const unsigned char glyph = s[i];
 
+		// Top Left Vertex.
 		geom->addVertex( Vertex(
 			Vector2d( (i*spacing)*scale.getX(), 0 ), 
 			color, 
 			TextureCoords( glyph*ratio, floor(glyph/16.0f) * ratio) 
 			));
+		// Top Right
 		geom->addVertex( Vertex(
 			Vector2d( (((i)*spacing)*scale.getX())+(16*scale.getX()), 0 ), 
 			color, 
 			TextureCoords( (glyph+1)*ratio, floor(glyph/16.0f) * ratio ) 
 			));
+		// Bottom Right
 		geom->addVertex( Vertex(
 			Vector2d( (((i)*spacing)*scale.getX())+(16*scale.getX()),(16*scale.getY()) ), 
 			color, 
 			TextureCoords( (glyph+1)*ratio, (floor(glyph/16.0f) * ratio)+ratio ) 
 			));
+		// Bottom Left
 		geom->addVertex( Vertex(
 			Vector2d( (i*spacing)*scale.getX(),(16*scale.getY()) ), 
 			color,

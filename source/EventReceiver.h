@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHOENIXERC__
 #define __PHOENIXERC__
 
+#include <string>
 #include <GL/glfw.h>
 #include "config.h"
 #include "Keys.h"
@@ -48,6 +49,12 @@ namespace phoenix
 		*/
         static void KeyboardCallback( int key, int action );
 
+		//! Character callback
+		/*!
+			Used by GLFW
+		*/
+		static void CharacterCallback( int key, int action );
+
         //! Mousebutton callback
 		/*!
 			Used by GLFW
@@ -81,6 +88,16 @@ namespace phoenix
         //! Checks if a key was just released.
         inline static bool getKeyReleased(Key _k) { return (keysdown[_k]&&(!keys[_k])); }
 
+		//! Get the current keyboard string.
+		/*!
+			The event handler keeps track of the characters typed by the user
+			via the keyboard. It also tracks the backspace key.
+		*/
+		inline static std::string getKeyboardString(){ return keyboardstring; }
+
+		//! Set the current keyboard string.
+		inline static void setKeyboardString( std::string _s ){ keyboardstring = _s; }
+
         //! Get mouse position.
         /*!
             \returns A vector that represents the mouse's position relative to the top left corner of the window.
@@ -113,6 +130,9 @@ namespace phoenix
 
         //!array to store info on if a key was just pressed or released.
         static bool keysdown[512];
+
+		//!string to store keyboard input
+		static std::string keyboardstring;
 
         //!array to store info on if a mouse button was just pressed or released.
         static bool mousebuttondown[16];

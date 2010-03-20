@@ -81,7 +81,7 @@ class EventTest
                         //! Draw it
                         //use our custom font.
                         newfont->setColor( textcolor );
-                        newfont->drawText( "O", Vector2d(200,200)+Vector2d( (float) i*16, (float) j*16 ));
+                        newfont->drawText( "O", Vector2d(200,186)+Vector2d( (float) i*16, (float) j*16 ));
                     }
                 }
 
@@ -97,6 +97,9 @@ class EventTest
                 system.drawText( "Event Test: Below is an ASCII Table", Vector2d(16,16) );
                 system.drawText( "Not all will change, but you should be able", Vector2d(16,32) );
                 system.drawText( "make some pretty colors by mashing keys.", Vector2d(16,48) );
+
+				//! Draw the keyboard string.
+				system.drawText( std::string("Keyboard String: ") + EventReceiver::getKeyboardString(), Vector2d( 16, 448 ) ); 
 
 			    system.getDebugConsole()<<"\nGeoms "<<system.getBatchRenderer().count()<<", FPS: "<<system.getFPS();
 
