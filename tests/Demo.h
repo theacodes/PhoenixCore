@@ -177,8 +177,8 @@ public:
     {
 
         // Textures for particles.
-        glowtexture = system.loadTexture("feather.png");
-        glowtexture2 = system.loadTexture("glow.png");
+        glowtexture = system.loadTexture(std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png"));
+        glowtexture2 = system.loadTexture(std::string(PHOENIXCORE_DATA_DIR) + std::string("glow.png"));
 
         // List of bright colors for subtractive blending
         vector<Color> brightcolors;

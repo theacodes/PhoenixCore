@@ -39,7 +39,7 @@ void WindowManager::open( Vector2d _sz, bool _f )
 	glfwSwapInterval( 0 );
 
 	// Set the window caption
-	setWindowCaption("PhoenixCore v0.1 Alpha");
+	setWindowCaption( PHOENIXCORE_VERSION );
 
 	// Set GLFW event callbacks
 	glfwSetKeyCallback( &EventReceiver::KeyboardCallback );

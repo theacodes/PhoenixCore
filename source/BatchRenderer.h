@@ -17,6 +17,7 @@ distribution for more information.
 #include <GL/glfw.h>
 #include <boost/unordered_map.hpp>
 #include <boost/thread.hpp>
+#include "config.h"
 #include "AbstractGarbageCollector.h"
 #include "View.h"
 #include "Droppable.h"

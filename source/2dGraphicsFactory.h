@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PH_2D_GFX_FACTORY_H__
 #define __PH_2D_GFX_FACTORY_H__
 
+#include "config.h"
 #include "AbstractGeometryFactory.h"
 #include "BatchRenderer.h"
 

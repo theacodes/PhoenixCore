@@ -13,6 +13,7 @@ distribution for more information.
 #include <list>
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include "config.h"
 #include "Droppable.h"
 #include "AbstractGarbageCollector.h"
 #include "Timer.h"

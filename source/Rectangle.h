@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHOENIXRECT_H__
 #define __PHOENIXRECT_H__
 
+#include "config.h"
 #include "Polygon.h"
 
 namespace phoenix

@@ -11,6 +11,7 @@ distribution for more information.
 #define __PHOENIXVIEW__
 
 #include <GL/glfw.h>
+#include "config.h"
 #include "Vector2d.h"
 #include "WindowManager.h"
 

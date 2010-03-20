@@ -13,6 +13,7 @@ distribution for more information.
 #include <vector>
 #include <algorithm>
 #include <boost/foreach.hpp>
+#include "config.h"
 #include "Vector2d.h"
 #include "RotationMatrix.h"
 

@@ -12,6 +12,7 @@ distribution for more information.
 
 #include <GL/glfw.h>
 #include <boost/function.hpp>
+#include "config.h"
 #include "EventReceiver.h"
 #include "Vector2d.h"
 

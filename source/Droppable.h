@@ -11,6 +11,7 @@ distribution for more information.
 #define __PHDROPPABLE_H__
 
 #include <boost/intrusive_ptr.hpp>
+#include "config.h"
 
 // Intrusive_ptr stuff foward decl
 namespace phoenix{ class Droppable; }

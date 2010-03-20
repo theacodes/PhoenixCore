@@ -10,7 +10,8 @@ distribution for more information.
 #ifndef __PHOENIXKEYS__
 #define __PHOENIXKEYS__
 
-#include "GL/glfw.h"
+#include <GL/glfw.h>
+#include "config.h"
 
 namespace phoenix
 {

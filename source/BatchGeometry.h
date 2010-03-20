@@ -13,6 +13,7 @@ distribution for more information.
 
 #include <vector>
 #include <GL/glfw.h>
+#include "config.h"
 #include "Vertex.h"
 #include "Texture.h"
 #include "Rectangle.h"

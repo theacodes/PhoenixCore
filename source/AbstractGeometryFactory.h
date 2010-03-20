@@ -11,6 +11,7 @@ distribution for more information.
 #ifndef __PH_AB_GF_H__
 #define __PH_AB_GF_H__
 
+#include "config.h"
 #include "Texture.h"
 #include "BatchGeometry.h"
 

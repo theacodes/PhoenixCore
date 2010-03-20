@@ -10,6 +10,8 @@ distribution for more information.
 #ifndef __PHTRACKINVARIANT__
 #define __PHTRACKINVARIANT__
 
+#include "config.h"
+
 namespace phoenix
 {
 

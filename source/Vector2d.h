@@ -11,6 +11,7 @@ distribution for more information.
 #define __PHVECTOR2D_H__
 
 #include <math.h>
+#include "config.h"
 #include "RotationMatrix.h"
 
 namespace phoenix

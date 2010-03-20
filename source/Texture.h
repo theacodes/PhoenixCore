@@ -12,7 +12,8 @@ distribution for more information.
 
 #include <string>
 #include <boost/noncopyable.hpp>
-#include "GL/glfw.h"
+#include <GL/glfw.h>
+#include "config.h"
 #include "Color.h"
 #include "Vector2d.h"
 #include "Resource.h"

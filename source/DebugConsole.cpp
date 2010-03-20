@@ -43,7 +43,7 @@ void DebugConsole::draw( )
         setDepth( getDepth() + 0.01f );
 
         font->setColor( fontcolor );
-        geom = font->drawText( "== PhoenixCore 0.1 Debug Console ==", Vector2d( 8,8 ) );
+		geom = font->drawText( std::string("== ") + std::string( PHOENIXCORE_VERSION ) + std::string(" Debug Console =="), Vector2d( 8,8 ) );
         apply( geom, EFF_ALL - EFF_TEXTURE );
 
         unsigned int count = 1;

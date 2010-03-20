@@ -13,6 +13,7 @@ distribution for more information.
 #include <GL/glfw.h>
 #include <string>
 #include <boost/bind.hpp>
+#include "config.h"
 #include "ResourceManager.h"
 #include "Timer.h"
 #include "Vector2d.h"

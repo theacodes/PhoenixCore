@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHROTATIONMATRIX_H__
 #define __PHROTATIONMATRIX_H__
 
+#include "config.h"
 #include <math.h>
 
 namespace phoenix

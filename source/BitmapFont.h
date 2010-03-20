@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHBITMAPFONT_H__
 #define __PHBITMAPFONT_H__
 
+#include "config.h"
 #include "Font.h"
 #include "BatchRenderer.h"
 #include "BatchGeometry.h"

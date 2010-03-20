@@ -12,6 +12,7 @@ distribution for more information.
 
 #include <fstream>
 #include <string>
+#include "config.h"
 
 namespace phoenix
 {

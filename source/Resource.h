@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHRESOURCE_H__
 #define __PHRESOURCE_H__
 
+#include "config.h"
 #include "ResourceManager.h"
 #include "Droppable.h"
 

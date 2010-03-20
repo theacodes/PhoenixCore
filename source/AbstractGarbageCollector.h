@@ -11,6 +11,7 @@ distribution for more information.
 #ifndef __PH_AB_GC_H__
 #define __PH_AB_GC_H__
 
+#include "config.h"
 #include <boost/thread.hpp>
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>

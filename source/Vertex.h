@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHVERTEX_H__
 #define __PHVERTEX_H__
 
+#include "config.h"
 #include "Vector2d.h"
 #include "Color.h"
 

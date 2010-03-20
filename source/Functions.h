@@ -11,6 +11,7 @@ distribution for more information.
 #define __PHOENIXFUNCS__
 
 #include <cstdlib> //For rand()
+#include "config.h"
 
 namespace phoenix
 {

@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHFONT_H__
 #define __PHFONT_H__
 
+#include "config.h"
 #include "Resource.h"
 #include "AbstractGeometryFactory.h"
 #include "string.h"

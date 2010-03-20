@@ -10,7 +10,8 @@ distribution for more information.
 #ifndef __PHOENIXTIME_H__
 #define __PHOENIXTIME_H__
 
-#include "GL/glfw.h"
+#include <GL/glfw.h>
+#include "config.h"
 
 namespace phoenix
 {

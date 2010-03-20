@@ -10,7 +10,8 @@ distribution for more information.
 #ifndef __PHOENIXERC__
 #define __PHOENIXERC__
 
-#include "GL/glfw.h"
+#include <GL/glfw.h>
+#include "config.h"
 #include "Keys.h"
 #include "Vector2d.h"
 

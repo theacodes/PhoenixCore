@@ -4,6 +4,7 @@
   Phoenix's headers.
 */
 
+#include "config.h"
 #include "BatchGeometry.h"
 #include "BatchRenderer.h"
 #include "BitmapFont.h"

@@ -11,7 +11,8 @@ distribution for more information.
 #ifndef __PHOENIXCOLOR__
 #define __PHOENIXCOLOR__
 
-#include "GL/glfw.h"
+#include <GL/glfw.h>
+#include "config.h"
 
 namespace phoenix
 {

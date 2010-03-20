@@ -32,7 +32,7 @@ int main()
     /*!
         Let's load up a texture to play with.
     */
-    TexturePtr feather = system.loadTexture( "feather.png" );
+    TexturePtr feather = system.loadTexture( std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png") );
 
     /*!
         let's make our group of geometry, with this

@@ -2,6 +2,7 @@
 #define __PH_DEBUG_CONSOLE_H__
 
 #include <string>
+#include "config.h"
 #include "2dGraphicsFactory.h"
 #include "Font.h"
 #include "Color.h"

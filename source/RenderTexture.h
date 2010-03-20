@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHRENDERTEXTURE_H__
 #define __PHRENDERTEXTURE_H__
 
+#include "config.h"
 #include "RenderSystem.h"
 
 namespace phoenix
