@@ -93,10 +93,10 @@ namespace phoenix
 			The event handler keeps track of the characters typed by the user
 			via the keyboard. It also tracks the backspace key.
 		*/
-		inline static std::string getKeyboardString(){ return keyboardstring; }
+		inline static const std::string& getKeyboardString(){ return keyboardstring; }
 
 		//! Set the current keyboard string.
-		inline static void setKeyboardString( std::string _s ){ keyboardstring = _s; }
+		inline static void setKeyboardString( const std::string& _s ){ keyboardstring = _s; }
 
         //! Get mouse position.
         /*!
