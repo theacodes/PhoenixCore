@@ -136,7 +136,6 @@ public:
     inline static void groupBegin()
     {
         View view;
-		view.setSize();
         view.activate();
     }
 

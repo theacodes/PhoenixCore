@@ -33,9 +33,10 @@ namespace phoenix
             \param _p The position of the top-left corner of the view.
 			\param _s The size of the view.
         */
-        View( const Vector2d& _p = Vector2d(0.0f,0.0f), const Vector2d& _s = Vector2d(0.0f,0.0f) )
+        View( const Vector2d& _p = Vector2d(0.0f,0.0f), const Vector2d& _s = Vector2d(-1.0f,-1.0f) )
 			: pos(_p), rot(0.0f), scale(1.0f,1.0f), size( _s )
 		{
+			setSize( _s );
 		}
 
         //!  The current rotation of the view (in degrees).
@@ -57,9 +58,17 @@ namespace phoenix
         inline void setScale(const Vector2d& _s) { scale = _s; }
 
         //! Sets the size of the view
+		/*!
+			By passing in (-1,-1), the view will try to get the size
+			from the window manager.
+		*/
 		inline void setSize( const Vector2d& _sz = Vector2d(-1,-1) ) {
 			if( _sz ==  Vector2d(-1,-1) ){
-				size = (WindowManager::Instance())->getWindowSize();
+				try{
+					size = (WindowManager::Instance())->getWindowSize();
+				}catch( WindowManager::BadInstance ){
+					size = Vector2d(0,0);
+				}
 			}else{
 				size = _sz; 
 			}
