@@ -31,9 +31,10 @@ namespace phoenix
         //! Constructor.
         /*!
             \param _p The position of the top-left corner of the view.
+			\param _s The size of the view.
         */
-        View( const Vector2d& _p = Vector2d(0.0f,0.0f))
-			: pos(_p), rot(0.0f), scale(1.0f,1.0f), size( WindowManager::getScreenSize() )
+        View( const Vector2d& _p = Vector2d(0.0f,0.0f), const Vector2d& _s = Vector2d(0.0f,0.0f) )
+			: pos(_p), rot(0.0f), scale(1.0f,1.0f), size( _s )
 		{
 		}
 
@@ -56,7 +57,13 @@ namespace phoenix
         inline void setScale(const Vector2d& _s) { scale = _s; }
 
         //! Sets the size of the view
-        inline void setSize( Vector2d _sz = WindowManager::getScreenSize() ) { size = _sz; }
+		inline void setSize( const Vector2d& _sz = Vector2d(-1,-1) ) {
+			if( _sz ==  Vector2d(-1,-1) ){
+				size = (WindowManager::Instance())->getWindowSize();
+			}else{
+				size = _sz; 
+			}
+		}
 
         //! Gets the size of the viewport
         inline const Vector2d& getSize() { return size; }

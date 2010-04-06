@@ -301,14 +301,14 @@ public:
             system.drawText( "Use left & right mouse buttons to spawn particles.", Vector2d( 0,0 ), Color(255,127,127) );
             system.drawText( "Use arrow keys to move the field around.", Vector2d( 0,16 ), Color(255,147,147) );
             system.drawText( "Use 'B' to change blending modes, use 'P' to pause.", Vector2d( 0,32 ), Color(255,157,157) );
-            system.drawText( "Press '~' for information.", Vector2d( 0, WindowManager::getScreenSize().getY()-16.0f ), Color(127,127,255,127) );
+            system.drawText( "Press '~' for information.", Vector2d( 0, (WindowManager::Instance())->getWindowSize().getY()-16.0f ), Color(127,127,255,127) );
 
 
             // print some stats
             system.getDebugConsole()<<"\nSprites: "<<system.getResourceManager().count()
                 <<"\nGeometry: "<<system.getBatchRenderer().count()
                 <<"\nFrames Per Seconds: "<<system.getFPS()
-                <<"\nScreen Size: "<<WindowManager::getScreenSize().getX()<<", "<<WindowManager::getScreenSize().getY()
+                <<"\nScreen Size: "<<(WindowManager::Instance())->getWindowSize().getX()<<", "<<(WindowManager::Instance())->getWindowSize().getY()
                 <<"\nBlend Mode: "<< (DemoParticle::blendmode ? "Smoke" : "Additive")
                 ;
 

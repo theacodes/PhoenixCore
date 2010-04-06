@@ -44,6 +44,8 @@ add_library( PhoenixCore STATIC
 	View.h
 	WindowManager.h
 	WindowManager.cpp
+	GLFWWindowManager.h
+	GLFWWindowManager.cpp
 	PrecompiledFont.h
 	soil/image_DXT.h
 	soil/image_DXT.c

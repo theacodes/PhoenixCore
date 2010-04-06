@@ -65,10 +65,10 @@ namespace phoenix
         ~RenderSystem();
 
         //! Enable screen resizing ( disabled by default ).
-        inline void enableResize() { WindowManager::setResizeCallback( boost::bind( &RenderSystem::resizeCallback, this, _1 ) ); }
+        inline void enableResize() { (WindowManager::Instance())->setResizeCallback( boost::bind( &RenderSystem::resizeCallback, this, _1 ) ); }
 
         //! Disable screen resizing
-        inline void disableResize() { WindowManager::setResizeCallback(); }
+        inline void disableResize() { (WindowManager::Instance())->setResizeCallback(); }
 
         //! Set blend mode.
         /*!

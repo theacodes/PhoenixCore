@@ -10,6 +10,7 @@ distribution for more information.
 #include "RenderSystem.h"
 #include "PrecompiledFont.h"
 #include "BitmapFont.h"
+#include "GLFWWindowManager.h"
 #include <iostream>
 #include <GL/glfw.h>
 #include "soil/SOIL.h"
@@ -24,11 +25,13 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
 : renderer(), factory( renderer ), fpstimer(), framerate(1.0f), font(0), console( renderer, font ), resources(), exitTest( &RenderSystem::defaultExitTestFunction )
 {
 
+	//GLFW Window Manager
+	WindowManagerPtr wm = GLFWWindowManager::Instance();
+
 	// Create our window
-	WindowManager::open( _sz, _fs );
+	wm->open( _sz, _fs );
 
     // viewport the same as the window size.
-    //glViewport(0,0,int(_sz.getX()), int(_sz.getY())); 
     renderer.getView().setSize();
 
     // Orthogonal projection.
@@ -94,7 +97,7 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
 
 RenderSystem::~RenderSystem()
 {
-	WindowManager::close();
+	(WindowManager::Instance())->close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +106,7 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::resizeCallback( Vector2d _sz )
 {
-    WindowManager::setScreenSize( _sz );
+    (WindowManager::Instance())->setWindowSize( _sz );
     renderer.getView().setSize( _sz );
     glMatrixMode(GL_PROJECTION); 
     glLoadIdentity();
@@ -123,7 +126,7 @@ bool RenderSystem::run()
     renderer.draw();
 
     //flip the screen (this also polls events).
-	WindowManager::swapBuffers();
+	(WindowManager::Instance())->update();
 
     //Clean resources
     resources.clean();

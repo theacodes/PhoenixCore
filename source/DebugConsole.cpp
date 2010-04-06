@@ -1,5 +1,7 @@
 #include "DebugConsole.h"
 
+#include <iostream>
+
 using namespace phoenix;
 
 void DebugConsole::write( std::string _s )
@@ -37,7 +39,7 @@ void DebugConsole::draw( )
     {
 
         // Draw our overlay rectangle at depth- 0.01;
-        BatchGeometryPtr geom = drawRectangle( Rectangle( Vector2d(0,0), WindowManager::getScreenSize() ), backcolor, backcolor, backcolor, backcolor);
+        BatchGeometryPtr geom = drawRectangle( Rectangle( Vector2d(0,0), (WindowManager::Instance())->getWindowSize() ), backcolor, backcolor, backcolor, backcolor);
         setDepth( getDepth() - 0.01f );
         apply( geom );
         setDepth( getDepth() + 0.01f );

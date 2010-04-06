@@ -92,10 +92,14 @@ public:
         }
     }
 
-    //! Update the line limit based on the size of the window manager.
+    //! Update the line limit based on the size of the window.
     void updateLineLimit()
     {
-        linelimit = (unsigned int)((WindowManager::getScreenSize().getY())/16.0f) - 2;
+		try{
+			linelimit = (unsigned int)(((WindowManager::Instance())->getWindowSize().getY())/16.0f) - 2;
+		} catch ( WindowManager::BadInstance ){
+			linelimit = 10;
+		}
     }
 
     //! Removes old lines that are beyond the limit of displayable lines.
@@ -132,6 +136,7 @@ public:
     inline static void groupBegin()
     {
         View view;
+		view.setSize();
         view.activate();
     }
 
