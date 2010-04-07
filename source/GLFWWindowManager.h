@@ -20,22 +20,17 @@ distribution for more information.
 namespace phoenix
 {
 
-//! Window Manager
+//! GLFW Window Manager Implementation
 /*!
-	This class is responsible for window management activities such as creating and closing the window,
-	making an opengl context, and setting the caption. This class is completely static and automatically
-	sets up EventReceiver.
+	This class implements the GLFW window manager and provides translations
+	for Events.
 */
 class GLFWWindowManager
 	: public WindowManager
 {
 public:
 
-	//! Gets the current window manager instance.
-	/*!
-		If no window manager exists, this function will throw. Subclasses should
-		define their own Instance.
-	*/
+	//! Instance.
 	static boost::shared_ptr<WindowManager> Instance( ){
 		if( !instance ){
 			instance = WindowManagerPtr( new GLFWWindowManager );
@@ -43,13 +38,13 @@ public:
 		return instance;
 	}
 
-	/*!
+	/*! Open Command.
 		Creates a new window and initializes OpenGL. Also sets up callbacks for
 		key events.
 		\param _sz The size of the window.
 		\param _f Fullscreen.
 	*/
-	virtual bool open( Vector2d _sz = Vector2d( 640, 480 ), bool _f = false );
+	virtual bool open( const Vector2d& _sz = Vector2d( 640, 480 ), const bool _f = false );
 
 	/*!
 		Closes and terminates the window.
@@ -63,7 +58,7 @@ public:
 	//! Set window caption.
     inline virtual void setWindowTitle(const std::string& _str) { glfwSetWindowTitle(_str.c_str()); }
 
-	//! Set screen size
+	//! Set window size
 	inline virtual void setWindowSize( const Vector2d& _sz ) { 
 		glfwSetWindowSize( (unsigned int) _sz.getX(), (unsigned int) _sz.getY() ); 
 		WindowManager::setWindowSize(_sz);
@@ -94,14 +89,8 @@ protected:
 		: WindowManager()
 	{}
 
-    //! Window Resize dispatch
-    static void windowResizeDispatch( int width, int height )
-    {
-		boost::shared_ptr<WindowManager> wm = WindowManager::Instance();
-
-        if( wm->getResizeCallback() )
-            (wm->getResizeCallback())( Vector2d( (float) width, (float) height ) );
-    }
+    //! Window Resize callback (from GLFW).
+    static void glfwWindowResizeCallback( int width, int height );
     
 };
 

@@ -22,9 +22,9 @@ namespace phoenix
 //! Abstract Window Manager
 /*!
 	This abstract class defines the interface for window manager. The default window manager
-	in phoenix is GLFW. The window manager is responsible for creating and managing the OpenGL
+	in phoenix is GLFWWindowManager. The window manager is responsible for creating and managing the OpenGL
 	context and dispatching events. This class is a Singleton. As such, it ( and it's derivitives )
-	can only be instanced via the getInstance() static function.
+	can only be instanced via the Instance() static function.
 */
 class WindowManager
 {
@@ -37,21 +37,25 @@ public:
 	/*!
 		If no window manager exists, this function will throw. Subclasses should
 		define their own Instance.
+		\throws BadIntance if no concrete instance can be made.
 	*/
 	static boost::shared_ptr<WindowManager> Instance( ){
 		if( !instance ) throw BadInstance();
 		return instance;
 	}
 
+	//! Destructor
+	virtual ~WindowManager(){
+	}
+
 	//! Sets the current window manager instance.
 
 	/*!
-		Creates a new window and initializes OpenGL. Also sets up callbacks for
-		key events.
+		Should create a new window and initialize OpenGL.
 		\param _sz The size of the window.
 		\param _f Fullscreen.
 	*/
-	virtual bool open( Vector2d _sz = Vector2d( 640, 480 ), bool _f = false ) = 0;
+	virtual bool open( const Vector2d& _sz = Vector2d( 640, 480 ), const bool _f = false ) = 0;
 
 	/*!
 		Closes and terminates the window.
@@ -65,17 +69,17 @@ public:
 	inline virtual void setWindowSize( const Vector2d& _sz ){ screensize = _sz; }
 
 	//! Gets the screen's size size
-	inline virtual const Vector2d getWindowSize() { return screensize; }
+	inline virtual const Vector2d& getWindowSize() { return screensize; }
 
     //! Set the resize callback function.
     /*!
         By default this is set to a function that prevents window resizing. RenderSystem usually registers
         its own callback instead.
     */
-    inline virtual void setResizeCallback( boost::function< void( Vector2d ) > _f = boost::function< void( Vector2d ) >( &WindowManager::noResizeCallback ) ) { resizefunc = _f; }
+    inline void setResizeCallback( const boost::function< void( Vector2d ) >& _f = boost::function< void( Vector2d ) >( &WindowManager::noResizeCallback ) ) { resizefunc = _f; }
 
     //! Gets the resize callback function.
-    inline virtual boost::function< void( Vector2d ) > getResizeCallback( ) { return resizefunc; }
+    inline const boost::function< void( Vector2d ) >& getResizeCallback( ) { return resizefunc; }
 
 	//! Iconify
 	virtual void iconify() = 0;

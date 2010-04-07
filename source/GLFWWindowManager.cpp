@@ -5,7 +5,7 @@ using namespace phoenix;
 /*!
     Open function.
 */
-bool GLFWWindowManager::open( Vector2d _sz, bool _f )
+bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
 {
 
     // Set our internal screen size variable.
@@ -48,9 +48,18 @@ bool GLFWWindowManager::open( Vector2d _sz, bool _f )
 	glfwSetMousePosCallback( &EventReceiver::MousePosCallback );
 	glfwSetWindowCloseCallback( &EventReceiver::WindowCloseCallback );
 	glfwSetMouseWheelCallback( &EventReceiver::MouseWheelPosCallback );
-    glfwSetWindowSizeCallback( &GLFWWindowManager::windowResizeDispatch );
+    glfwSetWindowSizeCallback( &GLFWWindowManager::windowResizeCallback );
 
 	// Disable key repeat; event receiver manages that.
 	glfwDisable(GLFW_KEY_REPEAT);
 
+}
+
+//! Window Resize callback (from GLFW).
+static void GLFWWindowManager::glfwWindowResizeCallback( int width, int height )
+{
+	boost::shared_ptr<WindowManager> wm = WindowManager::Instance();
+
+    if( wm->getResizeCallback() )
+        (wm->getResizeCallback())( Vector2d( (float) width, (float) height ) );
 }
