@@ -11,6 +11,9 @@ distribution for more information.
 
 using namespace phoenix;
 
+//! Connection to WindowManager
+boost::signals2::connection phoenix::EventReceiver::event_connection;
+
 //! Array to store key info.
 bool phoenix::EventReceiver::keys[512];
 
@@ -62,8 +65,14 @@ EventReceiver::EventReceiver()
 //RenderSystem
 ////////////////////////////////////////////////////////////////////////////////
 
-void EventReceiver::updateEvents()
+void EventReceiver::update()
 {
+
+	// Connect to the window manager.
+	if( ! event_connection.connected() ){
+		event_connection = WindowManager::Instance()->listen( &EventReceiver::onEvent );
+	}
+
 	//clear the keydown array
 	for (int i=0;i<512;i++)
 	{
@@ -76,10 +85,41 @@ void EventReceiver::updateEvents()
 	}
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// On event
+////////////////////////////////////////////////////////////////////////////////
+void EventReceiver::onEvent( const WindowEvent& e )
+{
+	switch( e.type ){
+		case WET_CLOSE:
+			quit = true; break;
+
+		case WET_KEY:
+			{
+				if (e.state == true) {
+    				keysdown[e.key]=true;
+    				keys[e.key]=true;
+
+					//backspace for keyboard strings.
+					if( e.key == PHK_BACKSPACE ){
+						keyboardstring = keyboardstring.substr(0, keyboardstring.length() - 1);
+					}
+
+				} else {
+    				keys[e.key] = false;
+    				keysdown[e.key] = true;
+				}
+			} break;
+		default:
+			break;
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Mouse & Keyboard callback (for GLFW)
 ////////////////////////////////////////////////////////////////////////////////
-
+/*
 void EventReceiver::KeyboardCallback( int key, int action )
 {
 	if (action == GLFW_PRESS) {
@@ -115,3 +155,4 @@ void EventReceiver::MouseButtonCallback( int key, int action )
 	}
 }
 
+*/

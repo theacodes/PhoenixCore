@@ -42,13 +42,13 @@ bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
 	setWindowTitle( PHOENIXCORE_VERSION );
 
 	// Set GLFW event callbacks
-	glfwSetKeyCallback( &EventReceiver::KeyboardCallback );
-	glfwSetCharCallback( &EventReceiver::CharacterCallback );
-	glfwSetMouseButtonCallback( &EventReceiver::MouseButtonCallback );
-	glfwSetMousePosCallback( &EventReceiver::MousePosCallback );
-	glfwSetWindowCloseCallback( &EventReceiver::WindowCloseCallback );
-	glfwSetMouseWheelCallback( &EventReceiver::MouseWheelPosCallback );
-    glfwSetWindowSizeCallback( &GLFWWindowManager::windowResizeCallback );
+	glfwSetKeyCallback( &GLFWWindowManager::glfwKeyboardCallback );
+	glfwSetCharCallback( &GLFWWindowManager::glfwCharacterCallback );
+	glfwSetMouseButtonCallback( &GLFWWindowManager::glfwMouseButtonCallback );
+	glfwSetMousePosCallback( &GLFWWindowManager::glfwMousePosCallback );
+	glfwSetWindowCloseCallback( &GLFWWindowManager::glfwWindowCloseCallback );
+	glfwSetMouseWheelCallback( &GLFWWindowManager::glfwMouseWheelPosCallback );
+    glfwSetWindowSizeCallback( &GLFWWindowManager::glfwWindowResizeCallback );
 
 	// Disable key repeat; event receiver manages that.
 	glfwDisable(GLFW_KEY_REPEAT);
@@ -56,10 +56,50 @@ bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
 }
 
 //! Window Resize callback (from GLFW).
-static void GLFWWindowManager::glfwWindowResizeCallback( int width, int height )
+void GLFWWindowManager::glfwWindowResizeCallback( int width, int height )
 {
-	boost::shared_ptr<WindowManager> wm = WindowManager::Instance();
+	WindowManagerPtr wm = WindowManager::Instance();
 
     if( wm->getResizeCallback() )
         (wm->getResizeCallback())( Vector2d( (float) width, (float) height ) );
+}
+
+//! Keyboard callback (from GLFW).
+void GLFWWindowManager::glfwKeyboardCallback( int key, int action )
+{
+	WindowEvent e;
+	e.type = WET_KEY;
+	e.key = key;
+	e.state = action == GLFW_PRESS ? true : false;
+	Instance()->signal(e);
+}
+
+//! Character callback (from GLFW).
+void GLFWWindowManager::glfwCharacterCallback( int key, int action )
+{
+}
+
+//! Mousebutton callback (from GLFW).
+void GLFWWindowManager::glfwMouseButtonCallback( int key, int action )
+{
+}
+
+//! Mouse position callback (from GLFW).
+void GLFWWindowManager::glfwMousePosCallback( int x, int y )
+{
+}
+
+//! Window callback (from GLFW).
+int GLFWWindowManager::glfwWindowCloseCallback()
+{
+	WindowEvent e;
+	e.type = WET_CLOSE;
+	e.state = true;
+	Instance()->signal(e);
+	return false;
+}
+
+//! Mouse wheel callback (from GLFW).
+void GLFWWindowManager::glfwMouseWheelPosCallback( int pos )
+{
 }

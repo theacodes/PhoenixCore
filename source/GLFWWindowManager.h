@@ -79,7 +79,7 @@ public:
 	//! Swap Buffers and Update Events.
 	inline virtual void update() 
 	{
-		EventReceiver::updateEvents(); //Must be called first, as the next call will tell it all about the new events.
+		EventReceiver::update(); //Must be called first, as the next call will tell it all about the new events.
 		glfwSwapBuffers(); 
 	}
 
@@ -91,6 +91,24 @@ protected:
 
     //! Window Resize callback (from GLFW).
     static void glfwWindowResizeCallback( int width, int height );
+
+	//! Keyboard callback (from GLFW).
+    static void glfwKeyboardCallback( int key, int action );
+
+	//! Character callback (from GLFW).
+	static void glfwCharacterCallback( int key, int action );
+
+    //! Mousebutton callback (from GLFW).
+    static void glfwMouseButtonCallback( int key, int action );
+
+    //! Mouse position callback (from GLFW).
+    static void glfwMousePosCallback( int x, int y );
+
+    //! Window callback (from GLFW).
+    static int glfwWindowCloseCallback();
+
+    //! Mouse wheel callback (from GLFW).
+    static void glfwMouseWheelPosCallback( int pos );
     
 };
 

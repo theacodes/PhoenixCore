@@ -12,7 +12,9 @@ distribution for more information.
 
 #include <string>
 #include <GL/glfw.h>
+#include <boost/signals2/signal.hpp>
 #include "config.h"
+#include "WindowEvent.h"
 #include "Keys.h"
 #include "Vector2d.h"
 
@@ -41,43 +43,13 @@ namespace phoenix
         /*!
             Polls the window manager for new events, this is always handled automatically by WindowManager::swapBuffers().
         */
-        static void updateEvents();
+        static void update();
 
-		//! Keyboard callback
+		//! On event.
 		/*!
-			Used by GLFW
+			Listening function for events from the WindowManager.
 		*/
-        static void KeyboardCallback( int key, int action );
-
-		//! Character callback
-		/*!
-			Used by GLFW
-		*/
-		static void CharacterCallback( int key, int action );
-
-        //! Mousebutton callback
-		/*!
-			Used by GLFW
-		*/
-        static void MouseButtonCallback( int key, int action );
-
-        //! Mouse position callback
-		/*!
-			Used by GLFW
-		*/
-        static void MousePosCallback( int x, int y ) { mousepos = Vector2d( (float) x, (float) y ); }
-
-        //! Window callback
-		/*!
-			Used by GLFW
-		*/
-        inline static int WindowCloseCallback() { quit = true; return GL_TRUE; }
-
-        //! Mouse wheel callback
-		/*!
-			Used by GLFW
-		*/
-        inline static void MouseWheelPosCallback( int pos ) { mousewheelpos = pos;}
+		static void onEvent( const WindowEvent& e );
 
         //! Gets the state of the given key, true if it is down.
         inline static bool getKey(Key _k) { return keys[_k]; }
@@ -122,6 +94,9 @@ namespace phoenix
 
 	private:
 
+		//! Connection with WindowManager
+		static boost::signals2::connection event_connection;
+
         //! Array to store key state info.
         static bool keys[512];
 
@@ -149,5 +124,7 @@ namespace phoenix
     };
 
 } //namespace phoenix
+
+#include "WindowManager.h"
 
 #endif //__PHOENIXERC__

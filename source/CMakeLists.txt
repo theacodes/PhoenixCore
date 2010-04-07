@@ -42,6 +42,7 @@ add_library( PhoenixCore STATIC
 	Vector2d.h
 	Vertex.h
 	View.h
+	WindowEvent.h
 	WindowManager.h
 	WindowManager.cpp
 	GLFWWindowManager.h

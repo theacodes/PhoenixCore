@@ -12,7 +12,10 @@ distribution for more information.
 
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/signals2/signal.hpp>
+#include <boost/bind.hpp>
 #include "config.h"
+#include "WindowEvent.h"
 #include "EventReceiver.h"
 #include "Vector2d.h"
 
@@ -29,6 +32,9 @@ namespace phoenix
 class WindowManager
 {
 public:
+
+	//! Event signal type
+	typedef boost::signals2::signal<void (const WindowEvent&)>  EventSignal;
 
 	//! Bad instance exception.
 	class BadInstance {};
@@ -48,7 +54,23 @@ public:
 	virtual ~WindowManager(){
 	}
 
-	//! Sets the current window manager instance.
+	//! Listens to Window Events.
+	/*!
+		By forging a connection here, your listener will receive all window events. The
+		listener is responsible for handling the connection!
+	*/
+	boost::signals2::connection listen( const EventSignal::slot_type& _s )
+	{
+		return event_signal.connect( _s );
+	}
+
+	//! Passes an event through the event signal.
+	/*!
+		This is the preferred method to post 'fake' window events.
+	*/
+	void signal( const WindowEvent& e ){
+		event_signal( e );
+	}
 
 	/*!
 		Should create a new window and initialize OpenGL.
@@ -101,6 +123,9 @@ protected:
 
 	//! Singleton Instance
 	static boost::shared_ptr<WindowManager> instance;
+
+	//! Event signal
+	EventSignal event_signal;
 
     //! Internal screen size record.
     Vector2d screensize;
