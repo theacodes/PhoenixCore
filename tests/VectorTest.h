@@ -48,14 +48,14 @@ class VectorTest
 
                 //! Events
 
-                if(EventReceiver::getMouseButtonPressed(PHK_MB_LEFT) )
+                if(EventReceiver::Instance()->getMouseButtonPressed(PHK_MB_LEFT) )
                 {
-                    vectorlist.push_back(EventReceiver::getMousePosition() - Vector2d(320,240) );
+                    vectorlist.push_back(EventReceiver::Instance()->getMousePosition() - Vector2d(320,240) );
                     std::sort( vectorlist.begin(), vectorlist.end(), &Vector2d::AngleSort );
                 }
 
                 //! Draw stuff
-                Vector2d MouseVector = EventReceiver::getMousePosition() -  Vector2d(320,240);
+                Vector2d MouseVector = EventReceiver::Instance()->getMousePosition() -  Vector2d(320,240);
 
                 system.drawRay( Vector2d(320,240), MouseVector );
 

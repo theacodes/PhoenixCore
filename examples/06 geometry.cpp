@@ -117,10 +117,10 @@ int main()
             created around with the arrow keys. This is easy achieved using
             translate.
         */
-        if( EventReceiver::getKeyPressed( PHK_UP ) ) tgeom->translate( Vector2d( 0.0f, -5.0f ) ); 
-        if( EventReceiver::getKeyPressed( PHK_DOWN ) ) tgeom->translate( Vector2d( 0.0f, 5.0f ) ); 
-        if( EventReceiver::getKeyPressed( PHK_RIGHT ) ) tgeom->translate( Vector2d( 5.0f, 0.0f ) ); 
-        if( EventReceiver::getKeyPressed( PHK_LEFT ) ) tgeom->translate( Vector2d( -5.0f, 0.0f ) ); 
+        if( EventReceiver::Instance()->getKeyPressed( PHK_UP ) ) tgeom->translate( Vector2d( 0.0f, -5.0f ) ); 
+        if( EventReceiver::Instance()->getKeyPressed( PHK_DOWN ) ) tgeom->translate( Vector2d( 0.0f, 5.0f ) ); 
+        if( EventReceiver::Instance()->getKeyPressed( PHK_RIGHT ) ) tgeom->translate( Vector2d( 5.0f, 0.0f ) ); 
+        if( EventReceiver::Instance()->getKeyPressed( PHK_LEFT ) ) tgeom->translate( Vector2d( -5.0f, 0.0f ) ); 
     }
 
     return 0;

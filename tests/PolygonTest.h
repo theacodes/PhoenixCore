@@ -90,22 +90,22 @@ class PolygonTest
                 poly2 *= RotationMatrix( DegreesToRadians( -80.f * (float)deltatime.getTime() ) );
 
                 //! Move poly 3 to the mouse's position
-                poly3.setPosition( EventReceiver::getMousePosition() );
+                poly3.setPosition( EventReceiver::Instance()->getMousePosition() );
 
                 //!Rotate 3 and four with mouse buttons.
-                if( EventReceiver::getMouseButton(PHK_MB_LEFT))
+                if( EventReceiver::Instance()->getMouseButton(PHK_MB_LEFT))
                 {
                     poly3.rotate( DegreesToRadians(80.0f * (float)deltatime.getTime()) );
                     poly4.rotate( DegreesToRadians(-100.0f * (float)deltatime.getTime()) );
                 }
-                if( EventReceiver::getMouseButton(PHK_MB_RIGHT))
+                if( EventReceiver::Instance()->getMouseButton(PHK_MB_RIGHT))
                 {
                     poly3.rotate( DegreesToRadians(-80.0f * (float)deltatime.getTime()) );
                     poly4.rotate( DegreesToRadians(100.0f * (float)deltatime.getTime()) );
                 }
 
                 //! if the spacebar is pressed, draw some bounding boxes.
-                if( EventReceiver::getKey( PHK_SPACE ) )
+                if( EventReceiver::Instance()->getKey( PHK_SPACE ) )
                 {
                     system->setDepth( 6.0f );
                     system->drawRectangle( poly1 , Color( 255,255,255,127 ) );
@@ -122,7 +122,7 @@ class PolygonTest
                 system->setDepth( -6.0f );
                 system->drawPolygon( poly4, Color(0,200,255) );
                 system->setDepth( -3.0f );
-                system->drawTexturedPolygon( poly3, feathertexture, Color(200,200,255,127), EventReceiver::getKey( PHK_E ) ? true : false ) ;
+                system->drawTexturedPolygon( poly3, feathertexture, Color(200,200,255,127), EventReceiver::Instance()->getKey( PHK_E ) ? true : false ) ;
 
                 //! Draw some info.
                 system->drawText( "Polygon Test", Vector2d(16,16) );

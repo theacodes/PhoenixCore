@@ -12,6 +12,7 @@ distribution for more information.
 
 #include "config.h"
 #include "Vector2d.h"
+#include "Keys.h"
 
 namespace phoenix{
 

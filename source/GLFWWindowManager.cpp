@@ -26,14 +26,10 @@ bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
 		#define DEPTH_BITS 8
 	#endif
 
-	if(_f)
-	{
-		glfwOpenWindow(int(_sz.getX()), int(_sz.getY()), RED_BITS, BLUE_BITS, GREEN_BITS, ALPHA_BITS, DEPTH_BITS, STENCIL_BITS, GLFW_FULLSCREEN);
-	}
-	else
-	{
-		glfwOpenWindow(int(_sz.getX()), int(_sz.getY()), RED_BITS, BLUE_BITS, GREEN_BITS, ALPHA_BITS, DEPTH_BITS, STENCIL_BITS, GLFW_WINDOW);
-	}
+	int mode = _f ? GLFW_FULLSCREEN : GLFW_WINDOW;
+
+	if( !glfwOpenWindow(int(_sz.getX()), int(_sz.getY()), RED_BITS, BLUE_BITS, GREEN_BITS, ALPHA_BITS, DEPTH_BITS, STENCIL_BITS, mode) ) return false;
+
 
 	// Disable vsync.
 	glfwSwapInterval( 0 );
@@ -53,18 +49,21 @@ bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
 	// Disable key repeat; event receiver manages that.
 	glfwDisable(GLFW_KEY_REPEAT);
 
+	return true;
+
 }
 
-//! Swap Buffers and Update Events.
+/*
+	Swap Buffers and Update Events.
+*/
 void GLFWWindowManager::update() 
 {
-	EventReceiver::update(); //Must be called first, as the next call will tell it all about the new events.
-	glfwSwapBuffers(); 
-
-	// send the update event.
+	// send the update event. ( done first because glfwSwapBuffers sends new events ).
 	WindowEvent e;
 	e.type = WET_UPDATE;
 	signal(e);
+
+	glfwSwapBuffers(); 
 }
 
 //! Window Resize callback (from GLFW).

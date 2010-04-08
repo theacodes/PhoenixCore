@@ -107,10 +107,10 @@ class TextureTest
                 rendertexture->end();
 
                 //! Draw our textures and some info
-                system.drawTexture( newtexture, Vector2d(32,32), 0.0f, Vector2d(1,1), Color(255,255,255,255), ( EventReceiver::getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
+                system.drawTexture( newtexture, Vector2d(32,32), 0.0f, Vector2d(1,1), Color(255,255,255,255), ( EventReceiver::Instance()->getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::Instance()->getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
                 system.setDepth( 1.0f );
-                system.drawTexturePart( system.getFont()->grab<BitmapFont>()->getTexture() , Vector2d(32,32), phoenix::Rectangle( EventReceiver::getMousePosition() , Vector2d( 256,256 ) ), 0.0f, Vector2d(1,1), Color(), ( EventReceiver::getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
-                system.drawTexture( rendertexture, EventReceiver::getMousePosition(), 0.0f, Vector2d(2,2), Color(255,255,255), EGF_VFLIP );
+                system.drawTexturePart( system.getFont()->grab<BitmapFont>()->getTexture() , Vector2d(32,32), phoenix::Rectangle( EventReceiver::Instance()->getMousePosition() , Vector2d( 256,256 ) ), 0.0f, Vector2d(1,1), Color(), ( EventReceiver::Instance()->getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::Instance()->getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
+                system.drawTexture( rendertexture, EventReceiver::Instance()->getMousePosition(), 0.0f, Vector2d(2,2), Color(255,255,255), EGF_VFLIP );
                 
                 system.drawText( "Texture Test: you should see white text", Vector2d(16,16) );
                 system.drawText( "with a semi-transparent blue background.", Vector2d(16,32) );

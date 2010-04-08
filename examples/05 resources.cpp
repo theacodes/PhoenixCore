@@ -52,7 +52,7 @@ public:
             random function landed on 1. If so, we'll drop this
             resource.
         */
-        if( EventReceiver::getKeyPressed( PHK_SPACE ) && random(0,10) == 1 )
+        if( EventReceiver::Instance()->getKeyPressed( PHK_SPACE ) && random(0,10) == 1 )
             drop();
     }
 

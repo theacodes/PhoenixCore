@@ -70,13 +70,13 @@ class EventTest
                         Color textcolor;
 
                         //! If it's down, we'll set the color to blue
-                        if(EventReceiver::getKey( Key((j*16)+i) ) ) textcolor = Color(200,200,255);
+                        if(EventReceiver::Instance()->getKey( Key((j*16)+i) ) ) textcolor = Color(200,200,255);
                         //! If it's up, we'll set the color to gray
-                        if( !EventReceiver::getKey( Key((j*16)+i) ) ) textcolor = Color(255,255,255,150);
+                        if( !EventReceiver::Instance()->getKey( Key((j*16)+i) ) ) textcolor = Color(255,255,255,150);
                         //! If it was just pressed, make it white
-                        if(EventReceiver::getKeyPressed( Key((j*16)+i) ) ) textcolor = Color(255,255,255);
+                        if(EventReceiver::Instance()->getKeyPressed( Key((j*16)+i) ) ) textcolor = Color(255,255,255);
                         //! If it was just released, make it red.
-                        if(EventReceiver::getKeyReleased( Key((j*16)+i) ) ) textcolor = Color(255,200,200);
+                        if(EventReceiver::Instance()->getKeyReleased( Key((j*16)+i) ) ) textcolor = Color(255,200,200);
 
                         //! Draw it
                         //use our custom font.
@@ -87,11 +87,11 @@ class EventTest
 
                 //! Draw an @ symbol where the mouse is, and once again use our custom font to do it.
                 Color textcolor = Color(255,0,0);
-                if(EventReceiver::getMouseButton( PHK_MB_LEFT ) ) textcolor = Color(0,255,0);
-                if(EventReceiver::getMouseButton( PHK_MB_RIGHT ) ) textcolor = Color(0,0,255);
-                if(EventReceiver::getMouseButton( PHK_MB_MIDDLE ) ) textcolor = Color(255,255,255);
+                if(EventReceiver::Instance()->getMouseButton( PHK_MB_LEFT ) ) textcolor = Color(0,255,0);
+                if(EventReceiver::Instance()->getMouseButton( PHK_MB_RIGHT ) ) textcolor = Color(0,0,255);
+                if(EventReceiver::Instance()->getMouseButton( PHK_MB_MIDDLE ) ) textcolor = Color(255,255,255);
                 newfont->setColor( textcolor );
-                newfont->drawText( "@",EventReceiver::getMousePosition() );
+                newfont->drawText( "@",EventReceiver::Instance()->getMousePosition() );
 
                 //! Draw some info.
                 system.drawText( "Event Test: Below is an ASCII Table", Vector2d(16,16) );
@@ -99,7 +99,7 @@ class EventTest
                 system.drawText( "make some pretty colors by mashing keys.", Vector2d(16,48) );
 
 				//! Draw the keyboard string.
-				system.drawText( std::string("Keyboard String: ") + EventReceiver::getKeyboardString(), Vector2d( 16, 448 ) ); 
+				system.drawText( std::string("Keyboard String: ") + EventReceiver::Instance()->getKeyboardString(), Vector2d( 16, 448 ) ); 
 
 			    (*DebugConsole::Instance())<<"\nGeoms "<<system.getBatchRenderer().count()<<", FPS: "<<system.getFPS();
 

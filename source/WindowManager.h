@@ -16,7 +16,6 @@ distribution for more information.
 #include <boost/bind.hpp>
 #include "config.h"
 #include "WindowEvent.h"
-#include "EventReceiver.h"
 #include "Vector2d.h"
 
 namespace phoenix

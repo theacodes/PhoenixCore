@@ -37,10 +37,10 @@ int main()
             the view when the player holds down the key. You could also rotate and scale
             the view, but I'll leave that up to you!
         */
-        if( EventReceiver::getKey( PHK_LEFT ) ) system.getView().setPosition( system.getView().getPosition() + ( Vector2d( -100.0f , 0.0f ) * (float)timer.getTime() ) );
-        if( EventReceiver::getKey( PHK_RIGHT ) ) system.getView().setPosition( system.getView().getPosition() + ( Vector2d( 100.0f , 0.0f ) * (float)timer.getTime() ) );
-        if( EventReceiver::getKey( PHK_UP ) ) system.getView().setPosition( system.getView().getPosition() + ( Vector2d( 0.0f , -100.0f ) * (float)timer.getTime() ) );
-        if( EventReceiver::getKey( PHK_DOWN ) ) system.getView().setPosition( system.getView().getPosition() + ( Vector2d( 0.0f , 100.0f ) * (float)timer.getTime() ) );
+        if( EventReceiver::Instance()->getKey( PHK_LEFT ) ) system.getView().setPosition( system.getView().getPosition() + ( Vector2d( -100.0f , 0.0f ) * (float)timer.getTime() ) );
+        if( EventReceiver::Instance()->getKey( PHK_RIGHT ) ) system.getView().setPosition( system.getView().getPosition() + ( Vector2d( 100.0f , 0.0f ) * (float)timer.getTime() ) );
+        if( EventReceiver::Instance()->getKey( PHK_UP ) ) system.getView().setPosition( system.getView().getPosition() + ( Vector2d( 0.0f , -100.0f ) * (float)timer.getTime() ) );
+        if( EventReceiver::Instance()->getKey( PHK_DOWN ) ) system.getView().setPosition( system.getView().getPosition() + ( Vector2d( 0.0f , 100.0f ) * (float)timer.getTime() ) );
 
         /*!
             We reset the timer so we have an accurate measurement for the next frame.

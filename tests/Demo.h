@@ -49,7 +49,7 @@ public:
         rot = (float)random(0,360);
 
         // Make some geometry.
-        geometry = new BatchGeometry( s.getBatchRenderer(), GL_QUADS, t, 5, (EventReceiver::getKey( PHK_S ) ? float(random(1,150)) : 0.0f) );
+        geometry = new BatchGeometry( s.getBatchRenderer(), GL_QUADS, t, 5, (EventReceiver::Instance()->getKey( PHK_S ) ? float(random(1,150)) : 0.0f) );
         geometry->setGroupBeginFunction( boost::bind( &DemoParticle::startBlend, intrusive_ptr<DemoParticle>(this) ) );
         geometry->setGroupEndFunction( boost::bind( &DemoParticle::endBlend, intrusive_ptr<DemoParticle>(this) ) );
     }
@@ -88,10 +88,10 @@ public:
         position += velocity *(dtime*50);
 
         // Movement with Keys
-        if ( EventReceiver::getKey( PHK_RIGHT ) ) position += (Vector2d( -1.0f, 0.0f ) * (radius*5.0f / 1.2f)) * dtime * 1000.0f;
-        if ( EventReceiver::getKey( PHK_LEFT ) ) position += (Vector2d( 1.0f, 0.0f ) * (radius*5.0f / 1.2f)) * dtime* 1000.0f;
-        if ( EventReceiver::getKey( PHK_UP ) ) position += (Vector2d( 0.0f, 1.0f ) * (radius*5.0f / 1.2f)) * dtime * 1000.0f;
-        if ( EventReceiver::getKey( PHK_DOWN ) ) position += (Vector2d( 0.0f, -1.0f ) * (radius*5.0f / 1.2f)) * dtime * 1000.0f;
+        if ( EventReceiver::Instance()->getKey( PHK_RIGHT ) ) position += (Vector2d( -1.0f, 0.0f ) * (radius*5.0f / 1.2f)) * dtime * 1000.0f;
+        if ( EventReceiver::Instance()->getKey( PHK_LEFT ) ) position += (Vector2d( 1.0f, 0.0f ) * (radius*5.0f / 1.2f)) * dtime* 1000.0f;
+        if ( EventReceiver::Instance()->getKey( PHK_UP ) ) position += (Vector2d( 0.0f, 1.0f ) * (radius*5.0f / 1.2f)) * dtime * 1000.0f;
+        if ( EventReceiver::Instance()->getKey( PHK_DOWN ) ) position += (Vector2d( 0.0f, -1.0f ) * (radius*5.0f / 1.2f)) * dtime * 1000.0f;
 
         // Update our geometry
         geometry->fromRectangle( phoenix::Rectangle( -16, -16, 32, 32 ) );
@@ -143,7 +143,7 @@ public:
     {
 
         // If 'P' was pressed, pause the system by stopping the timer.
-        if( EventReceiver::getKey( PHK_P ) ) timer.stop();
+        if( EventReceiver::Instance()->getKey( PHK_P ) ) timer.stop();
 
         //! Iterate through the particles
 
@@ -215,7 +215,7 @@ public:
         colortimer.start();
 
         // A tracking invariant for keeping up with the mouse position
-        TrackingInvariant< Vector2d > mouseposition = EventReceiver::getMousePosition();
+        TrackingInvariant< Vector2d > mouseposition = EventReceiver::Instance()->getMousePosition();
 
         //! Now just draw some stuff.
         while ( system.run() )
@@ -242,7 +242,7 @@ public:
             //! Particles
 
             // Change particle's blendmode and colors if 'B' was pressed
-            if ( EventReceiver::getKeyPressed( PHK_B ) )
+            if ( EventReceiver::Instance()->getKeyPressed( PHK_B ) )
             {
                 DemoParticle::blendmode = !DemoParticle::blendmode; //swap it.
 
@@ -258,7 +258,7 @@ public:
 
             //update our mouse tracker
             mouseposition.reset();
-            mouseposition = EventReceiver::getMousePosition();
+            mouseposition = EventReceiver::Instance()->getMousePosition();
             Vector2d dmouseposition = mouseposition.getPrevious() - mouseposition.get();
             (*DebugConsole::Instance())<<"\nMouse Delta: "<<dmouseposition.getX()<<", "<<dmouseposition.getY();
 
@@ -269,7 +269,7 @@ public:
             //reset the timer.
             colortimer.reset();
 
-            if ( EventReceiver::getMouseButton( PHK_MB_LEFT ))
+            if ( EventReceiver::Instance()->getMouseButton( PHK_MB_LEFT ))
             {
                 for ( int i = 0; i < (int)ceil(ts) ; ++i)
                 {
@@ -278,7 +278,7 @@ public:
             }
 
 
-            if ( EventReceiver::getKey( PHK_SPACE ) )
+            if ( EventReceiver::Instance()->getKey( PHK_SPACE ) )
             {
                 for ( int i = 0; i< (int)ceil(ts); ++i)
                 {
@@ -286,7 +286,7 @@ public:
                 }
             }
 
-            if ( EventReceiver::getMouseButton( PHK_MB_RIGHT ) )
+            if ( EventReceiver::Instance()->getMouseButton( PHK_MB_RIGHT ) )
             {
                 for ( int i = 0; i< (int)ceil(ts); ++i)
                 {
