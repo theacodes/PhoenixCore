@@ -70,7 +70,10 @@ void EventReceiver::update()
 
 	// Connect to the window manager.
 	if( ! event_connection.connected() ){
-		event_connection = WindowManager::Instance()->listen( &EventReceiver::onEvent );
+		try{
+			event_connection = WindowManager::Instance()->listen( &EventReceiver::onEvent );
+		}catch( WindowManager::BadInstance ){
+		}
 	}
 
 	//clear the keydown array
@@ -97,62 +100,48 @@ void EventReceiver::onEvent( const WindowEvent& e )
 
 		case WET_KEY:
 			{
-				if (e.state == true) {
-    				keysdown[e.key]=true;
-    				keys[e.key]=true;
+				if( e.key > 2 ) //Keyboard
+				{
+					if (e.state == true) {
+						keysdown[e.key]=true;
+						keys[e.key]=true;
 
-					//backspace for keyboard strings.
-					if( e.key == PHK_BACKSPACE ){
-						keyboardstring = keyboardstring.substr(0, keyboardstring.length() - 1);
+						//backspace for keyboard strings.
+						if( e.key == PHK_BACKSPACE ){
+							keyboardstring = keyboardstring.substr(0, keyboardstring.length() - 1);
+						}
+
+					} else {
+						keys[e.key] = false;
+						keysdown[e.key] = true;
 					}
-
-				} else {
-    				keys[e.key] = false;
-    				keysdown[e.key] = true;
+				}else{ //Mouse
+					if ( e.state == true ) {
+						mousebutton[ e.key ]=true;
+						mousebuttondown[ e.key ]=true;
+					} else if ( e.state == false) {
+						mousebutton[ e.key ] = false;
+						mousebuttondown[ e.key ]=true;
+					}
 				}
 			} break;
+
+		case WET_CHAR:
+			{
+				keyboardstring += e.key;
+			}break;
+
+		case WET_MOUSE_POSITION:
+			{
+				mousepos = e.mouse_position;
+			}break;
+
+		case WET_MOUSE_WHEEL:
+			{
+				mousewheelpos = e.mouse_wheel;
+			}
+
 		default:
 			break;
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// Mouse & Keyboard callback (for GLFW)
-////////////////////////////////////////////////////////////////////////////////
-/*
-void EventReceiver::KeyboardCallback( int key, int action )
-{
-	if (action == GLFW_PRESS) {
-    	keysdown[key]=true;
-    	keys[key]=true;
-
-		//backspace for keyboard strings.
-		if( key == PHK_BACKSPACE ){
-			keyboardstring = keyboardstring.substr(0, keyboardstring.length() - 1);
-		}
-
-    } else if (action == GLFW_RELEASE) {
-    	keys[key] = false;
-    	keysdown[key] = true;
-	}
-}
-
-void EventReceiver::CharacterCallback( int key, int action )
-{
-	if (action == GLFW_PRESS) {
-		keyboardstring += key;
-	}
-}
-
-void EventReceiver::MouseButtonCallback( int key, int action )
-{
-	if (action == GLFW_PRESS) {
-		mousebutton[key]=true;
-		mousebuttondown[key]=true;
-	} else if (action == GLFW_RELEASE) {
-		mousebutton[key] = false;
-		mousebuttondown[key]=true;
-	}
-}
-
-*/

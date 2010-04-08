@@ -43,7 +43,7 @@ public:
 	/*!
 		If no window manager exists, this function will throw. Subclasses should
 		define their own Instance.
-		\throws BadIntance if no concrete instance can be made.
+		\throws BadInstance if no concrete instance has been made.
 	*/
 	static boost::shared_ptr<WindowManager> Instance( ){
 		if( !instance ) throw BadInstance();
@@ -57,7 +57,8 @@ public:
 	//! Listens to Window Events.
 	/*!
 		By forging a connection here, your listener will receive all window events. The
-		listener is responsible for handling the connection!
+		listener is responsible for handling the connection (that means closing it when
+		the listener is destructed).
 	*/
 	boost::signals2::connection listen( const EventSignal::slot_type& _s )
 	{

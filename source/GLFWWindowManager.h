@@ -98,9 +98,6 @@ protected:
 	//! Character callback (from GLFW).
 	static void glfwCharacterCallback( int key, int action );
 
-    //! Mousebutton callback (from GLFW).
-    static void glfwMouseButtonCallback( int key, int action );
-
     //! Mouse position callback (from GLFW).
     static void glfwMousePosCallback( int x, int y );
 

@@ -28,8 +28,8 @@ struct WindowEvent{
 	E_WINDOWEVENT_TYPE type;
 	int key;
 	bool state; // false for released, true for pressed
-	Vector2d mousepos;
-	int mousewheel;
+	Vector2d mouse_position;
+	int mouse_wheel;
 };
 
 }//namespace phoenix

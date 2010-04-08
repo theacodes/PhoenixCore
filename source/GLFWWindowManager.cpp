@@ -44,7 +44,7 @@ bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
 	// Set GLFW event callbacks
 	glfwSetKeyCallback( &GLFWWindowManager::glfwKeyboardCallback );
 	glfwSetCharCallback( &GLFWWindowManager::glfwCharacterCallback );
-	glfwSetMouseButtonCallback( &GLFWWindowManager::glfwMouseButtonCallback );
+	glfwSetMouseButtonCallback( &GLFWWindowManager::glfwKeyboardCallback );
 	glfwSetMousePosCallback( &GLFWWindowManager::glfwMousePosCallback );
 	glfwSetWindowCloseCallback( &GLFWWindowManager::glfwWindowCloseCallback );
 	glfwSetMouseWheelCallback( &GLFWWindowManager::glfwMouseWheelPosCallback );
@@ -77,16 +77,24 @@ void GLFWWindowManager::glfwKeyboardCallback( int key, int action )
 //! Character callback (from GLFW).
 void GLFWWindowManager::glfwCharacterCallback( int key, int action )
 {
+	if( action == GLFW_PRESS ){
+		WindowEvent e;
+		e.type = WET_CHAR;
+		e.key = key;
+		e.state = true;
+		Instance()->signal(e);
+	}
 }
 
-//! Mousebutton callback (from GLFW).
-void GLFWWindowManager::glfwMouseButtonCallback( int key, int action )
-{
-}
 
 //! Mouse position callback (from GLFW).
 void GLFWWindowManager::glfwMousePosCallback( int x, int y )
 {
+	WindowEvent e;
+	e.type = WET_MOUSE_POSITION;
+	e.state = true;
+	e.mouse_position = Vector2d( float(x), float(y) );
+	Instance()->signal(e);
 }
 
 //! Window callback (from GLFW).
@@ -102,4 +110,9 @@ int GLFWWindowManager::glfwWindowCloseCallback()
 //! Mouse wheel callback (from GLFW).
 void GLFWWindowManager::glfwMouseWheelPosCallback( int pos )
 {
+	WindowEvent e;
+	e.type = WET_MOUSE_WHEEL;
+	e.state = true;
+	e.mouse_wheel = pos;
+	Instance()->signal(e);
 }
