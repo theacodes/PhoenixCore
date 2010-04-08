@@ -105,9 +105,6 @@ namespace phoenix
         //! Get the current font used for drawing text.
         inline FontPtr getFont() const { return font; }
 
-        //! Get the debug console used by the render system.
-        inline DebugConsole& getDebugConsole() { return console; }
-
         //! Run.
         /*!
             Run takes care of swapping buffers, updating events, clearing the screen, and tracking time.
@@ -232,9 +229,6 @@ namespace phoenix
 
         //! The system font used to draw text
         FontPtr font;
-
-        //! Debug Console
-        DebugConsole console;
 
 		//! Quit variable
 		bool quit;

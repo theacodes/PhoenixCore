@@ -77,11 +77,7 @@ public:
     inline virtual void setCursorVisible(const bool _v) { _v ? glfwEnable( GLFW_MOUSE_CURSOR ) : glfwDisable( GLFW_MOUSE_CURSOR ); }
 
 	//! Swap Buffers and Update Events.
-	inline virtual void update() 
-	{
-		EventReceiver::update(); //Must be called first, as the next call will tell it all about the new events.
-		glfwSwapBuffers(); 
-	}
+	virtual void update();
 
 protected:
 

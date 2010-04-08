@@ -22,7 +22,7 @@ using namespace phoenix;
 ////////////////////////////////////////////////////////////////////////////////
 
 RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
-: renderer(), factory( renderer ), fpstimer(), framerate(1.0f), font(0), quit(false), console( renderer, font ), resources()
+: renderer(), factory( renderer ), fpstimer(), framerate(1.0f), font(0), quit(false), resources()
 {
 
 	//GLFW Window Manager
@@ -89,11 +89,8 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
 	//store the new framerate
     framerate = 1.0f;
 
-    //set the debug console's font.
-    console.setFont( font );
-
-    //set the debug console's line limit
-    console.updateLineLimit();
+	// Setup the debug console
+	DebugConsole::Initialize( renderer, font );
 
 }
 
@@ -115,7 +112,6 @@ void RenderSystem::resizeCallback( Vector2d _sz )
     glMatrixMode(GL_PROJECTION); 
     glLoadIdentity();
     glOrtho(0.0f, _sz.getX(), _sz.getY(), 0.0f, 1000.0f, -1000.0f);
-    console.updateLineLimit();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -144,9 +140,6 @@ bool RenderSystem::run()
 
     //Start our fps timer
     fpstimer.reset();
-
-    //draw the debug console.
-    console.draw();
 
     return !quit; // Quit is set to true when the window manager has signaled to close.
 }

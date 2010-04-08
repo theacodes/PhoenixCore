@@ -101,7 +101,7 @@ class EventTest
 				//! Draw the keyboard string.
 				system.drawText( std::string("Keyboard String: ") + EventReceiver::getKeyboardString(), Vector2d( 16, 448 ) ); 
 
-			    system.getDebugConsole()<<"\nGeoms "<<system.getBatchRenderer().count()<<", FPS: "<<system.getFPS();
+			    (*DebugConsole::Instance())<<"\nGeoms "<<system.getBatchRenderer().count()<<", FPS: "<<system.getFPS();
 
             }
 

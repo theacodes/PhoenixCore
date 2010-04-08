@@ -55,6 +55,18 @@ bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
 
 }
 
+//! Swap Buffers and Update Events.
+void GLFWWindowManager::update() 
+{
+	EventReceiver::update(); //Must be called first, as the next call will tell it all about the new events.
+	glfwSwapBuffers(); 
+
+	// send the update event.
+	WindowEvent e;
+	e.type = WET_UPDATE;
+	signal(e);
+}
+
 //! Window Resize callback (from GLFW).
 void GLFWWindowManager::glfwWindowResizeCallback( int width, int height )
 {
@@ -62,6 +74,10 @@ void GLFWWindowManager::glfwWindowResizeCallback( int width, int height )
 
     if( wm->getResizeCallback() )
         (wm->getResizeCallback())( Vector2d( (float) width, (float) height ) );
+
+	WindowEvent e;
+	e.type = WET_RESIZE;
+	wm->signal(e);
 }
 
 //! Keyboard callback (from GLFW).

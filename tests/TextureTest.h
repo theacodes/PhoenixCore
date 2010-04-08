@@ -37,22 +37,22 @@ class TextureTest
             //print out all the resources
             BOOST_FOREACH( ResourcePtr& resource, system.getResourceManager().getList() )
             {
-                system.getDebugConsole()<<"\n Resource "<<resource.get()<<" with name '"<<resource->getName()<<"'";
+                (*DebugConsole::Instance())<<"\n Resource "<<resource.get()<<" with name '"<<resource->getName()<<"'";
             }
 
             //! Print out the font texture's name.
-            system.getDebugConsole()<<"\nFont Name: "<<system.getFont()->grab<BitmapFont>()->getTexture()->getName()<<" Pointer: "<< system.getFont().get();
+            (*DebugConsole::Instance())<<"\nFont Name: "<<system.getFont()->grab<BitmapFont>()->getTexture()->getName()<<" Pointer: "<< system.getFont().get();
 
             //! Find the font texture in the resource manager.
             TexturePtr testfind = system.findTexture( "deffont.png" );
 
             //! Print out if we actually found a texture.
-            system.getDebugConsole()<<"\nTest find is valid: "<< testfind;
+            (*DebugConsole::Instance())<<"\nTest find is valid: "<< testfind;
 
             //! If we did, print out the name ( should be deffont.png ).
             if(testfind)
             {
-                system.getDebugConsole()<<"\nFound font name: "<<testfind->getName();
+                (*DebugConsole::Instance())<<"\nFound font name: "<<testfind->getName();
             }
 
             //! Now see if we can manipulate textures.
@@ -73,7 +73,7 @@ class TextureTest
             TexturePtr newtexture = new Texture( system.getResourceManager(), Vector2d(512,512) );
 
             //! Tell me something about it.
-            system.getDebugConsole()<<"\nNew texture name: "<<newtexture->getName()<<"Size: "<<newtexture->getSize().getX()<<","<<newtexture->getSize().getY();
+            (*DebugConsole::Instance())<<"\nNew texture name: "<<newtexture->getName()<<"Size: "<<newtexture->getSize().getX()<<","<<newtexture->getSize().getY();
 
             //! Now lets put some color in it!
             newtexture->lock();
@@ -90,8 +90,8 @@ class TextureTest
             BatchRenderer tbatch; // we need a separate renderer for it.
             GraphicsFactory2d tfactory( tbatch ); //and factory.
             RenderTexturePtr rendertexture = new RenderTexture( system.getResourceManager(), tbatch, Vector2d(256,256));
-            system.getDebugConsole()<<"\nRender Target Size: "<<rendertexture->getSize().getX()<<","<<rendertexture->getSize().getY();
-            system.getDebugConsole()<<"\nRender Target Texture ID: "<<rendertexture->getTextureId();
+            (*DebugConsole::Instance())<<"\nRender Target Size: "<<rendertexture->getSize().getX()<<","<<rendertexture->getSize().getY();
+            (*DebugConsole::Instance())<<"\nRender Target Texture ID: "<<rendertexture->getTextureId();
 
 
             //! Now just draw some stuff.

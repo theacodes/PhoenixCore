@@ -4,6 +4,7 @@
 #include <string>
 #include "config.h"
 #include "2dGraphicsFactory.h"
+#include "WindowManager.h"
 #include "Font.h"
 #include "Color.h"
 #include "View.h"
@@ -23,22 +24,40 @@ class DebugConsole
 {
 public:
 
-    //! Constructor
-    /*!
-        Makes a new debug console. Requires a reference to a RenderSystem.
-    */
-    DebugConsole( BatchRenderer& _r, FontPtr _f )
-        : GraphicsFactory2d( _r ), font(_f), enabled( false ), lines(), linelimit(0), backcolor(0,0,0,200), fontcolor(127,127,255)
-    {
-        setDepth( 999.0f );
-        setGroup( -10 );
-        setGroupBeginFunction( boost::function< void() >( &DebugConsole::groupBegin ) );
-        setGroupEndFunction( boost::bind( &DebugConsole::groupEnd, this ) );
-        updateLineLimit();
-    }
+	//! Bad Instance Exception
+	struct BadInstance{};
 
-    //! Does nothing.
-    virtual ~DebugConsole() {}
+	//! Initialization Function.
+	/*!
+		Creates the singleton instance. This is separate from Instance() because
+		this class requires parameters in order to be created. It also requires
+		that a valid WindowManager has be initialized.
+	*/
+	inline static boost::shared_ptr<DebugConsole> Initialize(  BatchRenderer& _r, FontPtr _f ){
+		instance = boost::shared_ptr<DebugConsole>( new DebugConsole(_r,_f) );
+		return instance;
+	}
+
+	//! Instance.
+	/*!
+		Gets the singleton instance of this class. It must be initialized with Initialize()
+		first, otherwise it will throw a BadInstance.
+	*/
+	inline static boost::shared_ptr<DebugConsole> Instance(){
+		if( instance ){
+			return instance;
+		}else{
+			throw BadInstance();
+		}
+	}
+
+    //! Destructor
+    virtual ~DebugConsole() {
+		event_connection.disconnect();
+	}
+
+	//! Listens for Window Events ( To Open/Close the console ).
+	void onWindowEvent( const WindowEvent& e );
 
     //! Get the font.
     FontPtr getFont() { return font; }
@@ -147,13 +166,44 @@ public:
 
 protected:
 
+	//! Constructor
+    /*!
+        Makes a new debug console. Requires a reference to a RenderSystem.
+    */
+    DebugConsole( BatchRenderer& _r, FontPtr _f )
+        : GraphicsFactory2d( _r ), font(_f), enabled( false ), lines(), linelimit(0), backcolor(0,0,0,200), fontcolor(127,127,255)
+    {
+		event_connection = WindowManager::Instance()->listen( boost::bind( &DebugConsole::onWindowEvent, this, _1 ) );
+        setDepth( 999.0f );
+        setGroup( -10 );
+        setGroupBeginFunction( boost::function< void() >( &DebugConsole::groupBegin ) );
+        setGroupEndFunction( boost::bind( &DebugConsole::groupEnd, this ) );
+        updateLineLimit();
+    }
+
+	//! Static Instance
+	static boost::shared_ptr<DebugConsole> instance;
+
+	//! Connection to Window Manager
+	boost::signals2::connection event_connection;
+
     FontPtr font;
     bool enabled;
+
+	//! List of lines.
     std::deque< std::string > lines;
+
+	//! The most lines that can be displayed on the screen.
     unsigned int linelimit;
+
+	//! Background Color.
     Color backcolor;
+
+	//! Foreground Color.
     Color fontcolor;
 };
+
+typedef boost::shared_ptr<DebugConsole> DebugConsolePtr;
 
 } //namespace phoenix;
 

@@ -72,8 +72,8 @@ class VectorTest
                 //! Draw some info.
                 system.drawText( "Vector Test", Vector2d(16,16) );
 
-                system.getDebugConsole()<<"\nNumber of Vectors: "<<vectorlist.size();
-                system.getDebugConsole()<<"\nFrames Per Second: "<<system.getFPS();
+                (*DebugConsole::Instance())<<"\nNumber of Vectors: "<<vectorlist.size();
+                (*DebugConsole::Instance())<<"\nFrames Per Second: "<<system.getFPS();
 
             }
 

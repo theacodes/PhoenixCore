@@ -21,7 +21,8 @@ enum E_WINDOWEVENT_TYPE{
 	WET_MOUSE_POSITION, // Mouse position change
 	WET_MOUSE_WHEEL, // Mouse wheel change
 	WET_CLOSE, // Window close event
-	WET_UPDATE // Window update event
+	WET_UPDATE, // Window update event
+	WET_RESIZE // Window Resize Event.
 };
 
 struct WindowEvent{ 

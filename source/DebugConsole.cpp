@@ -4,6 +4,32 @@
 
 using namespace phoenix;
 
+// Static Initialization
+boost::shared_ptr<DebugConsole> phoenix::DebugConsole::instance = boost::shared_ptr<DebugConsole>();
+
+//! Listens for Window Events ( To Open/Close the console ).
+void DebugConsole::onWindowEvent( const WindowEvent& e )
+{
+	switch( e.type ){
+		case WET_KEY:
+			if( e.state == true && e.key == PHK_BACKTICK ){
+				enabled = !enabled;
+			}
+			break;
+		case WET_RESIZE:
+			updateLineLimit();
+			break;
+		case WET_UPDATE:
+			draw();
+			break;
+		default:
+			break;
+	}
+}
+
+/*
+	Write String
+*/
 void DebugConsole::write( std::string _s )
 {
     //stream and temporary storage.
@@ -29,12 +55,11 @@ void DebugConsole::write( std::string _s )
 }
 
 
-//draw function
+/*
+	Draw the console
+*/
 void DebugConsole::draw( )
 {
-
-    if( EventReceiver::getKeyPressed( PHK_BACKTICK ) ) enabled = !enabled;
-
     if( enabled )
     {
 
@@ -57,6 +82,9 @@ void DebugConsole::draw( )
     }
 }
 
+/*
+	Group End (restores view).
+*/
 void DebugConsole::groupEnd()
 {
     renderer.getView().activate();
