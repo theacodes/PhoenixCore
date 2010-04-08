@@ -13,11 +13,11 @@ distribution for more information.
 #include <GL/glfw.h>
 #include <string>
 #include <boost/bind.hpp>
+#include <boost/signals2/signal.hpp>
 #include "config.h"
 #include "ResourceManager.h"
 #include "Timer.h"
 #include "Vector2d.h"
-#include "EventReceiver.h"
 #include "Rectangle.h"
 #include "Polygon.h"
 #include "WindowManager.h"
@@ -115,16 +115,12 @@ namespace phoenix
         */
         bool run();
 
-        //! Set exit test function.
-        /*!
-            Sets the function that run() will call to test if the engine should exit. If this returns false,
-            then run will also return false.
-            \sa defaultExitTestFunction()
-        */
-        inline void setExitTestFunction( const boost::function< bool ( void ) >& _f = boost::function< bool ( void ) >(&RenderSystem::defaultExitTestFunction) ) { exitTest = _f; }
-
-        //! Get exit test function.
-        inline const boost::function< bool ( void ) >& getExitTestFunction() { return exitTest; }
+		//! Window Event Listener.
+		/*!
+			Listens for events from the WindowManager. If the user closes the window or presses
+			the esc key, then run will return false.
+		*/
+		void onWindowEvent( const WindowEvent& e );
 
         //! Clears the screen to the given color.
         inline static void clearScreen( const Color& _c = Color(0,0,0) )
@@ -225,15 +221,6 @@ namespace phoenix
 
     private:
 
-        //! The default exit test function.
-        /*!
-            Checks if the ESC key was press or the Window's close button was clicked.
-        */
-        inline static bool defaultExitTestFunction( )
-        {
-            return ( !EventReceiver::getKey( PHK_ESC ) && !EventReceiver::getWindowClosed() );
-        }
-
         //! Batch Renderer
         BatchRenderer renderer;
 
@@ -249,6 +236,12 @@ namespace phoenix
         //! Debug Console
         DebugConsole console;
 
+		//! Quit variable
+		bool quit;
+
+		//! Window event connection
+		boost::signals2::connection event_connection;
+
         //! Resize callback
         void resizeCallback( Vector2d _sz );
 
@@ -257,9 +250,6 @@ namespace phoenix
 
         //! Counts the number of frames per second
         double framerate;
-
-        //! Tests if the system to exit, see run() and setExitTest().
-        boost::function< bool ( void ) > exitTest;
 
     };
 

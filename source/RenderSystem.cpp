@@ -22,14 +22,17 @@ using namespace phoenix;
 ////////////////////////////////////////////////////////////////////////////////
 
 RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
-: renderer(), factory( renderer ), fpstimer(), framerate(1.0f), font(0), console( renderer, font ), resources(), exitTest( &RenderSystem::defaultExitTestFunction )
+: renderer(), factory( renderer ), fpstimer(), framerate(1.0f), font(0), quit(false), console( renderer, font ), resources()
 {
 
 	//GLFW Window Manager
 	WindowManagerPtr wm = GLFWWindowManager::Instance();
 
 	// Create our window
-	wm->open( _sz, _fs );
+	if( !wm->open( _sz, _fs ) ) { throw; }
+
+	// Listen to events.
+	event_connection = wm->listen( boost::bind( &RenderSystem::onWindowEvent, this, _1 ) );
 
     // viewport the same as the window size.
     renderer.getView().setSize();
@@ -97,6 +100,7 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
 
 RenderSystem::~RenderSystem()
 {
+	event_connection.disconnect();
 	(WindowManager::Instance())->close();
 }
 
@@ -144,12 +148,28 @@ bool RenderSystem::run()
     //draw the debug console.
     console.draw();
 
-    if( exitTest )
-    {
-        return exitTest();
-    }
-    return false; //No exit test means that the system can never exit, so we'll force it to
+    return !quit; // Quit is set to true when the window manager has signaled to close.
+}
 
+////////////////////////////////////////////////////////////////////////////////
+//Load texture function
+////////////////////////////////////////////////////////////////////////////////
+
+void RenderSystem::onWindowEvent( const WindowEvent& e )
+{
+	switch( e.type )
+	{
+	case WET_CLOSE:
+		quit = true;
+		break;
+	case WET_KEY:
+		if( e.state == true && e.key == PHK_ESC ){
+			quit = true;
+		}
+		break;
+	default:
+		break;
+	};
 }
 
 
