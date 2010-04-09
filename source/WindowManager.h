@@ -110,10 +110,13 @@ public:
 	virtual void restore() = 0;
 
     //! Set Cursor Visibility.
-    inline virtual void setCursorVisible(const bool _v)  = 0;
+	virtual void setCursorVisible(const bool _v) = 0;
 
 	//! Updates the window (swapping buffers, processing events, etc. )
-	inline virtual void update() = 0;
+	/*
+		This function should signal a WET_UPDATE event.
+	*/
+	virtual void update() = 0;
 
 protected:
 
