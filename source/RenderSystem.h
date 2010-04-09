@@ -65,10 +65,10 @@ namespace phoenix
         ~RenderSystem();
 
         //! Enable screen resizing ( disabled by default ).
-        inline void enableResize() { (WindowManager::Instance())->setResizeCallback( boost::bind( &RenderSystem::resizeCallback, this, _1 ) ); }
+        inline void enableResize() { resize = true; }
 
         //! Disable screen resizing
-        inline void disableResize() { (WindowManager::Instance())->setResizeCallback(); }
+        inline void disableResize() { resize = false; }
 
         //! Set blend mode.
         /*!
@@ -236,8 +236,8 @@ namespace phoenix
 		//! Window event connection
 		boost::signals2::connection event_connection;
 
-        //! Resize callback
-        void resizeCallback( Vector2d _sz );
+		//! Resize switch
+		bool resize;
 
         //! Timer for FPS.
         Timer fpstimer;

@@ -12,7 +12,7 @@ void DebugConsole::onWindowEvent( const WindowEvent& e )
 {
 	switch( e.type ){
 		case WET_KEY:
-			if( e.state == true && e.key == PHK_BACKTICK ){
+			if( e.bool_data == true && e.int_data == PHK_BACKTICK ){
 				enabled = !enabled;
 			}
 			break;

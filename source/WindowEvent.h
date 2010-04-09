@@ -28,10 +28,9 @@ enum E_WINDOWEVENT_TYPE{
 
 struct WindowEvent{ 
 	E_WINDOWEVENT_TYPE type;
-	int key;
-	bool state; // false for released, true for pressed
-	Vector2d mouse_position;
-	int mouse_wheel;
+	int int_data; //!< used for keys, etc.
+	bool bool_data; //!< used for keystates. false for released, true for pressed
+	Vector2d vector_data; //!< used for mouse position, window size, etc.
 };
 
 }//namespace phoenix

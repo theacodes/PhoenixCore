@@ -46,45 +46,45 @@ void EventReceiver::onWindowEvent( const WindowEvent& e )
 
 		case WET_KEY:
 			{
-				if( e.key > 15 ) //Keyboard
+				if( e.int_data > 15 ) //Keyboard
 				{
-					if (e.state == true) {
-						keysdown[e.key]=true;
-						keys[e.key]=true;
+					if (e.bool_data == true) {
+						keysdown[e.int_data]=true;
+						keys[e.int_data]=true;
 
 						//backspace for keyboard strings.
-						if( e.key == PHK_BACKSPACE ){
+						if( e.int_data == PHK_BACKSPACE ){
 							keyboardstring = keyboardstring.substr(0, keyboardstring.length() - 1);
 						}
 
 					} else {
-						keys[e.key] = false;
-						keysdown[e.key] = true;
+						keys[e.int_data] = false;
+						keysdown[e.int_data] = true;
 					}
 				}else{ //Mouse
-					if ( e.state == true ) {
-						mousebutton[ e.key ]=true;
-						mousebuttondown[ e.key ]=true;
-					} else if ( e.state == false) {
-						mousebutton[ e.key ] = false;
-						mousebuttondown[ e.key ]=true;
+					if ( e.bool_data == true ) {
+						mousebutton[ e.int_data ]=true;
+						mousebuttondown[ e.int_data ]=true;
+					} else {
+						mousebutton[ e.int_data ] = false;
+						mousebuttondown[ e.int_data ]=true;
 					}
 				}
 			} break;
 
 		case WET_CHAR:
 			{
-				keyboardstring += e.key;
+				keyboardstring += e.int_data;
 			}break;
 
 		case WET_MOUSE_POSITION:
 			{
-				mousepos = e.mouse_position;
+				mousepos = e.vector_data;
 			}break;
 
 		case WET_MOUSE_WHEEL:
 			{
-				mousewheelpos = e.mouse_wheel;
+				mousewheelpos = e.int_data;
 			}
 
 		default:

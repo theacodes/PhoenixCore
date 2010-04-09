@@ -93,16 +93,6 @@ public:
 	//! Gets the screen's size size
 	inline virtual const Vector2d& getWindowSize() { return screensize; }
 
-    //! Set the resize callback function.
-    /*!
-        By default this is set to a function that prevents window resizing. RenderSystem usually registers
-        its own callback instead.
-    */
-    inline void setResizeCallback( const boost::function< void( Vector2d ) >& _f = boost::function< void( Vector2d ) >( &WindowManager::noResizeCallback ) ) { resizefunc = _f; }
-
-    //! Gets the resize callback function.
-    inline const boost::function< void( Vector2d ) >& getResizeCallback( ) { return resizefunc; }
-
 	//! Iconify
 	virtual void iconify() = 0;
 
@@ -121,7 +111,7 @@ public:
 protected:
 
 	WindowManager()
-		: screensize(), resizefunc( &WindowManager::noResizeCallback )
+		: event_signal(), screensize()
 	{}
 
 	//! Singleton Instance
@@ -132,16 +122,6 @@ protected:
 
     //! Internal screen size record.
     Vector2d screensize;
-    
-    //! Window Resize callback function object.
-    boost::function< void ( Vector2d ) > resizefunc;
-
-    //! Default window resize callback, it disables resizing.
-    static void noResizeCallback( Vector2d _sz )
-    {
-		boost::shared_ptr<WindowManager> wm = Instance();
-        wm->setWindowSize( wm->getWindowSize() );
-    }
     
 };
 

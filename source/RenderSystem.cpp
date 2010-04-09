@@ -22,7 +22,7 @@ using namespace phoenix;
 ////////////////////////////////////////////////////////////////////////////////
 
 RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
-: renderer(), factory( renderer ), fpstimer(), framerate(1.0f), font(0), quit(false), resources()
+: renderer(), factory( renderer ), resize(false), fpstimer(), framerate(1.0f), font(0), quit(false), resources()
 {
 
 	//GLFW Window Manager
@@ -101,18 +101,6 @@ RenderSystem::~RenderSystem()
 	(WindowManager::Instance())->close();
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Callbacks
-////////////////////////////////////////////////////////////////////////////////
-
-void RenderSystem::resizeCallback( Vector2d _sz )
-{
-    (WindowManager::Instance())->setWindowSize( _sz );
-    renderer.getView().setSize( _sz );
-    glMatrixMode(GL_PROJECTION); 
-    glLoadIdentity();
-    glOrtho(0.0f, _sz.getX(), _sz.getY(), 0.0f, 1000.0f, -1000.0f);
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 //run function, should be called once every loop, it makes things ready for
@@ -156,15 +144,23 @@ void RenderSystem::onWindowEvent( const WindowEvent& e )
 		quit = true;
 		break;
 	case WET_KEY:
-		if( e.state == true && e.key == PHK_ESC ){
+		if( e.bool_data == true && e.int_data == PHK_ESC ){
 			quit = true;
 		}
 		break;
+	case WET_RESIZE:
+		if( !resize ){
+			(WindowManager::Instance())->setWindowSize( renderer.getView().getSize() );
+		} else {
+			renderer.getView().setSize( e.vector_data );
+			glMatrixMode(GL_PROJECTION); 
+			glLoadIdentity();
+			glOrtho(0.0f, e.vector_data.getX(), e.vector_data.getY(), 0.0f, 1000.0f, -1000.0f);
+		}
 	default:
 		break;
 	};
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //Load texture function

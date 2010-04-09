@@ -71,11 +71,12 @@ void GLFWWindowManager::glfwWindowResizeCallback( int width, int height )
 {
 	WindowManagerPtr wm = WindowManager::Instance();
 
-    if( wm->getResizeCallback() )
-        (wm->getResizeCallback())( Vector2d( (float) width, (float) height ) );
+	Vector2d size( (float) width, (float) height );
+	wm->setWindowSize( size );
 
 	WindowEvent e;
 	e.type = WET_RESIZE;
+	e.vector_data = size;
 	wm->signal(e);
 }
 
@@ -84,8 +85,8 @@ void GLFWWindowManager::glfwKeyboardCallback( int key, int action )
 {
 	WindowEvent e;
 	e.type = WET_KEY;
-	e.key = key;
-	e.state = action == GLFW_PRESS ? true : false;
+	e.int_data = key;
+	e.bool_data = action == GLFW_PRESS ? true : false;
 	Instance()->signal(e);
 }
 
@@ -95,8 +96,8 @@ void GLFWWindowManager::glfwCharacterCallback( int key, int action )
 	if( action == GLFW_PRESS ){
 		WindowEvent e;
 		e.type = WET_CHAR;
-		e.key = key;
-		e.state = true;
+		e.int_data = key;
+		e.bool_data = true;
 		Instance()->signal(e);
 	}
 }
@@ -107,8 +108,8 @@ void GLFWWindowManager::glfwMousePosCallback( int x, int y )
 {
 	WindowEvent e;
 	e.type = WET_MOUSE_POSITION;
-	e.state = true;
-	e.mouse_position = Vector2d( float(x), float(y) );
+	e.bool_data = true;
+	e.vector_data = Vector2d( float(x), float(y) );
 	Instance()->signal(e);
 }
 
@@ -117,7 +118,7 @@ int GLFWWindowManager::glfwWindowCloseCallback()
 {
 	WindowEvent e;
 	e.type = WET_CLOSE;
-	e.state = true;
+	e.bool_data = true;
 	Instance()->signal(e);
 	return false;
 }
@@ -127,7 +128,7 @@ void GLFWWindowManager::glfwMouseWheelPosCallback( int pos )
 {
 	WindowEvent e;
 	e.type = WET_MOUSE_WHEEL;
-	e.state = true;
-	e.mouse_wheel = pos;
+	e.bool_data = true;
+	e.int_data = pos;
 	Instance()->signal(e);
 }
