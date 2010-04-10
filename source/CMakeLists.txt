@@ -22,6 +22,7 @@ add_library( PhoenixCore STATIC
 	EventReceiver.h
 	Font.h
 	Functions.h
+	GroupState.h
 	TrackingInvariant.h
 	Keys.h
 	Phoenix.h

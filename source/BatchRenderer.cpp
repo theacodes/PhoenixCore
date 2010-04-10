@@ -187,8 +187,10 @@ void BatchRenderer::draw( )
 
             intrusive_ptr<BatchGeometry> groupmaster  = (*gammapair->second.begin()->second.begin()->second.begin());
 
-			if( groupmaster )
-				groupmaster->groupBegin();
+			//if( groupmaster )
+			//	groupmaster->groupBegin();
+			GROUPSTATEMAP::iterator gs = groupstates.find( gammapair->first );
+			if( gs != groupstates.end() ) gs->second->begin( *this );
 
 			//Iterate through each texture.
             BATCHMAPBETA::iterator betaend = gammapair->second.end();
@@ -246,8 +248,7 @@ void BatchRenderer::draw( )
 			} // Texture
 
 			// call the end group function
-			if( groupmaster )
-				groupmaster->groupEnd();
+			if( gs != groupstates.end() ) gs->second->end( *this );
 
 		} // Group
 

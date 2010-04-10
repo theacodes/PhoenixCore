@@ -5,6 +5,7 @@
 */
 
 #include "config.h"
+#include "GroupState.h"
 #include "BatchGeometry.h"
 #include "BatchRenderer.h"
 #include "BitmapFont.h"

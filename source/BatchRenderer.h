@@ -20,6 +20,7 @@ distribution for more information.
 #include "AbstractGarbageCollector.h"
 #include "View.h"
 #include "Droppable.h"
+#include "GroupState.h"
 
 namespace phoenix
 {
@@ -45,7 +46,7 @@ public:
 		Initializes the geometry graph and starts the garbage collection routines.
 	*/
 	BatchRenderer( )
-		: geometry(), recyclelist(), AbstractGarbageCollector()
+		: geometry(), recyclelist(), AbstractGarbageCollector(), groupstates()
 	{
 		//collect fast.
 		setSleepTime( 5 );
@@ -85,6 +86,21 @@ public:
     //! Cleaning routine
 	void clean();
 
+	//! Sets the group state for a given group id.
+	inline void addGroupState( const signed int _id, GroupStatePtr _gs ){
+		groupstates[_id] = _gs; 
+	}
+
+	//! Removes the group state for the given group id.
+	inline void removeGroupState( const signed int _id ){
+		groupstates.erase( _id );
+	}
+
+	//! Gets the group state for the given group id.
+	inline GroupStatePtr getGroupState( const signed int _id ){
+		return groupstates[_id];
+	}
+
     //! Sets the renderer's view.
     inline void setView( const View& other ) { view = other; }
 
@@ -112,6 +128,10 @@ private:
 
 	//! Recycle list
 	std::vector< boost::intrusive_ptr<BatchGeometry> > recyclelist;
+
+	typedef boost::unordered_map< signed int, boost::shared_ptr<GroupState> > GROUPSTATEMAP;
+	//! Map of group states.
+	GROUPSTATEMAP groupstates;
 
     //! View
     View view;

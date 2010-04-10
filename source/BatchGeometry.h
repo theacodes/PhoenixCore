@@ -56,7 +56,7 @@ public:
 		\param _d The depth.
     */
 	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
+		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
 	{
 		_r.add( this );
 	}
@@ -74,7 +74,7 @@ public:
 		\param _d The depth.
 	*/
 	BatchGeometry( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
+        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
 	{
 		fromRectangle( _rect );
 		_r.add( this );
@@ -92,7 +92,7 @@ public:
 		\param _d The depth.
 	*/
 	BatchGeometry( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
+        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
 	{
         fromPolygon( _poly );
 		_r.add( this );
@@ -238,9 +238,8 @@ public:
 	//! Set Group Id.
 	/*
 		Sets the Group identifier of this geometry. Geometries of the same group usually have the same properties and
-		share render states that are set and unset via the groupEnd() and groupBegin() functions. All geometry of
-		the same group id should have the same groupEnd() and groupBegin() functions.
-		\see getGroup(), update(), groupEnd(), groupBegin()
+		share render states that are set and unset via GroupObjects in the BatchRenderer.
+		\see getGroup(), update(), BatchRender::setGroupObject()
 	*/
 	inline void setGroup( const signed int& _v ) { groupid = _v; }
 
@@ -265,24 +264,6 @@ public:
 		\see getImmediate(), drop()
 	*/
 	inline void setImmediate( bool _i ) { immediate = _i; }
-
-	//! Set group begin function.
-	/*!
-		The given function is called by the renderer on the first geometry of any given group before that group is drawn. 
-		It should establish common renderstate of all members of the group (such as a new blending mode). All 
-		geometry of the same type should have the same group functions.
-		\see groupBegin(), setGroupEndFunction()
-	*/
-	inline void setGroupBeginFunction( boost::function< void() > _f ) { groupbegin = _f; }
-
-	//! Set group end function.
-	/*!
-		The given function is called by the renderer on the first geometry of any given group after that group is drawn. 
-		It should restore anything set by the group begin function (such as restoring a blending mode). All 
-		geometry of the same type should have the same group functions.
-		\see groupEnd(), setGroupBeginFunction()
-	*/
-	inline void setGroupEndFunction( boost::function< void() > _f ) { groupend = _f; }
 
 	//! Update
 	/*!
@@ -327,30 +308,6 @@ public:
 			return 1;
 		}
 		return 0;
-	}
-
-	//! Call Group begin function
-	/*!
-		This is called by BatchRender for the first member of every group before drawing. It calls the function specified by
-		setGroupBeginFunction(). 
-		@see groupEnd()
-	*/
-	virtual void groupBegin()
-	{
-		if( groupbegin )
-			groupbegin();
-	}
-
-	//! Call Group begin function
-	/*!
-		This is called by BatchRender for the first member of every group before drawing. It calls the function specified by
-		setGroupBeginFunction(). 
-		@see groupEnd()
-	*/
-	virtual void groupEnd()
-	{
-		if( groupend )
-			groupend();
 	}
 
 	//! Translate
@@ -462,11 +419,6 @@ protected:
 	TexturePtr texture;
 
 	//! Group ID.
-	/*
-		The Group identifier of this geometry. Geometries of the same group usually have the same properties and
-		share render states that are set and unset via the groupEnd() and groupBegin() functions. All geometry of
-		the same group id should have the same groupEnd() and groupBegin() functions.
-	*/
 	TrackingInvariant< signed int > groupid;
 
 	//! Depth
@@ -483,22 +435,6 @@ protected:
 		If geometry is immediate, it is dropped right after it is drawn, so it only stays for one frame.
 	*/
 	bool immediate;
-
-	//! Group Begin Function
-	/*
-		This function is called by the renderer on the first geometry of any given group before that group is drawn. 
-		This should establish common renderstate of all members of the group (such as a new blending mode). All 
-		geometry of the same type should have the same group functions.
-	*/
-	boost::function< void() > groupbegin;
-
-	//! Group End Function
-	/*
-		This function is called by the renderer on the first geometry of any given group after that group is drawn. 
-		This should restore anything set by the group begin function (such as restoring a blending mode). All 
-		geometry of the same type should have the same group functions.
-	*/
-	boost::function< void() > groupend;
 
 
 };

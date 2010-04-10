@@ -9,20 +9,28 @@ using namespace phoenix;
 using namespace boost;
 
 /*!
-    These functions are used to setup and restore
-    the blending modes for our geometry. They simply
-    enable additive blending and then restore the
+    This class is used to setup and restore
+    the blending modes for our geometry. It simply
+    enables additive blending and then restores the
     blending state.
 */
-void AdditiveStart()
+class AdditiveState
+	: public GroupState
 {
-    RenderSystem::setBlendMode( GL_SRC_ALPHA, GL_ONE );
-}
+public:
+	AdditiveState():GroupState(){}
+	virtual ~AdditiveState(){};
 
-void AdditiveEnd()
-{
-    RenderSystem::setBlendMode();
-}
+	void begin( const BatchRenderer& r )
+	{
+		RenderSystem::setBlendMode( GL_SRC_ALPHA, GL_ONE );
+	}
+
+	void end( const BatchRenderer& r )
+	{
+		RenderSystem::setBlendMode();
+	}
+};
 
 int main()
 {
@@ -36,19 +44,18 @@ int main()
 
     /*!
         let's make our group of geometry, with this
-        we'll demonstrate grouping and group functions.
+        we'll demonstrate grouping and group states.
         Grouped objects are drawn together and usually share
-        some sort of state that's enabled with the group begin
-        funtion and then disabled with the group end function.
+        some sort of state that's controlled by the group state
+		object.
 
         The first thing we need to do is manipulate our factory:
         The RenderSystem. We can make it so that the next geometries
         that are made have specific properties. We'll set the group
-        id and the group functions.
+        id and add the group state object.
     */
+	system.getBatchRenderer().addGroupState( 1, GroupStatePtr( new AdditiveState() ) );
     system.getGraphicsFactory().setGroup( 1 );
-    system.getGraphicsFactory().setGroupBeginFunction( &AdditiveStart );
-    system.getGraphicsFactory().setGroupEndFunction( &AdditiveEnd );
 
     /*!
         Now we can draw some things, and they'll all
@@ -82,9 +89,6 @@ int main()
     tgeom = new BatchGeometry( system.getBatchRenderer(), GL_TRIANGLES, feather, system.getGraphicsFactory().getGroup(), system.getDepth() );
     tgeom->setImmediate( false );
 
-    //! We need to apply our group functions to the geometry.
-    system.getGraphicsFactory().apply( tgeom, EFF_FUNCTIONS );
-
     /*!
         Now we'll generate a simple circular peice of geometry. This is a 
         rather simple operation. You'll notice that we used  a different
@@ -107,8 +111,6 @@ int main()
     */
     system.getGraphicsFactory().setDepth();
     system.getGraphicsFactory().setGroup();
-    system.getGraphicsFactory().setGroupBeginFunction();
-    system.getGraphicsFactory().setGroupEndFunction();
 
     while( system.run() )
     {
@@ -122,7 +124,7 @@ int main()
         if( EventReceiver::Instance()->getKeyPressed( PHK_RIGHT ) ) tgeom->translate( Vector2d( 5.0f, 0.0f ) ); 
         if( EventReceiver::Instance()->getKeyPressed( PHK_LEFT ) ) tgeom->translate( Vector2d( -5.0f, 0.0f ) ); 
     }
-
+	
     return 0;
 
 }

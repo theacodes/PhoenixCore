@@ -177,8 +177,8 @@ protected:
 		event_connection = WindowManager::Instance()->listen( boost::bind( &DebugConsole::onWindowEvent, this, _1 ) );
         setDepth( 999.0f );
         setGroup( -10 );
-        setGroupBeginFunction( boost::function< void() >( &DebugConsole::groupBegin ) );
-        setGroupEndFunction( boost::bind( &DebugConsole::groupEnd, this ) );
+        //setGroupBeginFunction( boost::function< void() >( &DebugConsole::groupBegin ) );
+        //setGroupEndFunction( boost::bind( &DebugConsole::groupEnd, this ) );
         updateLineLimit();
     }
 

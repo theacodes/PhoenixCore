@@ -25,7 +25,6 @@ enum E_GEOMFACTORY_FLAGS
     EFF_DEPTH = 0x0001, //!< Depth applied.
     EFF_GROUP = 0x0002, //!< Group applied.
     EFF_TEXTURE = 0x0004, //!< Texture applied.
-    EFF_FUNCTIONS = 0x0008, //!< Group functions applied.
     EFF_UPDATE = 0x0010, //!< Update called.
     EFF_ALL_NO_UPDATE = 0x000F, //!< All applied but update not called.
     EFF_ALL = 0x001F //!< All applied & update called.
@@ -46,7 +45,7 @@ public:
         You can optionally pre-set the depth, group and texture of the factory.
     */
     AbstractGeometryFactory( float _d = 0.0f, signed int _g = 0, TexturePtr _t = TexturePtr() )
-        : factory_depth( _d ), factory_group( _g ), factory_texture( _t ), factory_group_begin(), factory_group_end()
+        : factory_depth( _d ), factory_group( _g ), factory_texture( _t )
     {
     }
 
@@ -74,24 +73,6 @@ public:
     //! Get texture.
     inline TexturePtr getTexture() { return factory_texture; }
 
-    //! Set group begin function
-    /*!
-        \note Factories do not have to use this. It is used by apply();
-    */
-    inline void setGroupBeginFunction( const boost::function< void() >& _f = boost::function< void() >() ) { factory_group_begin = _f; }
-
-    //! Get group begin function
-    inline const boost::function< void() >& getGroupBeginFunction() { return factory_group_begin; } 
-
-    //! Set group end function
-    /*!
-        \note Factories do not have to use this. It is used by apply();
-    */
-    inline void setGroupEndFunction( const boost::function< void() >& _f = boost::function< void() >() ) { factory_group_end = _f; }
-
-    //! Get group end function
-    inline const boost::function< void() >& getGroupEndFunction() { return factory_group_end; } 
-
     //! Apply
     /*!
         Sets all the given geometry's properties enabled in flags to the factories properties (including group functions) and calls update().
@@ -102,8 +83,6 @@ public:
         if( _flags & EFF_DEPTH ) _g->setDepth( factory_depth );
         if( _flags & EFF_GROUP ) _g->setGroup( factory_group );
         if( _flags & EFF_TEXTURE ) _g->setTexture( factory_texture );
-        if( _flags & EFF_FUNCTIONS ) _g->setGroupBeginFunction( factory_group_begin );
-        if( _flags & EFF_FUNCTIONS ) _g->setGroupEndFunction( factory_group_end );
         if( _flags & EFF_UPDATE ) _g->update();
     }
 
@@ -112,8 +91,6 @@ private:
     float factory_depth;
     signed int factory_group;
     TexturePtr factory_texture;
-    boost::function< void() > factory_group_begin;
-    boost::function< void() > factory_group_end;
 };
 
 }

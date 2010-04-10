@@ -10,7 +10,6 @@ BatchGeometryPtr GraphicsFactory2d::drawLine(const Vector2d& _v1, const Vector2d
 {
     // Just make some new geometry, set it to immediate, and add the line's vertices.
     BatchGeometryPtr linegeom = new BatchGeometry( renderer, GL_LINES, getTexture(), getGroup(), getDepth() );
-    apply( linegeom, EFF_FUNCTIONS );
 	linegeom->setImmediate( true );
 	linegeom->addVertex( Vertex( _v1, _a, TextureCoords(0,0) ) );
 	linegeom->addVertex( Vertex( _v2, _b, TextureCoords(1,1) ) );
@@ -27,7 +26,6 @@ BatchGeometryPtr GraphicsFactory2d::drawRectangle( const Rectangle& _r, const Co
 {
     // Use BatchGeometry's factory for it.
 	BatchGeometryPtr rectgeom = new BatchGeometry( renderer, _r, getTexture(), getGroup(), getDepth() );
-    apply( rectgeom, EFF_FUNCTIONS );
 	rectgeom->setImmediate( true );
 
     // now just set the colors.
@@ -47,7 +45,6 @@ BatchGeometryPtr GraphicsFactory2d::drawPolygon (const Polygon& _p, const Color&
 {
     // just use the BatchGeometry's factory
 	BatchGeometryPtr polygeom = new BatchGeometry( renderer, _p, getTexture(), getGroup(), getDepth());
-    apply( polygeom, EFF_FUNCTIONS );
 	polygeom->setImmediate( true );
 	polygeom->colorize( _c );
     return polygeom;
@@ -63,7 +60,6 @@ BatchGeometryPtr GraphicsFactory2d::drawTexturedPolygon (const Polygon& _p, Text
     // Use the regular draw poly function to save us effort.
     setTexture( _t );
     BatchGeometryPtr polygeom = drawPolygon( _p, _c );
-    apply( polygeom, EFF_FUNCTIONS );
     setTexture();
 
     // planes for coordinate generation
@@ -97,7 +93,6 @@ BatchGeometryPtr GraphicsFactory2d::drawTexture(  TexturePtr _t, const Vector2d&
     // Use BatchGeometry's factory for rectangles.
 	BatchGeometryPtr geom = new BatchGeometry( renderer, Rectangle( -_t->getSize()/2.0f, _t->getSize()) , _t, getGroup(), getDepth() );
     geom->setImmediate( true );
-    apply( geom, EFF_FUNCTIONS );
 
     // scale, rotate it, and then translate it.
     geom->scale( _scale );
@@ -133,7 +128,6 @@ BatchGeometryPtr GraphicsFactory2d::drawTexturePart( TexturePtr _t, const Vector
     // Use BatchGeometry's factory for rectangles.
     BatchGeometryPtr geom = new BatchGeometry( renderer, Rectangle( -_rect.getSize()/2, _rect.getSize() ) , _t, getGroup(), getDepth() );
     geom->setImmediate( true );
-    apply( geom, EFF_FUNCTIONS );
 
     // scale, rotate it, and then translate it.
     geom->scale( _scale );

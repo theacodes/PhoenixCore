@@ -14,6 +14,36 @@ using namespace phoenix;
 using namespace boost;
 using namespace std;
 
+/*!
+    This class is used to setup and restore
+    the blending modes for our geometry.
+*/
+class BlendingState
+	: public GroupState
+{
+public:
+	BlendingState():GroupState(){}
+	virtual ~BlendingState(){};
+
+	void begin( const BatchRenderer& r )
+	{
+		 // Set our blend mode.
+        if ( blendmode )
+            RenderSystem::setBlendMode( GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
+        else
+            RenderSystem::setBlendMode( GL_SRC_ALPHA, GL_ONE );
+	}
+
+	void end( const BatchRenderer& r )
+	{
+		RenderSystem::setBlendMode();
+	}
+
+	static bool blendmode;
+};
+
+bool BlendingState::blendmode = true;
+
 /*!~~~~~~~~~~~~~~~~~~~~
 First, We'll need some sort of particle class,
 and Resource is a good way to do it.
@@ -24,7 +54,6 @@ class DemoParticle:
 {
 public:
 
-    static bool blendmode;
     float radius, speed, life;
     Vector2d position, direction;
     Color color;
@@ -50,26 +79,7 @@ public:
 
         // Make some geometry.
         geometry = new BatchGeometry( s.getBatchRenderer(), GL_QUADS, t, 5, (EventReceiver::Instance()->getKey( PHK_S ) ? float(random(1,150)) : 0.0f) );
-        geometry->setGroupBeginFunction( boost::bind( &DemoParticle::startBlend, intrusive_ptr<DemoParticle>(this) ) );
-        geometry->setGroupEndFunction( boost::bind( &DemoParticle::endBlend, intrusive_ptr<DemoParticle>(this) ) );
-    }
-
-    //! Start blend function
-    virtual void startBlend()
-    {
-        // Set our blend mode.
-        if ( blendmode )
-            rsystem.setBlendMode( GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
-        else
-            rsystem.setBlendMode( GL_SRC_ALPHA, GL_ONE );
-    }
-
-    //! End blend function
-    virtual void endBlend()
-    {
-        // restore the blend mode
-        rsystem.setBlendMode();
-    }
+   }
 
     virtual void drop()
     {
@@ -115,7 +125,7 @@ public:
 
 };
 
-bool DemoParticle::blendmode = true;
+
 
 /*!~~~~~~~~~~~~~~~~~~~~~~
 Main demo class.
@@ -179,6 +189,9 @@ public:
         // Textures for particles.
         glowtexture = system.loadTexture(std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png"));
         glowtexture2 = system.loadTexture(std::string(PHOENIXCORE_DATA_DIR) + std::string("glow.png"));
+
+		// Blend state for particles.
+		system.getBatchRenderer().addGroupState( 5, GroupStatePtr( new BlendingState() ) );
 
         // List of bright colors for subtractive blending
         vector<Color> brightcolors;
@@ -244,7 +257,7 @@ public:
             // Change particle's blendmode and colors if 'B' was pressed
             if ( EventReceiver::Instance()->getKeyPressed( PHK_B ) )
             {
-                DemoParticle::blendmode = !DemoParticle::blendmode; //swap it.
+                BlendingState::blendmode = !BlendingState::blendmode; //swap it.
 
                 // now pick a new color.
                 if ( currentcolors == &brightcolors ) currentcolors = &darkcolors;
@@ -309,7 +322,7 @@ public:
                 <<"\nGeometry: "<<system.getBatchRenderer().count()
                 <<"\nFrames Per Seconds: "<<system.getFPS()
                 <<"\nScreen Size: "<<(WindowManager::Instance())->getWindowSize().getX()<<", "<<(WindowManager::Instance())->getWindowSize().getY()
-                <<"\nBlend Mode: "<< (DemoParticle::blendmode ? "Smoke" : "Additive")
+                <<"\nBlend Mode: "<< (BlendingState::blendmode ? "Smoke" : "Additive")
                 ;
 
         }

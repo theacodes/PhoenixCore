@@ -25,7 +25,8 @@ enum E_GEOMETRY_FLAGS
     EGF_VFLIP = 0x0002 //!< Vertical Flip
 };
 
-/*! 2D Graphics Factory
+//! Factory for creating common 2d graphics.
+/*!
     This class provides a factory for creating common 2d graphics
     such as lines, rectangles, polygons, texture rectangles and polygons,
     etc. It is one of the base classes for RenderSystem. All geometry
