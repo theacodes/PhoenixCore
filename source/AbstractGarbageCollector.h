@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -24,7 +24,7 @@ namespace phoenix
 	The class eases the chore of creating threaded incremental garbage collectors. It provides a (relatively)
 	simple means to peridocially run a function to clean up resource lists. The class is used by ResourceManager
 	and BatchRenderer. The basic concept behind threaded garbage collection in phoenix is to allow iteration
-	over containers while allowing safe removal of the objects contained. Threaded, Incremental garbage collection
+	over containers while allowing safe removal of the objects contained. Threaded, incremental garbage collection
 	achieves this by adding dropped() objects to a list of items to be removed (called a recycle list). The threaded
 	garbage collector should periodically come by and lock the list of objects and remove some (or all) of the objects
 	that are in the recycle list. This class provides the utility of periodically calling the function to delete objects
@@ -51,8 +51,7 @@ public:
 		Stops the thread.
         \note If the garbage collection thread accesses derived members, you should reset the function first!
 	*/
-	virtual ~AbstractGarbageCollector()
-	{
+	virtual ~AbstractGarbageCollector(){
 		stop();
 	}
 
@@ -62,7 +61,11 @@ public:
     }
 
     //! Stop Garbage Collecting
-    inline void stop() { gc_thread.interrupt(); gc_thread.join(); gc_thread = boost::thread(); }
+    inline void stop() { 
+		gc_thread.interrupt(); 
+		gc_thread.join(); 
+		gc_thread = boost::thread(); 
+	}
 
 	//! Get a pointer to the thread's handle.
 	inline boost::thread& getThreadHandle() { return gc_thread; }
@@ -95,7 +98,7 @@ public:
         are expected to overload this to define their own functions. Derived classes
         are responsible for locking their own mutexes!
     */
-    virtual void clean() { }
+    virtual void clean() = 0;
 
 	//! Get Sleep Time.
 	unsigned int getSleepTime(){

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -12,7 +12,6 @@ distribution for more information.
 
 #include <string>
 #include <boost/noncopyable.hpp>
-#include <GL/glfw.h>
 #include "config.h"
 #include "Color.h"
 #include "Vector2d.h"

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,7 +10,6 @@ distribution for more information.
 #ifndef __PHGLFWWINDOWMANAGER_H__
 #define __PHGLFWWINDOWMANAGER_H__
 
-#include <GL/glfw.h>
 #include <boost/function.hpp>
 #include "WindowManager.h"
 #include "config.h"

@@ -16,8 +16,9 @@ class RenderSystem;
 
 //! Debug Console
 /*!
-    The debug console provides an easy and familiar way to debug graphical applications in phoenix. The RenderSystem has one of these
-    by default, accessible from RenderSystem::getDebugConsole().
+    The debug console provides an easy and familiar way to debug graphical applications in phoenix. Any
+	class that can be written to an ostream can be used in the write() function. This class is a Singleton
+	and must be accessed through Instance().
 */
 class DebugConsole
     : public virtual GraphicsFactory2d
@@ -103,7 +104,7 @@ public:
     }
 
     //! Prints the console's content to cout.
-    void print()
+    void dump()
     {
         for( std::deque< std::string >::iterator i = lines.begin(); i != lines.end(); ++i )
         {
@@ -142,8 +143,8 @@ public:
 
     //! Draw the console.
     /*!
-        The RenderSystem automatically calls this during RenderSystem::run(). It runs through all
-        the lines and draws them.
+        Runs through all the lines and draws them. Automatically called on the
+		WET_UPDATE event.
     */
     void draw( );
     
@@ -187,7 +188,10 @@ protected:
 	//! Connection to Window Manager
 	boost::signals2::connection event_connection;
 
+	//! Font
     FontPtr font;
+
+	//! Enabled or not.
     bool enabled;
 
 	//! List of lines.

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -17,7 +17,9 @@ distribution for more information.
 namespace phoenix{ class Droppable; }
 
 namespace boost{
+	//! Droppable intrusive_ptr reference increment function.
     void intrusive_ptr_add_ref( phoenix::Droppable*);
+	//! Droppable intrusive_ptr reference decrement function.
     void intrusive_ptr_release( phoenix::Droppable*);
 }
 
@@ -56,7 +58,7 @@ public:
 	*/
 	inline virtual void drop()
 	{
-        if( _dropped == true ) throw Bad_Drop();
+        if( _dropped == true ) throw BadDrop();
 		_dropped = true;
 	}
 
@@ -74,8 +76,8 @@ public:
     //! Get reference count
     inline unsigned int getReferenceCount(){ return _refcount; }
 
-    class Bad_Release{}; //!< Bad intrusive_ptr release exception.
-    class Bad_Drop{}; //!< Bad drop() exception.
+    class BadRelease{}; //!< Bad intrusive_ptr release exception.
+    class BadDrop{}; //!< Bad drop() exception.
 
 private:
 
@@ -93,11 +95,10 @@ typedef boost::intrusive_ptr< Droppable > DroppablePtr;
 } //namespace phoenix
 
 // Intrusive_ptr stuff 
-
 namespace boost{
     inline void intrusive_ptr_add_ref( phoenix::Droppable* ptr ){ ++(ptr->_refcount); }
     inline void intrusive_ptr_release( phoenix::Droppable* ptr ){
-        if( ptr->_refcount == 0 ) throw phoenix::Droppable::Bad_Release();
+        if( ptr->_refcount == 0 ) throw phoenix::Droppable::BadRelease();
         if( (--ptr->_refcount) == 0){
             delete ptr;
         }

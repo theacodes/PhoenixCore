@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -21,17 +21,16 @@ namespace phoenix
 
 //! Font class.
 /*!
-    Abstract base class for font handling. Tou can overload this class to provide
-    custom font drawing interfaces for phoenix.
+    Abstract base class for font handling. It is possible (and suggested)
+	to overload this class and provide your own custom interfaces for phoenix
+	to draw text.
     The default font interface in phoenix is provided by BitmapFont.
 */
 class Font :
     public Resource, public AbstractGeometryFactory
 {
 
-
 public:
-
     
     //! Constructor
     /*!

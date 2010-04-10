@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -25,10 +25,10 @@ enum E_GEOMFACTORY_FLAGS
     EFF_DEPTH = 0x0001, //!< Depth applied.
     EFF_GROUP = 0x0002, //!< Group applied.
     EFF_TEXTURE = 0x0004, //!< Texture applied.
-    EFF_FUNCTIONS = 0x0008, //!< Group Functions applied.
-    EFF_UPDATE = 0x0010, //!< Update Called.
+    EFF_FUNCTIONS = 0x0008, //!< Group functions applied.
+    EFF_UPDATE = 0x0010, //!< Update called.
     EFF_ALL_NO_UPDATE = 0x000F, //!< All applied but update not called.
-    EFF_ALL = 0x001F //!< Alll applied & updated called.
+    EFF_ALL = 0x001F //!< All applied & update called.
 };
 
 //! Abstract Geometry Factory

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -11,7 +11,6 @@ distribution for more information.
 #ifndef __PHOENIXCOLOR__
 #define __PHOENIXCOLOR__
 
-#include <GL/glfw.h>
 #include "config.h"
 
 namespace phoenix
@@ -39,54 +38,54 @@ namespace phoenix
             \param _b Blue component.
             \param _a Alpha component. (default 255)
         */
-        Color( unsigned char _r, unsigned char _g, unsigned char _b, unsigned int _a = 255)
+        Color( const unsigned char _r, const unsigned char _g, const unsigned char _b, const unsigned int _a = 255)
                 : red(_r), green(_g), blue(_b), alpha(_a)
         {}
 
         //! Set Red Intensity. (0-255)
-        inline void setRed(unsigned char _r)
+        inline void setRed( const unsigned char _r )
         {
             red = _r;
         }
 
         //! Set Green Intensity. (0-255)
-        inline void setGreen(unsigned char _g)
+        inline void setGreen( const unsigned char _g )
         {
             green = _g;
         }
 
         //! Set Blue Intensity. (0-255)
-        inline void setBlue(unsigned char _b)
+        inline void setBlue( const unsigned char _b)
         {
             blue = _b;
         }
 
         //! Set Intensity Intensity. (0-255) (Transparent-Opaque)
-        inline void setAlpha(unsigned char _a)
+        inline void setAlpha( const unsigned char _a)
         {
             alpha = _a;
         }
 
         //! Get Red Intensity.
-        inline unsigned char getRed() const
+        inline const unsigned char getRed() const
         {
             return red;
         }
 
         //! Get Green Intensity.
-        inline unsigned char getGreen() const
+        inline const unsigned char getGreen() const
         {
             return green;
         }
 
         //! Get Blue Intensity.
-        inline unsigned char getBlue() const
+        inline const unsigned char getBlue() const
         {
             return blue;
         }
 
         //! Get Alpha Intensity.
-        inline unsigned char getAlpha() const
+        inline const unsigned char getAlpha() const
         {
             return alpha;
         }
@@ -123,15 +122,16 @@ namespace phoenix
             \param _dest The final color.
             \param _percent What percent to interpolate.
         */
-        inline const Color interpolate(const Color& _dest, float _percent) const
+        inline const Color interpolate(const Color& _dest, const float _percent) const
 		{
-            if( _percent > 100.0f ) _percent = 100.0f;
-            if( _percent < 0.0f ) _percent = 0.0f;
+			float percent = _percent;
+            if( percent > 100.0f ) percent = 100.0f;
+            if( percent < 0.0f ) percent = 0.0f;
 			Color temp;
-			temp.red = red + int( float(_dest.red-red) * _percent/100.0f );
-			temp.green = green + int( float(_dest.green-green) * _percent/100.0f );
-			temp.blue = blue + int( float(_dest.blue-blue) * _percent/100.0f );
-			temp.alpha = alpha + int( float(_dest.alpha-alpha) * _percent/100.0f );
+			temp.red = red + int( float(_dest.red-red) * percent/100.0f );
+			temp.green = green + int( float(_dest.green-green) * percent/100.0f );
+			temp.blue = blue + int( float(_dest.blue-blue) * percent/100.0f );
+			temp.alpha = alpha + int( float(_dest.alpha-alpha) * percent/100.0f );
 			return temp;
 		}
 

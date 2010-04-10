@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -16,14 +16,15 @@ distribution for more information.
 
 namespace phoenix{
 
+//! Window Events Types
 enum E_WINDOWEVENT_TYPE{
-	WET_KEY, // Keyboard and mouse button events
-	WET_CHAR, // Keyboard character event
-	WET_MOUSE_POSITION, // Mouse position change
-	WET_MOUSE_WHEEL, // Mouse wheel change
-	WET_CLOSE, // Window close event
-	WET_UPDATE, // Window update event
-	WET_RESIZE // Window Resize Event.
+	WET_KEY, //!< Keyboard and mouse button events
+	WET_CHAR, //!< Keyboard character event
+	WET_MOUSE_POSITION, //!< Mouse position change
+	WET_MOUSE_WHEEL, //!< Mouse wheel change
+	WET_CLOSE, //!< Window close event
+	WET_UPDATE, //!< Window update event
+	WET_RESIZE //!< Window Resize Event.
 };
 
 struct WindowEvent{ 

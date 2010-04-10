@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -12,7 +12,6 @@ distribution for more information.
 #include "BitmapFont.h"
 #include "GLFWWindowManager.h"
 #include <iostream>
-#include <GL/glfw.h>
 #include "soil/SOIL.h"
 
 using namespace phoenix;

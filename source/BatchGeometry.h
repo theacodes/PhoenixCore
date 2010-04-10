@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -12,7 +12,6 @@ distribution for more information.
 #define __PHBATCHGEOMETRY_H__
 
 #include <vector>
-#include <GL/glfw.h>
 #include "config.h"
 #include "Vertex.h"
 #include "Texture.h"
@@ -37,9 +36,9 @@ typedef boost::intrusive_ptr<BatchGeometry> BatchGeometryPtr;
 	This class is used by the optimizing batch renderer to display geometry.
 	Users are able to overload this class and highly customize it. This class
 	is garbage collected and managed in very similar manner to Resource, but
-	it should be noted that they are not siblings. Geometry is organized in
-	the BatchRenderer by depth, group, texture id, and primitive type. Any changes
-	to any of these properties must be followed by an update() call.
+	it should be noted that they are only alike in that they are both Droppable().
+	Geometry is organized in the BatchRenderer by depth, group, texture id, and primitive type. 
+	Any changes to any of these properties must be followed by an update() call.
 */
 class BatchGeometry
     : public Droppable, boost::noncopyable
@@ -180,19 +179,19 @@ public:
         return vertices.size();
     }
 
-	//! Array operator for vertices.
+	//! Array operator for vertices. (operates as a ring buffer).
 	inline Vertex& operator[] ( signed int _i ) { return vertices[ _i % vertices.size() ]; }
 
-	//! Returns the key invariant for the Primitive Type (used by BatchRender).
+	//! Returns the invariant for the Primitive Type (used by BatchRender).
 	inline TrackingInvariant< unsigned int >& getPrimitiveTypeInvariant() { return primitivetype; }
 
-	//! Returns the key invariant for the Textured ID (used by BatchRender).
+	//! Returns the invariant for the Textured ID (used by BatchRender).
 	inline TrackingInvariant< unsigned int >& getTextureIdInvariant() { return textureid; }
 
-	//! Returns the key invariant for the Group ID (used by BatchRender).
+	//! Returns the invariant for the Group ID (used by BatchRender).
 	inline TrackingInvariant< signed int >& getGroupInvariant() { return groupid; }
 
-	//! Returns the key invariant for the Depth (used by BatchRender).
+	//! Returns the invariant for the Depth (used by BatchRender).
 	inline TrackingInvariant< float >& getDepthInvariant() { return depth; }
 
 	//! Get the texture associated with this geometry.
@@ -309,7 +308,6 @@ public:
 		graph. The geometry should append all of it's vertices to the renderer's
 		list.
 		\param list The current vertex list from the current BatchRender.
-		\returns The number of elements added (this is currently optional).
 	*/
 	virtual unsigned int batch( std::vector<Vertex>& list )
 	{

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,7 +10,6 @@ distribution for more information.
 #ifndef __PHOENIXRS__
 #define __PHOENIXRS__
 
-#include <GL/glfw.h>
 #include <string>
 #include <boost/bind.hpp>
 #include <boost/signals2/signal.hpp>
@@ -54,7 +53,7 @@ namespace phoenix
         //! Constructor
         /*!
             Makes a new system and creates a window and opengl context. Once the system is constructed
-           you are ready to start drawing stuff.
+           you are ready to start drawing stuff. It initializes the singletons WindowManager and DebugConsole.
            \sa run(), draw()
            \param _sz The size of the screen (default 640,480).
            \param _fs Full screen (default false).
@@ -108,7 +107,7 @@ namespace phoenix
         //! Run.
         /*!
             Run takes care of swapping buffers, updating events, clearing the screen, and tracking time.
-            It also calls the Exit Test Function to determine if the system should stop.
+			It calls WindowManager::update() which in turns causes a WET_UPDATE event to be signaled.
         */
         bool run();
 
@@ -141,7 +140,8 @@ namespace phoenix
 
         //! Load texture.
         /*!
-            Loads an image as a texture and adds it to the texture manager for garbage collection. Can load .png, .tga, .bmp and .jpg.
+            Loads an image as a texture and adds it to the texture manager for garbage collection. 
+			Can load .png, .tga, .bmp and .jpg or any other format supported by SOIL.
             \param _fn The filename of the image to load.
             \param _l Tells the loader to use linear filtering or not. (default true).
             \note Use nearest filtering for tilemaps, or anything that may look bad when scaled.

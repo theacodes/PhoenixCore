@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,7 +10,6 @@ distribution for more information.
 #ifndef __PHOENIXKEYS__
 #define __PHOENIXKEYS__
 
-#include <GL/glfw.h>
 #include "config.h"
 
 namespace phoenix
@@ -18,7 +17,7 @@ namespace phoenix
 
     //! Mouse button definitions
     /*!
-    	Defines mouse buttons for the event receiver.
+    	Defines mouse buttons for window events
     	\sa EventReceiver
     */
     enum MouseButton
@@ -30,7 +29,7 @@ namespace phoenix
 
     //! Keyboard key definitions
     /*!
-    	Defines keyboard keys for the event receiver.
+    	Defines keyboard keys for window events.
     	\sa EventReceiver
     */
     enum Key

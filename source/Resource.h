@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -22,7 +22,7 @@ namespace phoenix
     //! Garbage-Collected Resource
     /*!
     	This class is provided for garbage collection of dynamically allocated
-    	objects. This can be used with ResourceManager to enable
+    	objects. This class is used with ResourceManager to enable
     	automatic garbage collection.
     */
     class Resource

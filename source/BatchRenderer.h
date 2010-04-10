@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -14,7 +14,6 @@ distribution for more information.
 #include <map>
 #include <vector>
 #include <iostream>
-#include <GL/glfw.h>
 #include <boost/unordered_map.hpp>
 #include <boost/thread.hpp>
 #include "config.h"
@@ -30,7 +29,7 @@ class BatchGeometry;
 //! Optimizing Batch Renderer.
 /*!
 	The Optimizing Batch Renderer is the soul of phoenix's rendering framework. All drawing calls 
-	will go through the batching renderer. The main purpose of the batching renderer is to store all geometry 
+	go through the batching renderer. The main purpose of the batching renderer is to store all geometry 
 	and draw it at once, performing as many optimizations as possible. This adds a slight layer of complexity, 
 	but the speed tradeoff is well worth it. BatchGeometry is automatically sorted in a graph based on
 	depth, group, texture, and primitive type (in that order).
@@ -86,7 +85,7 @@ public:
     //! Cleaning routine
 	void clean();
 
-    //! Sets the rendere's view.
+    //! Sets the renderer's view.
     inline void setView( const View& other ) { view = other; }
 
     //! Gets a reference to the renderer's view.

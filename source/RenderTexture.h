@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -44,9 +44,8 @@ namespace phoenix
         /*!
             Performs all the steps needed to begin rendering geometry to the texture. This
             function modifies the viewport on the BatchRenderer, so it is not a good idea
-            to call View::setSize() while a RenderTexture is active. All geometry
-            rendered after this call  and before endRender()
-            will not be rendered to the screen, but to the texture.
+            to call View::setSize() while a RenderTexture is active. Remember, you must
+			called whatever BatchRenderer's draw() function between start() and end();
             \note This function clears the screen.
         */
         inline void start()

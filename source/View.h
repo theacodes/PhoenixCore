@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,7 +10,6 @@ distribution for more information.
 #ifndef __PHOENIXVIEW__
 #define __PHOENIXVIEW__
 
-#include <GL/glfw.h>
 #include "config.h"
 #include "Vector2d.h"
 #include "WindowManager.h"
@@ -84,7 +83,6 @@ namespace phoenix
 		*/
         inline void activate()
 		{
-
             // activate the viewport
             glViewport( 0, 0, (GLsizei) size.getX(), (GLsizei) size.getY() );
 

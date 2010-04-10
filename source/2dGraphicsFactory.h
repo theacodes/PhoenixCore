@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -29,7 +29,7 @@ enum E_GEOMETRY_FLAGS
     This class provides a factory for creating common 2d graphics
     such as lines, rectangles, polygons, texture rectangles and polygons,
     etc. It is one of the base classes for RenderSystem. All geometry
-    created by this factory is immediate.
+    created by this factory is immediate, but can be set persistent.
     \sa RenderSystem
 */
 class GraphicsFactory2d

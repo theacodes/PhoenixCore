@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -11,7 +11,6 @@ distribution for more information.
 #define __PHOENIXERC__
 
 #include <string>
-#include <GL/glfw.h>
 #include <boost/signals2/signal.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/bind.hpp>
@@ -25,11 +24,11 @@ namespace phoenix
 
     //! Event receiver.
     /*!
-        Provides a simple interface to the keyboard, mouse, and other system events. This
-        is a completely static class. It is only required that the window manager register all it's callbacks
-		upon creation.
-        \note WindowManager registers the state callbacks to glfw, therefore an instance of WindowManager must exist before this class will work.
-    */
+		This is a helper class for Client code. This function listens for and tracks Keyboard
+		and Mouse events. It provides a simple way to get the states of those events. It is not
+		required by the engine and can be excluded. It is a Singleton and must be accessed 
+		with Instance().
+	*/
     class EventReceiver
     {
 
