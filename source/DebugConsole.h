@@ -149,22 +149,6 @@ public:
     void draw( );
     
 
-    //! Group begin function.
-    /*!
-        Clears the view state so that user transformations do not effect the console.
-    */
-    inline static void groupBegin()
-    {
-        View view;
-        view.activate();
-    }
-
-    //! Group end funciton.
-    /*!
-        Restores the render system's transformations.
-    */
-    void groupEnd();
-
 protected:
 
 	//! Constructor
@@ -177,8 +161,7 @@ protected:
 		event_connection = WindowManager::Instance()->listen( boost::bind( &DebugConsole::onWindowEvent, this, _1 ) );
         setDepth( 999.0f );
         setGroup( -10 );
-        //setGroupBeginFunction( boost::function< void() >( &DebugConsole::groupBegin ) );
-        //setGroupEndFunction( boost::bind( &DebugConsole::groupEnd, this ) );
+		_r.addGroupState( -10, GroupStatePtr( new ConsoleGroupState() ) );
         updateLineLimit();
     }
 
@@ -205,6 +188,19 @@ protected:
 
 	//! Foreground Color.
     Color fontcolor;
+
+	//! Debug Console Group State Manager.
+	/*!
+		Changes views so user transformations don't
+		effect the console.
+	*/
+	class ConsoleGroupState
+		:public GroupState
+	{
+		virtual void begin( BatchRenderer& );
+		virtual void end( BatchRenderer& );
+	};
+
 };
 
 typedef boost::shared_ptr<DebugConsole> DebugConsolePtr;

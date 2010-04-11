@@ -25,7 +25,7 @@ public:
 	BlendingState():GroupState(){}
 	virtual ~BlendingState(){};
 
-	void begin( const BatchRenderer& r )
+	void begin( BatchRenderer& r )
 	{
 		 // Set our blend mode.
         if ( blendmode )
@@ -34,7 +34,7 @@ public:
             RenderSystem::setBlendMode( GL_SRC_ALPHA, GL_ONE );
 	}
 
-	void end( const BatchRenderer& r )
+	void end( BatchRenderer& r )
 	{
 		RenderSystem::setBlendMode();
 	}

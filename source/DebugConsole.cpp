@@ -83,9 +83,16 @@ void DebugConsole::draw( )
 }
 
 /*
+	Group Begin ( sets view ).
+*/
+void DebugConsole::ConsoleGroupState::begin( BatchRenderer& r ){
+    View view;
+    view.activate();
+}
+
+/*
 	Group End (restores view).
 */
-void DebugConsole::groupEnd()
-{
-    renderer.getView().activate();
+void DebugConsole::ConsoleGroupState::end( BatchRenderer& r ){
+    r.getView().activate();
 }

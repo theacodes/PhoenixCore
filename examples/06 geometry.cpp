@@ -21,12 +21,12 @@ public:
 	AdditiveState():GroupState(){}
 	virtual ~AdditiveState(){};
 
-	void begin( const BatchRenderer& r )
+	void begin( BatchRenderer& r )
 	{
 		RenderSystem::setBlendMode( GL_SRC_ALPHA, GL_ONE );
 	}
 
-	void end( const BatchRenderer& r )
+	void end( BatchRenderer& r )
 	{
 		RenderSystem::setBlendMode();
 	}

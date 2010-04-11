@@ -23,7 +23,7 @@ class BatchRenderer;
 /*!
 	This is an abstract interface for objects that manipulate the render
 	state for a specific group of geometry. These objects are added to a
-	BatchRenderer using the BatchRender::addGroupState() and removed using
+	BatchRenderer using the BatchRenderer::addGroupState() and removed using
 	BatchRenderer::removeGroupState(). Only one state object can be applied
 	to a group at a time, if more are needed, applying the Composite pattern
 	should be considered.
@@ -41,7 +41,7 @@ public:
 		Should set up all the render states needed for the current group.
 		BatchRenderer will pass a reference to itself.
 	*/
-	virtual void begin( const BatchRenderer& r ) = 0;
+	virtual void begin( BatchRenderer& r ) = 0;
 
 	//! End render state.
 	/*!
@@ -50,7 +50,7 @@ public:
 		correctly.
 		BatchRenderer will pass a reference to itself.
 	*/
-	virtual void end( const BatchRenderer& r ) = 0;
+	virtual void end( BatchRenderer& r ) = 0;
 
 }; // class
 
