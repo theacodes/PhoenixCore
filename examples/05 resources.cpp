@@ -93,7 +93,6 @@ int main()
 
     /*!
         Now let's fill the resource manager with 10 resources.
-        We'll call the create function like we did earlier.
     */
     for( int i = 0; i < 10; ++i )
     {

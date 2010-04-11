@@ -16,8 +16,8 @@ int main()
     {
 
         /*!
-            Let's start with rays and lines. Rays are exactly as they are geometry, a vector that comes out of a position.
-            Lines are a vector from one point to another.
+            Let's start with rays and lines. Rays are exactly as they are geometry, a vector that extends from a point.
+            Lines (line segments) are vectors that extend from one point to another.
         */
         system.drawRay( Vector2d( 320, 240 ), Vector2d( 64, 64 ), Color(255,0,0) );
 
@@ -31,13 +31,13 @@ int main()
         system.drawRectangle( Rectangle( Vector2d( 32,32 ), Vector2d( 64, 32 ) ) );
 
         /*!
-            Now let's try a polygon. Polygons are a collection of vertices from
-            the centroid of the polygon.
+            Now let's try a polygon. Polygons are a collection of vertices that extend
+            from the centroid of the polygon.
         */
         Polygon poly( Vector2d( 200,200 ) ); // 200,200 is the centroid of the polygon.
 
         /*!
-            Now let's add some vertices.
+            Now let's add some vertices to make a simple triangle.
         */
         poly.addVertex( Vector2d( 0, -10 ) );
         poly.addVertex( Vector2d( 10, 0 ) );
