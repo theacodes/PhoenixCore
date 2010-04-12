@@ -11,7 +11,7 @@ using namespace boost;
 int main()
 {
 
-    RenderSystem system;
+    RenderSystemPtr system = RenderSystem::Initialize();
 
     /*!
         The way that phoenix draws everything is by buffering all drawing calls
@@ -37,7 +37,7 @@ int main()
         but this time we are keeping the return value. BatchGeometry is dynamically
         allocated, so it is a pointer.
     */
-    BatchGeometryPtr rectgeom = system.drawRectangle( Rectangle( 200,200, 200,200 ) );
+    BatchGeometryPtr rectgeom = system->drawRectangle( Rectangle( 200,200, 200,200 ) );
 
     /*!
         Now we can manipulate our geometry. The first thing we want to do is make
@@ -58,7 +58,7 @@ int main()
         This means that you can manipulate everything in this way, even text!
     */
 
-    while( system.run() )
+    while( system->run() )
     {
         /*!
             You'll notice now that we no longer have any draw calls in our

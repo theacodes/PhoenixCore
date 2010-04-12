@@ -22,6 +22,15 @@ distribution for more information.
 namespace phoenix
 {
 
+    //! Standard Resource Types
+    enum E_RESOURCE_TYPES
+    {
+		ERT_UNKNOWN = 0,
+        ERT_TEXTURE = 1,
+        ERT_FONT = 2,
+        ERT_BITMAP_FONT = 3
+    };
+
 
     //forward decl of Resource
     class Resource;

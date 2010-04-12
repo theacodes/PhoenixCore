@@ -59,7 +59,7 @@ public:
     Color color;
     float rot;
     BatchGeometryPtr geometry;
-    RenderSystem& rsystem;
+    RenderSystemPtr rsystem;
 
 public:
 
@@ -67,8 +67,8 @@ public:
     {
     }
 
-    DemoParticle( RenderSystem& s, TexturePtr t, Vector2d p )
-            : Resource( s.getResourceManager() , 10), radius(1.f), position(p), speed(0.f), color(), rot(0), life(1), geometry(), rsystem(s)
+    DemoParticle( RenderSystemPtr s, TexturePtr t, Vector2d p )
+            : Resource( s->getResourceManager() , 10), radius(1.f), position(p), speed(0.f), color(), rot(0), life(1), geometry(), rsystem(s)
     {
         direction = (p - Vector2d(320,240)).getDirection() * RotationMatrix(DegreesToRadians((float)random(-40,40)));
         speed = random(100,5000)/1000.0f;
@@ -78,7 +78,7 @@ public:
         rot = (float)random(0,360);
 
         // Make some geometry.
-        geometry = new BatchGeometry( s.getBatchRenderer(), GL_QUADS, t, 5, (EventReceiver::Instance()->getKey( PHK_S ) ? float(random(1,150)) : 0.0f) );
+        geometry = new BatchGeometry( s->getBatchRenderer(), GL_QUADS, t, 5, (EventReceiver::Instance()->getKey( PHK_S ) ? float(random(1,150)) : 0.0f) );
    }
 
     virtual void drop()
@@ -137,8 +137,11 @@ public:
 
     Demo() : system(), timer()
     {
+		// initialize
+		system = RenderSystem::Initialize();
+
         // Enable resizing
-        system.enableResize();
+        system->enableResize();
 
         //start timer
         timer.start();
@@ -158,12 +161,12 @@ public:
         //! Iterate through the particles
 
         //lock resource mutex.
-        system.getResourceManager().lock();
+        system->getResourceManager().lock();
 
         // delta time
         float deltatime = (float)timer.getTime();
 
-        BOOST_FOREACH( ResourcePtr& r, system.getResourceManager().getList() )
+        BOOST_FOREACH( ResourcePtr& r, system->getResourceManager().getList() )
         {
             if ( ! r->dropped() )
             {
@@ -176,7 +179,7 @@ public:
 
         timer.reset();
 
-        system.getResourceManager().unlock();
+        system->getResourceManager().unlock();
 
     }
 
@@ -187,11 +190,11 @@ public:
     {
 
         // Textures for particles.
-        glowtexture = system.loadTexture(std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png"));
-        glowtexture2 = system.loadTexture(std::string(PHOENIXCORE_DATA_DIR) + std::string("glow.png"));
+        glowtexture = system->loadTexture(std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png"));
+        glowtexture2 = system->loadTexture(std::string(PHOENIXCORE_DATA_DIR) + std::string("glow.png"));
 
 		// Blend state for particles.
-		system.getBatchRenderer().addGroupState( 5, GroupStatePtr( new BlendingState() ) );
+		system->getBatchRenderer().addGroupState( 5, GroupStatePtr( new BlendingState() ) );
 
         // List of bright colors for subtractive blending
         vector<Color> brightcolors;
@@ -231,13 +234,13 @@ public:
         TrackingInvariant< Vector2d > mouseposition = EventReceiver::Instance()->getMousePosition();
 
         //! Now just draw some stuff.
-        while ( system.run() )
+        while ( system->run() )
         {
 
             //! Colors.
 
             // clear the screen to our color interpolated with our destination color.
-            system.clearScreen( (*currentcolors)[ currentcolor ].interpolate( (*currentcolors)[ destcolor ], colorpercent ) );
+            system->clearScreen( (*currentcolors)[ currentcolor ].interpolate( (*currentcolors)[ destcolor ], colorpercent ) );
 
             // add to our interpolation percentage.
             colorpercent += (float)colortimer.getTime() * 5.0f;
@@ -311,16 +314,16 @@ public:
             drawParticles();
 
             //!s draw some info.
-            system.drawText( "Use left & right mouse buttons to spawn particles.", Vector2d( 0,0 ), Color(255,127,127) );
-            system.drawText( "Use arrow keys to move the field around.", Vector2d( 0,16 ), Color(255,147,147) );
-            system.drawText( "Use 'B' to change blending modes, use 'P' to pause.", Vector2d( 0,32 ), Color(255,157,157) );
-            system.drawText( "Press '~' for information.", Vector2d( 0, (WindowManager::Instance())->getWindowSize().getY()-16.0f ), Color(127,127,255,127) );
+            system->drawText( "Use left & right mouse buttons to spawn particles.", Vector2d( 0,0 ), Color(255,127,127) );
+            system->drawText( "Use arrow keys to move the field around.", Vector2d( 0,16 ), Color(255,147,147) );
+            system->drawText( "Use 'B' to change blending modes, use 'P' to pause.", Vector2d( 0,32 ), Color(255,157,157) );
+            system->drawText( "Press '~' for information.", Vector2d( 0, (WindowManager::Instance())->getWindowSize().getY()-16.0f ), Color(127,127,255,127) );
 
 
             // print some stats
-            (*DebugConsole::Instance())<<"\nSprites: "<<system.getResourceManager().count()
-                <<"\nGeometry: "<<system.getBatchRenderer().count()
-                <<"\nFrames Per Seconds: "<<system.getFPS()
+            (*DebugConsole::Instance())<<"\nSprites: "<<system->getResourceManager().count()
+                <<"\nGeometry: "<<system->getBatchRenderer().count()
+                <<"\nFrames Per Seconds: "<<system->getFPS()
                 <<"\nScreen Size: "<<(WindowManager::Instance())->getWindowSize().getX()<<", "<<(WindowManager::Instance())->getWindowSize().getY()
                 <<"\nBlend Mode: "<< (BlendingState::blendmode ? "Smoke" : "Additive")
                 ;
@@ -336,6 +339,6 @@ protected:
     Timer timer;
     TexturePtr glowtexture;
     TexturePtr glowtexture2;
-    RenderSystem system;
+    RenderSystemPtr system;
 private:
 };

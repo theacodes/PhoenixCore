@@ -17,9 +17,10 @@ class VectorTest
     public:
 
         VectorTest() : 
-          system( )
+			system()
         {
-            system.enableResize();
+			system = RenderSystem::Initialize();
+            system->enableResize();
         }
 
         virtual ~VectorTest()
@@ -43,7 +44,7 @@ class VectorTest
 
 
             //! Now just draw some stuff.
-            while( system.run() )
+            while( system->run() )
             {
 
                 //! Events
@@ -57,23 +58,23 @@ class VectorTest
                 //! Draw stuff
                 Vector2d MouseVector = EventReceiver::Instance()->getMousePosition() -  Vector2d(320,240);
 
-                system.drawRay( Vector2d(320,240), MouseVector );
+                system->drawRay( Vector2d(320,240), MouseVector );
 
 
                 //! Draw the vector of vectors
                 for( unsigned int i = 0; i < vectorlist.size(); ++i )
                 {
-					system.drawRay( Vector2d(320,240), vectorlist[i], Color(255,255,255).interpolate( Color(255,127,127), (float)i*4 ), Color(127,255,127).interpolate( Color(127,127,255), (float)i*4 ) );
+					system->drawRay( Vector2d(320,240), vectorlist[i], Color(255,255,255).interpolate( Color(255,127,127), (float)i*4 ), Color(127,255,127).interpolate( Color(127,127,255), (float)i*4 ) );
                     char tbuffer[32];
                     sprintf(tbuffer,"%i",i);
-                    system.drawText( tbuffer, Vector2d(320,240)+vectorlist[i] * 1.1f - Vector2d(8,8), Color(127,255,127).interpolate( Color(127,127,255), (float)i*4 ) );
+                    system->drawText( tbuffer, Vector2d(320,240)+vectorlist[i] * 1.1f - Vector2d(8,8), Color(127,255,127).interpolate( Color(127,127,255), (float)i*4 ) );
                 }
 
                 //! Draw some info.
-                system.drawText( "Vector Test", Vector2d(16,16) );
+                system->drawText( "Vector Test", Vector2d(16,16) );
 
                 (*DebugConsole::Instance())<<"\nNumber of Vectors: "<<vectorlist.size();
-                (*DebugConsole::Instance())<<"\nFrames Per Second: "<<system.getFPS();
+                (*DebugConsole::Instance())<<"\nFrames Per Second: "<<system->getFPS();
 
             }
 
@@ -82,7 +83,7 @@ class VectorTest
         }// Run
 
     protected:
-        RenderSystem system;
+        RenderSystemPtr system;
     private:
 };
 

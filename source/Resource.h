@@ -36,7 +36,7 @@ namespace phoenix
             Constructs the resource and initializes its members. It adds the resource to
             the resource manager's list.
         */
-        Resource( ResourceManager& rm, const signed int& t = 0 )
+        Resource( ResourceManager& rm, const signed int& t = ERT_UNKNOWN )
                 : Droppable(), _rmanager(rm), _type(t), _name("None")
         {
             rm.add( this );

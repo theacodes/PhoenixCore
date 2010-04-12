@@ -11,30 +11,35 @@ distribution for more information.
 #include "PrecompiledFont.h"
 #include "BitmapFont.h"
 #include "GLFWWindowManager.h"
-#include <iostream>
 #include "soil/SOIL.h"
 
 using namespace phoenix;
+
+// Static initialization
+RenderSystemPtr phoenix::RenderSystem::instance = RenderSystemPtr();
 
 ////////////////////////////////////////////////////////////////////////////////
 //Construct & Destruct
 ////////////////////////////////////////////////////////////////////////////////
 
-RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
-: renderer(), factory( renderer ), resize(false), fpstimer(), framerate(1.0f), font(0), quit(false), resources()
+RenderSystemPtr RenderSystem::Initialize( const Vector2d& _sz , bool _fs  )
 {
+	
+	// Create the instance
+	if( instance ) throw BadInstance();
+	instance = RenderSystemPtr( new RenderSystem ); 
 
-	//GLFW Window Manager
-	WindowManagerPtr wm = GLFWWindowManager::Instance();
+	// GLFW Window Manager
+	instance->wm = GLFWWindowManager::Instance();
 
 	// Create our window
-	if( !wm->open( _sz, _fs ) ) { throw; }
+	if( !instance->wm->open( _sz, _fs ) ) { throw; }
 
 	// Listen to events.
-	event_connection = wm->listen( boost::bind( &RenderSystem::onWindowEvent, this, _1 ) );
+	instance->event_connection = instance->wm->listen( boost::bind( &RenderSystem::onWindowEvent, instance, _1 ) );
 
     // viewport the same as the window size.
-    renderer.getView().setSize();
+    instance->renderer.getView().setSize();
 
     // Orthogonal projection.
     glMatrixMode(GL_PROJECTION); 
@@ -61,7 +66,7 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
 
     // Enable blending and set our blending mode.
     glEnable(GL_BLEND);
-    setBlendMode(); // Default is for 2d transluceny with RGBA textures.
+    instance->setBlendMode(); // Default is for 2d transluceny with RGBA textures.
 
     //! Default material is white.
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -70,26 +75,26 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
-    // Clear the screen to black 
-    clearScreen( Color(0,0,0) );
-
     // Material mode
     glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE );
     glEnable(GL_COLOR_MATERIAL);
 
     //load our default font
 	std::string ffn = saveBuiltinFont();
-	font = new BitmapFont( resources, renderer ,loadTexture(ffn));
+	instance->font = new BitmapFont( instance->resources, instance->renderer , instance->loadTexture(ffn));
     ::remove(ffn.c_str());
 
-    //!start the timer
-    fpstimer.start();
+    // Clear the screen to black 
+    instance->clearScreen( Color(0,0,0) );
 
-	//store the new framerate
-    framerate = 1.0f;
+    //!start the timer
+    instance->fpstimer.start();
 
 	// Setup the debug console
-	DebugConsole::Initialize( renderer, font );
+	DebugConsole::Initialize( instance->renderer, instance->font );
+
+	// finally, return the instance.
+	return instance;
 
 }
 
@@ -97,7 +102,7 @@ RenderSystem::RenderSystem( const Vector2d& _sz , bool _fs  )
 RenderSystem::~RenderSystem()
 {
 	event_connection.disconnect();
-	(WindowManager::Instance())->close();
+	wm->close();
 }
 
 
@@ -113,7 +118,7 @@ bool RenderSystem::run()
     renderer.draw();
 
     //flip the screen (this also polls events).
-	(WindowManager::Instance())->update();
+	wm->update();
 
     //Clean resources
     resources.clean();
@@ -149,7 +154,7 @@ void RenderSystem::onWindowEvent( const WindowEvent& e )
 		break;
 	case WET_RESIZE:
 		if( !resize ){
-			(WindowManager::Instance())->setWindowSize( renderer.getView().getSize() );
+			wm->setWindowSize( renderer.getView().getSize() );
 		} else {
 			renderer.getView().setSize( e.vector_data );
 			glMatrixMode(GL_PROJECTION); 

@@ -24,7 +24,7 @@ int main()
         ready for us to draw. We could optionally set a different screen size
         (the default is 640x480) and tell it to be fullscreen.
     */
-    RenderSystem system;
+	RenderSystemPtr system = RenderSystem::Initialize();
 
     /*! The Loop.
         The loop is the main feature of most games. The loop runs until the user
@@ -33,7 +33,7 @@ int main()
         behind the scenes to swap buffers, update events, calcuate frame per
         second, and other things.
     */
-    while( system.run() )
+    while( system->run() )
     {
         /*!
             Now we say hello. System has a method called drawText that can do just that.
@@ -41,7 +41,7 @@ int main()
             Vector2d that tells the system where to draw it. And we'd also like the color
             of that text to be red.
         */
-        system.drawText( "Hello, World!", Vector2d(50,50), Color( 255,0,0 ) );
+        system->drawText( "Hello, World!", Vector2d(50,50), Color( 255,0,0 ) );
 
     }
 

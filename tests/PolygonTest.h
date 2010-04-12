@@ -17,13 +17,13 @@ class PolygonTest
     public:
 
         PolygonTest() 
-            : system( new RenderSystem() )
+            : system()
         {
+			system = RenderSystem::Initialize();
         }
 
         virtual ~PolygonTest()
         {
-            delete system;
         }
 
         /*!
@@ -138,7 +138,7 @@ class PolygonTest
         }// Run
 
     protected:
-        RenderSystem* system;
+        RenderSystemPtr system;
     private:
 };
 

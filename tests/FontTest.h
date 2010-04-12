@@ -17,6 +17,7 @@ class FontTest
 
         FontTest() : system()
         {
+			system = RenderSystem::Initialize();
         }
 
         virtual ~FontTest()
@@ -27,7 +28,7 @@ class FontTest
         {
 
 			//! Font
-            BitmapFontPtr bluefont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), system.getFont()->grab<BitmapFont>()->getTexture() );
+            BitmapFontPtr bluefont = new BitmapFont( system->getResourceManager(), system->getBatchRenderer(), system->getFont()->grab<BitmapFont>()->getTexture() );
 			bluefont->setColor( Color(200,200,255) );
 			bluefont->setSpacing( 5.0f );
 			bluefont->setScale( Vector2d(5, 2.5) );
@@ -36,13 +37,13 @@ class FontTest
 
 
             //! Now just draw some stuff.
-            while( system.run() )
+            while( system->run() )
             {
 
 				hellotext->rotate( 0.001f );
 
                 //! Draw some info.
-                system.drawText( "Font Test", Vector2d(16,16) );
+                system->drawText( "Font Test", Vector2d(16,16) );
 
             }
 
@@ -51,6 +52,6 @@ class FontTest
         }// Run
 
     protected:
-        RenderSystem system;
+        RenderSystemPtr system;
     private:
 };
