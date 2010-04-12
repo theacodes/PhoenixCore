@@ -36,7 +36,7 @@ RenderSystemPtr RenderSystem::Initialize( const Vector2d& _sz , bool _fs  )
 	if( !instance->wm->open( _sz, _fs ) ) { throw; }
 
 	// Listen to events.
-	instance->event_connection = instance->wm->listen( boost::bind( &RenderSystem::onWindowEvent, instance, _1 ) );
+	instance->event_connection = instance->wm->listen( boost::bind( &RenderSystem::onWindowEvent, instance.get(), _1 ) );
 
     // viewport the same as the window size.
     instance->renderer.getView().setSize();

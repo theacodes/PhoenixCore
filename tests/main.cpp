@@ -29,6 +29,9 @@ distribution for more information.
 #ifdef _TESTS_RESOURCE_
 	#include "ResourceTest.h"
 #endif
+#ifdef _TESTS_SINGLETON_
+	#include "SingletonTest.h"
+#endif
 #ifdef _TESTS_VIEW_
 	#include "ViewTest.h"
 #endif
@@ -59,6 +62,9 @@ int main()
 #endif
 #ifdef _TESTS_RESOURCE_
 		ResourceTest test;
+#endif
+#ifdef _TESTS_SINGLETON_
+		SingletonTest test;
 #endif
 #ifdef _TESTS_VIEW_
 		ViewTest test;
