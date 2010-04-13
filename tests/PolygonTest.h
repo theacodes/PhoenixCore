@@ -19,7 +19,6 @@ class PolygonTest
         PolygonTest() 
             : system()
         {
-			system = RenderSystem::Initialize();
         }
 
         virtual ~PolygonTest()
@@ -77,10 +76,10 @@ class PolygonTest
 			Timer deltatime;
 
             //! texture.
-            TexturePtr feathertexture = system->loadTexture( "feather.png" );
+            TexturePtr feathertexture = system.loadTexture( "feather.png" );
 
             //! Now just draw some stuff.
-            while( system->run() )
+            while( system.run() )
             {
 
                 //! Rotate poly 1 with a scalar
@@ -107,26 +106,26 @@ class PolygonTest
                 //! if the spacebar is pressed, draw some bounding boxes.
                 if( EventReceiver::Instance()->getKey( PHK_SPACE ) )
                 {
-                    system->setDepth( 6.0f );
-                    system->drawRectangle( poly1 , Color( 255,255,255,127 ) );
-                    system->drawRectangle( poly2 , Color( 0,255,255,127 ) );
-                    system->drawRectangle( poly3 , Color( 255,0,255,127 ) );
-                    system->drawRectangle( poly4 , Color( 255,255,0,127 ) );
+                    system.setDepth( 6.0f );
+                    system.drawRectangle( poly1 , Color( 255,255,255,127 ) );
+                    system.drawRectangle( poly2 , Color( 0,255,255,127 ) );
+                    system.drawRectangle( poly3 , Color( 255,0,255,127 ) );
+                    system.drawRectangle( poly4 , Color( 255,255,0,127 ) );
                 }
 
                 //! Draw our polygons
-                system->setDepth( 1.0f );
-                system->drawPolygon( poly1, Color(255,200,200) );
-                system->setDepth( 0.0f );
-                system->drawPolygon( poly2, Color(200,255,200) );
-                system->setDepth( -6.0f );
-                system->drawPolygon( poly4, Color(0,200,255) );
-                system->setDepth( -3.0f );
-                system->drawTexturedPolygon( poly3, feathertexture, Color(200,200,255,127), EventReceiver::Instance()->getKey( PHK_E ) ? true : false ) ;
+                system.setDepth( 1.0f );
+                system.drawPolygon( poly1, Color(255,200,200) );
+                system.setDepth( 0.0f );
+                system.drawPolygon( poly2, Color(200,255,200) );
+                system.setDepth( -6.0f );
+                system.drawPolygon( poly4, Color(0,200,255) );
+                system.setDepth( -3.0f );
+                system.drawTexturedPolygon( poly3, feathertexture, Color(200,200,255,127), EventReceiver::Instance()->getKey( PHK_E ) ? true : false ) ;
 
                 //! Draw some info.
-                system->drawText( "Polygon Test", Vector2d(16,16) );
-                system->drawText( "Press Space to Show Bounding Boxes", Vector2d(16,32), Color(255,127,127) );
+                system.drawText( "Polygon Test", Vector2d(16,16) );
+                system.drawText( "Press Space to Show Bounding Boxes", Vector2d(16,32), Color(255,127,127) );
 
 				//! Reset timer.
 				deltatime.reset();
@@ -138,7 +137,7 @@ class PolygonTest
         }// Run
 
     protected:
-        RenderSystemPtr system;
+        RenderSystem system;
     private:
 };
 

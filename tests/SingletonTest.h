@@ -17,7 +17,6 @@ class SingletonTest
 
         SingletonTest() : system(), changed(false)
         {
-			system = RenderSystem::Initialize();
         }
 
         virtual ~SingletonTest()
@@ -29,31 +28,26 @@ class SingletonTest
 
 
             //! Now just draw some stuff.
-            while( system->run() )
+            while( system.run() )
             {
 
                 //! Draw some info.
 				if( !changed )
-					system->drawText( "Press space to change the rendersystem.", Vector2d(16,16) );
+					system.drawText( "Press space to change the rendersystem.", Vector2d(16,16) );
 				else
-					system->drawText( "Ta-da!", Vector2d(16,16) );
+					system.drawText( "Ta-da!", Vector2d(16,16) );
 
 				if( !changed && EventReceiver::Instance()->getKeyPressed( PHK_SPACE ) ){
 					try{
 
-						system = RenderSystemPtr();
-						if( ! RenderSystem::Release() ) throw std::exception( "Not unique instance!" );
-						system = RenderSystem::Initialize( Vector2d( 800,600 ) );
-						std::cout<< system->getFont()->getTexture()->getName() << system->getFont()->getTexture()->getTextureId() << std::endl;
+						system.initialize( Vector2d( 800,600 ) );
+						std::cout<< system.getFont()->getTexture()->getName() << system.getFont()->getTexture()->getTextureId() << std::endl;
 
 					}catch( std::exception e ){
 						std::cout<< e.what() << std::endl;
 						throw;
-					}catch( RenderSystem::BadInstance e ){
-						std::cout<<"Bad instance"<<std::endl;
-						throw;
-					}catch( WindowManager::BadInstance e ){
-						std::cout<<"Window manager bad instance."<<std::endl;
+					}catch( ... ){
+						std::cout<<"Something went terribly wrong."<<std::endl;
 						throw;
 					}
 				}
@@ -66,7 +60,7 @@ class SingletonTest
         }// Run
 
     protected:
-        RenderSystemPtr system;
+        RenderSystem system;
 		bool changed;
     private:
 };

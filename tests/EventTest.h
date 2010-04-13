@@ -17,7 +17,6 @@ class EventTest
 
         EventTest() : system()
         {
-			system = RenderSystem::Initialize();
         }
 
         virtual ~EventTest()
@@ -35,8 +34,8 @@ class EventTest
             //! We'll make our font have a colored background, so we can see certain keys when they're pressed.
 
             // duplicate the system's font.
-            TexturePtr newfonttexture = system->getFont()->getTexture()->copy();
-            BitmapFontPtr newfont = new BitmapFont( system->getResourceManager(), system->getBatchRenderer(), newfonttexture );
+            TexturePtr newfonttexture = system.getFont()->getTexture()->copy();
+            BitmapFontPtr newfont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), newfonttexture );
             
             // run through and change the background color.
             newfont->getTexture()->lock();
@@ -57,10 +56,10 @@ class EventTest
             {
 
                 //! limit to 30fps
-                if( system->getTime() < 1.0f/30.0f ) continue;
+                if( system.getTime() < 1.0f/30.0f ) continue;
 
                 // Run the system
-                if( ! system->run() )
+                if( ! system.run() )
                     break;
 
                 //! For every possible one of the 256 keys, we'll draw a little icon if they've been pressed or not
@@ -95,14 +94,14 @@ class EventTest
                 newfont->drawText( "@",EventReceiver::Instance()->getMousePosition() );
 
                 //! Draw some info.
-                system->drawText( "Event Test: Below is an ASCII Table", Vector2d(16,16) );
-                system->drawText( "Not all will change, but you should be able", Vector2d(16,32) );
-                system->drawText( "make some pretty colors by mashing keys.", Vector2d(16,48) );
+                system.drawText( "Event Test: Below is an ASCII Table", Vector2d(16,16) );
+                system.drawText( "Not all will change, but you should be able", Vector2d(16,32) );
+                system.drawText( "make some pretty colors by mashing keys.", Vector2d(16,48) );
 
 				//! Draw the keyboard string.
-				system->drawText( std::string("Keyboard String: ") + EventReceiver::Instance()->getKeyboardString(), Vector2d( 16, 448 ) ); 
+				system.drawText( std::string("Keyboard String: ") + EventReceiver::Instance()->getKeyboardString(), Vector2d( 16, 448 ) ); 
 
-			    system->getDebugConsole()<<"\nGeoms "<<system->getBatchRenderer().count()<<", FPS: "<<system->getFPS();
+			    system.getDebugConsole()<<"\nGeoms "<<system.getBatchRenderer().count()<<", FPS: "<<system.getFPS();
 
             }
 
@@ -111,6 +110,6 @@ class EventTest
         }// Run
 
     protected:
-        RenderSystemPtr system;
+        RenderSystem system;
     private:
 };

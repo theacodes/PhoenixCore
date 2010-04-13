@@ -13,6 +13,7 @@ distribution for more information.
 #include <string>
 #include <boost/bind.hpp>
 #include <boost/signals2/signal.hpp>
+#include <boost/noncopyable.hpp>
 #include "config.h"
 #include "ResourceManager.h"
 #include "Timer.h"
@@ -38,48 +39,47 @@ namespace phoenix
         It also provides one entry point to initialize all of phoenix's subsystems.
     */
     class RenderSystem
+		: public boost::noncopyable
     {
 
     public:
 
-		//! Bad Instance Exception
-		struct BadInstance{};
 
-
-        //! Initializaion routine.
+        //! Constructor
         /*!
-           Makes a new singleton instance and creates a window and opengl context. Once the system is constructed
-           you are ready to start drawing stuff. It also initializes the singletons WindowManager and DebugConsole.
-           \sa Instance(), run(), draw()
+           Creates a render system creates a window and opengl context. Once the system is constructed
+           you are ready to start drawing stuff. It also initializes the singleton WindowManager..
+           \sa run(), draw()
            \param _sz The size of the screen (default 640,480).
            \param _fs Full screen (default false).
-		   \note Will throw a BadInstance if another instance already exists. Destroy() it first.
         */
-		static boost::shared_ptr<RenderSystem> Initialize( const Vector2d& _sz = Vector2d(640,480),bool _fs = false );
-
-		//! Instance.
-		/*!
-			Grabs a pointer to the static instance. The instance must first be created with Initialize(),
-			otherwise a BadInstance exception will be thrown.
-		*/
-		inline static boost::shared_ptr<RenderSystem> Instance(){
-			if( !instance ) throw BadInstance();
-			return instance;
+		RenderSystem( const Vector2d& _sz = Vector2d(640,480),bool _fs = false )
+			: renderer(), 
+			factory( renderer ),
+			console(),
+			resize(false), 
+			fpstimer(), 
+			framerate(1.0f), 
+			font(0), 
+			quit(false), 
+			event_connection(),
+			resources()
+		{
+			initialize( _sz, _fs );
 		}
 
-		//! Release instance.
+		//! Initialize
 		/*!
-			Releases the static instance. This usually results in the immediate destruction of
-			the instance, but only if every shared_ptr to it has been destructed. The return
-			value of this function will be true if the instance was indeed destructed.
+			(Re)-initialize a rendersystem. This is automatically called by the constructor
+			but it may be desirable sometimes to re-initialize a render system.
+			\note Throws and std::exception if problems arrive.
 		*/
-		inline static bool Release(){
-			bool unique = instance.unique();
-			instance = boost::shared_ptr<RenderSystem>();
-			return unique;
-		}
+		void initialize( const Vector2d& _sz = Vector2d(640,480),bool _fs = false );
 
         //! Destruct.
+		/*!
+			Releases all resource. Also called WindowManager::close().
+		*/
         ~RenderSystem();
 
         //! Enable screen resizing ( disabled by default ).
@@ -256,25 +256,6 @@ namespace phoenix
 
     private:
 
-		//! Constructor
-        RenderSystem()
-			: renderer(), 
-			factory( renderer ),
-			console(),
-			resize(false), 
-			fpstimer(), 
-			framerate(1.0f), 
-			font(0), 
-			quit(false), 
-			wm(),
-			event_connection(),
-			resources()
-		{
-		}
-
-		//! Static singleton instance.
-		static boost::shared_ptr<RenderSystem> instance;
-
         //! Batch Renderer
         BatchRenderer renderer;
 
@@ -292,12 +273,6 @@ namespace phoenix
 
 		//! Quit variable
 		bool quit;
-
-		//! A handle to the window manager.
-		/*!
-			This ensures the window manager stays alive atleast as long as this object does.
-		*/
-		WindowManagerPtr wm;
 
 		//! Window event connection
 		boost::signals2::connection event_connection;

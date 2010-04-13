@@ -15,31 +15,29 @@ distribution for more information.
 
 using namespace phoenix;
 
-// Static initialization
-RenderSystemPtr phoenix::RenderSystem::instance = RenderSystemPtr();
-
 ////////////////////////////////////////////////////////////////////////////////
 //Construct & Destruct
 ////////////////////////////////////////////////////////////////////////////////
 
-RenderSystemPtr RenderSystem::Initialize( const Vector2d& _sz , bool _fs  )
+void RenderSystem::initialize( const Vector2d& _sz , bool _fs  )
 {
-	
-	// Create the instance
-	if( instance ) throw BadInstance();
-	instance = RenderSystemPtr( new RenderSystem ); 
+
+	// Re-initialization requires us to dump everything.
+	resources.clear();
+	if( console ) console = boost::shared_ptr<DebugConsole>();
+	if( font ) font = FontPtr();
 
 	// GLFW Window Manager
-	instance->wm = GLFWWindowManager::Instance();
+	WindowManagerPtr wm = GLFWWindowManager::Instance();
 
 	// Create our window
-	if( !instance->wm->open( _sz, _fs ) ) { throw; }
+	if( !wm->open( _sz, _fs ) ) { throw std::exception("Failed to open a window."); }
 
 	// Listen to events.
-	instance->event_connection = instance->wm->listen( boost::bind( &RenderSystem::onWindowEvent, instance.get(), _1 ) );
+	event_connection = wm->listen( boost::bind( &RenderSystem::onWindowEvent, this, _1 ) );
 
     // viewport the same as the window size.
-    instance->renderer.getView().setSize();
+    renderer.getView().setSize();
 
     // Orthogonal projection.
     glMatrixMode(GL_PROJECTION); 
@@ -66,7 +64,7 @@ RenderSystemPtr RenderSystem::Initialize( const Vector2d& _sz , bool _fs  )
 
     // Enable blending and set our blending mode.
     glEnable(GL_BLEND);
-    instance->setBlendMode(); // Default is for 2d transluceny with RGBA textures.
+    setBlendMode(); // Default is for 2d transluceny with RGBA textures.
 
     //! Default material is white.
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -80,8 +78,8 @@ RenderSystemPtr RenderSystem::Initialize( const Vector2d& _sz , bool _fs  )
     glEnable(GL_COLOR_MATERIAL);
 
     //load our default font
-	instance->font = new BitmapFont( instance->resources, instance->renderer , 
-		instance->loadTexture(
+	font = new BitmapFont( resources, renderer , 
+		loadTexture(
 			 builtin_font_imagedata,
 			 builtin_font_imagedata_size,
 			 builtin_font_imagedata_width,
@@ -90,16 +88,13 @@ RenderSystemPtr RenderSystem::Initialize( const Vector2d& _sz , bool _fs  )
 	);
 
 	//! Make a console
-	instance->console = boost::shared_ptr<DebugConsole>( new DebugConsole( (*instance) ) );
+	console = boost::shared_ptr<DebugConsole>( new DebugConsole( *this ) );
 
     // Clear the screen to black 
-    instance->clearScreen( Color(0,0,0) );
+    clearScreen( Color(0,0,0) );
 
     //!start the timer
-    instance->fpstimer.start();
-
-	// finally, return the instance.
-	return instance;
+    fpstimer.start();
 
 }
 
@@ -107,7 +102,7 @@ RenderSystemPtr RenderSystem::Initialize( const Vector2d& _sz , bool _fs  )
 RenderSystem::~RenderSystem()
 {
 	event_connection.disconnect();
-	wm->close();
+	WindowManager::Instance()->close();
 }
 
 
@@ -123,7 +118,7 @@ bool RenderSystem::run()
     renderer.draw();
 
     //flip the screen (this also polls events).
-	wm->update();
+	WindowManager::Instance()->update();
 
     //Clean resources
     resources.clean();
@@ -159,7 +154,7 @@ void RenderSystem::onWindowEvent( const WindowEvent& e )
 		break;
 	case WET_RESIZE:
 		if( !resize ){
-			wm->setWindowSize( renderer.getView().getSize() );
+			WindowManager::Instance()->setWindowSize( renderer.getView().getSize() );
 		} else {
 			renderer.getView().setSize( e.vector_data );
 			glMatrixMode(GL_PROJECTION); 

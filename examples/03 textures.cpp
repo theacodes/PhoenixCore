@@ -15,7 +15,7 @@ using namespace boost;
 int main()
 {
 
-    RenderSystemPtr system = RenderSystem::Initialize();
+    RenderSystem system = RenderSystem();
 
     /*!
         Now that we have a system up, we can go ahead and load a texture.
@@ -23,16 +23,16 @@ int main()
         to the loaded texture. Phoenix uses shared_ptr for all dynamically
         allocated resources.
     */
-	TexturePtr feather = system->loadTexture( std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png") );
+	TexturePtr feather = system.loadTexture( std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png") );
 
-    while( system->run() )
+    while( system.run() )
     {
         /*!
             Now we draw it. Just as in the text and shape examples, this is fairly
             easy. For fun, we'll also rotate the texture 45 degrees and scale it
             by 150%. We could also colorize and flip the texture.
         */
-        system->drawTexture( feather, Vector2d( 320,240 ), DegreesToRadians( 45 ), Vector2d( 1.5f, 1.5f ) );
+        system.drawTexture( feather, Vector2d( 320,240 ), DegreesToRadians( 45 ), Vector2d( 1.5f, 1.5f ) );
 
     }
 

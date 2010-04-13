@@ -20,7 +20,7 @@ using namespace phoenix;
     Box2d's internal representation of polygons is slightly different from ours,
     so we'll need to transform it.
 */
-void drawBody( RenderSystemPtr system, b2Body *body, Color color = Color(0,127,255) )
+void drawBody( RenderSystem& system, b2Body *body, Color color = Color(0,127,255) )
 {
     // Iterate through the list of shapes.
     for( b2Shape* shape = body->GetShapeList(); shape != NULL; shape = shape->GetNext() )
@@ -37,7 +37,7 @@ void drawBody( RenderSystemPtr system, b2Body *body, Color color = Color(0,127,2
                 tpoly.addPoint( Vector2d(tv.x, tv.y) * scale_factor );
             }
             // Finally, draw it.
-            system->drawPolygon( tpoly, color );
+            system.drawPolygon( tpoly, color );
         }
     }
 }
@@ -49,7 +49,7 @@ int main()
 {
 
     //! We'll need a render system, of course.
-    RenderSystemPtr system = RenderSystem::Initialize();
+    RenderSystem system = RenderSystem();
 
     //! Timer for jumping.
     Timer jumptimer;
@@ -127,7 +127,7 @@ int main()
         if( physicstimer.getTime() > timestep)
         {
 
-            if(! system->run() )
+            if(! system.run() )
                 break;
 
             //! Do a step of the simulation.
@@ -140,7 +140,7 @@ int main()
                 /*!
                     We just get the mouse's position in the world, then create a platform with a random orientation.
                 */
-                Vector2d absmouseposition = system->getView().getPosition() + EventReceiver::Instance()->getMousePosition();
+                Vector2d absmouseposition = system.getView().getPosition() + EventReceiver::Instance()->getMousePosition();
                 b2Vec2 worldpoint( absmouseposition.getX()/scale_factor,  absmouseposition.getY()/scale_factor );
                 sd.SetAsBox(1.0f, (float)random(8,15), ground->GetLocalPoint(worldpoint), ( -0.5f + ( random(-8,8)/100.0f ) ) * b2_pi);
 	            ground->CreateShape(&sd);
@@ -170,18 +170,18 @@ int main()
                 We just adjust the viewport based on where the dynamic body happens to be.
             */
             Vector2d bodypos = Vector2d( body->GetPosition().x,  body->GetPosition().y ) * scale_factor;
-            Vector2d viewcenter = system->getView().getPosition() + ( system->getView().getSize()/2.0f );
+            Vector2d viewcenter = system.getView().getPosition() + ( system.getView().getSize()/2.0f );
             Vector2d difference = bodypos-viewcenter;
             if( difference.getMagnitudeSquared() > 4.0f )
             {
-                system->getView().setPosition( system->getView().getPosition() + difference*0.5f );
+                system.getView().setPosition( system.getView().getPosition() + difference*0.5f );
             }
             
             //! Draw some stuff.
             drawBody( system, body, Color(255,127,0));
             drawBody( system, ground );
 
-			system->getDebugConsole()<<"\nFPS: "<<system->getFPS();
+			system.getDebugConsole()<<"\nFPS: "<<system.getFPS();
         }
     }
 

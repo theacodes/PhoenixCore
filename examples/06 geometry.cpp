@@ -35,12 +35,12 @@ public:
 int main()
 {
 
-    RenderSystemPtr system = RenderSystem::Initialize();
+    RenderSystem system = RenderSystem();
 
     /*!
         Let's load up a texture to play with.
     */
-    TexturePtr feather = system->loadTexture( std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png") );
+    TexturePtr feather = system.loadTexture( std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png") );
 
     /*!
         let's make our group of geometry, with this
@@ -54,8 +54,8 @@ int main()
         that are made have specific properties. We'll set the group
         id and add the group state object.
     */
-	system->getBatchRenderer().addGroupState( 1, GroupStatePtr( new AdditiveState() ) );
-    system->getGraphicsFactory().setGroup( 1 );
+	system.getBatchRenderer().addGroupState( 1, GroupStatePtr( new AdditiveState() ) );
+    system.getGraphicsFactory().setGroup( 1 );
 
     /*!
         Now we can draw some things, and they'll all
@@ -64,15 +64,15 @@ int main()
     BatchGeometryPtr tgeom; // a temporary pointer for geometry.
 
     //! Here we just draw a basic scaled texture.
-    tgeom = system->drawTexture( feather, Vector2d( 240,320 ), 0, Vector2d( 3.0f, 3.0f ) );
+    tgeom = system.drawTexture( feather, Vector2d( 240,320 ), 0, Vector2d( 3.0f, 3.0f ) );
     tgeom->setImmediate( false );
     
     /*!
         Here we'll draw a rectangle centered on the origin, but we'll rotate and
         scale it then translate it to it's final position.
     */
-    system->setDepth( 1.0f );
-    tgeom = system->drawRectangle( Rectangle( -150,-150, 150,150 ) );
+    system.setDepth( 1.0f );
+    tgeom = system.drawRectangle( Rectangle( -150,-150, 150,150 ) );
     tgeom->rotate( DegreesToRadians( 45.0f ) );
     tgeom->scale( Vector2d( 2.0f, 1.3f ) );
     tgeom->translate( Vector2d( 300, 400 ) );
@@ -85,8 +85,8 @@ int main()
 
         We'll first use BatchGeometry's create function.
     */
-    system->setDepth( 2.0f );
-    tgeom = new BatchGeometry( system->getBatchRenderer(), GL_TRIANGLES, feather, system->getGraphicsFactory().getGroup(), system->getDepth() );
+    system.setDepth( 2.0f );
+    tgeom = new BatchGeometry( system.getBatchRenderer(), GL_TRIANGLES, feather, system.getGraphicsFactory().getGroup(), system.getDepth() );
     tgeom->setImmediate( false );
 
     /*!
@@ -109,10 +109,10 @@ int main()
         the properties all the rest of the geometry would have these properties
         too!
     */
-    system->getGraphicsFactory().setDepth();
-    system->getGraphicsFactory().setGroup();
+    system.getGraphicsFactory().setDepth();
+    system.getGraphicsFactory().setGroup();
 
-    while( system->run() )
+    while( system.run() )
     {
         /*!
             Just for kicks, let make it where we can move the last geometry we

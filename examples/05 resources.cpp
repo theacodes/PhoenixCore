@@ -37,13 +37,13 @@ public:
         Now for an interesting function. This is our draw funcion which we
         will call for every resource.
     */
-    void draw( RenderSystemPtr system )
+    void draw( RenderSystem& system )
     {
         /*!
             Just like in the Hello World example, we'll draw some text.
             This time we'll draw it with our position and color.
         */
-        system->drawText( "Resource" , position, color );
+        system.drawText( "Resource" , position, color );
 
         /*!
             What if we'd like for these resources to go away? Well,
@@ -77,7 +77,7 @@ private:
 int main()
 {
 
-    RenderSystemPtr system = RenderSystem::Initialize();
+    RenderSystem system = RenderSystem();
 
     /*!
         We need a resource manager to keep track of all of
@@ -99,7 +99,7 @@ int main()
         new ExampleResource( examples );
     }
 
-    while( system->run() )
+    while( system.run() )
     {
 
         /*!
