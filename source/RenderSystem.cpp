@@ -89,14 +89,14 @@ RenderSystemPtr RenderSystem::Initialize( const Vector2d& _sz , bool _fs  )
 		)
 	);
 
+	//! Make a console
+	instance->console = boost::shared_ptr<DebugConsole>( new DebugConsole( (*instance) ) );
+
     // Clear the screen to black 
     instance->clearScreen( Color(0,0,0) );
 
     //!start the timer
     instance->fpstimer.start();
-
-	// Setup the debug console
-	DebugConsole::Initialize( instance->renderer, instance->font );
 
 	// finally, return the instance.
 	return instance;

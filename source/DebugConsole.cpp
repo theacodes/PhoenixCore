@@ -4,8 +4,16 @@
 
 using namespace phoenix;
 
-// Static Initialization
-boost::shared_ptr<DebugConsole> phoenix::DebugConsole::instance = boost::shared_ptr<DebugConsole>();
+//! Constructor
+DebugConsole::DebugConsole( RenderSystem& _r )
+	: GraphicsFactory2d( _r.getBatchRenderer() ), font( _r.getFont() ), enabled( false ), lines(), linelimit(0), backcolor(0,0,0,200), fontcolor(127,127,255)
+{
+	event_connection = WindowManager::Instance()->listen( boost::bind( &DebugConsole::onWindowEvent, this, _1 ) );
+    setDepth( 999.0f );
+    setGroup( -10 );
+	 _r.getBatchRenderer().addGroupState( -10, GroupStatePtr( new ConsoleGroupState() ) );
+    updateLineLimit();
+}
 
 //! Listens for Window Events ( To Open/Close the console ).
 void DebugConsole::onWindowEvent( const WindowEvent& e )

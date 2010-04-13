@@ -276,11 +276,11 @@ public:
             mouseposition.reset();
             mouseposition = EventReceiver::Instance()->getMousePosition();
             Vector2d dmouseposition = mouseposition.getPrevious() - mouseposition.get();
-            (*DebugConsole::Instance())<<"\nMouse Delta: "<<dmouseposition.getX()<<", "<<dmouseposition.getY();
+            system->getDebugConsole()<<"\nMouse Delta: "<<dmouseposition.getX()<<", "<<dmouseposition.getY();
 
             // we wanna generate 1 per 0.05ms, or 5000 per second.
             float ts = (float)colortimer.getTime()/0.0005f;
-            (*DebugConsole::Instance())<<"\nParticles to Generate: "<<ceil(ts);
+            system->getDebugConsole()<<"\nParticles to Generate: "<<ceil(ts);
 
             //reset the timer.
             colortimer.reset();
@@ -321,7 +321,7 @@ public:
 
 
             // print some stats
-            (*DebugConsole::Instance())<<"\nSprites: "<<system->getResourceManager().count()
+            system->getDebugConsole()<<"\nSprites: "<<system->getResourceManager().count()
                 <<"\nGeometry: "<<system->getBatchRenderer().count()
                 <<"\nFrames Per Seconds: "<<system->getFPS()
                 <<"\nScreen Size: "<<(WindowManager::Instance())->getWindowSize().getX()<<", "<<(WindowManager::Instance())->getWindowSize().getY()

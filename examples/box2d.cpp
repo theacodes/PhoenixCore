@@ -181,7 +181,7 @@ int main()
             drawBody( system, body, Color(255,127,0));
             drawBody( system, ground );
 
-			(*DebugConsole::Instance())<<"\nFPS: "<<system->getFPS();
+			system->getDebugConsole()<<"\nFPS: "<<system->getFPS();
         }
     }
 

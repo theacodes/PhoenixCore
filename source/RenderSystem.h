@@ -117,6 +117,9 @@ namespace phoenix
         */
         inline ResourceManager& getResourceManager() { return resources; }
 
+		//! Gets the system's debug console.
+		inline DebugConsole& getDebugConsole() { return *console; }
+
         //! Set the system's current font for drawing text.
         inline void setFont( FontPtr t ) { font = t; }
 
@@ -130,7 +133,7 @@ namespace phoenix
         */
         bool run();
 
-		        //! Clears the screen to the given color.
+		//! Clears the screen to the given color.
         inline static void clearScreen( const Color& _c = Color(0,0,0) )
         {
             glClearColor( _c.getRed()/255.0f,_c.getGreen()/255.0f,_c.getBlue()/255.0f,_c.getAlpha()/255.0f );
@@ -256,7 +259,8 @@ namespace phoenix
 		//! Constructor
         RenderSystem()
 			: renderer(), 
-			factory( renderer ), 
+			factory( renderer ),
+			console(),
 			resize(false), 
 			fpstimer(), 
 			framerate(1.0f), 
@@ -279,6 +283,9 @@ namespace phoenix
 
         //! Resource manager
         ResourceManager resources;
+
+		//! Debug Console.
+		boost::shared_ptr<DebugConsole> console;
 
         //! The system font used to draw text
         FontPtr font;
