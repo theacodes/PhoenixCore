@@ -37,6 +37,11 @@ public:
 		return instance;
 	}
 
+	//! Destructor
+	virtual ~GLFWWindowManager(){
+		glfwTerminate();
+	}
+
 	/*! Open Command.
 		Creates a new window and initializes OpenGL. Also sets up callbacks for
 		key events.
@@ -45,14 +50,10 @@ public:
 	*/
 	virtual bool open( const Vector2d& _sz = Vector2d( 640, 480 ), const bool _f = false );
 
-	/*!
-		Closes and terminates the window.
+	/*! Close Command.
+		Closes the open window (if any).
 	*/
-	inline virtual void close()
-	{
-	    glfwCloseWindow();
-		glfwTerminate();
-	}
+	inline virtual void close() { glfwCloseWindow(); }
 
 	//! Set window caption.
     inline virtual void setWindowTitle(const std::string& _str) { glfwSetWindowTitle(_str.c_str()); }

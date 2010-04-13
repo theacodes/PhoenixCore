@@ -80,7 +80,7 @@ public:
 	virtual bool open( const Vector2d& _sz = Vector2d( 640, 480 ), const bool _f = false ) = 0;
 
 	/*!
-		Closes and terminates the window.
+		Closes any open window.
 	*/
 	virtual void close() = 0;
 

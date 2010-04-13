@@ -72,9 +72,11 @@ namespace phoenix
 		/*!
 			(Re)-initialize a rendersystem. This is automatically called by the constructor
 			but it may be desirable sometimes to re-initialize a render system.
+			\param _reint True if reinitializing an existing system ( usually true ).
 			\note Throws and std::exception if problems arrive.
+			\note Re-initialization invalides all OpenGL textures, etc. You should release all handles to resources, the debug console, everything before calling this.
 		*/
-		void initialize( const Vector2d& _sz = Vector2d(640,480),bool _fs = false );
+		void initialize( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _reint = true  );
 
         //! Destruct.
 		/*!
@@ -287,10 +289,6 @@ namespace phoenix
         double framerate;
 
     };
-
-
-	//! Friendly name for RenderSystem pointers.
-	typedef boost::shared_ptr<RenderSystem> RenderSystemPtr;
 
 } //namespace phoenix
 

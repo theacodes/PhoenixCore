@@ -26,22 +26,25 @@ class SingletonTest
         int run()
         {
 
+			system = boost::shared_ptr<RenderSystem>( new RenderSystem );
+
 
             //! Now just draw some stuff.
-            while( system.run() )
+            while( system->run() )
             {
 
                 //! Draw some info.
 				if( !changed )
-					system.drawText( "Press space to change the rendersystem.", Vector2d(16,16) );
+					system->drawText( "Press space to change the rendersystem.", Vector2d(16,16) );
 				else
-					system.drawText( "Ta-da!", Vector2d(16,16) );
+					system->drawText( "Ta-da!", Vector2d(16,16) );
 
 				if( !changed && EventReceiver::Instance()->getKeyPressed( PHK_SPACE ) ){
 					try{
 
-						system.initialize( Vector2d( 800,600 ) );
-						std::cout<< system.getFont()->getTexture()->getName() << system.getFont()->getTexture()->getTextureId() << std::endl;
+						system = boost::shared_ptr<RenderSystem>();
+						system = boost::shared_ptr<RenderSystem>( new RenderSystem(Vector2d( 800,600 )) );
+						std::cout<< system->getFont()->getTexture()->getName() << system->getFont()->getTexture()->getTextureId() << std::endl;
 
 					}catch( std::exception e ){
 						std::cout<< e.what() << std::endl;
@@ -60,7 +63,7 @@ class SingletonTest
         }// Run
 
     protected:
-        RenderSystem system;
+		boost::shared_ptr<RenderSystem> system;
 		bool changed;
     private:
 };

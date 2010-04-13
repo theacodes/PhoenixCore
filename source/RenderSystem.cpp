@@ -19,16 +19,22 @@ using namespace phoenix;
 //Construct & Destruct
 ////////////////////////////////////////////////////////////////////////////////
 
-void RenderSystem::initialize( const Vector2d& _sz , bool _fs  )
+void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _reint )
 {
-
-	// Re-initialization requires us to dump everything.
-	resources.clear();
-	if( console ) console = boost::shared_ptr<DebugConsole>();
-	if( font ) font = FontPtr();
+	if( _reint ){
+		// Re-initialization requires us to dump everything.
+		resources.clear();
+		if( console ) console = boost::shared_ptr<DebugConsole>();
+		if( font ) font = FontPtr();
+		try{
+			WindowManager::Instance()->close(); // close any open window.
+		}catch( WindowManager::BadInstance ){
+		}
+	}
 
 	// GLFW Window Manager
 	WindowManagerPtr wm = GLFWWindowManager::Instance();
+	
 
 	// Create our window
 	if( !wm->open( _sz, _fs ) ) { throw std::exception("Failed to open a window."); }
