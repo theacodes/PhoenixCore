@@ -35,7 +35,7 @@ public:
 int main()
 {
 
-    RenderSystem system = RenderSystem();
+    RenderSystem system;
 
     /*!
         Let's load up a texture to play with.

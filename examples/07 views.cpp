@@ -11,7 +11,7 @@ using namespace boost;
 int main()
 {
 
-    RenderSystem system = RenderSystem();
+    RenderSystem system;
 
     /*!
         We need a timer to keep track of the difference in time

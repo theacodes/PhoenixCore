@@ -11,7 +11,7 @@ using namespace boost;
 int main()
 {
 
-    RenderSystem system = RenderSystem();
+    RenderSystem system;
 
     /*!
         The way that phoenix draws everything is by buffering all drawing calls

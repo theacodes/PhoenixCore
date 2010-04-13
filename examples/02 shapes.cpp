@@ -9,7 +9,7 @@ using namespace phoenix;
 int main()
 {
 
-    RenderSystem system = RenderSystem();
+    RenderSystem system;
 
     //! The Loop.
     while( system.run() )

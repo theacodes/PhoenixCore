@@ -49,7 +49,7 @@ int main()
 {
 
     //! We'll need a render system, of course.
-    RenderSystem system = RenderSystem();
+    RenderSystem system;
 
     //! Timer for jumping.
     Timer jumptimer;

@@ -24,7 +24,7 @@ int main()
         ready for us to draw. We could optionally set a different screen size
         (the default is 640x480) and tell it to be fullscreen.
     */
-	RenderSystem system = RenderSystem();
+	RenderSystem system;
 
     /*! The Loop.
         The loop is the main feature of most games. The loop runs until the user

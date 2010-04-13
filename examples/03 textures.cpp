@@ -15,7 +15,7 @@ using namespace boost;
 int main()
 {
 
-    RenderSystem system = RenderSystem();
+    RenderSystem system;
 
     /*!
         Now that we have a system up, we can go ahead and load a texture.

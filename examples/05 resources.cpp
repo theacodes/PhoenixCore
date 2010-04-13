@@ -77,7 +77,7 @@ private:
 int main()
 {
 
-    RenderSystem system = RenderSystem();
+    RenderSystem system;
 
     /*!
         We need a resource manager to keep track of all of
