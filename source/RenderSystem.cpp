@@ -37,7 +37,7 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _reint )
 	
 
 	// Create our window
-	if( !wm->open( _sz, _fs ) ) { throw std::exception("Failed to open a window."); }
+	if( !wm->open( _sz, _fs ) ) { throw std::runtime_error("Failed to open a window."); }
 
 	// Listen to events.
 	event_connection = wm->listen( boost::bind( &RenderSystem::onWindowEvent, this, _1 ) );

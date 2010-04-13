@@ -186,7 +186,7 @@ namespace phoenix
             \note Use nearest filtering for tilemaps, or anything that may look bad when scaled.
             \note Textures must be sizes that are a power of two. NPOT textures will experience artifacts (or may fail all together).
         */
-		TexturePtr RenderSystem::loadTexture( const unsigned char* const _d, const unsigned int _len, const unsigned int _w, const unsigned int _h, bool _lin = true);
+		TexturePtr loadTexture( const unsigned char* const _d, const unsigned int _len, const unsigned int _w, const unsigned int _h, bool _lin = true);
 
         //! Find texture by name.
         TexturePtr findTexture(const std::string& _n);
