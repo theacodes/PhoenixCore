@@ -44,7 +44,7 @@ class SingletonTest
 						system = RenderSystemPtr();
 						if( ! RenderSystem::Release() ) throw std::exception( "Not unique instance!" );
 						system = RenderSystem::Initialize( Vector2d( 800,600 ) );
-						std::cout<< system->getFont()->getTexture()->getName() << system->getFont()->getTexture()->getId() << std::endl;
+						std::cout<< system->getFont()->getTexture()->getName() << system->getFont()->getTexture()->getTextureId() << std::endl;
 
 					}catch( std::exception e ){
 						std::cout<< e.what() << std::endl;

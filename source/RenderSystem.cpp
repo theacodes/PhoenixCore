@@ -80,9 +80,14 @@ RenderSystemPtr RenderSystem::Initialize( const Vector2d& _sz , bool _fs  )
     glEnable(GL_COLOR_MATERIAL);
 
     //load our default font
-	std::string ffn = saveBuiltinFont();
-	instance->font = new BitmapFont( instance->resources, instance->renderer , instance->loadTexture(ffn));
-    ::remove(ffn.c_str());
+	instance->font = new BitmapFont( instance->resources, instance->renderer , 
+		instance->loadTexture(
+			 builtin_font_imagedata,
+			 builtin_font_imagedata_size,
+			 builtin_font_imagedata_width,
+			 builtin_font_imagedata_height
+		)
+	);
 
     // Clear the screen to black 
     instance->clearScreen( Color(0,0,0) );
@@ -239,6 +244,67 @@ TexturePtr RenderSystem::loadTexture( const std::string& _fn, bool _l )
     assert(true);
 
 }
+
+// Load texture from memory.
+TexturePtr RenderSystem::loadTexture( const unsigned char* const _d, const unsigned int _len, const unsigned int _w, const unsigned int _h, bool _lin )
+{
+
+	//This is the class that will hold our texture
+	TexturePtr ctext = new Texture( resources );
+
+	GLuint newtextid = SOIL_load_OGL_texture_from_memory(
+		_d,
+		_len,
+		SOIL_LOAD_RGBA,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_TEXTURE_REPEATS
+	);
+
+	if( newtextid != 0 )
+	{
+        //Load the texture
+        glBindTexture(GL_TEXTURE_2D, newtextid);
+
+        //use linear filtering
+        if ( _lin == true)
+        {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        }
+        else
+        {
+            //Use nearest filter
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        }
+
+        //Set up the Texture class
+        ctext->setTextureId(newtextid);
+        ctext->setWidth( _w );
+        ctext->setHeight( _h );
+        ctext->setName( "Loaded From Memory" );
+
+        //Return our texture
+        return ctext;
+    }
+    else
+    {
+        TexturePtr ctext = new Texture( resources );
+        ctext->setTextureId(0);
+        ctext->setWidth(0);
+        ctext->setHeight(0);
+        ctext->setName("FAILED TO LOAD");
+
+        //Return our texture
+        return ctext;
+    }
+
+    //should never happen
+    return TexturePtr();
+    assert(true);
+
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Find texture functions.

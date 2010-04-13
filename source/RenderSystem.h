@@ -168,6 +168,21 @@ namespace phoenix
         */
         TexturePtr loadTexture( const std::string& _fn , bool _l = true);
 
+		//! Load texture ( from memory )
+        /*!
+            Loads an image as a texture and adds it to the texture manager for garbage collection. This
+			function loads the file from memory as if it was a regular file.
+			Can load .png, .tga, .bmp and .jpg or any other format supported by SOIL.
+            \param _d The data buffer.
+			\param _len The length of the data buffer
+			\param _w Width
+			\param _h Height
+            \param _lin Tells the loader to use linear filtering or not. (default true).
+            \note Use nearest filtering for tilemaps, or anything that may look bad when scaled.
+            \note Textures must be sizes that are a power of two. NPOT textures will experience artifacts (or may fail all together).
+        */
+		TexturePtr RenderSystem::loadTexture( const unsigned char* const _d, const unsigned int _len, const unsigned int _w, const unsigned int _h, bool _lin = true);
+
         //! Find texture by name.
         TexturePtr findTexture(const std::string& _n);
 
