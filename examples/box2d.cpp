@@ -1,5 +1,5 @@
-/*! Hello World Example
-    This example shows the most basic of tasks with Phoenix: Saying hello.
+/*! Box2d Example.
+	Shows very simple use of phoenix and box2d.
 */
 
 /*!
