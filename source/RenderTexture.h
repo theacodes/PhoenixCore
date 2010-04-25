@@ -28,7 +28,11 @@ namespace phoenix
 
     public:
 
-        //! Private constructor
+		//! Constructor
+        /*!
+			Requires a ResourceManager and a BatchRenderer to attach to.
+			\param _sz The size of the render target. must be a power of two.
+		*/
         RenderTexture( ResourceManager& r, BatchRenderer& s, const Vector2d& _sz = Vector2d(512,512) )
                 : Texture(r), batcher(s), sview()
         {

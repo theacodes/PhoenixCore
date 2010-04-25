@@ -49,7 +49,7 @@ namespace phoenix
         /*!
            Creates a render system creates a window and opengl context. Once the system is constructed
            you are ready to start drawing stuff. It also initializes the singleton WindowManager..
-           \sa run(), draw()
+           \sa run()
            \param _sz The size of the screen (default 640,480).
            \param _fs Full screen (default false).
         */

@@ -26,10 +26,6 @@ namespace phoenix
 class BitmapFont
     : public Font
 {
-
-    //Befriend phresource
-    friend class Resource;
-
 public:
 
     //! Constructor
@@ -50,21 +46,22 @@ public:
     virtual ~BitmapFont()
     {}
 
+	//! Draws the given string at the given location.
 	virtual BatchGeometryPtr drawText( const std::string& s, const Vector2d& p = Vector2d(0,0) );
 
-    //! Gets the spacing between words, default is 10.0f.
+    //! Gets the spacing between words.
     inline float getSpacing() const { return spacing; }
 
-    //! Set spacing.
-    inline void setSpacing( float s ) { spacing = s; }
+    //! Set spacing, default is 10.0f.
+    inline void setSpacing( float s = 10.0f) { spacing = s; }
 
 
 protected:
 
-    //! Render system
+    //! Batcher.
     BatchRenderer& renderer;
 
-    //! Spacing
+    //! Spacing between characters when drawn.
     float spacing;
 
 };

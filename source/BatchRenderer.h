@@ -136,7 +136,7 @@ private:
     //! View
     View view;
 
-	//! Real removal routine ( used by prune() and move() ).
+	//! Real removal routine ( used by clean() and move() ).
 	void removeProper( boost::intrusive_ptr<BatchGeometry> _g , bool _inv = false);
 };
 

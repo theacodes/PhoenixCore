@@ -63,15 +63,7 @@ public:
 
 	//! Create from Rectangle
 	/*!
-		Factory for creating new geometry. This helper factory creates geometry from a rectangle.
-		The type automatically defaults to GL_QUADS. The texture coordinates are automatically set
-		to (0,0), (0,1), (1,1), (1,0).
-		The geometry is automatically added to the given BatchRenderer.
-		\param _r The batch renderer that will display this geometry.
-		\param _rect The rectangle.
-		\param _t The texture.
-		\param _g The group id.
-		\param _d The depth.
+		Exactly like the regular constructor but also calls fromRectangle().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
         : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
@@ -82,14 +74,7 @@ public:
 
 	//! Create from Polygon
 	/*!
-		Factory for creating new geometry. This helper factory creates geometry from a polygon.
-		The type automatically defaults to GL_TRIANGLES. No texture coordinates are generated.
-		The geometry is automatically added to the given BatchRenderer.
-		\param _r The batch renderer that will display this geometry.
-		\param _poly The polygon.
-		\param _t The texture.
-		\param _g The group id.
-		\param _d The depth.
+		Exactly like the regular constructor but also calls fromPolygon().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
         : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
@@ -220,6 +205,7 @@ public:
 		Sets OpenGL primitive type of this piece of geometry. It defaults to
 		GL_QUADS, but may be GL_TRIANGLES, GL_LINES, GL_POINTS, etc.
 		\see getPrimitiveType(), update()
+		\note update() must be called before this change will take effect!
 	*/
 	inline void setPrimitiveType( const unsigned int& _v ) { primitivetype = _v; }
 
@@ -228,6 +214,7 @@ public:
 		Sets the texture for this geometry. If it is an invalid texture or empty
 		pointer, the Id is set to 0 to disable texturing for this geometry. 
 		\see getTexture(), getTextureId(), update()
+		\note update() must be called before this change will take effect!
 	*/
 	inline void setTexture( TexturePtr _t ) 
 	{ 
@@ -238,8 +225,9 @@ public:
 	//! Set Group Id.
 	/*
 		Sets the Group identifier of this geometry. Geometries of the same group usually have the same properties and
-		share render states that are set and unset via GroupObjects in the BatchRenderer.
-		\see getGroup(), update(), BatchRender::setGroupObject()
+		share render states that are set and unset via GroupStates in the BatchRenderer.
+		\see getGroup(), update(), BatchRender::addGroupState()
+		\note update() must be called before this change will take effect!
 	*/
 	inline void setGroup( const signed int& _v ) { groupid = _v; }
 
@@ -247,6 +235,7 @@ public:
 	/*!
 		Sets the rendering depth of this geometry.
 		\see getDepth(), update()
+		\note update() must be called before this change will take effect!
 	*/
 	inline void setDepth( float _v ) { depth = _v; }
 
@@ -383,7 +372,9 @@ public:
 
 	//! Define vertices using a Rectangle.
 	/*!
-		Sets our vertices equal to the given Rectangle. This is used by the Rectangle constructor.
+		Sets our vertices equal to the given Rectangle. The type is set to GL_QUADS. 
+		The texture coordinates are automatically set to (0,0), (0,1), (1,1), (1,0). 
+		This is used by the Rectangle constructor.
 	*/
 	inline void fromRectangle( const Rectangle &rhs )
 	{

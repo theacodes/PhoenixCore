@@ -73,7 +73,7 @@ namespace phoenix
 
         //! Adds a resource to the list.
         /*!
-        	This should be called when a resource is constructed.
+        	Automatically called by Resource::Resource();
         	\sa removeResource
         */
         inline void add( boost::intrusive_ptr<Resource> rc )
@@ -84,7 +84,7 @@ namespace phoenix
 
         //! Adds a resource to the list of resources to be be garbage-collected.
         /*!
-        	This should be called in the drop() function of any resources.
+        	Automatically called by Resource::drop();
         	\sa addResource
         */
         inline void remove( boost::intrusive_ptr<Resource> rc )
@@ -124,7 +124,7 @@ namespace phoenix
             return resourcelist.size();
         }
 
-        //! Finds the resource with the given name.
+        //! Finds the (first) resource with the given name.
         boost::intrusive_ptr<Resource> find( const std::string& name );
 
         //! Get resource list

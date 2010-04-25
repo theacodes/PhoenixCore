@@ -154,8 +154,8 @@ private:
 	//! Garbage Collection Thread.
 	/*!
 		This is fairly simple, but fairly robust thread. It sleeps for gc_sleep_time, then
-		checks and runs the gc_function. It always waits for interruption from the desctructor
-		in order to be immediately terminated.
+		calls clean(). It always waits for interruption from the desctructor
+		in order to terminate.
 		\sa setGarbageCollectionFunction()
 	*/
 	void gcThreadMain()

@@ -31,10 +31,12 @@ namespace phoenix
 
     public:
 
-        //! Private constructor.
+        //! Constructor.
         /*!
-            Constructs the resource and initializes its members. It adds the resource to
-            the resource manager's list.
+            Creates the resource and initializes its members. It adds the resource to
+            the ResourceManager's object list.
+			\param rm The ResourceManager responsible for this object.
+			\param t The type of the resource. Defaults to ERT_UNKNOWN.
         */
         Resource( ResourceManager& rm, const signed int& t = ERT_UNKNOWN )
                 : Droppable(), _rmanager(rm), _type(t), _name("None")
@@ -53,8 +55,8 @@ namespace phoenix
 
         //! Grab
         /*!
-        	This should be used to grab a pointer to this resource.
-        	Derived classes should call grab<DerivedResource>(). If it fails
+        	This can be used to grab a pointer to this resource and for
+			downcasting to derived types via grab<DerivedResource>(). If it fails
         	to grab a valid pointer, or fails to cast, it will throw an exception.
         */
         template <typename T>
@@ -68,6 +70,8 @@ namespace phoenix
             This function adds this resource to the resource manager's recycle list to be
 			garbage collected. This means the object will be destructed as soon as the 
 			garbage colletor comes to it, and it should no longer be used for anything.
+			It's suggested to not actually delete any internal resources until the 
+			destructor is called.
         */
         inline virtual void drop(){ 
 			if( ! dropped() )
@@ -77,7 +81,7 @@ namespace phoenix
 			}
 		}
 
-        //! Get resource manager.
+        //! Gets this resource's ResourceManager.
         inline ResourceManager& getResourceManager()
         {
             return _rmanager;

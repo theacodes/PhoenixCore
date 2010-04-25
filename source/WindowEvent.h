@@ -18,15 +18,16 @@ namespace phoenix{
 
 //! Window Events Types
 enum E_WINDOWEVENT_TYPE{
-	WET_KEY, //!< Keyboard and mouse button events
-	WET_CHAR, //!< Keyboard character event
-	WET_MOUSE_POSITION, //!< Mouse position change
-	WET_MOUSE_WHEEL, //!< Mouse wheel change
-	WET_CLOSE, //!< Window close event
-	WET_UPDATE, //!< Window update event
-	WET_RESIZE //!< Window Resize Event.
+	WET_KEY, //!< Keyboard and mouse button events ( int_data = key, bool_data = state ).
+	WET_CHAR, //!< Keyboard character event ( int_data = char ).
+	WET_MOUSE_POSITION, //!< Mouse position change ( vector_data = position ).
+	WET_MOUSE_WHEEL, //!< Mouse wheel change ( int_data = position ).
+	WET_CLOSE, //!< Window close event.
+	WET_UPDATE, //!< Window update event.
+	WET_RESIZE //!< Window Resize Event ( vector_data = new size ).
 };
 
+//! Window Event Data
 struct WindowEvent{ 
 	E_WINDOWEVENT_TYPE type;
 	int int_data; //!< used for keys, etc.
