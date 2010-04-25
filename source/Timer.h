@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,7 +10,7 @@ distribution for more information.
 #ifndef __PHOENIXTIME_H__
 #define __PHOENIXTIME_H__
 
-#include "GL/glfw.h"
+#include "config.h"
 
 namespace phoenix
 {
@@ -82,7 +82,7 @@ namespace phoenix
 			}
 		}
 
-        //! Returns how many miliseconds the timer has gone through.
+        //! Returns how many seconds the timer has gone through.
         const double getTime() const
 		{
 		    //If the timer is running

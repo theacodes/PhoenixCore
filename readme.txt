@@ -1,7 +1,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-			    PhoenixCore v0.1
-			       January 2009
+			    PhoenixCore v0.2
+			       April 2010
 			        Jon Parrott
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,6 +29,7 @@ Phoenix requires the following libraries:
     * Boost C++ Libraries ( 1.37 + )
 	* Boost Threads
 	* Boost Datetime
+	* Boost Signals 2
     * GLFW ( 2.6 )
 
 Boost and GLFW are usually available via the package
@@ -36,9 +37,6 @@ manager on many Linux distributions. On Windows
 you can download GLFW from their website at
 http://glfw.sourceforge.net/ and I highly suggest you
 use the Boost Installer from Boost Pro Consulting.
-
-Also note that phoenix likes to use the static versions
-of Boost and GLFW on Windows.
 
 		    = Microsoft Windows (MSVC) =
 		
@@ -57,15 +55,35 @@ of Boost and GLFW on Windows.
 	"PhoenixCore" in the Build directory.
     6) Building this solution should build the core
 	library and all tests and examples.
+    7) If you run into linking errors when building
+	'Release' or 'Debug' but not both, check the
+	link libraries; CMake doesn't always do a
+	great job of detecting the correct versions.
 	
 				    = Linux =
 				    
     1) Ensure that you've installed the dev packages for
 	Boost and GLFW.
     2) Linux is usually a lot better about finding the GLFW
-	and Boost. You should be able to just make a 
-	Build directory and issue "cmake .."
+	and Boost libraries. You should be able to just make 
+	a Build directory and issue "cmake .." ( atleast on
+	ubuntu )
     3) Once CMake has made your makefiles, you should
 	be able to execute "make" and it will build the library,
 	tests, and examples.
-	
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+				Getting Help
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    You can always try the google group for phoenixcore at
+    -> http://groups.google.com/group/phoenixgl
+    
+    You are also welcome to email me at
+    -> jjramone13@gmail.com
+    
+    And you can usually find me lurking around on FreeNode
+    IRC with the handle Josie. I am usually in #irrlicht,
+    #python, #cakephp, or #opengl.

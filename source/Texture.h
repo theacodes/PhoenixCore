@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -11,7 +11,8 @@ distribution for more information.
 #define __PHOENIXTEX_H__
 
 #include <string>
-#include "GL/glfw.h"
+#include <boost/noncopyable.hpp>
+#include "config.h"
 #include "Color.h"
 #include "Vector2d.h"
 #include "Resource.h"
@@ -25,26 +26,27 @@ namespace phoenix
 		modify textures.
     */
     class Texture
-		: public Resource
+        : public Resource, boost::noncopyable
     {
 
         friend class Resource;
 
 	public:
 
-		//! Create
+
+        //! Constructor
         /*!
             Constructor that creates a texture object with the given dimensions.
             \param _t A resource manager (for garbage collection).
             \param _s The size of the texture.
+            \note The resource type for Textures is always ERT_TEXTURE.
         */
-        static inline boost::shared_ptr<Texture> create( ResourceManager& _t, const Vector2d& _s = Vector2d(0,0))
-		{
-			boost::shared_ptr<Texture> newtexture = Resource::create<Texture>( _t );
-			newtexture->setName( "Untitled" );
-			newtexture->buildTexture(_s);
-			return newtexture;
-		}
+        Texture(ResourceManager& t, const Vector2d& _s = Vector2d(0,0))
+			: Resource(t,1), texture(0), width(0), height(0), data(NULL) 
+        {
+            setName( "Untitled" );
+			build(_s);
+        }
 
         //! Destructor
         /*!
@@ -64,17 +66,17 @@ namespace phoenix
 
 
         //! Creates a solid texture with the given size and color.
-        virtual void buildTexture( const Vector2d& _s, const Color& _c = Color(255,255,255) );
+        virtual void build( const Vector2d& _s, const Color& _c = Color(255,255,255) );
 
         //! Set texture ID.
         /*!
             Sets the OpenGL texture identifier of this texture. Should never be called directly by the user, but
             can be used by custom image loading routines.
         */
-        inline void setTextureId(const GLuint& _t) { texture = _t; }
+        inline void setTextureId(GLuint _t) { texture = _t; }
 
         //! Get the OpenGL texture identifier.
-        inline const GLuint& getTextureId() const { return texture; }
+        inline GLuint getTextureId() const { return texture; }
 
         //! Changes the texture's width (Must be a power of 2).
         inline void setWidth(int _w) { width = _w; }
@@ -136,7 +138,7 @@ namespace phoenix
 		}
 
         //! Makes a hard (separate) copy of the texture.
-		boost::shared_ptr<Texture> copy();
+		boost::intrusive_ptr<Texture> copy();
 
 	protected:
 
@@ -155,14 +157,10 @@ namespace phoenix
         */
         GLubyte* data;
 
-        //! Private Constructor.
-        /*!
-            \note The resource type for Textures is always ERT_TEXTURE.
-        */
-        Texture(ResourceManager& t)
-			: Resource(t,1), texture(0), width(0), height(0), data(NULL) {}
-
     };
+
+    //! Friendly name for texture pointers
+    typedef boost::intrusive_ptr<Texture> TexturePtr;
 
 }//namespace phoenix
 

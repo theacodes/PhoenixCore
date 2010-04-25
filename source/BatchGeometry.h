@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -12,51 +12,53 @@ distribution for more information.
 #define __PHBATCHGEOMETRY_H__
 
 #include <vector>
-#include <GL/glfw.h>
+#include "config.h"
 #include "Vertex.h"
 #include "Texture.h"
 #include "Rectangle.h"
 #include "TrackingInvariant.h"
 #include "BatchRenderer.h"
+#include "Droppable.h"
 #include <boost/foreach.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/function.hpp>
+#include <boost/noncopyable.hpp>
 
 namespace phoenix
 {
+
+class BatchGeometry;
+
+//! Friendly Batch Geometry Pointer
+typedef boost::intrusive_ptr<BatchGeometry> BatchGeometryPtr;
 
 //! Batch Geometry Class.
 /*
 	This class is used by the optimizing batch renderer to display geometry.
 	Users are able to overload this class and highly customize it. This class
 	is garbage collected and managed in very similar manner to Resource, but
-	it should be noted that they are not siblings. Geometry is organized in
-	the BatchRenderer by depth, group, texture id, and primitive type. Any changes
-	to any of these properties must be followed by an update() call.
+	it should be noted that they are only alike in that they are both Droppable().
+	Geometry is organized in the BatchRenderer by depth, group, texture id, and primitive type. 
+	Any changes to any of these properties must be followed by an update() call.
 */
 class BatchGeometry
-	: public boost::enable_shared_from_this<BatchGeometry>, public virtual Droppable
+    : public Droppable, boost::noncopyable
 {
 
 public:
 
-
-	
-	//! Create
-	/*!
-		Factory for creating new geometry. The geometry is automatically added to the given BatchRenderer.
+    //! Default Constructor
+    /*!
+        The geometry is automatically added to the given BatchRenderer.
 		\param _r The batch renderer that will display this geometry.
 		\param _p The primitive type.
 		\param _t The texture.
 		\param _g The group id.
 		\param _d The depth.
-	*/
-	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, unsigned int _p = GL_QUADS, boost::shared_ptr<Texture> _t = boost::shared_ptr<Texture>(), signed int _g = 0, float _d = 0.0f )
+    */
+	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
+		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
 	{
-		boost::shared_ptr< BatchGeometry > newgeom( new BatchGeometry( _r, _p, _t, _g, _d ) );
-		_r.addGeometry( newgeom->grab<BatchGeometry>() );
-		return newgeom->grab<BatchGeometry>();
+		_r.add( this );
 	}
 
 	//! Create from Rectangle
@@ -71,13 +73,11 @@ public:
 		\param _g The group id.
 		\param _d The depth.
 	*/
-	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, const Rectangle& _rect, boost::shared_ptr<Texture> _t = boost::shared_ptr<Texture>(), signed int _g = 0, float _d = 0.0f )
+	BatchGeometry( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
+        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
 	{
-
-		boost::shared_ptr< BatchGeometry > newgeom( new BatchGeometry( _r, GL_QUADS, _t, _g, _d ) );
-		newgeom->fromRectangle( _rect );
-		_r.addGeometry( newgeom->grab<BatchGeometry>() );
-		return newgeom->grab<BatchGeometry>();
+		fromRectangle( _rect );
+		_r.add( this );
 	}
 
 	//! Create from Polygon
@@ -91,13 +91,11 @@ public:
 		\param _g The group id.
 		\param _d The depth.
 	*/
-	static boost::shared_ptr< BatchGeometry > create( BatchRenderer& _r, const Polygon& _poly, boost::shared_ptr<Texture> _t = boost::shared_ptr<Texture>(), signed int _g = 0, float _d = 0.0f )
+	BatchGeometry( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
+        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
 	{
-
-		boost::shared_ptr< BatchGeometry > newgeom( new BatchGeometry( _r, GL_TRIANGLES, _t, _g, _d ) );
-		newgeom->fromPolygon( _poly );
-		_r.addGeometry( newgeom->grab<BatchGeometry>() );
-		return newgeom->grab<BatchGeometry>();
+        fromPolygon( _poly );
+		_r.add( this );
 	}
 
 	/*!
@@ -106,6 +104,39 @@ public:
 	*/
 	virtual ~BatchGeometry()
 	{
+	}
+
+    //! Grab
+	/*!
+		Grabs a pointer to this geometry. This is very akin to Resource::grab().
+	*/
+	template <typename T>
+    inline boost::intrusive_ptr<T> grab()
+    {
+        try
+        {
+            return boost::static_pointer_cast<T,BatchGeometry>( this );
+        }
+        catch ( ... )
+        {
+            return boost::intrusive_ptr<T>();
+        }
+    }
+
+	//! Drop
+	/*!
+		Drops this geometry from the renderer, and adds it to the garbage collection
+		list. The geometry should be considered deleted. Derived classes should
+		call this manually. This is very akin to Resource::drop().
+		\sa dropped(), grab(), Droppable::drop(), Resource::drop()
+	*/
+	inline virtual void drop()
+	{
+		if( ! dropped() )
+		{
+			Droppable::drop();
+			renderer.remove( this );
+		}
 	}
 
 	//! Get vertex
@@ -148,23 +179,23 @@ public:
         return vertices.size();
     }
 
-	//! Array operator for vertices.
+	//! Array operator for vertices. (operates as a ring buffer).
 	inline Vertex& operator[] ( signed int _i ) { return vertices[ _i % vertices.size() ]; }
 
-	//! Returns the key invariant for the Primitive Type (used by BatchRender).
+	//! Returns the invariant for the Primitive Type (used by BatchRender).
 	inline TrackingInvariant< unsigned int >& getPrimitiveTypeInvariant() { return primitivetype; }
 
-	//! Returns the key invariant for the Textured ID (used by BatchRender).
+	//! Returns the invariant for the Textured ID (used by BatchRender).
 	inline TrackingInvariant< unsigned int >& getTextureIdInvariant() { return textureid; }
 
-	//! Returns the key invariant for the Group ID (used by BatchRender).
+	//! Returns the invariant for the Group ID (used by BatchRender).
 	inline TrackingInvariant< signed int >& getGroupInvariant() { return groupid; }
 
-	//! Returns the key invariant for the Depth (used by BatchRender).
+	//! Returns the invariant for the Depth (used by BatchRender).
 	inline TrackingInvariant< float >& getDepthInvariant() { return depth; }
 
 	//! Get the texture associated with this geometry.
-	inline boost::shared_ptr< Texture > getTexture() { return texture; }
+	inline TexturePtr getTexture() { return texture; }
 
 	//! Get the OpenGL Primitive Type associated with this geometry.
 	inline const unsigned int& getPrimitiveType() const { return primitivetype; }
@@ -198,7 +229,7 @@ public:
 		pointer, the Id is set to 0 to disable texturing for this geometry. 
 		\see getTexture(), getTextureId(), update()
 	*/
-	inline void setTexture( boost::shared_ptr< Texture > _t ) 
+	inline void setTexture( TexturePtr _t ) 
 	{ 
 		texture = _t; 
 		textureid = _t ? _t->getTextureId() : 0 ;
@@ -207,9 +238,8 @@ public:
 	//! Set Group Id.
 	/*
 		Sets the Group identifier of this geometry. Geometries of the same group usually have the same properties and
-		share render states that are set and unset via the groupEnd() and groupBegin() functions. All geometry of
-		the same group id should have the same groupEnd() and groupBegin() functions.
-		\see getGroup(), update(), groupEnd(), groupBegin()
+		share render states that are set and unset via GroupObjects in the BatchRenderer.
+		\see getGroup(), update(), BatchRender::setGroupObject()
 	*/
 	inline void setGroup( const signed int& _v ) { groupid = _v; }
 
@@ -235,24 +265,6 @@ public:
 	*/
 	inline void setImmediate( bool _i ) { immediate = _i; }
 
-	//! Set group begin function.
-	/*!
-		The given function is called by the renderer on the first geometry of any given group before that group is drawn. 
-		It should establish common renderstate of all members of the group (such as a new blending mode). All 
-		geometry of the same type should have the same group functions.
-		\see groupBegin(), setGroupEndFunction()
-	*/
-	inline void setGroupBeginFunction( boost::function< void() > _f ) { groupbegin = _f; }
-
-	//! Set group end function.
-	/*!
-		The given function is called by the renderer on the first geometry of any given group after that group is drawn. 
-		It should restore anything set by the group begin function (such as restoring a blending mode). All 
-		geometry of the same type should have the same group functions.
-		\see groupEnd(), setGroupBeginFunction()
-	*/
-	inline void setGroupEndFunction( boost::function< void() > _f ) { groupend = _f; }
-
 	//! Update
 	/*!
 		This function will check all invariants and move the geometry's location in the renderer's graph
@@ -263,47 +275,11 @@ public:
 	{
 		if( ! (primitivetype.check() && textureid.check() && groupid.check() && depth.check()) )
 		{
-#ifdef DEBUG_BATCHGEOMETRY
-			std::cout<<"\n - Invariant "<<primitivetype.check()<<textureid.check()<<groupid.check()<<depth.check()<<" failed on "<<this<<std::endl;
-#endif
-			renderer.moveGeometry( grab<BatchGeometry>() );
+			renderer.move( this );
 			primitivetype.reset();
 			textureid.reset();
 			groupid.reset();
 			depth.reset();
-		}
-	}
-
-	//! Grab
-	/*!
-		Grabs a pointer to this geometry. This is very akin to Resource::grab().
-	*/
-	template <typename T>
-    inline boost::shared_ptr<T> grab()
-    {
-        try
-        {
-            return boost::static_pointer_cast<T,BatchGeometry>( shared_from_this() );
-        }
-        catch ( ... )
-        {
-            return boost::shared_ptr<T>();
-        }
-    }
-
-	//! Drop
-	/*!
-		Drops this geometry from the renderer, and adds it to the garbage collection
-		list. The geometry should be considered deleted. Derived classes should
-		call this manually. This is very akin to Resource::drop().
-		\sa dropped(), grab(), Droppable::drop(), Resource::drop()
-	*/
-	inline virtual void drop()
-	{
-		if( ! dropped() )
-		{
-			Droppable::drop();
-			renderer.removeGeometry( grab<BatchGeometry>() );
 		}
 	}
 
@@ -313,7 +289,6 @@ public:
 		graph. The geometry should append all of it's vertices to the renderer's
 		list.
 		\param list The current vertex list from the current BatchRender.
-		\returns The number of elements added (this is currently optional).
 	*/
 	virtual unsigned int batch( std::vector<Vertex>& list )
 	{
@@ -333,30 +308,6 @@ public:
 			return 1;
 		}
 		return 0;
-	}
-
-	//! Call Group begin function
-	/*!
-		This is called by BatchRender for the first member of every group before drawing. It calls the function specified by
-		setGroupBeginFunction(). 
-		@see groupEnd()
-	*/
-	virtual void groupBegin()
-	{
-		if( groupbegin )
-			groupbegin();
-	}
-
-	//! Call Group begin function
-	/*!
-		This is called by BatchRender for the first member of every group before drawing. It calls the function specified by
-		setGroupBeginFunction(). 
-		@see groupEnd()
-	*/
-	virtual void groupEnd()
-	{
-		if( groupend )
-			groupend();
 	}
 
 	//! Translate
@@ -440,9 +391,9 @@ public:
 		update();
 		vertices.clear();
 		vertices.push_back( Vertex( Vector2d(0,0), Color(), TextureCoords(0,0) ) );
-		vertices.push_back( Vertex( Vector2d(0, rhs.getDimensions().getY() ), Color(), TextureCoords(0,1) ) );
-		vertices.push_back( Vertex( rhs.getDimensions(), Color(), TextureCoords(1,1) ) );
-		vertices.push_back( Vertex( Vector2d( rhs.getDimensions().getX(), 0 ), Color(), TextureCoords(1,0) ) );
+		vertices.push_back( Vertex( Vector2d(0, rhs.getSize().getY() ), Color(), TextureCoords(0,1) ) );
+		vertices.push_back( Vertex( rhs.getSize(), Color(), TextureCoords(1,1) ) );
+		vertices.push_back( Vertex( Vector2d( rhs.getSize().getX(), 0 ), Color(), TextureCoords(1,0) ) );
 		translate( rhs.getPosition() );
 	}
 
@@ -465,14 +416,9 @@ protected:
 	TrackingInvariant< unsigned > textureid;
 
 	//! Texture
-	boost::shared_ptr<Texture> texture;
+	TexturePtr texture;
 
 	//! Group ID.
-	/*
-		The Group identifier of this geometry. Geometries of the same group usually have the same properties and
-		share render states that are set and unset via the groupEnd() and groupBegin() functions. All geometry of
-		the same group id should have the same groupEnd() and groupBegin() functions.
-	*/
 	TrackingInvariant< signed int > groupid;
 
 	//! Depth
@@ -489,31 +435,6 @@ protected:
 		If geometry is immediate, it is dropped right after it is drawn, so it only stays for one frame.
 	*/
 	bool immediate;
-
-	//! Group Begin Function
-	/*
-		This function is called by the renderer on the first geometry of any given group before that group is drawn. 
-		This should establish common renderstate of all members of the group (such as a new blending mode). All 
-		geometry of the same type should have the same group functions.
-	*/
-	boost::function< void() > groupbegin;
-
-	//! Group End Function
-	/*
-		This function is called by the renderer on the first geometry of any given group after that group is drawn. 
-		This should restore anything set by the group begin function (such as restoring a blending mode). All 
-		geometry of the same type should have the same group functions.
-	*/
-	boost::function< void() > groupend;
-
-	//! Private Constructor
-	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, boost::shared_ptr<Texture> _t = boost::shared_ptr<Texture>(), signed int _g = 0, float _d = 0.0f )
-		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), groupbegin(), groupend()
-	{
-#ifdef DEBUG_BATCHGEOMETRY
-		std::cout<<"\nBatch Geometry Created: "<<_r<<", "<<_p<<", "<<_t.get()<<", "<<_g<<", "<<_d<<std::endl;
-#endif
-	}
 
 
 };

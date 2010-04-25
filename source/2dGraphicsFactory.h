@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PH_2D_GFX_FACTORY_H__
 #define __PH_2D_GFX_FACTORY_H__
 
+#include "config.h"
 #include "AbstractGeometryFactory.h"
 #include "BatchRenderer.h"
 
@@ -24,11 +25,12 @@ enum E_GEOMETRY_FLAGS
     EGF_VFLIP = 0x0002 //!< Vertical Flip
 };
 
-/*! 2D Graphics Factory
+//! Factory for creating common 2d graphics.
+/*!
     This class provides a factory for creating common 2d graphics
     such as lines, rectangles, polygons, texture rectangles and polygons,
     etc. It is one of the base classes for RenderSystem. All geometry
-    created by this factory is immediate.
+    created by this factory is immediate, but can be set persistent.
     \sa RenderSystem
 */
 class GraphicsFactory2d
@@ -41,7 +43,7 @@ public:
     /*!
         Makes a new factory and ties it to BatchRenderer.
     */
-    GraphicsFactory2d( BatchRenderer* _r )
+    GraphicsFactory2d( BatchRenderer& _r )
         : AbstractGeometryFactory(), renderer( _r )
     {
     }
@@ -49,12 +51,6 @@ public:
     //! Destructor
     virtual ~GraphicsFactory2d()
     {}
-
-    //! Sets the batch renderer to attach newly created geometry to.
-    inline void setBatchRenderer( BatchRenderer* _r ) { renderer = _r; }
-
-    //! Gets the batch renderer that newly created geometry is attched to.
-    inline BatchRenderer* getBatchRenderer( ) { return renderer; }
 
     //! Draws a 2D line segment with a color for each end.
 	/*!
@@ -65,7 +61,7 @@ public:
 		\param _b Color of the second vertex.
 		\sa drawRay()
 	*/
-	boost::shared_ptr<BatchGeometry> drawLine(const Vector2d& _v1 = Vector2d(0,0), const Vector2d& _v2 = Vector2d(0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255,255));
+	BatchGeometryPtr drawLine(const Vector2d& _v1 = Vector2d(0,0), const Vector2d& _v2 = Vector2d(0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255,255));
 
 	//! Draws a 2D ray with a color for each end starting from the origin.
 	/*!
@@ -76,7 +72,7 @@ public:
 		\param _b Color of the end of the ray.
 		\sa drawLine()
 	*/
-	inline boost::shared_ptr<BatchGeometry> drawRay(const Vector2d& _o = Vector2d(0,0), const Vector2d& _r = Vector2d(0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255,255))
+	inline BatchGeometryPtr drawRay(const Vector2d& _o = Vector2d(0,0), const Vector2d& _r = Vector2d(0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255,255))
     {
         return drawLine( _o, _o+_r, _a, _b );
     }
@@ -90,13 +86,13 @@ public:
         \param _c Color of the bottom-right corner.
         \param _d Color of the bottom-left corner.
     */
-    boost::shared_ptr<BatchGeometry> drawRectangle( const Rectangle& _r = Rectangle(0,0,0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255), const Color& _c = Color(255,255,255), const Color& _d = Color(255,255,255) );
+    BatchGeometryPtr drawRectangle( const Rectangle& _r = Rectangle(0,0,0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255), const Color& _c = Color(255,255,255), const Color& _d = Color(255,255,255) );
 
     //! Draws a polygon.
     /*!
         Simply draws a polygon with the given depth and color. This is a geometry factory.
     */
-    boost::shared_ptr<BatchGeometry> drawPolygon (const Polygon& _p, const Color& _a = Color(255,255,255));
+    BatchGeometryPtr drawPolygon (const Polygon& _p, const Color& _a = Color(255,255,255));
 
     //! Draws a textured polygon.
     /*!
@@ -108,7 +104,7 @@ public:
         \param _c The Color to be applied to the polygon.
         \param _e Set to true to generate coordniates in eye space instead of object space.
     */
-    boost::shared_ptr<BatchGeometry> drawTexturedPolygon (const Polygon& _p, boost::shared_ptr<Texture> _t, const Color& _c = Color(255,255,255), bool _e = false);
+    BatchGeometryPtr drawTexturedPolygon (const Polygon& _p, TexturePtr _t, const Color& _c = Color(255,255,255), bool _e = false);
 
     //! Draw texture.
     /*!
@@ -121,7 +117,7 @@ public:
         \param _flags E_GEOMETRY_FLAGS for certain effects.
         \sa drawTexturePart()
     */
-    boost::shared_ptr<BatchGeometry> drawTexture( boost::shared_ptr<Texture> _t, const Vector2d& _p, const RotationMatrix& _rot = RotationMatrix( 0.0f ), const Vector2d& _scale = Vector2d(1.0f,1.0f), const Color& _color = Color(255,255,255), unsigned int _flags = EGF_NONE );
+   BatchGeometryPtr drawTexture( TexturePtr _t, const Vector2d& _p, const RotationMatrix& _rot = RotationMatrix( 0.0f ), const Vector2d& _scale = Vector2d(1.0f,1.0f), const Color& _color = Color(255,255,255), unsigned int _flags = EGF_NONE );
 
     //! Draws a texture with a clipping rectangle.
     /*!
@@ -135,12 +131,12 @@ public:
         \param _flags E_GEOMETRY_FLAGS for certain effects.
         \sa drawTexture()
     */
-    boost::shared_ptr<BatchGeometry> drawTexturePart( boost::shared_ptr<Texture> _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot = RotationMatrix(0.0f), const Vector2d& _scale=Vector2d(1.0f,1.0f), const Color& _color=Color(255,255,255), unsigned int _flags = EGF_NONE );
+    BatchGeometryPtr drawTexturePart( TexturePtr _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot = RotationMatrix(0.0f), const Vector2d& _scale=Vector2d(1.0f,1.0f), const Color& _color=Color(255,255,255), unsigned int _flags = EGF_NONE );
 
 
 protected:
 
-    BatchRenderer* renderer;
+    BatchRenderer& renderer;
 };
 
 }

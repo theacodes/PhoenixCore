@@ -1,6 +1,6 @@
-/*
+ /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -15,7 +15,7 @@ using namespace phoenix;
 /*!--------------------------
 Build a blank texture
 ----------------------------*/
-void Texture::buildTexture( const Vector2d& _s, const Color& _c )
+void Texture::build( const Vector2d& _s, const Color& _c )
 {
 
     unsigned int a = (unsigned int)_s.getX();
@@ -134,7 +134,7 @@ bool Texture::lock()
 // Copy texture
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<Texture> Texture::copy()
+boost::intrusive_ptr<Texture> Texture::copy()
 {
      // Generate the destination texture
      GLuint nTexID_out = 0;
@@ -152,7 +152,7 @@ boost::shared_ptr<Texture> Texture::copy()
 
      unlock();
 
-     boost::shared_ptr<Texture> newtexture = Texture::create( getResourceManager() );
+     TexturePtr newtexture = new Texture( getResourceManager() );
      newtexture->setTextureId( nTexID_out );
      newtexture->setWidth( width );
      newtexture->setHeight( width );

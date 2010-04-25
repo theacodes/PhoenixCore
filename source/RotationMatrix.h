@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHROTATIONMATRIX_H__
 #define __PHROTATIONMATRIX_H__
 
+#include "config.h"
 #include <math.h>
 
 namespace phoenix

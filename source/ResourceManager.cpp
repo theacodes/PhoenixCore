@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -17,21 +17,21 @@ using namespace phoenix;
 /*!---------------------
 Find resource
 -----------------------*/
-boost::shared_ptr<phoenix::Resource> phoenix::ResourceManager::findResource( const std::string& name )
+boost::intrusive_ptr<phoenix::Resource> phoenix::ResourceManager::find( const std::string& name )
 {
 	boost::recursive_mutex::scoped_lock( *getMutex() );
-    for( std::list< boost::shared_ptr<phoenix::Resource> >::iterator i = resourcelist.begin(); i != resourcelist.end(); ++i )
+    for( std::list< boost::intrusive_ptr<phoenix::Resource> >::iterator i = resourcelist.begin(); i != resourcelist.end(); ++i )
     {
         if( (*i)->getName() == name )
         {
             return (*i)->grab<phoenix::Resource>();
         }
     }
-    return boost::shared_ptr<phoenix::Resource>();
+    return boost::intrusive_ptr<phoenix::Resource>();
 }
 
 //Garbage collector
-void phoenix::ResourceManager::garbageCollect()
+void phoenix::ResourceManager::clean()
 {
 	
 	boost::recursive_mutex::scoped_lock l( getMutex() );
@@ -43,7 +43,7 @@ void phoenix::ResourceManager::garbageCollect()
 	{
 		if( ! recyclelist.empty() )
 		{
-			boost::shared_ptr<phoenix::Resource>& g = recyclelist.back();
+			boost::intrusive_ptr<phoenix::Resource>& g = recyclelist.back();
 			if( g )
 				resourcelist.remove( g );
 			recyclelist.pop_back();

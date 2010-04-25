@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,26 +10,26 @@ distribution for more information.
 #ifndef __PHOENIXKEYS__
 #define __PHOENIXKEYS__
 
-#include "GL/glfw.h"
+#include "config.h"
 
 namespace phoenix
 {
 
     //! Mouse button definitions
     /*!
-    	Defines mouse buttons for the event receiver.
+    	Defines mouse buttons for window events
     	\sa EventReceiver
     */
     enum MouseButton
     {
-        PHK_MB_LEFT     =   GLFW_MOUSE_BUTTON_LEFT,
-        PHK_MB_RIGHT	=   GLFW_MOUSE_BUTTON_RIGHT,
-        PHK_MB_MIDDLE   =   GLFW_MOUSE_BUTTON_MIDDLE
+        PHK_MB_LEFT     =   0,
+        PHK_MB_RIGHT	=   1,
+        PHK_MB_MIDDLE   =   2
     };
 
     //! Keyboard key definitions
     /*!
-    	Defines keyboard keys for the event receiver.
+    	Defines keyboard keys for window events.
     	\sa EventReceiver
     */
     enum Key
@@ -78,69 +78,69 @@ namespace phoenix
         PHK_BACKSLASH           ='\\',
         PHK_EQUAL               ='=',
         PHK_MINUS               ='-',
-        PHK_SPACE				=GLFW_KEY_SPACE,
-        PHK_ESC					=GLFW_KEY_ESC,
-        PHK_F1					=GLFW_KEY_F1,
-        PHK_F2					=GLFW_KEY_F2,
-        PHK_F3					=GLFW_KEY_F3,
-        PHK_F4					=GLFW_KEY_F4,
-        PHK_F5					=GLFW_KEY_F5,
-        PHK_F6					=GLFW_KEY_F6,
-        PHK_F7					=GLFW_KEY_F7,
-        PHK_F8					=GLFW_KEY_F8,
-        PHK_F9					=GLFW_KEY_F9,
-        PHK_F10					=GLFW_KEY_F10,
-        PHK_F11					=GLFW_KEY_F11,
-        PHK_F12					=GLFW_KEY_F12,
-        PHK_F13					=GLFW_KEY_F13,
-        PHK_F14					=GLFW_KEY_F14,
-        PHK_F15					=GLFW_KEY_F15,
-        PHK_F16					=GLFW_KEY_F16,
-        PHK_F17					=GLFW_KEY_F17,
-        PHK_F18					=GLFW_KEY_F18,
-        PHK_F19					=GLFW_KEY_F19,
-        PHK_F20					=GLFW_KEY_F20,
-        PHK_F21					=GLFW_KEY_F21,
-        PHK_F22					=GLFW_KEY_F22,
-        PHK_F23					=GLFW_KEY_F23,
-        PHK_F24					=GLFW_KEY_F24,
-        PHK_F25					=GLFW_KEY_F25,
-        PHK_UP					=GLFW_KEY_UP,
-        PHK_DOWN				=GLFW_KEY_DOWN,
-        PHK_LEFT				=GLFW_KEY_LEFT,
-        PHK_RIGHT				=GLFW_KEY_RIGHT,
-        PHK_LSHIFT				=GLFW_KEY_LSHIFT,
-        PHK_RSHIFT				=GLFW_KEY_RSHIFT,
-        PHK_LCTRL				=GLFW_KEY_LCTRL,
-        PHK_RCTRL				=GLFW_KEY_RCTRL,
-        PHK_LALT				=GLFW_KEY_LALT,
-        PHK_RALT				=GLFW_KEY_RALT,
-        PHK_TAB					=GLFW_KEY_TAB,
-        PHK_ENTER				=GLFW_KEY_ENTER,
-        PHK_BACKSPACE			=GLFW_KEY_BACKSPACE,
-        PHK_INSERT				=GLFW_KEY_INSERT,
-        PHK_DEL					=GLFW_KEY_DEL,
-        PHK_PAGEUP				=GLFW_KEY_PAGEUP,
-        PHK_PAGEDOWN			=GLFW_KEY_PAGEDOWN,
-        PHK_HOME				=GLFW_KEY_HOME,
-        PHK_END					=GLFW_KEY_END,
-        PHK_KP_0				=GLFW_KEY_KP_0,
-        PHK_KP_1				=GLFW_KEY_KP_1,
-        PHK_KP_2				=GLFW_KEY_KP_2,
-        PHK_KP_3				=GLFW_KEY_KP_3,
-        PHK_KP_4				=GLFW_KEY_KP_4,
-        PHK_KP_5				=GLFW_KEY_KP_5,
-        PHK_KP_6				=GLFW_KEY_KP_6,
-        PHK_KP_7				=GLFW_KEY_KP_7,
-        PHK_KP_8				=GLFW_KEY_KP_8,
-        PHK_KP_9				=GLFW_KEY_KP_9,
-        PHK_KP_ADD				=GLFW_KEY_KP_ADD,
-        PHK_KP_SUBTRACT			=GLFW_KEY_KP_SUBTRACT,
-        PHK_KP_DIVIDE			=GLFW_KEY_KP_DIVIDE,
-        PHK_KP_MULTIPLY			=GLFW_KEY_KP_MULTIPLY,
-        PHK_KP_DECIMAL			=GLFW_KEY_KP_DECIMAL,
-        PHK_KP_EQUAL			=GLFW_KEY_KP_EQUAL,
-        PHK_KP_ENTER			=GLFW_KEY_KP_ENTER
+        PHK_SPACE				=32,
+        PHK_ESC					=257,
+        PHK_F1					=258,
+        PHK_F2					=259,
+        PHK_F3					=260,
+        PHK_F4					=261,
+        PHK_F5					=262,
+        PHK_F6					=263,
+        PHK_F7					=264,
+        PHK_F8					=265,
+        PHK_F9					=266,
+        PHK_F10					=267,
+        PHK_F11					=268,
+        PHK_F12					=269,
+        PHK_F13					=270,
+        PHK_F14					=271,
+        PHK_F15					=272,
+        PHK_F16					=273,
+        PHK_F17					=274,
+        PHK_F18					=275,
+        PHK_F19					=276,
+        PHK_F20					=277,
+        PHK_F21					=278,
+        PHK_F22					=279,
+        PHK_F23					=280,
+        PHK_F24					=281,
+        PHK_F25					=282,
+        PHK_UP					=283,
+        PHK_DOWN				=284,
+        PHK_LEFT				=285,
+        PHK_RIGHT				=286,
+        PHK_LSHIFT				=287,
+        PHK_RSHIFT				=288,
+        PHK_LCTRL				=289,
+        PHK_RCTRL				=290,
+        PHK_LALT				=291,
+        PHK_RALT				=292,
+        PHK_TAB					=293,
+        PHK_ENTER				=294,
+        PHK_BACKSPACE			=295,
+        PHK_INSERT				=296,
+        PHK_DEL					=297,
+        PHK_PAGEUP				=298,
+        PHK_PAGEDOWN			=299,
+        PHK_HOME				=300,
+        PHK_END					=301,
+        PHK_KP_0				=302,
+        PHK_KP_1				=303,
+        PHK_KP_2				=304,
+        PHK_KP_3				=305,
+        PHK_KP_4				=306,
+        PHK_KP_5				=307,
+        PHK_KP_6				=308,
+        PHK_KP_7				=309,
+        PHK_KP_8				=310,
+        PHK_KP_9				=311,
+        PHK_KP_ADD				=315,
+        PHK_KP_SUBTRACT			=314,
+        PHK_KP_DIVIDE			=312,
+        PHK_KP_MULTIPLY			=313,
+        PHK_KP_DECIMAL			=316,
+        PHK_KP_EQUAL			=317,
+        PHK_KP_ENTER			=318
     };
 
 } //namespace phoenix

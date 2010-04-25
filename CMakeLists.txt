@@ -63,6 +63,8 @@ set( SEARCH_PATHS
 	${GLFW_PATH}
 	${GLFW_PATH}/include
 	${GLFW_PATH}/lib
+	${GLFW_PATH}/support/msvc80/Release
+	${GLFW_PATH}/support/msvc80/Debug
 	)
 	
 FIND_PATH( GLFW_INCLUDE_DIR GL/glfw.h PATHS ${SEARCH_PATHS} )
@@ -174,7 +176,7 @@ include_directories( ${PhoenixCore_SOURCE_DIR}/source ${INCLUDES})
 # Set the path for the data dir
 ############################################
 
-ADD_DEFINITIONS( -DDATA_DIR="${PhoenixCore_SOURCE_DIR}/data/" )
+ADD_DEFINITIONS( -DPHOENIXCORE_DATA_DIR="${PhoenixCore_SOURCE_DIR}/data/" )
 
 ############################################
 # Include the source CMakeLists.txt

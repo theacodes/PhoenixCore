@@ -2,7 +2,10 @@
 #define __PH_DEBUG_CONSOLE_H__
 
 #include <string>
-#include "AbstractGeometryFactory.h"
+#include "config.h"
+#include "2dGraphicsFactory.h"
+#include "WindowManager.h"
+#include "Font.h"
 #include "Color.h"
 #include "View.h"
 
@@ -13,28 +16,34 @@ class RenderSystem;
 
 //! Debug Console
 /*!
-    The debug console provides an easy and familiar way to debug graphical applications in phoenix. The RenderSystem has one of these
-    by default, accessible from RenderSystem::getDebugConsole().
+    The debug console provides an easy and familiar way to debug graphical applications in phoenix. Any
+	class that can be written to an ostream can be used in the write() function. There is usually only
+	one DebugConsole and it is accessible through RenderSystem::getDebugConsole();
 */
 class DebugConsole
-    : public virtual AbstractGeometryFactory
+    : public virtual GraphicsFactory2d
 {
 public:
 
-    //! Constructor
+	//! Constructor
     /*!
-        Makes a new debug console. Requires a reference to a RenderSystem.
+        Makes a new debug console. Requires a reference to the render system.
     */
-    DebugConsole( RenderSystem& r )
-        : AbstractGeometryFactory( 1000.f, -10 ), enabled( false ), lines(), linelimit(0), system(r), backcolor(0,0,0,200), fontcolor(127,127,255)
-    {
-        setGroupBeginFunction( boost::function< void() >( &DebugConsole::groupBegin ) );
-        setGroupEndFunction( boost::bind( &DebugConsole::groupEnd, this ) );
-        updateLineLimit();
-    }
+    DebugConsole( RenderSystem& _r );
 
-    //! Does nothing.
-    virtual ~DebugConsole() {}
+    //! Destructor
+    virtual ~DebugConsole() {
+		event_connection.disconnect();
+	}
+
+	//! Listens for Window Events ( To Open/Close the console ).
+	void onWindowEvent( const WindowEvent& e );
+
+    //! Get the font.
+    FontPtr getFont() { return font; }
+
+    //! Set the font.
+    void setFont( FontPtr _f ) { font = _f; }
 
     //! Set the background color.
     void setBackgroundColor( const Color& _c = Color(0,0,0,200) ) { backcolor = _c; }
@@ -74,7 +83,7 @@ public:
     }
 
     //! Prints the console's content to cout.
-    void print()
+    void dump()
     {
         for( std::deque< std::string >::iterator i = lines.begin(); i != lines.end(); ++i )
         {
@@ -82,10 +91,14 @@ public:
         }
     }
 
-    //! Update the line limit based on the size of the window manager.
+    //! Update the line limit based on the size of the window.
     void updateLineLimit()
     {
-        linelimit = (unsigned int)((WindowManager::getScreenSize().getY())/16.0f) - 2;
+		try{
+			linelimit = (unsigned int)(((WindowManager::Instance())->getWindowSize().getY())/16.0f) - 2;
+		} catch ( WindowManager::BadInstance ){
+			linelimit = 10;
+		}
     }
 
     //! Removes old lines that are beyond the limit of displayable lines.
@@ -109,36 +122,47 @@ public:
 
     //! Draw the console.
     /*!
-        The RenderSystem automatically calls this during RenderSystem::run(). It runs through all
-        the lines and draws them.
+        Runs through all the lines and draws them. Automatically called on the
+		WET_UPDATE event.
     */
     void draw( );
     
 
-    //! Group begin function.
-    /*!
-        Clears the view state so that user transformations do not effect the console.
-    */
-    inline static void groupBegin()
-    {
-        View view;
-        view.activate();
-    }
-
-    //! Group end funciton.
-    /*!
-        Restores the render system's transformations.
-    */
-    void groupEnd();
-
 protected:
 
+	//! Connection to Window Manager
+	boost::signals2::connection event_connection;
+
+	//! Font
+    FontPtr font;
+
+	//! Enabled or not.
     bool enabled;
-    RenderSystem& system;
+
+	//! List of lines.
     std::deque< std::string > lines;
+
+	//! The most lines that can be displayed on the screen.
     unsigned int linelimit;
+
+	//! Background Color.
     Color backcolor;
+
+	//! Foreground Color.
     Color fontcolor;
+
+	//! Debug Console Group State Manager.
+	/*!
+		Changes views so user transformations don't
+		effect the console.
+	*/
+	class ConsoleGroupState
+		:public GroupState
+	{
+		virtual void begin( BatchRenderer& );
+		virtual void end( BatchRenderer& );
+	};
+
 };
 
 } //namespace phoenix;

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -8,7 +8,21 @@ distribution for more information.
 */
 
 #ifndef __PHDROPPABLE_H__
-#define __PHDROPABLE_H__
+#define __PHDROPPABLE_H__
+
+#include <boost/intrusive_ptr.hpp>
+#include "config.h"
+
+// Intrusive_ptr stuff foward decl
+namespace phoenix{ class Droppable; }
+
+namespace boost{
+	//! Droppable intrusive_ptr reference increment function.
+    void intrusive_ptr_add_ref( phoenix::Droppable*);
+	//! Droppable intrusive_ptr reference decrement function.
+    void intrusive_ptr_release( phoenix::Droppable*);
+}
+
 
 namespace phoenix
 {
@@ -19,7 +33,8 @@ namespace phoenix
 	this eases the creating of garbage collected objects that are to be
 	iterated over. Derived classes should add themselves to their managers
 	recycle list to be garbage collected. Dropped objects are considered
-	deleted and should be skipped during iteration.
+	deleted and should be skipped during iteration. It also provides
+    the facilities for intrusive_ptr to work on droppable objects.
 	\sa AbstractGarbageCollector
 */
 class Droppable
@@ -28,7 +43,7 @@ class Droppable
 public:
 
 	Droppable()
-		: _dropped( false )
+		: _refcount(0), _dropped( false )
 	{}
 
 	virtual ~Droppable()
@@ -43,6 +58,7 @@ public:
 	*/
 	inline virtual void drop()
 	{
+        if( _dropped == true ) throw BadDrop();
 		_dropped = true;
 	}
 
@@ -57,12 +73,36 @@ public:
 		return _dropped;
 	}
 
-private:
-	bool _dropped;
+    //! Get reference count
+    inline unsigned int getReferenceCount(){ return _refcount; }
 
+    class BadRelease{}; //!< Bad intrusive_ptr release exception.
+    class BadDrop{}; //!< Bad drop() exception.
+
+private:
+
+    friend void boost::intrusive_ptr_add_ref( Droppable* );
+    friend void boost::intrusive_ptr_release( Droppable* );
+
+    unsigned int _refcount;
+	bool _dropped;
 
 }; //class droppable
 
+//! Friendly name for ptrs to droppables.
+typedef boost::intrusive_ptr< Droppable > DroppablePtr;
+
 } //namespace phoenix
+
+// Intrusive_ptr stuff 
+namespace boost{
+    inline void intrusive_ptr_add_ref( phoenix::Droppable* ptr ){ ++(ptr->_refcount); }
+    inline void intrusive_ptr_release( phoenix::Droppable* ptr ){
+        if( ptr->_refcount == 0 ) throw phoenix::Droppable::BadRelease();
+        if( (--ptr->_refcount) == 0){
+            delete ptr;
+        }
+    }
+}
 
 #endif //__PHDROPPABLE_H__

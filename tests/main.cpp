@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -28,6 +28,9 @@ distribution for more information.
 #endif
 #ifdef _TESTS_RESOURCE_
 	#include "ResourceTest.h"
+#endif
+#ifdef _TESTS_SINGLETON_
+	#include "SingletonTest.h"
 #endif
 #ifdef _TESTS_VIEW_
 	#include "ViewTest.h"
@@ -59,6 +62,9 @@ int main()
 #endif
 #ifdef _TESTS_RESOURCE_
 		ResourceTest test;
+#endif
+#ifdef _TESTS_SINGLETON_
+		SingletonTest test;
 #endif
 #ifdef _TESTS_VIEW_
 		ViewTest test;

@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -16,7 +16,7 @@ class ViewTest
     public:
 
         ViewTest() : system()
-        {
+		{
         }
 
         virtual ~ViewTest()
@@ -44,25 +44,25 @@ class ViewTest
                     break;
 
                 //! Move the view with the arrow keys
-                if(EventReceiver::getKey( PHK_LEFT ) )
+                if(EventReceiver::Instance()->getKey( PHK_LEFT ) )
                     system.getView().setPosition( system.getView().getPosition()+Vector2d( -5,0 ) );
-                if(EventReceiver::getKey( PHK_RIGHT ) )
+                if(EventReceiver::Instance()->getKey( PHK_RIGHT ) )
                     system.getView().setPosition( system.getView().getPosition()+Vector2d( 5,0 ) );
-                if(EventReceiver::getKey( PHK_UP ) )
+                if(EventReceiver::Instance()->getKey( PHK_UP ) )
                     system.getView().setPosition( system.getView().getPosition()+Vector2d( 0,-5 ) );
-                if(EventReceiver::getKey( PHK_DOWN ) )
+                if(EventReceiver::Instance()->getKey( PHK_DOWN ) )
                     system.getView().setPosition( system.getView().getPosition()+Vector2d( 0,5 ) );
 
                 //! Rotate with q and w
-                if(EventReceiver::getKey( PHK_W ) )
+                if(EventReceiver::Instance()->getKey( PHK_W ) )
                     system.getView().setRotation( system.getView().getRotation() + 10.0f );
-                if(EventReceiver::getKey( PHK_Q ) )
+                if(EventReceiver::Instance()->getKey( PHK_Q ) )
                     system.getView().setRotation( system.getView().getRotation() - 10.0f );
 
                 //! Scale with a and s
-                if(EventReceiver::getKey( PHK_A ) )
+                if(EventReceiver::Instance()->getKey( PHK_A ) )
                     system.getView().setScale( system.getView().getScale() * 0.99f );
-                if(EventReceiver::getKey( PHK_S ) )
+                if(EventReceiver::Instance()->getKey( PHK_S ) )
                     system.getView().setScale( system.getView().getScale() * 1.01f );
 
                 //! Draw some lines

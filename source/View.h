@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,7 +10,7 @@ distribution for more information.
 #ifndef __PHOENIXVIEW__
 #define __PHOENIXVIEW__
 
-#include <GL/glfw.h>
+#include "config.h"
 #include "Vector2d.h"
 #include "WindowManager.h"
 
@@ -30,10 +30,12 @@ namespace phoenix
         //! Constructor.
         /*!
             \param _p The position of the top-left corner of the view.
+			\param _s The size of the view.
         */
-        View( const Vector2d& _p = Vector2d(0.0f,0.0f))
-			: pos(_p), rot(0.0f), scale(1.0f,1.0f), size( WindowManager::getScreenSize() )
+        View( const Vector2d& _p = Vector2d(0.0f,0.0f), const Vector2d& _s = Vector2d(-1.0f,-1.0f) )
+			: pos(_p), rot(0.0f), scale(1.0f,1.0f), size( _s )
 		{
+			setSize( _s );
 		}
 
         //!  The current rotation of the view (in degrees).
@@ -55,7 +57,21 @@ namespace phoenix
         inline void setScale(const Vector2d& _s) { scale = _s; }
 
         //! Sets the size of the view
-        inline void setSize( Vector2d _sz = WindowManager::getScreenSize() ) { size = _sz; }
+		/*!
+			By passing in (-1,-1), the view will try to get the size
+			from the window manager.
+		*/
+		inline void setSize( const Vector2d& _sz = Vector2d(-1,-1) ) {
+			if( _sz ==  Vector2d(-1,-1) ){
+				try{
+					size = (WindowManager::Instance())->getWindowSize();
+				}catch( WindowManager::BadInstance ){
+					size = Vector2d(0,0);
+				}
+			}else{
+				size = _sz; 
+			}
+		}
 
         //! Gets the size of the viewport
         inline const Vector2d& getSize() { return size; }
@@ -67,7 +83,6 @@ namespace phoenix
 		*/
         inline void activate()
 		{
-
             // activate the viewport
             glViewport( 0, 0, (GLsizei) size.getX(), (GLsizei) size.getY() );
 

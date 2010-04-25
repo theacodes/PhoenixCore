@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -35,8 +35,8 @@ Rectangle::Rectangle( const Polygon& other )
 
 		position.setX( minx );
 		position.setY( miny );
-		dimensions.setX( maxx - minx );
-		dimensions.setY( maxy - miny );
+		size.setX( maxx - minx );
+		size.setY( maxy - miny );
 	}
 	else
 	{

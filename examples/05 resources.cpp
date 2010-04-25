@@ -19,40 +19,18 @@ class ExampleResource
 public:
 
     /*!
-        We'll befriend Resource so we can use it's create()
-        function, as you'll see.
+        Here we have a constructor, you'll have to pass the resource manager in
+        so that Resource can be constructed.
     */
-    friend class Resource;
-
-    /*!
-        Because of the way phoenix works internally, all resources
-        are constructed using the create() function- there are no
-        public constructors. This function should create a new
-        resource, encase it in a shared_ptr, initialize it's members,
-        and return the pointer.
-    */
-    static shared_ptr<ExampleResource> create( ResourceManager& r )
+    ExampleResource( ResourceManager& r )
+        : Resource( r ), position(), color()
     {
-        /*!
-            We'll skip the construction stuff by using Resource's templated
-            create() function. This function works for all derived classes
-            as long as their constructor only takes one argument ( The resource
-            manager ). For more complex ones, we can just use new ExampleResource
-            ( ... ). 
-        */
-        shared_ptr<ExampleResource> newresource = Resource::create<ExampleResource>( r );
-
         /*!
             Here we'll set up some stuff about our resource. We'll give it a
             random color and position.
         */
-        newresource->color = Color( random(127,255), random(127,255), random(127,255) );
-        newresource->position = Vector2d( random(0,620), random(0,440) );
-
-        /*!
-            Finally, we'll return the new resource.
-        */
-        return newresource;
+        color = Color( random(127,255), random(127,255), random(127,255) );
+        position = Vector2d( (float)random(0,620), (float)random(0,440) );
     }
 
     /*!
@@ -74,7 +52,7 @@ public:
             random function landed on 1. If so, we'll drop this
             resource.
         */
-        if( EventReceiver::getKeyPressed( PHK_SPACE ) && random(0,10) == 1 )
+        if( EventReceiver::Instance()->getKeyPressed( PHK_SPACE ) && random(0,10) == 1 )
             drop();
     }
 
@@ -87,15 +65,6 @@ public:
     */
 
 private:
-
-    /*!
-        Here you see we have a private constructor. This forces
-        you to use the create() function to instance a resource.
-    */
-    ExampleResource( ResourceManager& r )
-        : Resource( r )
-    {
-    }
 
     /*!
         These are just our color and position members.
@@ -119,13 +88,15 @@ int main()
     */
     ResourceManager examples;
 
+    //! We'll also want to start its garbage collector.
+    examples.start();
+
     /*!
         Now let's fill the resource manager with 10 resources.
-        We'll call the create function like we did earlier.
     */
     for( int i = 0; i < 10; ++i )
     {
-        ExampleResource::create( examples );
+        new ExampleResource( examples );
     }
 
     while( system.run() )
@@ -142,10 +113,10 @@ int main()
             Now the iteration. The loop looks more complicated than it actually is. 
             It's just standard list iteration. sometimes it's more asthetically 
             pleasing to use this:
-                BOOST_FOREACH( shared_ptr<Resource>& r, examples.getResourceList() )
+                BOOST_FOREACH( ResourcePtr& r, examples.getResourceList() )
             but for this example I wanted to show iterating without foreach.
         */
-        for( std::list< shared_ptr<Resource> >::iterator i = examples.getResourceList().begin(); i != examples.getResourceList().end(); ++i )
+        for( std::list< ResourcePtr >::iterator i = examples.getList().begin(); i != examples.getList().end(); ++i )
         {
             /*!
                 First, we make sure the resource hasn't been dropped. Usually it is

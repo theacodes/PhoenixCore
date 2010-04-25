@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -11,91 +11,83 @@ distribution for more information.
 
 using namespace phoenix;
 
-//! Array to store key info.
-bool phoenix::EventReceiver::keys[512];
-
-//! Array to store mouse info.
-bool phoenix::EventReceiver::mousebutton[16];
-
-//!array to store info on if a key was just pressed.
-bool phoenix::EventReceiver::keysdown[512];
-
-//!array to store info on if a mouse button was just pressed.
-bool phoenix::EventReceiver::mousebuttondown[16];
-
-//!if the user "X"ed out of the window, this is true.
-bool phoenix::EventReceiver::quit = false;
-
-//!stores the mouse's position.
-Vector2d phoenix::EventReceiver::mousepos = Vector2d(0,0);
-
-//!stores the mouse's wheel position.
-int phoenix::EventReceiver::mousewheelpos = 0;
+//! Singleton Instance.
+boost::shared_ptr<EventReceiver> EventReceiver::instance = boost::shared_ptr<EventReceiver>();
 
 ////////////////////////////////////////////////////////////////////////////////
-//Construct
+// Resets arrays
 ////////////////////////////////////////////////////////////////////////////////
 
-EventReceiver::EventReceiver()
-{
-
-    //init the arrays
-    for (int i=0;i<512;i++)
+void EventReceiver::resetArrays( const bool all ){
+	 for (int i=0;i<512;i++)
     {
-        keys[i]=0;
+        if( all == true ) keys[i]=0;
         keysdown[i]=0;
     }
 
     for (int i=0;i<16;i++)
     {
-        mousebutton[i]=0;
+        if( all == true ) mousebutton[i]=0;
         mousebuttondown[i]=0;
     }
-
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//Updates the events, this is normally called in the run() function of
-//RenderSystem
-////////////////////////////////////////////////////////////////////////////////
 
-void EventReceiver::updateEvents()
+////////////////////////////////////////////////////////////////////////////////
+// On event
+////////////////////////////////////////////////////////////////////////////////
+void EventReceiver::onWindowEvent( const WindowEvent& e )
 {
-	//clear the keydown array
-	for (int i=0;i<512;i++)
-	{
-		keysdown[i]=0;
-	}
+	switch( e.type ){
 
-	for (int i=0;i<16;i++)
-	{
-		mousebuttondown[i]=0;
+		case WET_UPDATE:
+			resetArrays();
+			break;
+
+		case WET_KEY:
+			{
+				if( e.int_data > 15 ) //Keyboard
+				{
+					if (e.bool_data == true) {
+						keysdown[e.int_data]=true;
+						keys[e.int_data]=true;
+
+						//backspace for keyboard strings.
+						if( e.int_data == PHK_BACKSPACE ){
+							keyboardstring = keyboardstring.substr(0, keyboardstring.length() - 1);
+						}
+
+					} else {
+						keys[e.int_data] = false;
+						keysdown[e.int_data] = true;
+					}
+				}else{ //Mouse
+					if ( e.bool_data == true ) {
+						mousebutton[ e.int_data ]=true;
+						mousebuttondown[ e.int_data ]=true;
+					} else {
+						mousebutton[ e.int_data ] = false;
+						mousebuttondown[ e.int_data ]=true;
+					}
+				}
+			} break;
+
+		case WET_CHAR:
+			{
+				keyboardstring += e.int_data;
+			}break;
+
+		case WET_MOUSE_POSITION:
+			{
+				mousepos = e.vector_data;
+			}break;
+
+		case WET_MOUSE_WHEEL:
+			{
+				mousewheelpos = e.int_data;
+			}
+
+		default:
+			break;
 	}
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// Mouse & Keyboard callback (for GLFW)
-////////////////////////////////////////////////////////////////////////////////
-
-void EventReceiver::KeyboardCallback( int key, int action )
-{
-	if (action == GLFW_PRESS) {
-    	keysdown[key]=true;
-    	keys[key]=true;
-    } else if (action == GLFW_RELEASE) {
-    	keys[key] = false;
-    	keysdown[key] = true;
-	}
-}
-
-void EventReceiver::MouseButtonCallback( int key, int action )
-{
-	if (action == GLFW_PRESS) {
-		mousebutton[key]=true;
-		mousebuttondown[key]=true;
-	} else if (action == GLFW_RELEASE) {
-		mousebutton[key] = false;
-		mousebuttondown[key]=true;
-	}
-}
-

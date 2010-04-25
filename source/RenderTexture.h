@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHRENDERTEXTURE_H__
 #define __PHRENDERTEXTURE_H__
 
+#include "config.h"
 #include "RenderSystem.h"
 
 namespace phoenix
@@ -27,21 +28,12 @@ namespace phoenix
 
     public:
 
-        //! Create
-        /*!
-            This factory generates a new RenderTexture. It must be bound to a different BatchRenderer than RenderSystem.
-            It can use RenderSystem's resource manager.
-            \param _r A resource manager.
-            \param _s A pointer to the batch render.
-            \param _sz The size of the texture.
-        */
-        inline static boost::shared_ptr<RenderTexture> create( ResourceManager& _r, BatchRenderer& _s, const Vector2d& _sz = Vector2d(512,512) )
+        //! Private constructor
+        RenderTexture( ResourceManager& r, BatchRenderer& s, const Vector2d& _sz = Vector2d(512,512) )
+                : Texture(r), batcher(s), sview()
         {
-            boost::shared_ptr<RenderTexture> newtexture( new RenderTexture( _r, _s ) );
-            _r.addResource( newtexture );
-            newtexture->setName( "Untitled Render Target" );
-            newtexture->buildTexture( _sz );
-            return newtexture;
+            setName( "Untitled Render Target" );
+            build( _sz );
         }
 
         virtual ~RenderTexture()
@@ -52,12 +44,11 @@ namespace phoenix
         /*!
             Performs all the steps needed to begin rendering geometry to the texture. This
             function modifies the viewport on the BatchRenderer, so it is not a good idea
-            to call View::setSize() while a RenderTexture is active. All geometry
-            rendered after this call  and before endRender()
-            will not be rendered to the screen, but to the texture.
+            to call View::setSize() while a RenderTexture is active. Remember, you must
+			called whatever BatchRenderer's draw() function between start() and end();
             \note This function clears the screen.
         */
-        inline void startRender()
+        inline void start()
 		{
 
             // Our view port has to be the same size as the texture.
@@ -77,7 +68,7 @@ namespace phoenix
             Copies the backbuffer to the texture object, restores the viewport,
             and then clears the screen.
         */
-        inline void endRender()
+        inline void end()
 		{
 			// copy the framebuffer pixels to a texture
 			this->bind();
@@ -98,14 +89,9 @@ namespace phoenix
         BatchRenderer& batcher;
         View sview;
 
-        //! Private constructor
-        RenderTexture( ResourceManager& r, BatchRenderer& s )
-                : Texture(r), batcher(s), sview()
-        {
-        }
-
     };
 
+    typedef boost::intrusive_ptr<RenderTexture> RenderTexturePtr;
 } //namespace phoenix
 
 #endif // __PHRENDERTEXTURE_H__

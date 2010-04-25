@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -13,6 +13,7 @@ distribution for more information.
 #include <vector>
 #include <algorithm>
 #include <boost/foreach.hpp>
+#include "config.h"
 #include "Vector2d.h"
 #include "RotationMatrix.h"
 

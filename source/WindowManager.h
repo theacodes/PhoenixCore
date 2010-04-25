@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -10,105 +10,123 @@ distribution for more information.
 #ifndef __PHWINDOWMANAGER_H__
 #define __PHWINDOWMANAGER_H__
 
-#include <GL/glfw.h>
 #include <boost/function.hpp>
-#include "EventReceiver.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/signals2/signal.hpp>
+#include <boost/bind.hpp>
+#include "config.h"
+#include "WindowEvent.h"
 #include "Vector2d.h"
 
 namespace phoenix
 {
 
-//! Window Manager
+//! Abstract Window Manager
 /*!
-	This class is responsible for window management activities such as creating and closing the window,
-	making an opengl context, and setting the caption. This class is completely static and automatically
-	sets up EventReceiver.
+	This abstract class defines the interface for window manager. The default window manager
+	in phoenix is GLFWWindowManager. The window manager is responsible for creating and managing the OpenGL
+	context and dispatching events. This class is a Singleton. As such, it ( and it's derivitives )
+	can only be instanced via the Instance() static function.
 */
 class WindowManager
 {
 public:
 
-	WindowManager()
-	{}
+	//! Event signal type
+	typedef boost::signals2::signal<void (const WindowEvent&)>  EventSignal;
+
+	//! Bad instance exception.
+	class BadInstance {};
+
+	//! Gets the current window manager instance.
+	/*!
+		If no window manager exists, this function will throw. Subclasses should
+		define their own Instance.
+		\throws BadInstance if no concrete instance has been made.
+	*/
+	static boost::shared_ptr<WindowManager> Instance( ){
+		if( !instance ) throw BadInstance();
+		return instance;
+	}
+
+	//! Destructor
+	virtual ~WindowManager(){
+	}
+
+	//! Listens to Window Events.
+	/*!
+		By forging a connection here, your listener will receive all window events. The
+		listener is responsible for handling the connection (that means closing it when
+		the listener is destructed).
+	*/
+	boost::signals2::connection listen( const EventSignal::slot_type& _s )
+	{
+		return event_signal.connect( _s );
+	}
+
+	//! Passes an event through the event signal.
+	/*!
+		This is the preferred method to post 'fake' window events.
+	*/
+	void signal( const WindowEvent& e ){
+		event_signal( e );
+	}
 
 	/*!
-		Creates a new window and initializes OpenGL. Also sets up callbacks for
-		key events.
+		Should create a new window and initialize OpenGL.
 		\param _sz The size of the window.
 		\param _f Fullscreen.
 	*/
-	static void open( Vector2d _sz = Vector2d( 640, 480 ), bool _f = false );
+	virtual bool open( const Vector2d& _sz = Vector2d( 640, 480 ), const bool _f = false ) = 0;
 
 	/*!
-		Closes and terminates the window.
+		Closes any open window.
 	*/
-	inline static void close()
-	{
-	    glfwCloseWindow();
-		glfwTerminate();
-	}
+	virtual void close() = 0;
 
-	//! Set window caption.
-    inline static void setWindowCaption(const std::string& _str) { glfwSetWindowTitle(_str.c_str()); }
+	//! Sets the window's title.
+    virtual void setWindowTitle(const std::string& _str) = 0;
 
-	//! Set screen size
-	inline static void setScreenSize( const Vector2d& _sz ) { glfwSetWindowSize( (unsigned int) _sz.getX(), (unsigned int) _sz.getY() ); screensize = _sz;}
+	//! Sets the window's size
+	inline virtual void setWindowSize( const Vector2d& _sz ){ screensize = _sz; }
 
-	//! Get screen size
-	inline static const Vector2d getScreenSize() { return screensize; }
-
-    //! Set the resize callback function.
-    /*!
-        By default this is set to a function that prevents window resizing. RenderSystem usually registers
-        its callback instead.
-    */
-    inline static void setResizeCallback( boost::function< void( Vector2d ) > _f = boost::function< void( Vector2d ) >( &WindowManager::noResizeCallback ) ) { resizefunc = _f; }
-
-    //! Get the resize callback function.
-    inline static boost::function< void( Vector2d ) > getResizeCallback( ) { return resizefunc; }
+	//! Gets the screen's size size
+	inline virtual const Vector2d& getWindowSize() { return screensize; }
 
 	//! Iconify
-	inline static void iconify() { glfwIconifyWindow(); }
+	virtual void iconify() = 0;
 
 	//! Restore
-	inline static void restore() { glfwRestoreWindow(); }
+	virtual void restore() = 0;
 
-    /*! Set Cursor Visibility.
-        Can hide or show the mouse cursor. Hiding it has three effects: The mouse cursor is invisible, the mouse is confined to the screen,
-        and coordinates are no longer limited to the window size. By default, the mouse is hidden in fullscreen, but otherwise visible.
-    */
-    inline static void setCursorVisible(const bool _v) { _v ? glfwEnable( GLFW_MOUSE_CURSOR ) : glfwDisable( GLFW_MOUSE_CURSOR ); }
+    //! Set Cursor Visibility.
+	virtual void setCursorVisible(const bool _v) = 0;
 
-	//! Swap Buffers and Update Events.
-	inline static void swapBuffers() 
-	{
-		EventReceiver::updateEvents(); //Must be called first, as the next call will tell it all about the new events.
-		glfwSwapBuffers(); 
-	}
+	//! Updates the window (swapping buffers, processing events, etc. )
+	/*
+		This function should signal a WET_UPDATE event.
+	*/
+	virtual void update() = 0;
 
 protected:
 
+	WindowManager()
+		: event_signal(), screensize()
+	{}
+
+	//! Singleton Instance
+	static boost::shared_ptr<WindowManager> instance;
+
+	//! Event signal
+	EventSignal event_signal;
+
     //! Internal screen size record.
-    static Vector2d screensize;
-    
-    //! Window Resize callback function object.
-    static boost::function< void ( Vector2d ) > resizefunc;
-
-    //! Window Resize dispatch
-    static void windowResizeDispatch( int width, int height )
-    {
-        if( resizefunc )
-            resizefunc( Vector2d( (float) width, (float) height ) );
-    }
-
-    //! Default window resize callback, it disables resizing.
-    static void noResizeCallback( Vector2d _sz )
-    {
-        setScreenSize( getScreenSize() );
-    }
+    Vector2d screensize;
     
 };
 
+typedef boost::shared_ptr<WindowManager> WindowManagerPtr;
+
 }
 
-#endif //__PHWINDOWMANAGER_H__
+#endif //__PHGLFWWINDOWMANAGER_H__

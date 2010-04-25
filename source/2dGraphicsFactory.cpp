@@ -6,11 +6,10 @@ using namespace phoenix;
 //Draws a line
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawLine(const Vector2d& _v1, const Vector2d& _v2, const Color& _a, const Color& _b)
+BatchGeometryPtr GraphicsFactory2d::drawLine(const Vector2d& _v1, const Vector2d& _v2, const Color& _a, const Color& _b)
 {
     // Just make some new geometry, set it to immediate, and add the line's vertices.
-    boost::shared_ptr<BatchGeometry> linegeom = BatchGeometry::create( *renderer, GL_LINES, getTexture(), getGroup(), getDepth() );
-    apply( linegeom, EFF_FUNCTIONS );
+    BatchGeometryPtr linegeom = new BatchGeometry( renderer, GL_LINES, getTexture(), getGroup(), getDepth() );
 	linegeom->setImmediate( true );
 	linegeom->addVertex( Vertex( _v1, _a, TextureCoords(0,0) ) );
 	linegeom->addVertex( Vertex( _v2, _b, TextureCoords(1,1) ) );
@@ -23,11 +22,10 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawLine(const Vector2d& _v1
 //Draws a rectangle
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawRectangle( const Rectangle& _r, const Color& _a, const Color& _b, const Color& _c, const Color& _d )
+BatchGeometryPtr GraphicsFactory2d::drawRectangle( const Rectangle& _r, const Color& _a, const Color& _b, const Color& _c, const Color& _d )
 {
     // Use BatchGeometry's factory for it.
-	boost::shared_ptr<BatchGeometry> rectgeom = BatchGeometry::create( *renderer, _r, getTexture(), getGroup(), getDepth() );
-    apply( rectgeom, EFF_FUNCTIONS );
+	BatchGeometryPtr rectgeom = new BatchGeometry( renderer, _r, getTexture(), getGroup(), getDepth() );
 	rectgeom->setImmediate( true );
 
     // now just set the colors.
@@ -43,11 +41,10 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawRectangle( const Rectang
 //Draws a polygon
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawPolygon (const Polygon& _p, const Color& _c)
+BatchGeometryPtr GraphicsFactory2d::drawPolygon (const Polygon& _p, const Color& _c)
 {
     // just use the BatchGeometry's factory
-	boost::shared_ptr<BatchGeometry> polygeom = BatchGeometry::create( *renderer, _p, getTexture(), getGroup(), getDepth());
-    apply( polygeom, EFF_FUNCTIONS );
+	BatchGeometryPtr polygeom = new BatchGeometry( renderer, _p, getTexture(), getGroup(), getDepth());
 	polygeom->setImmediate( true );
 	polygeom->colorize( _c );
     return polygeom;
@@ -57,13 +54,12 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawPolygon (const Polygon& 
 //Draws a polygon
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexturedPolygon (const Polygon& _p, boost::shared_ptr<Texture> _t, const Color& _c, bool _e)
+BatchGeometryPtr GraphicsFactory2d::drawTexturedPolygon (const Polygon& _p, TexturePtr _t, const Color& _c, bool _e)
 {
 
     // Use the regular draw poly function to save us effort.
     setTexture( _t );
-    boost::shared_ptr<BatchGeometry> polygeom = drawPolygon( _p, _c );
-    apply( polygeom, EFF_FUNCTIONS );
+    BatchGeometryPtr polygeom = drawPolygon( _p, _c );
     setTexture();
 
     // planes for coordinate generation
@@ -92,12 +88,11 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexturedPolygon (const P
 //Renders a Texture
 ////////////////////////////////////////////////////////////////////////////////
 
-boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexture(  boost::shared_ptr<Texture> _t, const Vector2d& _p,  const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int _flags )
+BatchGeometryPtr GraphicsFactory2d::drawTexture(  TexturePtr _t, const Vector2d& _p,  const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int _flags )
 {
     // Use BatchGeometry's factory for rectangles.
-	boost::shared_ptr<BatchGeometry> geom = BatchGeometry::create( *renderer, Rectangle( -_t->getSize()/2.0f, _t->getSize()) , _t, getGroup(), getDepth() );
+	BatchGeometryPtr geom = new BatchGeometry( renderer, Rectangle( -_t->getSize()/2.0f, _t->getSize()) , _t, getGroup(), getDepth() );
     geom->setImmediate( true );
-    apply( geom, EFF_FUNCTIONS );
 
     // scale, rotate it, and then translate it.
     geom->scale( _scale );
@@ -128,17 +123,16 @@ boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexture(  boost::shared_
 }
 
 //this draws a texture with a clipping rectangle
-boost::shared_ptr<BatchGeometry> GraphicsFactory2d::drawTexturePart( boost::shared_ptr<Texture> _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int  _flags )
+BatchGeometryPtr GraphicsFactory2d::drawTexturePart( TexturePtr _t, const Vector2d& _p, const Rectangle& _rect, const RotationMatrix& _rot, const Vector2d& _scale, const Color& _color, unsigned int  _flags )
 {
     // Use BatchGeometry's factory for rectangles.
-    boost::shared_ptr<BatchGeometry> geom = BatchGeometry::create( *renderer, Rectangle( -_rect.getDimensions()/2, _rect.getDimensions() ) , _t, getGroup(), getDepth() );
+    BatchGeometryPtr geom = new BatchGeometry( renderer, Rectangle( -_rect.getSize()/2, _rect.getSize() ) , _t, getGroup(), getDepth() );
     geom->setImmediate( true );
-    apply( geom, EFF_FUNCTIONS );
 
     // scale, rotate it, and then translate it.
     geom->scale( _scale );
     geom->rotate( _rot );
-    geom->translate( _p + _rect.getDimensions()/2.0f );
+    geom->translate( _p + _rect.getSize()/2.0f );
 
     // colorize
     geom->colorize( _color );

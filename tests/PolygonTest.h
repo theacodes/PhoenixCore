@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -17,13 +17,12 @@ class PolygonTest
     public:
 
         PolygonTest() 
-            : system( new RenderSystem() )
+            : system()
         {
         }
 
         virtual ~PolygonTest()
         {
-            delete system;
         }
 
         /*!
@@ -77,56 +76,56 @@ class PolygonTest
 			Timer deltatime;
 
             //! texture.
-            boost::shared_ptr<Texture> feathertexture = system->loadTexture( "feather.png" );
+            TexturePtr feathertexture = system.loadTexture( "feather.png" );
 
             //! Now just draw some stuff.
-            while( system->run() )
+            while( system.run() )
             {
 
                 //! Rotate poly 1 with a scalar
-                poly1.rotate( DegreesToRadians( 60.0f * deltatime.getTime() ) );
+                poly1.rotate( DegreesToRadians( 60.0f * (float)deltatime.getTime() ) );
 
                 //! Rotate poly 2 with a rotation matrix
-                poly2 *= RotationMatrix( DegreesToRadians( -80.f * deltatime.getTime() ) );
+                poly2 *= RotationMatrix( DegreesToRadians( -80.f * (float)deltatime.getTime() ) );
 
                 //! Move poly 3 to the mouse's position
-                poly3.setPosition( EventReceiver::getMousePosition() );
+                poly3.setPosition( EventReceiver::Instance()->getMousePosition() );
 
                 //!Rotate 3 and four with mouse buttons.
-                if( EventReceiver::getMouseButton(PHK_MB_LEFT))
+                if( EventReceiver::Instance()->getMouseButton(PHK_MB_LEFT))
                 {
-                    poly3.rotate( DegreesToRadians(80.0f * deltatime.getTime()) );
-                    poly4.rotate( DegreesToRadians(-100.0f * deltatime.getTime()) );
+                    poly3.rotate( DegreesToRadians(80.0f * (float)deltatime.getTime()) );
+                    poly4.rotate( DegreesToRadians(-100.0f * (float)deltatime.getTime()) );
                 }
-                if( EventReceiver::getMouseButton(PHK_MB_RIGHT))
+                if( EventReceiver::Instance()->getMouseButton(PHK_MB_RIGHT))
                 {
-                    poly3.rotate( DegreesToRadians(-80.0f * deltatime.getTime()) );
-                    poly4.rotate( DegreesToRadians(100.0f * deltatime.getTime()) );
+                    poly3.rotate( DegreesToRadians(-80.0f * (float)deltatime.getTime()) );
+                    poly4.rotate( DegreesToRadians(100.0f * (float)deltatime.getTime()) );
                 }
 
                 //! if the spacebar is pressed, draw some bounding boxes.
-                if( EventReceiver::getKey( PHK_SPACE ) )
+                if( EventReceiver::Instance()->getKey( PHK_SPACE ) )
                 {
-                    system->setDepth( 6.0f );
-                    system->drawRectangle( poly1 , Color( 255,255,255,127 ) );
-                    system->drawRectangle( poly2 , Color( 0,255,255,127 ) );
-                    system->drawRectangle( poly3 , Color( 255,0,255,127 ) );
-                    system->drawRectangle( poly4 , Color( 255,255,0,127 ) );
+                    system.setDepth( 6.0f );
+                    system.drawRectangle( poly1 , Color( 255,255,255,127 ) );
+                    system.drawRectangle( poly2 , Color( 0,255,255,127 ) );
+                    system.drawRectangle( poly3 , Color( 255,0,255,127 ) );
+                    system.drawRectangle( poly4 , Color( 255,255,0,127 ) );
                 }
 
                 //! Draw our polygons
-                system->setDepth( 1.0f );
-                system->drawPolygon( poly1, Color(255,200,200) );
-                system->setDepth( 0.0f );
-                system->drawPolygon( poly2, Color(200,255,200) );
-                system->setDepth( -6.0f );
-                system->drawPolygon( poly4, Color(0,200,255) );
-                system->setDepth( -3.0f );
-                system->drawTexturedPolygon( poly3, feathertexture, Color(200,200,255,127), EventReceiver::getKey( PHK_E ) ? true : false ) ;
+                system.setDepth( 1.0f );
+                system.drawPolygon( poly1, Color(255,200,200) );
+                system.setDepth( 0.0f );
+                system.drawPolygon( poly2, Color(200,255,200) );
+                system.setDepth( -6.0f );
+                system.drawPolygon( poly4, Color(0,200,255) );
+                system.setDepth( -3.0f );
+                system.drawTexturedPolygon( poly3, feathertexture, Color(200,200,255,127), EventReceiver::Instance()->getKey( PHK_E ) ? true : false ) ;
 
                 //! Draw some info.
-                system->drawText( "Polygon Test", Vector2d(16,16) );
-                system->drawText( "Press Space to Show Bounding Boxes", Vector2d(16,32), Color(255,127,127) );
+                system.drawText( "Polygon Test", Vector2d(16,16) );
+                system.drawText( "Press Space to Show Bounding Boxes", Vector2d(16,32), Color(255,127,127) );
 
 				//! Reset timer.
 				deltatime.reset();
@@ -138,7 +137,7 @@ class PolygonTest
         }// Run
 
     protected:
-        RenderSystem* system;
+        RenderSystem system;
     private:
 };
 

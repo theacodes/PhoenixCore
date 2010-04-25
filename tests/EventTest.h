@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -34,8 +34,8 @@ class EventTest
             //! We'll make our font have a colored background, so we can see certain keys when they're pressed.
 
             // duplicate the system's font.
-            boost::shared_ptr<Texture> newfonttexture = system.getFont()->getTexture()->copy();
-            boost::shared_ptr<BitmapFont> newfont = BitmapFont::create( system.getResourceManager(), system, newfonttexture );
+            TexturePtr newfonttexture = system.getFont()->getTexture()->copy();
+            BitmapFontPtr newfont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), newfonttexture );
             
             // run through and change the background color.
             newfont->getTexture()->lock();
@@ -70,35 +70,38 @@ class EventTest
                         Color textcolor;
 
                         //! If it's down, we'll set the color to blue
-                        if(EventReceiver::getKey( Key((j*16)+i) ) ) textcolor = Color(200,200,255);
+                        if(EventReceiver::Instance()->getKey( Key((j*16)+i) ) ) textcolor = Color(200,200,255);
                         //! If it's up, we'll set the color to gray
-                        if( !EventReceiver::getKey( Key((j*16)+i) ) ) textcolor = Color(255,255,255,150);
+                        if( !EventReceiver::Instance()->getKey( Key((j*16)+i) ) ) textcolor = Color(255,255,255,150);
                         //! If it was just pressed, make it white
-                        if(EventReceiver::getKeyPressed( Key((j*16)+i) ) ) textcolor = Color(255,255,255);
+                        if(EventReceiver::Instance()->getKeyPressed( Key((j*16)+i) ) ) textcolor = Color(255,255,255);
                         //! If it was just released, make it red.
-                        if(EventReceiver::getKeyReleased( Key((j*16)+i) ) ) textcolor = Color(255,200,200);
+                        if(EventReceiver::Instance()->getKeyReleased( Key((j*16)+i) ) ) textcolor = Color(255,200,200);
 
                         //! Draw it
                         //use our custom font.
                         newfont->setColor( textcolor );
-                        newfont->drawText( "O", Vector2d(200,200)+Vector2d( (float) i*16, (float) j*16 ));
+                        newfont->drawText( "O", Vector2d(200,186)+Vector2d( (float) i*16, (float) j*16 ));
                     }
                 }
 
                 //! Draw an @ symbol where the mouse is, and once again use our custom font to do it.
                 Color textcolor = Color(255,0,0);
-                if(EventReceiver::getMouseButton( PHK_MB_LEFT ) ) textcolor = Color(0,255,0);
-                if(EventReceiver::getMouseButton( PHK_MB_RIGHT ) ) textcolor = Color(0,0,255);
-                if(EventReceiver::getMouseButton( PHK_MB_MIDDLE ) ) textcolor = Color(255,255,255);
+                if(EventReceiver::Instance()->getMouseButton( PHK_MB_LEFT ) ) textcolor = Color(0,255,0);
+                if(EventReceiver::Instance()->getMouseButton( PHK_MB_RIGHT ) ) textcolor = Color(0,0,255);
+                if(EventReceiver::Instance()->getMouseButton( PHK_MB_MIDDLE ) ) textcolor = Color(255,255,255);
                 newfont->setColor( textcolor );
-                newfont->drawText( "@",EventReceiver::getMousePosition() );
+                newfont->drawText( "@",EventReceiver::Instance()->getMousePosition() );
 
                 //! Draw some info.
                 system.drawText( "Event Test: Below is an ASCII Table", Vector2d(16,16) );
                 system.drawText( "Not all will change, but you should be able", Vector2d(16,32) );
                 system.drawText( "make some pretty colors by mashing keys.", Vector2d(16,48) );
 
-			    system.getDebugConsole()<<"\nGeoms "<<system.geometryCount()<<", FPS: "<<system.getFPS();
+				//! Draw the keyboard string.
+				system.drawText( std::string("Keyboard String: ") + EventReceiver::Instance()->getKeyboardString(), Vector2d( 16, 448 ) ); 
+
+			    system.getDebugConsole()<<"\nGeoms "<<system.getBatchRenderer().count()<<", FPS: "<<system.getFPS();
 
             }
 

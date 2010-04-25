@@ -9,20 +9,28 @@ using namespace phoenix;
 using namespace boost;
 
 /*!
-    These functions are used to setup and restore
-    the blending modes for our geometry. They simply
-    enable additive blending and then restore the
+    This class is used to setup and restore
+    the blending modes for our geometry. It simply
+    enables additive blending and then restores the
     blending state.
 */
-void AdditiveStart()
+class AdditiveState
+	: public GroupState
 {
-    RenderSystem::setBlendMode( GL_SRC_ALPHA, GL_ONE );
-}
+public:
+	AdditiveState():GroupState(){}
+	virtual ~AdditiveState(){};
 
-void AdditiveEnd()
-{
-    RenderSystem::setBlendMode();
-}
+	void begin( BatchRenderer& r )
+	{
+		RenderSystem::setBlendMode( GL_SRC_ALPHA, GL_ONE );
+	}
+
+	void end( BatchRenderer& r )
+	{
+		RenderSystem::setBlendMode();
+	}
+};
 
 int main()
 {
@@ -32,29 +40,28 @@ int main()
     /*!
         Let's load up a texture to play with.
     */
-    shared_ptr<Texture> feather = system.loadTexture( "feather.png" );
+    TexturePtr feather = system.loadTexture( std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png") );
 
     /*!
         let's make our group of geometry, with this
-        we'll demonstrate grouping and group functions.
+        we'll demonstrate grouping and group states.
         Grouped objects are drawn together and usually share
-        some sort of state that's enabled with the group begin
-        funtion and then disabled with the group end function.
+        some sort of state that's controlled by the group state
+		object.
 
         The first thing we need to do is manipulate our factory:
         The RenderSystem. We can make it so that the next geometries
         that are made have specific properties. We'll set the group
-        id and the group functions.
+        id and add the group state object.
     */
-    system.setGroup( 1 );
-    system.setGroupBeginFunction( &AdditiveStart );
-    system.setGroupEndFunction( &AdditiveEnd );
+	system.getBatchRenderer().addGroupState( 1, GroupStatePtr( new AdditiveState() ) );
+    system.getGraphicsFactory().setGroup( 1 );
 
     /*!
         Now we can draw some things, and they'll all
         be additively blended.
     */
-    shared_ptr<BatchGeometry> tgeom; // a temporary pointer for geometry.
+    BatchGeometryPtr tgeom; // a temporary pointer for geometry.
 
     //! Here we just draw a basic scaled texture.
     tgeom = system.drawTexture( feather, Vector2d( 240,320 ), 0, Vector2d( 3.0f, 3.0f ) );
@@ -79,11 +86,8 @@ int main()
         We'll first use BatchGeometry's create function.
     */
     system.setDepth( 2.0f );
-    tgeom = BatchGeometry::create( system, GL_TRIANGLES, feather, system.getGroup(), system.getDepth() );
+    tgeom = new BatchGeometry( system.getBatchRenderer(), GL_TRIANGLES, feather, system.getGraphicsFactory().getGroup(), system.getDepth() );
     tgeom->setImmediate( false );
-
-    //! We need to apply our group functions to the geometry.
-    system.apply( tgeom, EFF_FUNCTIONS );
 
     /*!
         Now we'll generate a simple circular peice of geometry. This is a 
@@ -95,8 +99,8 @@ int main()
     for( int i = 0; i < 360; i+=10 )
     {
         tgeom->addVertex( Vertex( center, Color(), TextureCoords( 0.0f, 1.0f ) ) );
-        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( i ) ) ), Color(), TextureCoords( 1.0f, 0.0f ) ) );
-        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( i + 10 ) ) ), Color(), TextureCoords( 1.0f, 0.0f ) ) );
+        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( (float)i ) ) ), Color(), TextureCoords( 1.0f, 0.0f ) ) );
+        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( (float)i + 10.0f ) ) ), Color(), TextureCoords( 1.0f, 0.0f ) ) );
     }
 
     /*!
@@ -105,10 +109,8 @@ int main()
         the properties all the rest of the geometry would have these properties
         too!
     */
-    system.setDepth();
-    system.setGroup();
-    system.setGroupBeginFunction();
-    system.setGroupEndFunction();
+    system.getGraphicsFactory().setDepth();
+    system.getGraphicsFactory().setGroup();
 
     while( system.run() )
     {
@@ -117,12 +119,12 @@ int main()
             created around with the arrow keys. This is easy achieved using
             translate.
         */
-        if( EventReceiver::getKeyPressed( PHK_UP ) ) tgeom->translate( Vector2d( 0.0f, -5.0f ) ); 
-        if( EventReceiver::getKeyPressed( PHK_DOWN ) ) tgeom->translate( Vector2d( 0.0f, 5.0f ) ); 
-        if( EventReceiver::getKeyPressed( PHK_RIGHT ) ) tgeom->translate( Vector2d( 5.0f, 0.0f ) ); 
-        if( EventReceiver::getKeyPressed( PHK_LEFT ) ) tgeom->translate( Vector2d( -5.0f, 0.0f ) ); 
+        if( EventReceiver::Instance()->getKeyPressed( PHK_UP ) ) tgeom->translate( Vector2d( 0.0f, -5.0f ) ); 
+        if( EventReceiver::Instance()->getKeyPressed( PHK_DOWN ) ) tgeom->translate( Vector2d( 0.0f, 5.0f ) ); 
+        if( EventReceiver::Instance()->getKeyPressed( PHK_RIGHT ) ) tgeom->translate( Vector2d( 5.0f, 0.0f ) ); 
+        if( EventReceiver::Instance()->getKeyPressed( PHK_LEFT ) ) tgeom->translate( Vector2d( -5.0f, 0.0f ) ); 
     }
-
+	
     return 0;
 
 }

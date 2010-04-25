@@ -4,6 +4,7 @@ project ( PhoenixCore)
 
 # Build oenix Core
 add_library( PhoenixCore STATIC
+	config.h
 	2dGraphicsFactory.h
 	2dGraphicsFactory.cpp
 	AbstractGarbageCollector.h
@@ -21,6 +22,7 @@ add_library( PhoenixCore STATIC
 	EventReceiver.h
 	Font.h
 	Functions.h
+	GroupState.h
 	TrackingInvariant.h
 	Keys.h
 	Phoenix.h
@@ -41,8 +43,11 @@ add_library( PhoenixCore STATIC
 	Vector2d.h
 	Vertex.h
 	View.h
+	WindowEvent.h
 	WindowManager.h
 	WindowManager.cpp
+	GLFWWindowManager.h
+	GLFWWindowManager.cpp
 	PrecompiledFont.h
 	soil/image_DXT.h
 	soil/image_DXT.c

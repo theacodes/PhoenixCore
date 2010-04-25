@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -16,7 +16,7 @@ class TextureTest
 {
     public:
 
-        TextureTest() : system( )
+        TextureTest() : system()
         {
         }
 
@@ -35,16 +35,16 @@ class TextureTest
         {
 
             //print out all the resources
-            BOOST_FOREACH( boost::shared_ptr<Resource>& resource, system.getResourceManager().getResourceList() )
+            BOOST_FOREACH( ResourcePtr& resource, system.getResourceManager().getList() )
             {
                 system.getDebugConsole()<<"\n Resource "<<resource.get()<<" with name '"<<resource->getName()<<"'";
             }
 
             //! Print out the font texture's name.
-            system.getDebugConsole()<<"\nFont Name: "<<system.getFont()->grab<BitmapFont>()->getTexture()->getName()<<" Pointer: "<< system.getFont().get();
+            system.getDebugConsole()<<"\nFont Name: "<<system.getFont()->getTexture()->getName()<<" Pointer: "<< system.getFont().get();
 
             //! Find the font texture in the resource manager.
-            boost::shared_ptr<Texture> testfind = system.findTexture( "deffont.png" );
+            TexturePtr testfind = system.findTexture( system.getFont()->getTexture()->getName() );
 
             //! Print out if we actually found a texture.
             system.getDebugConsole()<<"\nTest find is valid: "<< testfind;
@@ -70,7 +70,7 @@ class TextureTest
             testfind->unlock();
 
             //! Now see if we can create a custom texture.
-            boost::shared_ptr<Texture> newtexture = Texture::create( system.getResourceManager(), Vector2d(512,512) );
+            TexturePtr newtexture = new Texture( system.getResourceManager(), Vector2d(512,512) );
 
             //! Tell me something about it.
             system.getDebugConsole()<<"\nNew texture name: "<<newtexture->getName()<<"Size: "<<newtexture->getSize().getX()<<","<<newtexture->getSize().getY();
@@ -88,7 +88,8 @@ class TextureTest
 
             //! Now just for fun, how about a render texture?
             BatchRenderer tbatch; // we need a separate renderer for it.
-            boost::shared_ptr<RenderTexture> rendertexture = RenderTexture::create( system.getResourceManager(), tbatch, Vector2d(256,256));
+            GraphicsFactory2d tfactory( tbatch ); //and factory.
+            RenderTexturePtr rendertexture = new RenderTexture( system.getResourceManager(), tbatch, Vector2d(256,256));
             system.getDebugConsole()<<"\nRender Target Size: "<<rendertexture->getSize().getX()<<","<<rendertexture->getSize().getY();
             system.getDebugConsole()<<"\nRender Target Texture ID: "<<rendertexture->getTextureId();
 
@@ -97,24 +98,18 @@ class TextureTest
             while( system.run() )
             {   
 
-                
-
                 //! Draw some text to it.
-                rendertexture->startRender();
-                {
-                    system.setBatchRenderer( &tbatch );
-                    system.drawRectangle( phoenix::Rectangle(50,50,150,150), Color(255,0,0) );
-                    system.setBatchRenderer( &system );
-                    tbatch.draw();
-                }
-                rendertexture->endRender();
+                rendertexture->start();
+                tfactory.drawRectangle( phoenix::Rectangle(50,50,150,150), Color(255,0,0) );
+                tbatch.draw();
+                rendertexture->end();
 
                 //! Draw our textures and some info
-                
-                system.drawTexture( newtexture, Vector2d(32,32), 0.0f, Vector2d(1,1), Color(255,255,255,255), ( EventReceiver::getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
+                system.drawTexture( newtexture, Vector2d(32,32), 0.0f, Vector2d(1,1), Color(255,255,255,255), ( EventReceiver::Instance()->getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::Instance()->getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
                 system.setDepth( 1.0f );
-                system.drawTexturePart( system.getFont()->grab<BitmapFont>()->getTexture() , Vector2d(32,32), phoenix::Rectangle( EventReceiver::getMousePosition() , Vector2d( 256,256 ) ), 0.0f, Vector2d(1,1), Color(), ( EventReceiver::getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
-                system.drawTexture( rendertexture, EventReceiver::getMousePosition(), 0.0f, Vector2d(2,2), Color(255,255,255), EGF_VFLIP );
+                system.drawTexturePart( system.getFont()->grab<BitmapFont>()->getTexture() , Vector2d(32,32), phoenix::Rectangle( EventReceiver::Instance()->getMousePosition() , Vector2d( 256,256 ) ), 0.0f, Vector2d(1,1), Color(), ( EventReceiver::Instance()->getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::Instance()->getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
+                system.drawTexture( rendertexture, EventReceiver::Instance()->getMousePosition(), 0.0f, Vector2d(2,2), Color(255,255,255), EGF_VFLIP );
+                
                 system.drawText( "Texture Test: you should see white text", Vector2d(16,16) );
                 system.drawText( "with a semi-transparent blue background.", Vector2d(16,32) );
                 system.drawText( "You should see a multicolored texture below.", Vector2d(16,48) );

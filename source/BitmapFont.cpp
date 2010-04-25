@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2009, Jonathan Wayne Parrott
+Copyright (c) 2010, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -13,10 +13,10 @@ using namespace phoenix;
 using namespace std;
 using namespace boost;
 
-boost::shared_ptr<BatchGeometry> BitmapFont::drawText( const string& s, const Vector2d& p )
+BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 {
 
-	shared_ptr<BatchGeometry> geom = BatchGeometry::create( renderer, GL_QUADS, getTexture(), getGroup(), getDepth() );
+	BatchGeometryPtr geom = new BatchGeometry( renderer, GL_QUADS, getTexture(), getGroup(), getDepth() );
 	geom->setImmediate( true );
 
     static float ratio = 1.0f/16.0f;
@@ -27,21 +27,25 @@ boost::shared_ptr<BatchGeometry> BitmapFont::drawText( const string& s, const Ve
 
 		const unsigned char glyph = s[i];
 
+		// Top Left Vertex.
 		geom->addVertex( Vertex(
 			Vector2d( (i*spacing)*scale.getX(), 0 ), 
 			color, 
 			TextureCoords( glyph*ratio, floor(glyph/16.0f) * ratio) 
 			));
+		// Top Right
 		geom->addVertex( Vertex(
 			Vector2d( (((i)*spacing)*scale.getX())+(16*scale.getX()), 0 ), 
 			color, 
 			TextureCoords( (glyph+1)*ratio, floor(glyph/16.0f) * ratio ) 
 			));
+		// Bottom Right
 		geom->addVertex( Vertex(
 			Vector2d( (((i)*spacing)*scale.getX())+(16*scale.getX()),(16*scale.getY()) ), 
 			color, 
 			TextureCoords( (glyph+1)*ratio, (floor(glyph/16.0f) * ratio)+ratio ) 
 			));
+		// Bottom Left
 		geom->addVertex( Vertex(
 			Vector2d( (i*spacing)*scale.getX(),(16*scale.getY()) ), 
 			color,
