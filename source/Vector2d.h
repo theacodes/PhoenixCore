@@ -209,7 +209,7 @@ namespace phoenix
             \param rhs Vector to project this vector onto
             \returns The product of projection.
         */
-        inline const Vector2d project(const Vector2d& rhs)
+        inline const Vector2d project(const Vector2d& rhs) const
         {
             Vector2d v;
             v.x = (*this)*rhs * rhs.x;
