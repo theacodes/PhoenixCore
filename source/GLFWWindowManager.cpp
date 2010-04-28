@@ -45,6 +45,7 @@ bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
 	glfwSetWindowCloseCallback( &GLFWWindowManager::glfwWindowCloseCallback );
 	glfwSetMouseWheelCallback( &GLFWWindowManager::glfwMouseWheelPosCallback );
     glfwSetWindowSizeCallback( &GLFWWindowManager::glfwWindowResizeCallback );
+	glfwSetWindowMoveCallback( &GLFWWindowManager::glfwWindowMoveCallback );
 
 	// Disable key repeat; event receiver manages that.
 	glfwDisable(GLFW_KEY_REPEAT);
@@ -132,3 +133,14 @@ void GLFWWindowManager::glfwMouseWheelPosCallback( int pos )
 	e.int_data = pos;
 	Instance()->signal(e);
 }
+
+#ifdef _GLFW_WM_MOVE_HACK
+void GLFWWindowManager::glfwWindowMoveCallback( int state )
+{
+	WindowEvent e;
+	e.type = WET_MOVE;
+	e.bool_data = state == GLFW_MOVE_ENTER ? 1 : 0;
+	Instance()->signal(e);
+}
+
+#endif //_GLFW_WM_MOVE_HACK

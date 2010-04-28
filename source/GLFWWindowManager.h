@@ -103,6 +103,10 @@ protected:
     //! Mouse wheel callback (from GLFW).
     static void glfwMouseWheelPosCallback( int pos );
     
+#ifdef _GLFW_WM_MOVE_HACK
+	//! Window move callback ( from GLFW ).
+	static void glfwWindowMoveCallback( int state );
+#endif //_GLFW_WM_MOVE_HACK
 };
 
 }

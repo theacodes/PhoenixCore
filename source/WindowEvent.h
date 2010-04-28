@@ -18,13 +18,14 @@ namespace phoenix{
 
 //! Window Events Types
 enum E_WINDOWEVENT_TYPE{
-	WET_KEY, //!< Keyboard and mouse button events ( int_data = key, bool_data = state ).
-	WET_CHAR, //!< Keyboard character event ( int_data = char ).
-	WET_MOUSE_POSITION, //!< Mouse position change ( vector_data = position ).
-	WET_MOUSE_WHEEL, //!< Mouse wheel change ( int_data = position ).
-	WET_CLOSE, //!< Window close event.
-	WET_UPDATE, //!< Window update event.
-	WET_RESIZE //!< Window Resize Event ( vector_data = new size ).
+	WET_KEY,				//!< Keyboard and mouse button events ( int_data = key, bool_data = state ).
+	WET_CHAR,				//!< Keyboard character event ( int_data = char ).
+	WET_MOUSE_POSITION,		//!< Mouse position change ( vector_data = position ).
+	WET_MOUSE_WHEEL,		//!< Mouse wheel change ( int_data = position ).
+	WET_CLOSE,				//!< Window close event.
+	WET_UPDATE,				//!< Window update event.
+	WET_RESIZE,				//!< Window Resize Event ( vector_data = new size ).
+	WET_MOVE				//!< Window moving event ( bool_data = 0, stopped moving; bool_data = 1 started moving ). This event doesn't always fire ( See _GLFW_WM_MOVE_HACK ).
 };
 
 //! Window Event Data

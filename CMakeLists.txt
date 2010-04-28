@@ -88,6 +88,16 @@ ENDIF( GLFW_FOUND )
 SET( INCLUDES ${INCLUDES} ${GLFW_INCLUDE_DIR} )
 SET( LIBRARIES ${LIBRARIES} ${GLFW_LIBRARY} )
 
+## GLFW Window Move Hack.
+
+if( _GLFW_WM_MOVE_HACK )
+    set_property( DIRECTORY
+	PROPERTY COMPILE_DEFINITIONS _GLFW_WM_MOVE_HACK
+    )
+endif()
+
+##
+
 ############################################
 # Box2d
 ############################################
