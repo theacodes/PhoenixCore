@@ -63,8 +63,10 @@ set( SEARCH_PATHS
 	${GLFW_PATH}
 	${GLFW_PATH}/include
 	${GLFW_PATH}/lib
-	${GLFW_PATH}/support/msvc80/Release
-	${GLFW_PATH}/support/msvc80/Debug
+	${GLFW_PATH}/lib/win32/Release # 2.7-lite
+	${GLFW_PATH}/lib/win32/Debug
+	${GLFW_PATH}/support/msvc80/Release # 2.6 Window Support
+	${GLFW_PATH}/support/msvc80/Debug 
 	)
 	
 FIND_PATH( GLFW_INCLUDE_DIR GL/glfw.h PATHS ${SEARCH_PATHS} )
