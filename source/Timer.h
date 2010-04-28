@@ -104,6 +104,18 @@ namespace phoenix
 			return 0;
 		}
 
+		//! Adjusts the timer the given about of seconds.
+		void adjust( const double _d )
+		{
+			if( started ){
+				if( paused ){
+					pausedTicks += _d;
+				}else{
+					startTicks += _d;
+				}
+			}
+		}
+
         //! Returns true if the timer has started counting.
         inline bool isStarted() const { return started; }
 
