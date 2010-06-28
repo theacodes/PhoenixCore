@@ -61,7 +61,7 @@ namespace phoenix
 			fpstimer(), 
 			framerate(1.0f), 
 			font(0), 
-			quit(false), 
+			_quit(false), 
 			event_connection(),
 			resources()
 		{
@@ -134,6 +134,14 @@ namespace phoenix
 			It calls WindowManager::update() which in turns causes a WET_UPDATE event to be signaled.
         */
         bool run();
+
+		//! Quit.
+		/*!
+			Has the same effect as a user closing a window.
+		*/
+		inline void quit(){
+			_quit = true;
+		}
 
 		//! Clears the screen to the given color.
         inline static void clearScreen( const Color& _c = Color(0,0,0) )
@@ -273,8 +281,8 @@ namespace phoenix
         //! The system font used to draw text
         FontPtr font;
 
-		//! Quit variable
-		bool quit;
+		//! Quit variable, determines when to stop running
+		bool _quit;
 
 		//! Window event connection
 		boost::signals2::connection event_connection;

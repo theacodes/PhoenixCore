@@ -139,11 +139,11 @@ bool RenderSystem::run()
     //Start our fps timer
     fpstimer.reset();
 
-    return !quit; // Quit is set to true when the window manager has signaled to close.
+    return !_quit; // Quit is set to true when the window manager has signaled to close.
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//Load texture function
+// Window Events
 ////////////////////////////////////////////////////////////////////////////////
 
 void RenderSystem::onWindowEvent( const WindowEvent& e )
@@ -151,11 +151,11 @@ void RenderSystem::onWindowEvent( const WindowEvent& e )
 	switch( e.type )
 	{
 	case WET_CLOSE:
-		quit = true;
+		_quit = true;
 		break;
 	case WET_KEY:
 		if( e.bool_data == true && e.int_data == PHK_ESC ){
-			quit = true;
+			_quit = true;
 		}
 		break;
 	case WET_RESIZE:
