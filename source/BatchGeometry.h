@@ -149,6 +149,9 @@ public:
         vertices.push_back(a);
     }
 
+	//! Clear all vertices
+	inline void clear() { vertices.clear(); }
+
 	//! Remove vertex.
 	/*!
 		\note This function works like a ring buffer. this is to reduce the complexity of certain geometric algorithms. 
