@@ -96,13 +96,9 @@ namespace phoenix
         //! Clear list
         /*!
         	Releases the reference to every resource in the list by clearing the resource list.
+			By default, it also calls the drop() method on every object.
         */
-        inline void clear()
-        {
-			boost::recursive_mutex::scoped_lock l( getMutex()  );
-			recyclelist.clear();
-            resourcelist.clear();
-        }
+        void clear( bool drop = true );
 
         //! Gets the resource at the given index.
         inline boost::intrusive_ptr<Resource> get( const unsigned int index )

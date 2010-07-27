@@ -58,7 +58,6 @@ public:
 	*/
 	inline virtual void drop()
 	{
-        if( _dropped == true ) throw BadDrop();
 		_dropped = true;
 	}
 
@@ -76,8 +75,6 @@ public:
     //! Get reference count
     inline unsigned int getReferenceCount(){ return _refcount; }
 
-    class BadRelease{}; //!< Bad intrusive_ptr release exception.
-    class BadDrop{}; //!< Bad drop() exception.
 
 private:
 
@@ -98,7 +95,7 @@ typedef boost::intrusive_ptr< Droppable > DroppablePtr;
 namespace boost{
     inline void intrusive_ptr_add_ref( phoenix::Droppable* ptr ){ ++(ptr->_refcount); }
     inline void intrusive_ptr_release( phoenix::Droppable* ptr ){
-        if( ptr->_refcount == 0 ) throw phoenix::Droppable::BadRelease();
+		if( ptr->_refcount == 0 ) throw std::runtime_error("Invalid itrusive_ptr release on phoenix::Droppable");
         if( (--ptr->_refcount) == 0){
             delete ptr;
         }

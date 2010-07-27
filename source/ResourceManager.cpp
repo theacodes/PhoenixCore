@@ -15,6 +15,23 @@ distribution for more information.
 using namespace phoenix;
 
 /*!---------------------
+Clear
+-----------------------*/
+
+void phoenix::ResourceManager::clear( bool drop  )
+{
+	boost::recursive_mutex::scoped_lock l( getMutex()  );
+	if( drop ){
+		for( std::list< boost::intrusive_ptr<phoenix::Resource> >::iterator i = resourcelist.begin(); i != resourcelist.end(); ++i )
+		{
+			(*i)->drop();
+		}
+	}
+	recyclelist.clear();
+    resourcelist.clear();
+}
+
+/*!---------------------
 Find resource
 -----------------------*/
 boost::intrusive_ptr<phoenix::Resource> phoenix::ResourceManager::find( const std::string& name )
