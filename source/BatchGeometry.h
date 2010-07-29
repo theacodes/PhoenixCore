@@ -119,8 +119,8 @@ public:
 	{
 		if( ! dropped() )
 		{
-			Droppable::drop();
 			renderer.remove( this );
+			Droppable::drop();
 		}
 	}
 

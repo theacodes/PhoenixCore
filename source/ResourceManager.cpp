@@ -24,7 +24,7 @@ void phoenix::ResourceManager::clear( bool drop  )
 	if( drop ){
 		for( std::list< boost::intrusive_ptr<phoenix::Resource> >::iterator i = resourcelist.begin(); i != resourcelist.end(); ++i )
 		{
-			(*i)->drop();
+			if( *i ) (*i)->drop();
 		}
 	}
 	recyclelist.clear();
