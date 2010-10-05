@@ -100,6 +100,14 @@ set_property(
 	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_VIEW_
 )
 
+#Fullscreen Test
+add_executable( FullscreenTest ${CORETEST_SOURCES} )
+target_link_libraries( FullscreenTest PhoenixCore ${LIBRARIES} )
+set_property(
+	TARGET FullscreenTest
+	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_FULLSCREEN_
+)
+
 ######################################
 # Windows stuff
 ######################################

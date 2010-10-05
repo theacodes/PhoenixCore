@@ -38,6 +38,9 @@ distribution for more information.
 #ifdef _TESTS_FONT_
 	#include "FontTest.h"
 #endif
+#ifdef _TESTS_FULLSCREEN_
+	#include "FullscreenTest.h"
+#endif
 #ifdef _TESTS_DEMO_
 	#include "Demo.h"
 #endif
@@ -68,6 +71,9 @@ int main()
 #endif
 #ifdef _TESTS_FONT_
 		FontTest test;
+#endif
+#ifdef _TESTS_FULLSCREEN_
+		FullscreenTest test;
 #endif
 #ifdef _TESTS_DEMO_
 		Demo test;
