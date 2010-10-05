@@ -16,7 +16,7 @@ set( CORETEST_SOURCES
 	TextureTest.h
 	PolygonTest.h
 	ResourceTest.h
-	SingletonTest.h
+	ChangeTest.h
 	ViewTest.h
 	EventTest.h
 	VectorTest.h
@@ -84,12 +84,12 @@ set_property(
 	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_RESOURCE_ ENABLECONSOLE
 )
 
-#Singleton Test Test
-add_executable( SingletonTest ${CORETEST_SOURCES} )
-target_link_libraries( SingletonTest PhoenixCore ${LIBRARIES} )
+#Change Test
+add_executable( ChangeTest ${CORETEST_SOURCES} )
+target_link_libraries( ChangeTest PhoenixCore ${LIBRARIES} )
 set_property(
-	TARGET SingletonTest
-	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_SINGLETON_ ENABLECONSOLE
+	TARGET ChangeTest
+	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_CHANGE_ ENABLECONSOLE
 )
 
 #View Test
@@ -99,8 +99,6 @@ set_property(
 	TARGET ViewTest
 	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_VIEW_
 )
-
-
 
 ######################################
 # Windows stuff

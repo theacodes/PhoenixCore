@@ -29,8 +29,8 @@ distribution for more information.
 #ifdef _TESTS_RESOURCE_
 	#include "ResourceTest.h"
 #endif
-#ifdef _TESTS_SINGLETON_
-	#include "SingletonTest.h"
+#ifdef _TESTS_CHANGE_
+	#include "ChangeTest.h"
 #endif
 #ifdef _TESTS_VIEW_
 	#include "ViewTest.h"
@@ -41,9 +41,6 @@ distribution for more information.
 #ifdef _TESTS_DEMO_
 	#include "Demo.h"
 #endif
-
-#include "AbstractGarbageCollector.h"
-#include <boost/function.hpp>
 
 int main()
 {
@@ -63,8 +60,8 @@ int main()
 #ifdef _TESTS_RESOURCE_
 		ResourceTest test;
 #endif
-#ifdef _TESTS_SINGLETON_
-		SingletonTest test;
+#ifdef _TESTS_CHANGE_
+		ChangeTest test;
 #endif
 #ifdef _TESTS_VIEW_
 		ViewTest test;

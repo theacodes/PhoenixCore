@@ -11,15 +11,15 @@ distribution for more information.
 
 using namespace phoenix;
 
-class SingletonTest
+class ChangeTest
 {
     public:
 
-        SingletonTest() : system(), changed(false)
+        ChangeTest() : system(), changed(false)
         {
         }
 
-        virtual ~SingletonTest()
+        virtual ~ChangeTest()
         {
         }
 
