@@ -84,6 +84,9 @@ public:
 	*/
 	virtual void close() = 0;
 
+	//! Gets the culmative running time in seconds.
+	virtual double getTime() = 0;
+
 	//! Sets the window's title.
     virtual void setWindowTitle(const std::string& _str) = 0;
 

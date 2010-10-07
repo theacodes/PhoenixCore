@@ -11,6 +11,7 @@ distribution for more information.
 #define __PHOENIXTIME_H__
 
 #include "config.h"
+#include "WindowManager.h"
 
 namespace phoenix
 {
@@ -39,7 +40,7 @@ namespace phoenix
 			//Unpause the timer
 			paused = false;
 			//Get the current clock time
-			startTicks = glfwGetTime();
+			startTicks = WindowManager::Instance()->getTime();
 		}
 
         //! Stops timing.
@@ -63,7 +64,7 @@ namespace phoenix
 				//Pause the timer
 				paused = true;
 				//Calculate the paused ticks
-				pausedTicks = glfwGetTime() - startTicks;
+				pausedTicks = WindowManager::Instance()->getTime() - startTicks;
 			}
 		}
 
@@ -76,7 +77,7 @@ namespace phoenix
 				//Unpause the timer
 				paused = false;
 				//Reset the starting ticks
-				startTicks = glfwGetTime() - pausedTicks;
+				startTicks = WindowManager::Instance()->getTime() - pausedTicks;
 				//Reset the paused ticks
 				pausedTicks = 0;
 			}
@@ -97,7 +98,7 @@ namespace phoenix
 				else
 				{
 					//Return the current time minus the start time
-					return glfwGetTime() - startTicks;
+					return WindowManager::Instance()->getTime() - startTicks;
 				}
 			}
 			//If the timer isn't running

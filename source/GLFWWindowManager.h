@@ -55,6 +55,11 @@ public:
 	*/
 	inline virtual void close() { glfwCloseWindow(); }
 
+	//! Gets the culmative running time in seconds.
+	virtual double getTime() {
+		return glfwGetTime();
+	}
+
 	//! Set window caption.
     inline virtual void setWindowTitle(const std::string& _str) { glfwSetWindowTitle(_str.c_str()); }
 
@@ -74,7 +79,9 @@ public:
         Can hide or show the mouse cursor. Hiding it has three effects: The mouse cursor is invisible, the mouse is confined to the screen,
         and coordinates are no longer limited to the window size. By default, the mouse is hidden in fullscreen, but otherwise visible.
     */
-    inline virtual void setCursorVisible(const bool _v) { _v ? glfwEnable( GLFW_MOUSE_CURSOR ) : glfwDisable( GLFW_MOUSE_CURSOR ); }
+    inline virtual void setCursorVisible(const bool _v) { 
+		_v ? glfwEnable( GLFW_MOUSE_CURSOR ) : glfwDisable( GLFW_MOUSE_CURSOR ); 
+	}
 
 	//! Swap Buffers and Update Events.
 	virtual void update();
