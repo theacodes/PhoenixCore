@@ -123,6 +123,12 @@ class PolygonTest
                 system.setDepth( -3.0f );
                 system.drawTexturedPolygon( poly3, feathertexture, Color(200,200,255,127), EventReceiver::Instance()->getKey( PHK_E ) ? true : false ) ;
 
+				//! Draw a rectangle and a polygon to test the cross-constructors
+				phoenix::Rectangle r( Vector2d(15,400), Vector2d(64,32) );
+				system.drawRectangle( r )->colorize( Color(255,0,0,100) );
+				system.drawPolygon( r, Color(0,255,0,100) );
+				system.drawRectangle( phoenix::Polygon(r) )->colorize( Color(0,0,255,100) );
+
                 //! Draw some info.
                 system.drawText( "Polygon Test", Vector2d(16,16) );
                 system.drawText( "Press Space to Show Bounding Boxes", Vector2d(16,32), Color(255,127,127) );
