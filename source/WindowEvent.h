@@ -18,8 +18,10 @@ namespace phoenix{
 
 //! Window Events Types
 enum E_WINDOWEVENT_TYPE{
-	WET_KEY,				//!< Keyboard and mouse button events ( int_data = key, bool_data = state ).
+	WET_KEY,				//!< Keyboard events ( int_data = key, bool_data = state ).
 	WET_CHAR,				//!< Keyboard character event ( int_data = char ).
+	WET_MOUSE_DOWN,			//!< Mouse click down ( vector_data = position ).
+	WET_MOUSE_UP,			//!< Mouse click released ( vector_data = position ).
 	WET_MOUSE_POSITION,		//!< Mouse position change ( vector_data = position ).
 	WET_MOUSE_WHEEL,		//!< Mouse wheel change ( int_data = position ).
 	WET_CLOSE,				//!< Window close event.

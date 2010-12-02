@@ -38,13 +38,14 @@ bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
 	setWindowTitle( PHOENIXCORE_VERSION );
 
 	// Set GLFW event callbacks
-	glfwSetKeyCallback( &GLFWWindowManager::glfwKeyboardCallback );
-	glfwSetCharCallback( &GLFWWindowManager::glfwCharacterCallback );
-	glfwSetMouseButtonCallback( &GLFWWindowManager::glfwKeyboardCallback );
-	glfwSetMousePosCallback( &GLFWWindowManager::glfwMousePosCallback );
-	glfwSetWindowCloseCallback( &GLFWWindowManager::glfwWindowCloseCallback );
-	glfwSetMouseWheelCallback( &GLFWWindowManager::glfwMouseWheelPosCallback );
-    glfwSetWindowSizeCallback( &GLFWWindowManager::glfwWindowResizeCallback );
+	glfwSetKeyCallback			( &GLFWWindowManager::glfwKeyboardCallback		);
+	glfwSetCharCallback			( &GLFWWindowManager::glfwCharacterCallback		);
+	glfwSetMouseButtonCallback  ( &GLFWWindowManager::glfwKeyboardCallback		);
+	glfwSetMousePosCallback		( &GLFWWindowManager::glfwMousePosCallback		);
+	glfwSetWindowCloseCallback	( &GLFWWindowManager::glfwWindowCloseCallback	);
+	glfwSetMouseWheelCallback	( &GLFWWindowManager::glfwMouseWheelPosCallback	);
+    glfwSetWindowSizeCallback	( &GLFWWindowManager::glfwWindowResizeCallback	);
+
 #ifdef _GLFW_WM_MOVE_HACK
 	glfwSetWindowMoveCallback( &GLFWWindowManager::glfwWindowMoveCallback );
 #endif
@@ -96,13 +97,11 @@ void GLFWWindowManager::glfwKeyboardCallback( int key, int action )
 //! Character callback (from GLFW).
 void GLFWWindowManager::glfwCharacterCallback( int key, int action )
 {
-	if( action == GLFW_PRESS ){
 		WindowEvent e;
 		e.type = WET_CHAR;
 		e.int_data = key;
-		e.bool_data = true;
+		e.bool_data = action == GLFW_PRESS ? true : false;
 		Instance()->signal(e);
-	}
 }
 
 

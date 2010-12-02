@@ -84,6 +84,9 @@ namespace phoenix
         //! Get the current width of the texture.
         inline int getWidth() const { return width; }
 
+		//! Get write access to the data
+		inline GLubyte* getData(){ return data; }
+
         //! Changes the texture's height (Must be a power of 2).
         inline void setHeight(int _h) { height = _h; }
 
@@ -119,6 +122,7 @@ namespace phoenix
             \sa lock(), setPixel(), getPixel()
         */
         void unlock();
+		void unlock(bool BGRA);
 
         //! Changes a pixel to the given color. lock() must be called before this is possible.
         void setPixel( const Vector2d& _p, const Color& _c);

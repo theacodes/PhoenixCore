@@ -115,6 +115,22 @@ void Texture::unlock()
     }
 }
 
+void Texture::unlock(bool BGRA)
+{
+    if (data!=NULL)
+    {
+        glBindTexture(GL_TEXTURE_2D, texture);
+		if(!BGRA)
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		else
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, data);
+
+        delete [] data;
+
+        data = NULL;
+    }
+}
+
 bool Texture::lock()
 {
     data = new GLubyte[width*height*4];
