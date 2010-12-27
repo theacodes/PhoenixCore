@@ -42,6 +42,11 @@ namespace phoenix
                 : red(_r), green(_g), blue(_b), alpha(_a)
         {}
 
+		//! Copy Constructor.
+		Color( const Color& other )
+			: red( other.red ), green( other.green ), blue( other.blue ), alpha( other.alpha )
+		{}
+
         //! Set Red Intensity. (0-255)
         inline void setRed( const unsigned char _r )
         {

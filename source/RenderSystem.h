@@ -64,7 +64,7 @@ namespace phoenix
 			_quit(false), 
 			event_connection(),
 			resources(),
-            clearColor(Color(0,0,0))
+            clear_color(Color(0,0,0))
 		{
 			initialize( _sz, _fs );
 		}
@@ -103,20 +103,21 @@ namespace phoenix
             GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR, GL_SRC_ALPHA,
             GL_ONE_MINUS_SRC_ALPHA, GL_DST_ALPHA, and
             GL_ONE_MINUS_DST_ALPHA
+			\sa getBlendSource(), setBlendSource(), getBlendDestination(), setBlendDestination()
         */
-        inline static void setBlendMode(const GLenum& src = GL_SRC_ALPHA, const GLenum& dst = GL_ONE_MINUS_SRC_ALPHA ) { srcBlend = src; dstBlend = dst; glBlendFunc(src,dst); }
+        inline static void setBlendMode(const GLenum& src = GL_SRC_ALPHA, const GLenum& dst = GL_ONE_MINUS_SRC_ALPHA ) { src_blend = src; dst_blend = dst; glBlendFunc(src,dst); }
 
-        //! Get src blend mode.
-        /*!
-            Returns the current src blend mode from opengl
-        */
-        inline static int getSRCBlendMode() { return srcBlend; }
+        //! Get the current blend mode's source.
+        inline static int getBlendSource() { return src_blend; }
 
-      	//! Get dst blend mode.
-        /*!
-            Returns the current dst blend mode from opengl
-        */
-        inline static int getDSTBlendMode() { return dstBlend; }
+      	//! Get the current blend mode's destination
+        inline static int getBlendDestination() { return dst_blend; }
+
+		//! Sets the current blend mode's source
+		inline static void setBlendSource( const int s ) { setBlendMode( s, getBlendDestination() ); }
+
+		//! Sets the current blend mode's destination
+		inline static void setBlendDestination( const int d ) { setBlendMode( getBlendSource(), d ); }
 
         //! Get the system's batch renderer.
         inline BatchRenderer& getBatchRenderer() { return renderer; }
@@ -184,10 +185,10 @@ namespace phoenix
         inline void setResizable(bool resizable) { resize = resizable; }
 
         //! Get the default clear color
-        inline Color getClearColor() { return clearColor; }
+        inline const Color& getClearColor() { return clear_color; }
 
         //! Set the default clear color
-        inline void setClearColor(Color &newCol) { clearColor.setAlpha(newCol.getAlpha()); clearColor.setRed(newCol.getRed()); clearColor.setGreen(newCol.getGreen()); clearColor.setBlue(newCol.getBlue());  }
+        inline void setClearColor(const Color& c) { clear_color = c; }
 
         //! Get time.
         /*!
@@ -321,10 +322,10 @@ namespace phoenix
 		boost::signals2::connection event_connection;
 
         //! Current source blend mode
-        static int srcBlend;
+        static int src_blend;
 
         //! Current dest blend mode
-        static int dstBlend;
+        static int dst_blend;
 
         //! Timer for FPS.
         Timer fpstimer;
@@ -333,7 +334,7 @@ namespace phoenix
         double framerate;
 
         //! GL clear color
-        Color clearColor;
+        Color clear_color;
 
 		//! Resize switch
 		bool resize;

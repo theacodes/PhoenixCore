@@ -16,11 +16,16 @@ distribution for more information.
 using namespace phoenix;
 
 ////////////////////////////////////////////////////////////////////////////////
+//Static Members
+////////////////////////////////////////////////////////////////////////////////
+int RenderSystem::src_blend = GL_SRC_ALPHA;
+int RenderSystem::dst_blend = GL_ONE_MINUS_SRC_ALPHA;
+
+////////////////////////////////////////////////////////////////////////////////
 //Construct & Destruct
 ////////////////////////////////////////////////////////////////////////////////
 
-   int RenderSystem::srcBlend = GL_SRC_ALPHA;
-   int RenderSystem::dstBlend = GL_ONE_MINUS_SRC_ALPHA;
+
 
 void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _reint )
 {
@@ -132,7 +137,7 @@ bool RenderSystem::run()
     resources.clean();
 
     //clear screen
-    clearScreen(clearColor);
+    clearScreen(clear_color);
 
     //store the new framerate
     double newframerate = 1.0f / fpstimer.getTime();
