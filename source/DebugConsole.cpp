@@ -6,7 +6,7 @@ using namespace phoenix;
 
 //! Constructor
 DebugConsole::DebugConsole( RenderSystem& _r )
-	: GraphicsFactory2d( _r.getBatchRenderer() ), font( _r.getFont() ), enabled( false ), lines(), linelimit(0), backcolor(0,0,0,200), fontcolor(150,150,150)
+	: GraphicsFactory2d( _r.getBatchRenderer() ), font( _r.getFont() ), enabled( false ), lines(), linelimit(0), backcolor(0,0,0,200), fontcolor(255,201,201)
 {
 	event_connection = WindowManager::Instance()->listen( boost::bind( &DebugConsole::onWindowEvent, this, _1 ) );
     setDepth( 999.0f );
@@ -20,7 +20,6 @@ void DebugConsole::onWindowEvent( const WindowEvent& e )
 {
 	switch( e.type ){
 		case WET_KEY:
-		case WET_CHAR:
 			if( e.bool_data == true && e.int_data == PHK_BACKTICK ){
 				enabled = !enabled;
 			}
@@ -79,7 +78,7 @@ void DebugConsole::draw( )
         setDepth( getDepth() + 0.01f );
 
         font->setColor( fontcolor );
-		geom = font->drawText( std::string("== ") + std::string( PHOENIXCORE_VERSION ) + std::string(" Debug Console =="), Vector2d( 8,8 ) );
+		geom = font->drawText( std::string("-= ") + std::string( PHOENIXCORE_VERSION ) + std::string(" Debug Console =-"), Vector2d( 8,8 ) );
         apply( geom, EFF_ALL - EFF_TEXTURE );
 
         unsigned int count = 1;

@@ -64,7 +64,7 @@ namespace phoenix
 			_quit(false), 
 			event_connection(),
 			resources(),
-            clearColor(Color())
+            clearColor(Color(0,0,0))
 		{
 			initialize( _sz, _fs );
 		}

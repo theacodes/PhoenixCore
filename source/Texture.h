@@ -122,6 +122,13 @@ namespace phoenix
             \sa lock(), setPixel(), getPixel()
         */
         void unlock();
+
+		//! Unlock (BGRA Version)
+		/*!
+			Uploads the texture to video memory assuming a BGRA format.
+			\note Advanced
+			\sa unlock()
+		*/
 		void unlock(bool BGRA);
 
         //! Changes a pixel to the given color. lock() must be called before this is possible.
