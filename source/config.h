@@ -5,9 +5,9 @@
 #define __PHOENIXCORE_CONFIG_H__
 
 // Version Name/Number/Release.
-#define PHOENIXCORE_VERSION "PhoenixCore 0.2 'Nightingale'"
-#define PHEONIXCORE_VERSION_NUMBER "0.2"
-#define PHEONIXCORE_VERSION_NAME "Nightingale"
+#define PHOENIXCORE_VERSION "PhoenixCore 0.3 alpha 'Raven'"
+#define PHEONIXCORE_VERSION_NUMBER "0.3"
+#define PHEONIXCORE_VERSION_NAME "Raven"
 
 // OpenGL Include
 #include <GL/glfw.h>
