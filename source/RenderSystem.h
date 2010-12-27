@@ -57,13 +57,14 @@ namespace phoenix
 			: renderer(), 
 			factory( renderer ),
 			console(),
-			resize(false), 
+			resize(true), 
 			fpstimer(), 
 			framerate(1.0f), 
 			font(0), 
 			_quit(false), 
 			event_connection(),
-			resources()
+			resources(),
+            clearColor(Color())
 		{
 			initialize( _sz, _fs );
 		}
@@ -103,7 +104,19 @@ namespace phoenix
             GL_ONE_MINUS_SRC_ALPHA, GL_DST_ALPHA, and
             GL_ONE_MINUS_DST_ALPHA
         */
-        inline static void setBlendMode(const GLenum& src = GL_SRC_ALPHA, const GLenum& dst = GL_ONE_MINUS_SRC_ALPHA ) { glBlendFunc(src,dst); }
+        inline static void setBlendMode(const GLenum& src = GL_SRC_ALPHA, const GLenum& dst = GL_ONE_MINUS_SRC_ALPHA ) { srcBlend = src; dstBlend = dst; glBlendFunc(src,dst); }
+
+        //! Get src blend mode.
+        /*!
+            Returns the current src blend mode from opengl
+        */
+        inline static int getSRCBlendMode() { return srcBlend; }
+
+      	//! Get dst blend mode.
+        /*!
+            Returns the current dst blend mode from opengl
+        */
+        inline static int getDSTBlendMode() { return dstBlend; }
 
         //! Get the system's batch renderer.
         inline BatchRenderer& getBatchRenderer() { return renderer; }
@@ -164,6 +177,18 @@ namespace phoenix
         //! Get frames per second.
         inline const double getFPS() const { return framerate; }
 
+        //! Get resize flag
+        inline const bool getResizable() const { return resize; }
+
+        //! Get resize flag
+        inline void setResizable(bool resizable) { resize = resizable; }
+
+        //! Get the default clear color
+        inline Color getClearColor() { return clearColor; }
+
+        //! Set the default clear color
+        inline void setClearColor(Color &newCol) { clearColor.setAlpha(newCol.getAlpha()); clearColor.setRed(newCol.getRed()); clearColor.setGreen(newCol.getGreen()); clearColor.setBlue(newCol.getBlue());  }
+
         //! Get time.
         /*!
             \return The amout in time ( in seconds ) that has occured since the last time run was called.
@@ -188,13 +213,12 @@ namespace phoenix
 			Can load .png, .tga, .bmp and .jpg or any other format supported by SOIL.
             \param _d The data buffer.
 			\param _len The length of the data buffer
-			\param _w Width
-			\param _h Height
+            \param _name The optional name to set on the texture object (default "Loaded from memory")
             \param _lin Tells the loader to use linear filtering or not. (default true).
             \note Use nearest filtering for tilemaps, or anything that may look bad when scaled.
             \note Textures must be sizes that are a power of two. NPOT textures will experience artifacts (or may fail all together).
         */
-		TexturePtr loadTexture( const unsigned char* const _d, const unsigned int _len, const unsigned int _w, const unsigned int _h, bool _lin = true);
+        TexturePtr loadTexture( const unsigned char* const _d, const unsigned int _len, std::string& _name = std::string(), bool _lin = true);
 
         //! Find texture by name.
         TexturePtr findTexture(const std::string& _n);
@@ -221,7 +245,16 @@ namespace phoenix
 
         //! Delegates to GraphicsFactory2d::setDepth()
         inline void setDepth( float _d = 0.0f ) { factory.setDepth( _d ); }
-            
+
+        //! Delegates to GraphicsFactory2d::getGroup()
+        inline int getGroup(){ return factory.getGroup(); }
+
+		//! Delegates to GraphicsFactory2d::setGroup()
+        inline void setGroup( int _g = 0 ) { factory.setGroup( _g ); }
+
+
+		//inline void setGroupBeginFunction() { factory.setGroupBeginFunction(); }
+
         //! Delegates to GraphicsFactory2d::drawLine()
 	    inline BatchGeometryPtr drawLine(const Vector2d& _v1 = Vector2d(0,0), const Vector2d& _v2 = Vector2d(0,0), const Color& _a = Color(255,255,255), const Color& _b = Color(255,255,255,255))
         {
@@ -287,14 +320,23 @@ namespace phoenix
 		//! Window event connection
 		boost::signals2::connection event_connection;
 
-		//! Resize switch
-		bool resize;
+        //! Current source blend mode
+        static int srcBlend;
+
+        //! Current dest blend mode
+        static int dstBlend;
 
         //! Timer for FPS.
         Timer fpstimer;
 
         //! Counts the number of frames per second
         double framerate;
+
+        //! GL clear color
+        Color clearColor;
+
+		//! Resize switch
+		bool resize;
 
     };
 

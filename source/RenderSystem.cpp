@@ -19,6 +19,9 @@ using namespace phoenix;
 //Construct & Destruct
 ////////////////////////////////////////////////////////////////////////////////
 
+   int RenderSystem::srcBlend = GL_SRC_ALPHA;
+   int RenderSystem::dstBlend = GL_ONE_MINUS_SRC_ALPHA;
+
 void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _reint )
 {
 	if( _reint ){
@@ -88,8 +91,7 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _reint )
 		loadTexture(
 			 builtin_font_imagedata,
 			 builtin_font_imagedata_size,
-			 builtin_font_imagedata_width,
-			 builtin_font_imagedata_height
+             std::string("Built In Font Image")
 		)
 	);
 
@@ -130,7 +132,7 @@ bool RenderSystem::run()
     resources.clean();
 
     //clear screen
-    clearScreen();
+    clearScreen(clearColor);
 
     //store the new framerate
     double newframerate = 1.0f / fpstimer.getTime();
@@ -247,7 +249,7 @@ TexturePtr RenderSystem::loadTexture( const std::string& _fn, bool _l )
 }
 
 // Load texture from memory.
-TexturePtr RenderSystem::loadTexture( const unsigned char* const _d, const unsigned int _len, const unsigned int _w, const unsigned int _h, bool _lin )
+TexturePtr RenderSystem::loadTexture( const unsigned char* const _d, const unsigned int _len, std::string& _name, bool _lin )
 {
 
 	//This is the class that will hold our texture
@@ -281,9 +283,18 @@ TexturePtr RenderSystem::loadTexture( const unsigned char* const _d, const unsig
 
         //Set up the Texture class
         ctext->setTextureId(newtextid);
+
+        //Get the size from the buffer
+        int _w = 0; int _h = 0; int _c = 4;
+        unsigned char* tmp = SOIL_load_image_from_memory(_d, _len, &_w, &_h, &_c , SOIL_LOAD_AUTO); 
+
+        //Set the sizes in the Texture object
         ctext->setWidth( _w );
         ctext->setHeight( _h );
-        ctext->setName( "Loaded From Memory" );
+        if(!_name.size())
+            ctext->setName( "Loaded From Memory" );
+        else 
+            ctext->setName( _name );
 
         //Return our texture
         return ctext;

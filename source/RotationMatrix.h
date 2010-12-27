@@ -97,7 +97,7 @@ namespace phoenix
 			\f$ \left[\begin{array}{cc} 0 & 1 \\ 2 & 3 \end{array}\right] \f$
 			\note Throws if index is out-of-bounds.
         */
-		inline float& operator[](int _i) { if( _i >=0 && _i <4 ) { return Elements[_i]; } else { throw; } }
+		inline float& operator[](int _i) { if( _i >=0 && _i <4 ) { return Elements[_i]; } else { } }
 
 		//! Addition.
         inline const RotationMatrix operator+(const RotationMatrix& rhs) const

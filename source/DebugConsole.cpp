@@ -6,7 +6,7 @@ using namespace phoenix;
 
 //! Constructor
 DebugConsole::DebugConsole( RenderSystem& _r )
-	: GraphicsFactory2d( _r.getBatchRenderer() ), font( _r.getFont() ), enabled( false ), lines(), linelimit(0), backcolor(0,0,0,200), fontcolor(127,127,255)
+	: GraphicsFactory2d( _r.getBatchRenderer() ), font( _r.getFont() ), enabled( false ), lines(), linelimit(0), backcolor(0,0,0,200), fontcolor(150,150,150)
 {
 	event_connection = WindowManager::Instance()->listen( boost::bind( &DebugConsole::onWindowEvent, this, _1 ) );
     setDepth( 999.0f );

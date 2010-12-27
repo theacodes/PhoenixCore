@@ -7,6 +7,8 @@ distribution for more information.
 
 */
 
+//Uncomment this for really annoying spam on msvc compilers.
+//#pragma warning( disable : 4503 )
 #include "BatchRenderer.h"
 
 using namespace boost;
