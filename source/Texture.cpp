@@ -171,7 +171,7 @@ boost::intrusive_ptr<Texture> Texture::copy()
      TexturePtr newtexture = new Texture( getResourceManager() );
      newtexture->setTextureId( nTexID_out );
      newtexture->setWidth( width );
-     newtexture->setHeight( width );
+     newtexture->setHeight( height );
      newtexture->setName( getName() + " copy" );
 
      return newtexture;
