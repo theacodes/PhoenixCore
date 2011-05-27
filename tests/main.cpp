@@ -41,6 +41,9 @@ distribution for more information.
 #ifdef _TESTS_FULLSCREEN_
 	#include "FullscreenTest.h"
 #endif
+#ifdef _TESTS_TRISTRIP_
+	#include "TristripTest.h"
+#endif
 #ifdef _TESTS_DEMO_
 	#include "Demo.h"
 #endif
@@ -74,6 +77,9 @@ int main()
 #endif
 #ifdef _TESTS_FULLSCREEN_
 		FullscreenTest test;
+#endif
+		#ifdef _TESTS_TRISTRIP_
+		TristripTest test;
 #endif
 #ifdef _TESTS_DEMO_
 		Demo test;
