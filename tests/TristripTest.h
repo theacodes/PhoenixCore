@@ -36,7 +36,7 @@ class TristripTest
 			Vector2d origin( 50.0f, 100.0f );
 
 			for( int i = 0; i < 100; ++i ){
-				float drift = sin((float(i)/10.0f)*3.14159265f)*30.0f;
+				float drift = sin((float(i)/10.0f)*3.14159265f)*20.0f;
 				strip->addVertex( Vertex( origin + Vector2d( float(i) * 5.0f, -drift ), Color(255,255-(i*(255/100)),255) ) );
 				strip->addVertex( Vertex( origin + Vector2d( float(i) * 5.0f, 50.0f+drift ), Color(255,255,255-(i*(255/100)) ) ) );
 			}

@@ -21,6 +21,7 @@ distribution for more information.
 #include "View.h"
 #include "Droppable.h"
 #include "GroupState.h"
+#include "Vertex.h"
 
 namespace phoenix
 {
@@ -138,6 +139,9 @@ private:
 
 	//! Real removal routine ( used by clean() and move() ).
 	void removeProper( boost::intrusive_ptr<BatchGeometry> _g , bool _inv = false);
+
+	//! Vertex submission routine.
+	void submitVertexList( std::vector< Vertex >& vlist, unsigned int type );
 };
 
 } //namespace phoenix

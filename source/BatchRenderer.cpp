@@ -223,6 +223,18 @@ void BatchRenderer::draw( )
 						{
 							try{
 								(*geom)->batch( vlist );
+								
+								/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
+								if( alphapair->first == GL_LINE_STRIP ||
+									alphapair->first == GL_LINE_LOOP ||
+									alphapair->first == GL_TRIANGLE_STRIP ||
+									alphapair->first == GL_TRIANGLE_FAN ||
+									alphapair->first == GL_QUAD_STRIP ||
+									alphapair->first == GL_POLYGON ){
+										// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
+										submitVertexList(vlist,alphapair->first);
+								}
+
 							}catch(...)
 							{
 								assert( false ); // Not enough space.
@@ -230,20 +242,8 @@ void BatchRenderer::draw( )
 						}
 					}
 
-					// Check for empty then send it to the graphics card.
-					if( ! vlist.empty() )
-					{
-
-                        glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vlist[0].tcoords);
-                        glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), &vlist[0].color);
-                        glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &vlist[0].position);
-
-						glDrawArrays( alphapair->first , 0, vlist.size() );
-
-                        //clear the vlist
-					    vlist.clear();
-
-					}
+					// Send it on
+					submitVertexList(vlist,alphapair->first);
 
 				} // Primitive Type
 
@@ -267,4 +267,21 @@ void BatchRenderer::draw( )
 	// Prune.
 	clean();
 
+}
+
+/*!
+	Vertex submission routine.
+	Sends data to opengl
+*/
+void BatchRenderer::submitVertexList( std::vector< Vertex >& vlist, unsigned int type ){
+	if( vlist.empty() ) return;
+
+    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vlist[0].tcoords);
+    glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), &vlist[0].color);
+    glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &vlist[0].position);
+
+	glDrawArrays( type, 0, vlist.size() );
+
+    //clear the vlist
+	vlist.clear();
 }
