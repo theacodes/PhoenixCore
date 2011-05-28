@@ -19,7 +19,7 @@ class VectorTest
         VectorTest() : 
 			system()
         {
-            system.enableResize();
+            system.setResizeBehavior(RZB_EXPAND);
         }
 
         virtual ~VectorTest()

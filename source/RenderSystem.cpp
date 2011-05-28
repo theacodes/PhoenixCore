@@ -27,7 +27,7 @@ int RenderSystem::dst_blend = GL_ONE_MINUS_SRC_ALPHA;
 
 
 
-void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _reint )
+void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, bool _reint )
 {
 	if( _reint ){
 		// Re-initialization requires us to dump everything.
@@ -45,7 +45,7 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _reint )
 	
 
 	// Create our window
-	if( !wm->open( _sz, _fs ) ) { throw std::runtime_error("Failed to open a window."); }
+	if( !wm->open( _sz, _fs, _resize ) ) { throw std::runtime_error("Failed to open a window."); }
 
 	// Listen to events.
 	event_connection = wm->listen( boost::bind( &RenderSystem::onWindowEvent, this, _1 ) );
@@ -166,14 +166,27 @@ void RenderSystem::onWindowEvent( const WindowEvent& e )
 		}
 		break;
 	case WET_RESIZE:
-		if( !resize ){
-			WindowManager::Instance()->setWindowSize( renderer.getView().getSize() );
-		} else {
+
+		switch( resize_behavior )
+		{
+		case RZB_EXPAND:
 			renderer.getView().setSize( e.vector_data );
 			glMatrixMode(GL_PROJECTION); 
 			glLoadIdentity();
 			glOrtho(0.0f, e.vector_data.getX(), e.vector_data.getY(), 0.0f, 1000.0f, -1000.0f);
+
+		case RZB_SCALE:
+			renderer.getView().setSize( e.vector_data );
+
+		case RZB_REVERT:
+			WindowManager::Instance()->setWindowSize( renderer.getView().getSize() );
+
+		case RZB_NOTHING:
+		default:
+			break;
 		}
+
+		break;
 	default:
 		break;
 	};

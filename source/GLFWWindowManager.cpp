@@ -5,7 +5,7 @@ using namespace phoenix;
 /*!
     Open function.
 */
-bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
+bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f, const bool _resize )
 {
 
     // Set our internal screen size variable.
@@ -27,6 +27,7 @@ bool GLFWWindowManager::open( const Vector2d& _sz, const bool _f )
 	#endif
 
 	int mode = _f ? GLFW_FULLSCREEN : GLFW_WINDOW;
+	glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, !_resize);
 
 	if( !glfwOpenWindow(int(_sz.getX()), int(_sz.getY()), RED_BITS, BLUE_BITS, GREEN_BITS, ALPHA_BITS, DEPTH_BITS, STENCIL_BITS, mode) ) return false;
 

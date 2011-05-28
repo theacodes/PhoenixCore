@@ -138,7 +138,7 @@ public:
     Demo() : system(), timer()
     {
         // Enable resizing
-        system.enableResize();
+        system.setResizeBehavior(RZB_EXPAND);
 
         //start timer
         timer.start();

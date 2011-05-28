@@ -23,6 +23,8 @@ set( CORETEST_SOURCES
 	EventTest.h
 	FontTest.h
 	TristripTest.h
+	ResizeTest.h
+	FullscreenTest.h
 )
 
 ############################################
@@ -117,13 +119,21 @@ set_property(
 	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_TRISTRIP_
 )
 
+#Resize Test
+add_executable( ResizeTest ${CORETEST_SOURCES} )
+target_link_libraries( ResizeTest PhoenixCore ${LIBRARIES} )
+set_property(
+	TARGET ResizeTest
+	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_RESIZE_
+)
+
 ######################################
 # Windows stuff
 ######################################
 #WINDOWS (MSVC)
 if(WIN32)
 	if(MSVC)
-	    set_target_properties( PhoenixCoreDemo FontTest TextureTest EventTest PolygonTest VectorTest ViewTest TristripTest 
+	    set_target_properties( PhoenixCoreDemo FontTest TextureTest EventTest PolygonTest VectorTest ViewTest TristripTest ResizeTest
 	        PROPERTIES WIN32_EXECUTABLE true )
 	endif()
 endif()

@@ -76,8 +76,9 @@ public:
 		Should create a new window and initialize OpenGL.
 		\param _sz The size of the window.
 		\param _f Fullscreen.
+		\param _resize Determines if the window will be resizeable or not.
 	*/
-	virtual bool open( const Vector2d& _sz = Vector2d( 640, 480 ), const bool _f = false ) = 0;
+	virtual bool open( const Vector2d& _sz = Vector2d( 640, 480 ), const bool _f = false, const bool _resize = true ) = 0;
 
 	/*!
 		Closes any open window.

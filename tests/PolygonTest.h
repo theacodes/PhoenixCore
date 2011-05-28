@@ -17,7 +17,7 @@ class PolygonTest
     public:
 
         PolygonTest() 
-            : system()
+            : system( Vector2d(640,480), false, false )
         {
         }
 

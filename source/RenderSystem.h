@@ -31,6 +31,14 @@ distribution for more information.
 namespace phoenix
 {
 
+	//! Ways of handling a window resize
+	enum E_RESIZE_BEHAVIOR {
+		RZB_NOTHING, //!< Do nothing, allow user code to handle resize. (default)
+		RZB_EXPAND, //!< Expand the default view to the new window size.
+		RZB_SCALE, //!< Scale up the view to the new window size.
+		RZB_REVERT, //!< Reset the window size to the default view's size, effectively preventing the window resize.
+	};
+
     //! The render system.
     /*!
         This is the heart of the Core. It ties together a ResourceManager, a BatchRender, Timer, and Fonts
@@ -44,7 +52,6 @@ namespace phoenix
 
     public:
 
-
         //! Constructor
         /*!
            Creates a render system creates a window and opengl context. Once the system is constructed
@@ -53,11 +60,11 @@ namespace phoenix
            \param _sz The size of the screen (default 640,480).
            \param _fs Full screen (default false).
         */
-		RenderSystem( const Vector2d& _sz = Vector2d(640,480),bool _fs = false )
+		RenderSystem( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true )
 			: renderer(), 
 			factory( renderer ),
 			console(),
-			resize(true), 
+			resize_behavior(RZB_NOTHING),
 			fpstimer(), 
 			framerate(1.0f), 
 			font(0), 
@@ -66,30 +73,26 @@ namespace phoenix
 			resources(),
             clear_color(Color(0,0,0))
 		{
-			initialize( _sz, _fs );
+			initialize( _sz, _fs, _resize );
 		}
 
 		//! Initialize
 		/*!
 			(Re)-initialize a rendersystem. This is automatically called by the constructor
 			but it may be desirable sometimes to re-initialize a render system.
+			\param _fs Creates a fullscreen window.
+			\param _resize Creates a resizeable window (default is resizeable).
 			\param _reint True if reinitializing an existing system ( usually true ).
 			\note Throws and std::exception if problems arrive.
 			\note Re-initialization invalides all OpenGL textures, etc. You should release all handles to resources, the debug console, everything before calling this.
 		*/
-		void initialize( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _reint = true  );
+		void initialize( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true, bool _reint = true  );
 
         //! Destruct.
 		/*!
 			Releases all resource. Also called WindowManager::close().
 		*/
         ~RenderSystem();
-
-        //! Enable screen resizing ( disabled by default ).
-        inline void enableResize() { resize = true; }
-
-        //! Disable screen resizing
-        inline void disableResize() { resize = false; }
 
         //! Set blend mode.
         /*!
@@ -178,11 +181,11 @@ namespace phoenix
         //! Get frames per second.
         inline const double getFPS() const { return framerate; }
 
-        //! Get resize flag
-        inline const bool getResizable() const { return resize; }
+        //! Chnage the resize mode.
+        inline void setResizeBehavior( E_RESIZE_BEHAVIOR b = RZB_NOTHING) { resize_behavior = b; }
 
-        //! Get resize flag
-        inline void setResizable(bool resizable) { resize = resizable; }
+        //! Get the current resize mode.
+        inline E_RESIZE_BEHAVIOR getResizeBehavior() { return resize_behavior; }
 
         //! Get the default clear color
         inline const Color& getClearColor() { return clear_color; }
@@ -336,8 +339,8 @@ namespace phoenix
         //! GL clear color
         Color clear_color;
 
-		//! Resize switch
-		bool resize;
+		//! Resize behavior
+		E_RESIZE_BEHAVIOR resize_behavior;
 
     };
 

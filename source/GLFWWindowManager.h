@@ -48,7 +48,7 @@ public:
 		\param _sz The size of the window.
 		\param _f Fullscreen.
 	*/
-	virtual bool open( const Vector2d& _sz = Vector2d( 640, 480 ), const bool _f = false );
+	virtual bool open( const Vector2d& _sz = Vector2d( 640, 480 ), const bool _f = false, const bool _resize = true );
 
 	/*! Close Command.
 		Closes the open window (if any).
