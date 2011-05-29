@@ -14,6 +14,8 @@ add_library( PhoenixCore STATIC
 	BatchRenderer.h
 	BitmapFont.cpp
 	BitmapFont.h
+	BMFontLoader.h
+	BMFontLoader.cpp
 	Color.h
 	DebugConsole.cpp
 	DebugConsole.h

@@ -133,7 +133,7 @@ set_property(
 #WINDOWS (MSVC)
 if(WIN32)
 	if(MSVC)
-	    set_target_properties( PhoenixCoreDemo FontTest TextureTest EventTest PolygonTest VectorTest ViewTest TristripTest ResizeTest
+	    set_target_properties( PhoenixCoreDemo TextureTest EventTest PolygonTest VectorTest ViewTest TristripTest ResizeTest
 	        PROPERTIES WIN32_EXECUTABLE true )
 	endif()
 endif()

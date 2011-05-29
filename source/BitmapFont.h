@@ -28,6 +28,17 @@ class BitmapFont
 {
 public:
 
+	//! Structure to hold information about each character
+	struct Character{
+		int x;
+		int y;
+		int width;
+		int height;
+		int xoffset;
+		int yoffset;
+		int xadvance;
+	};
+
     //! Constructor
     /*!
         Makes a new Bitmap Font.
@@ -37,10 +48,11 @@ public:
         \note Sets the resource type to ERT_BITMAP_FONT
     */
     BitmapFont( ResourceManager& _r, BatchRenderer& _b, TexturePtr _t = TexturePtr() )
-        : Font( _r, 3), renderer( _b ), spacing( 10.0f )
+        : Font( _r, 3), renderer( _b ), characters(256), spacing( 10.0f )
     {
         setTexture( _t );
         setName(_t->getName() + " font");
+		std::fill( characters.begin(), characters.end(), BitmapFont::Character() );
     }
 
     virtual ~BitmapFont()
@@ -56,7 +68,13 @@ public:
     inline void setSpacing( float s = 10.0f) { spacing = s; }
 
 
+	//! Sets the character properties (Loader Interface).
+	inline void setCharacterProperties( int ix, const BitmapFont::Character& c ){ characters[ix] = c; }
+
 protected:
+
+	//! Character List
+	std::vector< BitmapFont::Character > characters; 
 
     //! Batcher.
     BatchRenderer& renderer;

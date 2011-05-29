@@ -8,6 +8,7 @@ distribution for more information.
 */
 
 #include "Phoenix.h"
+#include "BMFontLoader.h"
 
 using namespace phoenix;
 
@@ -26,10 +27,19 @@ class FontTest
         int run()
         {
 
+			//! Test
+			BitmapFontPtr font = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), system.loadTexture("arial_0.png") );
+			BMFontLoader ldr(font);
+			ldr.load("arial.fnt");
+
+			
+
 			//! Font
-            BitmapFontPtr bluefont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), system.getFont()->grab<BitmapFont>()->getTexture() );
+            BitmapFontPtr bluefont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), system.loadTexture("arial_0.png") );
+			BMFontLoader ldr2(bluefont);
+			ldr2.load("arial.fnt");
+
 			bluefont->setColor( Color(200,200,255) );
-			bluefont->setSpacing( 5.0f );
 			bluefont->setScale( Vector2d(5, 2.5) );
 			BatchGeometryPtr hellotext = bluefont->drawText( "Hello, World!", Vector2d( 50,50 ) );
 			hellotext->setImmediate( false );
@@ -42,7 +52,7 @@ class FontTest
 				hellotext->rotate( 0.001f );
 
                 //! Draw some info.
-                system.drawText( "Font Test", Vector2d(16,16) );
+                font->drawText( "Font Test", Vector2d(16,16) );
 
             }
 
