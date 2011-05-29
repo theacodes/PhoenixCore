@@ -92,13 +92,13 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, boo
     glEnable(GL_COLOR_MATERIAL);
 
     //load our default font
-	font = new BitmapFont( resources, renderer , 
+	font = new BitmapFont( *this );
+	/*
 		loadTexture(
 			 builtin_font_imagedata,
 			 builtin_font_imagedata_size,
              std::string("Built In Font Image")
-		)
-	);
+		) */
 
 	//! Make a console
 	console = boost::shared_ptr<DebugConsole>( new DebugConsole( *this ) );

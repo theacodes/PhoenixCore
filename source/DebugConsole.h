@@ -5,7 +5,6 @@
 #include "config.h"
 #include "2dGraphicsFactory.h"
 #include "WindowManager.h"
-#include "Font.h"
 #include "Color.h"
 #include "View.h"
 
@@ -13,6 +12,7 @@ namespace phoenix
 {
 
 class RenderSystem;
+class Font;
 
 //! Debug Console
 /*!
@@ -40,10 +40,10 @@ public:
 	void onWindowEvent( const WindowEvent& e );
 
     //! Get the font.
-    FontPtr getFont() { return font; }
+    boost::intrusive_ptr<Font> getFont() { return font; }
 
     //! Set the font.
-    void setFont( FontPtr _f ) { font = _f; }
+    void setFont( boost::intrusive_ptr<Font> _f ) { font = _f; }
 
     //! Set the background color.
     void setBackgroundColor( const Color& _c = Color(0,0,0,200) ) { backcolor = _c; }
@@ -134,7 +134,7 @@ protected:
 	boost::signals2::connection event_connection;
 
 	//! Font
-    FontPtr font;
+    boost::intrusive_ptr<Font> font;
 
 	//! Enabled or not.
     bool enabled;
@@ -168,5 +168,6 @@ protected:
 } //namespace phoenix;
 
 #include "RenderSystem.h"
+#include "Font.h"
 
 #endif // __PH_DEBUG_CONSOLE_H__

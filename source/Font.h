@@ -13,11 +13,14 @@ distribution for more information.
 #include "config.h"
 #include "Resource.h"
 #include "AbstractGeometryFactory.h"
-#include "string.h"
+#include "BatchRenderer.h"
+#include <string>
 #include "Color.h"
 
 namespace phoenix
 {
+
+class RenderSystem;
 
 //! Font class.
 /*!
@@ -37,9 +40,13 @@ public:
         \param _r ResourceManager pointer.
         \param _t Type, defaults to 2 ( ERT_FONT ) for abstract font.
     */
-    Font(ResourceManager& _r, int _t = 2)
-        : Resource( _r, _t ), color(), scale( Vector2d( 1, 1 ) )
+    Font(ResourceManager& _r, BatchRenderer& _b, int _t = 2)
+        : Resource( _r, _t ), renderer(&_b), color(), scale( Vector2d( 1, 1 ) )
     {}
+
+
+	//! RenderSystem based construction.
+	Font(RenderSystem& _r, int _t = 2);
 
     //! Destructor
     virtual ~Font()
@@ -66,7 +73,16 @@ public:
     //! Set scale.
     inline void setScale( const Vector2d& _s = Vector2d(1,1)) { scale = _s; }
 
+	//! Gets the current target batch renderer
+	inline virtual BatchRenderer* getBatchRenderer() { return renderer; }
+
+    //! Set the target batch renderer.
+	inline virtual void setBatchRenderer( BatchRenderer* _r ) { renderer = _r; }
+
 protected:
+
+	//! Batcher.
+    BatchRenderer* renderer;
 
 	//! Color
 	Color color;
@@ -80,4 +96,7 @@ protected:
 typedef boost::intrusive_ptr<Font> FontPtr;
 
 }//namespace phoenix
+
+#include "RenderSystem.h"
+
 #endif // __PHFONT_H__

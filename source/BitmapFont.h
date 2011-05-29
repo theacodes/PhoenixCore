@@ -39,24 +39,35 @@ public:
 		int xadvance;
 	};
 
-    //! Constructor
+	//! Constructor
+	/*!
+		Makes a new Bitmap font and loads everything from a FNT file.
+	*/
+	BitmapFont( RenderSystem& _r, std::string _fnt = "");
+
+    //! Advanced Constructor
     /*!
-        Makes a new Bitmap Font.
+        Makes a new (empty) Bitmap Font.
+		You must manually load in pages, etc.
         \param _rm A resource manager to keep track of this object.
         \param _br A batch renderer for this font to draw to.
-        \param _t The texture containing the glyphs.
         \note Sets the resource type to ERT_BITMAP_FONT
     */
-    BitmapFont( ResourceManager& _r, BatchRenderer& _b, TexturePtr _t = TexturePtr() )
-        : Font( _r, 3), renderer( _b ), characters(256), spacing( 10.0f )
+    BitmapFont( ResourceManager& _r, BatchRenderer& _b )
+        : Font( _r, _b, 3), characters(256), spacing( 10.0f )
     {
-        setTexture( _t );
-        setName(_t->getName() + " font");
+        setName("Unnamed font");
 		std::fill( characters.begin(), characters.end(), BitmapFont::Character() );
     }
 
     virtual ~BitmapFont()
     {}
+
+	//! Loads a BMFont text format .fnt file.
+	/*
+		Requires a rendersystem to load textures
+	*/
+	virtual void load( RenderSystem& _r, std::string _fnt = "" );
 
 	//! Draws the given string at the given location.
 	virtual BatchGeometryPtr drawText( const std::string& s, const Vector2d& p = Vector2d(0,0) );
@@ -65,8 +76,7 @@ public:
     inline float getSpacing() const { return spacing; }
 
     //! Set spacing, default is 10.0f.
-    inline void setSpacing( float s = 10.0f) { spacing = s; }
-
+	inline void setSpacing( float s = 10.0f) { spacing = s; }
 
 	//! Sets the character properties (Loader Interface).
 	inline void setCharacterProperties( int ix, const BitmapFont::Character& c ){ characters[ix] = c; }
@@ -75,9 +85,6 @@ protected:
 
 	//! Character List
 	std::vector< BitmapFont::Character > characters; 
-
-    //! Batcher.
-    BatchRenderer& renderer;
 
     //! Spacing between characters when drawn.
     float spacing;

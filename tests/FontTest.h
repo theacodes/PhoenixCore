@@ -28,14 +28,11 @@ class FontTest
         {
 
 			//! Test
-			BitmapFontPtr font = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), system.loadTexture("arial_0.png") );
-			BMFontLoader ldr(font);
-			ldr.load("arial.fnt");
-
-			
+			BitmapFontPtr font = new BitmapFont( system, "arial.fnt" );
+			font->setTexture( system.loadTexture("arial_0.png") );
 
 			//! Font
-            BitmapFontPtr bluefont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), system.loadTexture("arial_0.png") );
+            BitmapFontPtr bluefont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer() );
 			BMFontLoader ldr2(bluefont);
 			ldr2.load("arial.fnt");
 

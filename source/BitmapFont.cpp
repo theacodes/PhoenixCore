@@ -8,16 +8,43 @@ distribution for more information.
 */
 
 #include "BitmapFont.h"
+#include "BMFontLoader.h"
 
 using namespace phoenix;
 using namespace std;
 using namespace boost;
 
+/*
+	Easy constructor
+*/
+BitmapFont::BitmapFont( RenderSystem& _r, std::string _fnt )
+	: Font( _r, 3), characters(256), spacing( 10.0f )
+{
+	std::fill( characters.begin(), characters.end(), BitmapFont::Character() );
+	load( _r, _fnt );
+}
+
+
+/*
+	Loading routine
+*/
+void BitmapFont::load( RenderSystem& _r, std::string _fnt ){
+	if( _fnt == "" ) return;
+
+	BMFontLoader ldr(this);
+	ldr.load(_fnt);
+}
+
+/*
+	Text drawing routine
+*/
 BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 {
 
-	BatchGeometryPtr geom = new BatchGeometry( renderer, GL_QUADS, getTexture(), getGroup(), getDepth() );
+	BatchGeometryPtr geom = new BatchGeometry( *renderer, GL_QUADS, getTexture(), getGroup(), getDepth() );
 	geom->setImmediate( true );
+
+	if( ! getTexture() ) return geom;
 
     float culmative_x = 0;
 
