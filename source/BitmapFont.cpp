@@ -31,7 +31,7 @@ BitmapFont::BitmapFont( RenderSystem& _r, std::string _fnt )
 void BitmapFont::load( RenderSystem& _r, std::string _fnt ){
 	if( _fnt == "" ) return;
 
-	BMFontLoader ldr(this);
+	BMFontLoader ldr(_r, this);
 	ldr.load(_fnt);
 }
 

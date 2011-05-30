@@ -22,16 +22,42 @@ void BMFontLoader::load( const std::string& fnt_file ){
 
 	if( !fh ) return;
 
+	//find the directory (For loading pages)
+	std::string directory = fnt_file;
+	for( size_t n = 0; (n = directory.find('/', n)) != string::npos; ) directory.replace(n, 1, "\\");
+	size_t i = directory.rfind('\\');
+	if( i != string::npos )
+		directory = directory.substr(0, i+1);
+	else
+		directory = "";
+
+	/* Parse! */
 	while( fh.good() ){
 		getline( fh, line );
 		
 		//tokenize, parse.
 		typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-		boost::char_separator<char> sep(" =");
+		boost::char_separator<char> sep(" =\"");
 		tokenizer tokens(line, sep);
 
 		for (tokenizer::iterator it = tokens.begin(); it != tokens.end(); ++it) {
 			string token = *it;
+
+			/* Load Page Texture */
+			if( token == "page" ){
+
+				//parse the info.
+				for (++it; it != tokens.end(); ++it) {
+					string name = *it; 
+					if( name == "file" ) {
+						//load the texture, assign it.
+						TexturePtr t = system.loadTexture(directory + (*++it));
+						font->setTexture(t);
+					}
+				}
+
+				break;
+			}
 
 			/* Load character data */
 			if( token == "char" ){

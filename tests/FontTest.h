@@ -29,12 +29,9 @@ class FontTest
 
 			//! Test
 			BitmapFontPtr font = new BitmapFont( system, "arial.fnt" );
-			font->setTexture( system.loadTexture("arial_0.png") );
 
 			//! Font
-            BitmapFontPtr bluefont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer() );
-			BMFontLoader ldr2(bluefont);
-			ldr2.load("arial.fnt");
+            BitmapFontPtr bluefont = new BitmapFont( system, "arial.fnt" );
 
 			bluefont->setColor( Color(200,200,255) );
 			bluefont->setScale( Vector2d(5, 2.5) );

@@ -29,13 +29,14 @@ class BMFontLoader
 {
 
 public:
-	BMFontLoader( BitmapFontPtr _font )
-		: font(_font)
+	BMFontLoader( RenderSystem& _r, BitmapFontPtr _font )
+		: system(_r), font(_font)
 	{};
 
 	void load( const std::string& fnt_file );
 
 private:
+	RenderSystem& system;
 	BitmapFontPtr font;
 
 };
