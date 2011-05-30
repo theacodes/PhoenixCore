@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHBITMAPFONT_H__
 #define __PHBITMAPFONT_H__
 
+#include <boost/unordered_map.hpp>
 #include "config.h"
 #include "Font.h"
 #include "BatchRenderer.h"
@@ -79,12 +80,23 @@ public:
 	inline void setSpacing( float s = 10.0f) { spacing = s; }
 
 	//! Sets the character properties (Loader Interface).
-	inline void setCharacterProperties( int ix, const BitmapFont::Character& c ){ characters[ix] = c; }
+	inline void setCharacterProperties( int _ix, const BitmapFont::Character& _c ){ characters[_ix] = _c; }
+
+	//! Sets a kerning pair (Loader Interface).
+	inline void setKerning( int _f, int _s, int _v ) { kernings[ KerningKey(_f,_s) ] = _v; }
+
+	//! Fetches the kerning value for a pair
+	inline int getKerning( int _f, int _s ) { return kernings[ KerningKey(_f,_s) ]; }
 
 protected:
 
 	//! Character List
 	std::vector< BitmapFont::Character > characters; 
+
+	//! Kerning pairs
+	typedef std::pair<int,int> KerningKey;
+	typedef boost::unordered_map< KerningKey, int > KerningMap;
+	KerningMap kernings;
 
     //! Spacing between characters when drawn.
     float spacing;

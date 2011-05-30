@@ -62,10 +62,16 @@ BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 		float u2 = (c.x + c.width) / tw;
 		float v2 = (c.y + c.height) / th;
 		float x = culmative_x + ( c.xoffset * scale.getX() );
-		culmative_x += c.xadvance * scale.getX();
 		float y = 0 + c.yoffset * scale.getY();
 		float w = c.width * scale.getX();
 		float h = c.height * scale.getY();
+
+		//adjust culmative x value
+		float x_inc = (float) c.xadvance;
+		if( i < s.size()-1 ){
+			x_inc += (float) getKerning( glyph, s[i+1] );
+		}
+		culmative_x += x_inc * scale.getX();
 
 		// Top Left Vertex.
 		geom->addVertex( Vertex(

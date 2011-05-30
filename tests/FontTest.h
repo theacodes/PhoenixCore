@@ -47,6 +47,7 @@ class FontTest
 
                 //! Draw some info.
                 font->drawText( "Font Test", Vector2d(16,16) );
+				font->drawText( "Kerning, anyone? lorem ipsum.", Vector2d(16,64) );
 
             }
 

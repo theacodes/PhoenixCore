@@ -99,6 +99,28 @@ void BMFontLoader::load( const std::string& fnt_file ){
 				break;
 			}
 
+			/* Load Kerning Pairs */
+			if( token == "kerning" ){
+				int first = 0;
+				int second = 0;
+				int amount = 0;
+
+				for (++it; it != tokens.end(); ++it) {
+					string name = *it; 
+					if( name == "first" ){
+						first = atoi( (*++it).c_str() );
+					}
+					if( name == "second" ){
+						second = atoi( (*++it).c_str() );
+					}
+					if( name == "amount" ){
+						amount = atoi( (*++it).c_str() );
+					}
+				}
+
+				font->setKerning( first, second, amount );
+				break;
+			}
 		}
 	}
 
