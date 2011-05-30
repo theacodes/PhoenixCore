@@ -28,7 +28,7 @@ class FontTest
         {
 
 			//! Test
-			BitmapFontPtr font = new BitmapFont( system, "arial.fnt" );
+			BitmapFontPtr font = new BitmapFont( system, "arial2.fnt" );
 
 			//! Font
             BitmapFontPtr bluefont = new BitmapFont( system, "arial.fnt" );
@@ -46,8 +46,8 @@ class FontTest
 				hellotext->rotate( 0.001f );
 
                 //! Draw some info.
-                font->drawText( "Font Test", Vector2d(16,16) );
-				font->drawText( "Kerning, anyone? lorem ipsum.", Vector2d(16,64) );
+                font->drawText( "Font Test", Vector2d(16,16) )->colorize(Color(255,0,0));
+				font->drawText( "Kerning, anyone? lorem ipsum.", Vector2d(16,64) )->colorize(Color(255,0,0));
 
             }
 

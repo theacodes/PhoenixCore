@@ -18,7 +18,7 @@ using namespace boost;
 	Easy constructor
 */
 BitmapFont::BitmapFont( RenderSystem& _r, std::string _fnt )
-	: Font( _r, 3), characters(256), spacing( 10.0f )
+	: Font( _r, 3), pages(), characters(256), kernings(), spacing( 10.0f )
 {
 	std::fill( characters.begin(), characters.end(), BitmapFont::Character() );
 	load( _r, _fnt );
@@ -40,13 +40,25 @@ void BitmapFont::load( RenderSystem& _r, std::string _fnt ){
 */
 BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 {
+	unsigned int page_count = pages.size();
+	std::vector<BatchGeometryPtr> geoms;
 
-	BatchGeometryPtr geom = new BatchGeometry( *renderer, GL_QUADS, getTexture(), getGroup(), getDepth() );
-	geom->setImmediate( true );
+	// return empty geom if we can't draw
+	if( ! getTexture() || page_count == 0 ){
+		return new BatchGeometry( *renderer, GL_QUADS, getTexture(), getGroup(), getDepth() );
+	}
 
-	if( ! getTexture() ) return geom;
+	// build a geom for each page.
+	for( int i = 0; i < page_count; i++ ){
+		BatchGeometryPtr geom = new BatchGeometry( *renderer, GL_QUADS, pages[i], getGroup(), getDepth() );
+		geom->setImmediate( true );
+		geoms.push_back( geom );
+	}
 
+	// Set up variables
     float culmative_x = 0;
+	float tw = (float)getTexture()->getWidth();
+	float th = (float)getTexture()->getHeight();
 
     //Now for the fun part.
     for( unsigned int i = 0; i < s.size(); ++i)
@@ -55,8 +67,10 @@ BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 		const unsigned char glyph = s[i];
 		Character c = characters[glyph];
 
-		float tw = (float)getTexture()->getWidth();
-		float th = (float)getTexture()->getHeight();
+		// get the geom for the active page.
+		BatchGeometryPtr geom = geoms[c.page];
+
+		// calculate stuff
 		float u = c.x/tw;
 		float v = c.y/th;
 		float u2 = (c.x + c.width) / tw;
@@ -99,7 +113,10 @@ BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 			));
     }
 
-	geom->translate( p );
+	// translate each geom.
+	for( int i = 0; i < page_count; i++ ){
+		geoms[i]->translate( p );
+	}
 
-	return geom;
+	return geoms[0];
 }

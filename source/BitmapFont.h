@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHBITMAPFONT_H__
 #define __PHBITMAPFONT_H__
 
+#include <vector>
 #include <boost/unordered_map.hpp>
 #include "config.h"
 #include "Font.h"
@@ -38,6 +39,7 @@ public:
 		int xoffset;
 		int yoffset;
 		int xadvance;
+		unsigned int page;
 	};
 
 	//! Constructor
@@ -55,7 +57,7 @@ public:
         \note Sets the resource type to ERT_BITMAP_FONT
     */
     BitmapFont( ResourceManager& _r, BatchRenderer& _b )
-        : Font( _r, _b, 3), characters(256), spacing( 10.0f )
+        : Font( _r, _b, 3), pages(), characters(256), kernings(), spacing( 10.0f )
     {
         setName("Unnamed font");
 		std::fill( characters.begin(), characters.end(), BitmapFont::Character() );
@@ -88,7 +90,22 @@ public:
 	//! Fetches the kerning value for a pair
 	inline int getKerning( int _f, int _s ) { return kernings[ KerningKey(_f,_s) ]; }
 
+	//! Sets a texture for a specific page
+	inline void setPage( unsigned int _ix, TexturePtr _t ){
+		if( pages.size() < _ix+1 ) pages.resize( _ix + 1 );
+		pages[_ix] = _t;
+	}
+
+	//! Get a texture for a specific page
+	inline TexturePtr getPage( unsigned int _ix ){
+		if( _ix >= pages.size() ) return TexturePtr();
+		return pages[_ix];
+	}
+
 protected:
+
+	//! Textures for pages
+	std::vector< TexturePtr > pages; 
 
 	//! Character List
 	std::vector< BitmapFont::Character > characters; 

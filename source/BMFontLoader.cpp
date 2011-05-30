@@ -45,16 +45,22 @@ void BMFontLoader::load( const std::string& fnt_file ){
 
 			/* Load Page Texture */
 			if( token == "page" ){
+				unsigned int id = 0;
+				TexturePtr t;
 
 				//parse the info.
 				for (++it; it != tokens.end(); ++it) {
 					string name = *it; 
 					if( name == "file" ) {
-						//load the texture, assign it.
-						TexturePtr t = system.loadTexture(directory + (*++it));
-						font->setTexture(t);
+						t = system.loadTexture(directory + (*++it));
+					}
+					else if( name == "id" ){
+						id = (unsigned int)atoi( (*++it).c_str() );
 					}
 				}
+
+				font->setPage( id, t );
+				font->setTexture( t );
 
 				break;
 			}
@@ -89,6 +95,9 @@ void BMFontLoader::load( const std::string& fnt_file ){
 					}
 					else if( name == "xadvance" ){
 						c.xadvance = atoi( (*++it).c_str() );
+					}
+					else if( name == "page" ){
+						c.page = (unsigned int)atoi( (*++it).c_str() );
 					}
 				}
 				
