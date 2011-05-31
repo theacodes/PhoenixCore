@@ -16,6 +16,7 @@ distribution for more information.
 #include "Font.h"
 #include "BatchRenderer.h"
 #include "BatchGeometry.h"
+#include "BatchGeometryComposite.h"
 
 namespace phoenix
 {

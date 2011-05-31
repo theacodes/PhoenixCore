@@ -30,6 +30,8 @@ class FontTest
 			//! Test
 			BitmapFontPtr font = new BitmapFont( system, "arial2.fnt" );
 
+			system.getDebugConsole().setFont( font );
+
 			//! Font
             BitmapFontPtr bluefont = new BitmapFont( system, "arial.fnt" );
 
@@ -42,6 +44,8 @@ class FontTest
             //! Now just draw some stuff.
             while( system.run() )
             {
+
+				system.getDebugConsole()<<"\n"<<system.getFPS();
 
 				hellotext->rotate( 0.001f );
 

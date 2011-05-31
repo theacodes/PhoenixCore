@@ -10,6 +10,7 @@ add_library( PhoenixCore STATIC
 	AbstractGarbageCollector.h
 	AbstractGeometryFactory.h
 	BatchGeometry.h
+	BatchGeometryComposite.h
 	BatchRenderer.cpp
 	BatchRenderer.h
 	BitmapFont.cpp

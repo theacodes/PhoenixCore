@@ -210,7 +210,7 @@ public:
 		\see getPrimitiveType(), update()
 		\note update() must be called before this change will take effect!
 	*/
-	inline void setPrimitiveType( const unsigned int& _v ) { primitivetype = _v; }
+	inline virtual void setPrimitiveType( const unsigned int& _v ) { primitivetype = _v; }
 
 	//! Set Texture.
 	/*!
@@ -219,7 +219,7 @@ public:
 		\see getTexture(), getTextureId(), update()
 		\note update() must be called before this change will take effect!
 	*/
-	inline void setTexture( TexturePtr _t ) 
+	inline virtual void setTexture( TexturePtr _t ) 
 	{ 
 		texture = _t; 
 		textureid = _t ? _t->getTextureId() : 0 ;
@@ -232,7 +232,7 @@ public:
 		\see getGroup(), update(), BatchRender::addGroupState()
 		\note update() must be called before this change will take effect!
 	*/
-	inline void setGroup( const signed int& _v ) { groupid = _v; }
+	inline virtual void setGroup( const signed int& _v ) { groupid = _v; }
 
 	//! Set Depth
 	/*!
@@ -240,14 +240,14 @@ public:
 		\see getDepth(), update()
 		\note update() must be called before this change will take effect!
 	*/
-	inline void setDepth( float _v ) { depth = _v; }
+	inline virtual void setDepth( float _v ) { depth = _v; }
 
 	//! Enable or Disable.
 	/*!
 		Disabled geometry is skipped over during rendering.
 		\see getEnabled()
 	*/
-	inline void setEnabled( bool _e ) { enabled = _e; }
+	inline virtual void setEnabled( bool _e ) { enabled = _e; }
 
 	//! Immediate rendering.
 	/*!
@@ -255,7 +255,7 @@ public:
 		suggested that you only use this when needed, as persistent geometry is much faster.
 		\see getImmediate(), drop()
 	*/
-	inline void setImmediate( bool _i ) { immediate = _i; }
+	inline virtual void setImmediate( bool _i ) { immediate = _i; }
 
 	//! Update
 	/*!
@@ -263,7 +263,7 @@ public:
 		if any of them have been broken, and then resets all the invariants. This function should be called
 		after the depth, group, texture, or primitive type of this geometry is changed.
 	*/
-	void update()
+	virtual void update()
 	{
 		if( ! (primitivetype.check() && textureid.check() && groupid.check() && depth.check()) )
 		{
@@ -307,7 +307,7 @@ public:
 		Adds the given vector to each vertex in the geometry, translating the geometery.
 		\f$ v_n = v_n + t \f$
 	*/
-	inline void translate( const Vector2d& _t )
+	inline virtual void translate( const Vector2d& _t )
 	{
 		BOOST_FOREACH( Vertex& v, vertices )
 		{
@@ -320,7 +320,7 @@ public:
 		Multiples every vertex in the geometry the given vector linearly.
 		\f$ v_n = ( v_{nx} + s_x , v_{ny} + s_y ) \f$
 	*/
-	inline void scale( const Vector2d& _s )
+	inline virtual void scale( const Vector2d& _s )
 	{
 		BOOST_FOREACH( Vertex& v, vertices )
 		{
@@ -334,7 +334,7 @@ public:
 		Rotates each vertex by the given rotation matrix.
 		\f$ v_n = v_n * m \f$
 	*/
-	inline void rotate( const RotationMatrix& _m )
+	inline virtual void rotate( const RotationMatrix& _m )
 	{
 		BOOST_FOREACH( Vertex& v, vertices )
 		{
@@ -343,7 +343,7 @@ public:
 	}
 
 	//! Sets the color on all vertices.
-	inline void colorize( const Color& _c )
+	inline virtual void colorize( const Color& _c )
 	{
 		BOOST_FOREACH( Vertex& v, vertices )
 		{

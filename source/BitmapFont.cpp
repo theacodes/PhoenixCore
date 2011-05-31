@@ -113,10 +113,13 @@ BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 			));
     }
 
-	// translate each geom.
-	for( int i = 0; i < page_count; i++ ){
-		geoms[i]->translate( p );
-	}
+	//Create a composite
+	BatchGeometryCompositePtr geom_composite = new BatchGeometryComposite( *renderer );
+	geom_composite->setImmediate( true );
+	geom_composite->getChildren() = geoms;
 
-	return geoms[0];
+	//Translate the composite, and return it.
+	geom_composite->translate( p );
+
+	return geom_composite;
 }
