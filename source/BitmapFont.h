@@ -58,7 +58,7 @@ public:
         \note Sets the resource type to ERT_BITMAP_FONT
     */
     BitmapFont( ResourceManager& _r, BatchRenderer& _b )
-        : Font( _r, _b, 3), pages(), characters(256), kernings(), spacing( 10.0f )
+        : Font( _r, _b, 3), pages(), characters(256), kernings(), line_height(16.0f), spacing( 10.0f )
     {
         setName("Unnamed font");
 		std::fill( characters.begin(), characters.end(), BitmapFont::Character() );
@@ -91,6 +91,12 @@ public:
 	//! Fetches the kerning value for a pair
 	inline int getKerning( int _f, int _s ) { return kernings[ KerningKey(_f,_s) ]; }
 
+	//! Gets the line height.
+    inline float getLineHeight() const { return line_height; }
+
+    //! Set the line height. (loader interface)
+	inline void setLineHeight( float l ) { line_height = l; }
+
 	//! Sets a texture for a specific page
 	inline void setPage( unsigned int _ix, TexturePtr _t ){
 		if( pages.size() < _ix+1 ) pages.resize( _ix + 1 );
@@ -115,6 +121,9 @@ protected:
 	typedef std::pair<int,int> KerningKey;
 	typedef boost::unordered_map< KerningKey, int > KerningMap;
 	KerningMap kernings;
+
+	//! Line height
+	float line_height;
 
     //! Spacing between characters when drawn.
     float spacing;

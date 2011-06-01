@@ -37,7 +37,7 @@ class FontTest
 
 			bluefont->setColor( Color(200,200,255) );
 			bluefont->setScale( Vector2d(5, 2.5) );
-			BatchGeometryPtr hellotext = bluefont->drawText( "Hello, World!", Vector2d( 50,50 ) );
+			BatchGeometryPtr hellotext = bluefont->drawText( "Hello, \nWorld!", Vector2d( 50,50 ) );
 			hellotext->setImmediate( false );
 
 
@@ -50,8 +50,9 @@ class FontTest
 				hellotext->rotate( 0.001f );
 
                 //! Draw some info.
-                font->drawText( "Font Test", Vector2d(16,16) )->colorize(Color(255,0,0));
-				font->drawText( "Kerning, anyone? lorem ipsum.", Vector2d(16,64) )->colorize(Color(255,0,0));
+				font->setScale( Vector2d( 0.75f, 0.75f ) );
+                font->drawText( "Font Test \nKerning, anyone? lorem ipsum. \nMulti-line text FTW!", Vector2d(16,16) )->colorize(Color(127,127,255));
+				//font->drawText( "", Vector2d(16,64) )->colorize(Color(255,0,0));
 
             }
 

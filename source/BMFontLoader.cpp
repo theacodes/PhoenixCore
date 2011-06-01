@@ -43,6 +43,21 @@ void BMFontLoader::load( const std::string& fnt_file ){
 		for (tokenizer::iterator it = tokens.begin(); it != tokens.end(); ++it) {
 			string token = *it;
 
+
+			/* Common Properties */
+			if( token == "common" ){
+
+				//parse the info.
+				for (++it; it != tokens.end(); ++it) {
+					string name = *it; 
+					if( name == "lineHeight" ){
+						font->setLineHeight( (float)atoi( (*++it).c_str() ) );
+					}
+				}
+
+				break;
+			}
+
 			/* Load Page Texture */
 			if( token == "page" ){
 				unsigned int id = 0;
