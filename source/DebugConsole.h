@@ -95,7 +95,7 @@ public:
     void updateLineLimit()
     {
 		try{
-			linelimit = (unsigned int)(((WindowManager::Instance())->getWindowSize().getY())/16.0f) - 2;
+			linelimit = (unsigned int)(((WindowManager::Instance())->getWindowSize().getY())/20.0f) - 2;
 		} catch ( WindowManager::BadInstance ){
 			linelimit = 10;
 		}

@@ -1,4 +1,5 @@
 #include "DebugConsole.h"
+#include "BitmapFont.h"
 
 #include <iostream>
 
@@ -70,13 +71,19 @@ void DebugConsole::draw( )
 {
     if( enabled )
     {
+		// we want the font's line height to be 16, so adjust the scale accordingly
+		float scale = 1.0f;
+		
+		if( font->getType() == ERT_BITMAP_FONT ) {
+			BitmapFontPtr bmfont = boost::dynamic_pointer_cast<BitmapFont>(font);
+			scale = 1.0f/( bmfont->getLineHeight()/20.0f );
+		}
 
         // Draw our overlay rectangle at depth- 0.01;
         BatchGeometryPtr geom = drawRectangle( Rectangle( Vector2d(0,0), (WindowManager::Instance())->getWindowSize() ), backcolor, backcolor, backcolor, backcolor);
         setDepth( getDepth() - 0.01f );
         apply( geom );
         setDepth( getDepth() + 0.01f );
-		font->setColor( fontcolor );
         
 		//output the text
 		std::string output;
@@ -88,7 +95,7 @@ void DebugConsole::draw( )
             output += "\n" + *i;
         }
 
-		geom = font->drawText( output, Vector2d( 8.0f, 8.0f ) );
+		geom = font->drawText( output, Vector2d( 8.0f, 8.0f ), fontcolor, Vector2d(scale,scale) );
 		apply( geom, EFF_ALL - EFF_TEXTURE );
     }
 }
