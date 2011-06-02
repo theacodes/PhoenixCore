@@ -76,17 +76,20 @@ void DebugConsole::draw( )
         setDepth( getDepth() - 0.01f );
         apply( geom );
         setDepth( getDepth() + 0.01f );
-
-        font->setColor( fontcolor );
-		geom = font->drawText( std::string("-= ") + std::string( PHOENIXCORE_VERSION ) + std::string(" Debug Console =-"), Vector2d( 8,8 ) );
-        apply( geom, EFF_ALL - EFF_TEXTURE );
+		font->setColor( fontcolor );
+        
+		//output the text
+		std::string output;
+		output += std::string("-= ") + std::string( PHOENIXCORE_VERSION ) + std::string(" Debug Console =-");
 
         unsigned int count = 1;
         for( std::deque< std::string >::iterator i = lines.begin(); i != lines.end(); ++i, ++count )
         {
-            geom = font->drawText( (*i), Vector2d( 8.0f, 8.0f+(16.0f* (float)(count) ) ) );
-            apply( geom, EFF_ALL - EFF_TEXTURE );
+            output += "\n" + *i;
         }
+
+		geom = font->drawText( output, Vector2d( 8.0f, 8.0f ) );
+		apply( geom, EFF_ALL - EFF_TEXTURE );
     }
 }
 

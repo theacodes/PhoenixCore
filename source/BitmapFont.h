@@ -101,6 +101,7 @@ public:
 	inline void setPage( unsigned int _ix, TexturePtr _t ){
 		if( pages.size() < _ix+1 ) pages.resize( _ix + 1 );
 		pages[_ix] = _t;
+		if( _ix == 0 ) setTexture(_t);
 	}
 
 	//! Get a texture for a specific page

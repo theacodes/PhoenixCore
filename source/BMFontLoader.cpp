@@ -92,9 +92,11 @@ void BMFontLoader::loadFromString( const std::string& _data, const std::string& 
 						
 						boost::trim_if(filename, boost::is_any_of(" \""));
 						t = system.loadTexture(directory + filename);
+						break;
 					}
 					else if( name == "id" ){
 						id = (unsigned int)atoi( (*++it).c_str() );
+						break;
 					}
 				}
 

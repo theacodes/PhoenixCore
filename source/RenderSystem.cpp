@@ -96,12 +96,16 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, boo
 	BitmapFontPtr bmfont = new BitmapFont( *this );
 	BMFontLoader ldr( *this, bmfont );
 	ldr.loadFromString( get_droid_sans_mono_fnt_file() );
+
+	auto data = get_droid_sans_mono_file_data();
 	
 	bmfont->setPage( 0, loadTexture(
 		get_droid_sans_mono_file_data(),
 		get_droid_sans_mono_file_size(),
-        std::string("Built In Font (Droid Sans Mono)")
+        std::string("Droid Sans Mono")
 	) );
+
+	std::cout<<bmfont->getPage(0)->getName()<<": "<<bmfont->getPage(0)->getTextureId();
 
 	font = bmfont;
 
