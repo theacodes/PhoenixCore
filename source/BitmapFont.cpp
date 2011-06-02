@@ -38,8 +38,10 @@ void BitmapFont::load( RenderSystem& _r, std::string _fnt ){
 /*
 	Text drawing routine
 */
-BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
+BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p, const Color& _c, const Vector2d& _scale )
 {
+
+	// setup pages
 	unsigned int page_count = pages.size();
 	std::vector<BatchGeometryPtr> geoms;
 
@@ -56,6 +58,8 @@ BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 	}
 
 	// Set up variables
+	Vector2d old_scale = scale;
+	if( _scale != Vector2d(0,0) ) scale = _scale;
     float culmative_x = 0;
 	float culmative_y = 0;
 	float tw = (float)getTexture()->getWidth();
@@ -126,8 +130,12 @@ BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p )
 	geom_composite->setImmediate( true );
 	geom_composite->getChildren() = geoms;
 
-	//Translate the composite, and return it.
+	//Translate, colorize the composite, and return it.
 	geom_composite->translate( p );
+	geom_composite->colorize( _c );
+
+	//reset state
+	scale = old_scale;
 
 	return geom_composite;
 }

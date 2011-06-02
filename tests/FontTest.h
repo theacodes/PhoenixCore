@@ -28,7 +28,7 @@ class FontTest
         {
 
 			//! Test
-			BitmapFontPtr font = new BitmapFont( system, "arial2.fnt" );
+			BitmapFontPtr font = new BitmapFont( system, "droid sans mono.fnt" );
 
 			system.getDebugConsole().setFont( font );
 

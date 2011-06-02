@@ -58,8 +58,10 @@ public:
         facility of drawing text. It is a geometry factory.
         \param _s The string to print to the screen.
         \param _p The position to draw it at.
+		\param _c Color (white by default).
+		\param _scale The amount to scale. If (0,0), it uses the scale from the Font, otherwise it'll override the font's scale. 
     */
-    virtual BatchGeometryPtr drawText( const std::string& _s, const Vector2d& _p = Vector2d(0,0) ) = 0;
+    virtual BatchGeometryPtr drawText( const std::string& _s, const Vector2d& _p = Vector2d(0,0), const Color& _c = Color(255,255,255), const Vector2d& _scale = Vector2d(0,0) ) = 0;
 
 	//! Gets the current color of the font.
 	inline virtual const Color& getColor() { return color; }

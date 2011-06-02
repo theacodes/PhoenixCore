@@ -14,6 +14,7 @@ distribution for more information.
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <boost/algorithm/string.hpp>
 #include <boost/tokenizer.hpp>
 #include "config.h"
 #include "BitmapFont.h"

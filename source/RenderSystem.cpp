@@ -377,11 +377,10 @@ TexturePtr RenderSystem::findTexture(const GLuint& _n)
 //Draw text on the screen
 ////////////////////////////////////////////////////////////////////////////////
 
-BatchGeometryPtr RenderSystem::drawText( const std::string& _s, const Vector2d& _p, const Color& _c)
+BatchGeometryPtr RenderSystem::drawText( const std::string& s, const Vector2d& p, const Color& _c, const Vector2d& _scale );
 {
-	font->setColor( _c );
     font->setDepth( factory.getDepth() );
     font->setGroup( factory.getGroup() );
-	return font->drawText( _s, _p );
+	return font->drawText( s, p, _c, _scale );
 }
 

@@ -236,7 +236,7 @@ namespace phoenix
 			Draws the given string at the given position with the given color using the current font. This a geometry factory.
             \sa loadFont()
         */
-        BatchGeometryPtr drawText( const std::string& _s, const Vector2d& _p, const Color& _c=Color(255,255,255));
+        BatchGeometryPtr drawText( const std::string& s, const Vector2d& p = Vector2d(0,0), const Color& _c = Color(255,255,255), const Vector2d& _scale = Vector2d(0,0) );
 
         //! Delegates to BatchRenderer::getView()
         inline View& getView() { return renderer.getView(); }

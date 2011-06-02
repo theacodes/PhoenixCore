@@ -26,10 +26,11 @@ void BMFontLoader::load( const std::string& fnt_file ){
 	std::string directory = fnt_file;
 	for( size_t n = 0; (n = directory.find('/', n)) != string::npos; ) directory.replace(n, 1, "\\");
 	size_t i = directory.rfind('\\');
-	if( i != string::npos )
+	if( i != string::npos ){
 		directory = directory.substr(0, i+1);
-	else
+	} else {
 		directory = "";
+	}
 
 	/* Parse! */
 	while( fh.good() ){
@@ -37,7 +38,7 @@ void BMFontLoader::load( const std::string& fnt_file ){
 		
 		//tokenize, parse.
 		typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-		boost::char_separator<char> sep(" =\"");
+		boost::char_separator<char> sep(" =");
 		tokenizer tokens(line, sep);
 
 		for (tokenizer::iterator it = tokens.begin(); it != tokens.end(); ++it) {
@@ -67,7 +68,15 @@ void BMFontLoader::load( const std::string& fnt_file ){
 				for (++it; it != tokens.end(); ++it) {
 					string name = *it; 
 					if( name == "file" ) {
-						t = system.loadTexture(directory + (*++it));
+						std::string filename;
+
+						// gather the filename until we reach the end
+						for( ++it; it != tokens.end(); ++it ){
+							filename += std::string(" ") + *(it); 
+						}
+						
+						boost::trim_if(filename, boost::is_any_of(" \""));
+						t = system.loadTexture(directory + filename);
 					}
 					else if( name == "id" ){
 						id = (unsigned int)atoi( (*++it).c_str() );
