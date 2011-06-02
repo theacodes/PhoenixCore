@@ -8,8 +8,9 @@ distribution for more information.
 */
 
 #include "RenderSystem.h"
-#include "PrecompiledFont.h"
+#include "DroidSansMono.h"
 #include "BitmapFont.h"
+#include "BMFontLoader.h"
 #include "GLFWWindowManager.h"
 #include "soil/SOIL.h"
 
@@ -92,13 +93,17 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, boo
     glEnable(GL_COLOR_MATERIAL);
 
     //load our default font
-	font = new BitmapFont( *this );
-	/*
-		loadTexture(
-			 builtin_font_imagedata,
-			 builtin_font_imagedata_size,
-             std::string("Built In Font Image")
-		) */
+	BitmapFontPtr bmfont = new BitmapFont( *this );
+	BMFontLoader ldr( *this, bmfont );
+	ldr.loadFromString( get_droid_sans_mono_fnt_file() );
+	
+	bmfont->setPage( 0, loadTexture(
+		get_droid_sans_mono_file_data(),
+		get_droid_sans_mono_file_size(),
+        std::string("Built In Font (Droid Sans Mono)")
+	) );
+
+	font = bmfont;
 
 	//! Make a console
 	console = boost::shared_ptr<DebugConsole>( new DebugConsole( *this ) );
@@ -377,7 +382,7 @@ TexturePtr RenderSystem::findTexture(const GLuint& _n)
 //Draw text on the screen
 ////////////////////////////////////////////////////////////////////////////////
 
-BatchGeometryPtr RenderSystem::drawText( const std::string& s, const Vector2d& p, const Color& _c, const Vector2d& _scale );
+BatchGeometryPtr RenderSystem::drawText( const std::string& s, const Vector2d& p, const Color& _c, const Vector2d& _scale )
 {
     font->setDepth( factory.getDepth() );
     font->setGroup( factory.getGroup() );

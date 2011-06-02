@@ -35,6 +35,7 @@ public:
 	{};
 
 	void load( const std::string& fnt_file );
+	void loadFromString( const std::string& _data, const std::string& _directory = "" );
 
 private:
 	RenderSystem& system;

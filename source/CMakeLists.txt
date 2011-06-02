@@ -21,6 +21,8 @@ add_library( PhoenixCore STATIC
 	DebugConsole.cpp
 	DebugConsole.h
 	Droppable.h
+	DroidSansMono.h
+	DroidSansMono.cpp
 	EventReceiver.cpp
 	EventReceiver.h
 	Font.h
@@ -52,7 +54,6 @@ add_library( PhoenixCore STATIC
 	WindowManager.cpp
 	GLFWWindowManager.h
 	GLFWWindowManager.cpp
-	PrecompiledFont.h
 	soil/image_DXT.h
 	soil/image_DXT.c
 	soil/image_helper.h

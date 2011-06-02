@@ -34,11 +34,11 @@ class EventTest
             //! We'll make our font have a colored background, so we can see certain keys when they're pressed.
 
             // duplicate the system's font.
-            TexturePtr newfonttexture = system.getFont()->getTexture()->copy();
-            BitmapFontPtr newfont = new BitmapFont( system.getResourceManager(), system.getBatchRenderer(), newfonttexture );
-            
+			FontPtr newfont = system.getFont();
+            TexturePtr fonttexture = system.getFont()->getTexture();
+
             // run through and change the background color.
-            newfont->getTexture()->lock();
+            fonttexture->lock();
             for( unsigned int i = 0; i < newfont->getTexture()->getSize().getX(); ++i )
             {
                 for( unsigned int j = 0; j < newfont->getTexture()->getSize().getY(); ++j)
@@ -49,7 +49,7 @@ class EventTest
                     }
                 }
             }
-            newfont->getTexture()->unlock();
+            fonttexture->unlock();
 
             //! Now just draw some stuff.
             while( true )

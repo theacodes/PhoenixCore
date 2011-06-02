@@ -15,13 +15,6 @@ using namespace boost;
 
 /* Loads a FNT file */
 void BMFontLoader::load( const std::string& fnt_file ){
-	fstream fh;
-	string line;
-
-	fh.open(fnt_file, fstream::in);
-
-	if( !fh ) return;
-
 	//find the directory (For loading pages)
 	std::string directory = fnt_file;
 	for( size_t n = 0; (n = directory.find('/', n)) != string::npos; ) directory.replace(n, 1, "\\");
@@ -32,9 +25,31 @@ void BMFontLoader::load( const std::string& fnt_file ){
 		directory = "";
 	}
 
+	// read all of the contents
+	std::ifstream in(fnt_file);
+	if( !in ) return;
+
+	std::stringstream buffer;
+	buffer << in.rdbuf();
+
+	std::string contents(buffer.str());
+
+	//load it
+	loadFromString( contents, directory );
+
+}
+
+/*
+Parse a FNT file from a string
+*/
+void BMFontLoader::loadFromString( const std::string& _data, const std::string& _directory ){
+	stringstream stream(_data);
+	string line;
+	string directory = _directory;
+
 	/* Parse! */
-	while( fh.good() ){
-		getline( fh, line );
+	while( stream.good() ){
+		getline( stream, line );
 		
 		//tokenize, parse.
 		typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
@@ -156,6 +171,4 @@ void BMFontLoader::load( const std::string& fnt_file ){
 			}
 		}
 	}
-
-	fh.close();
 }
