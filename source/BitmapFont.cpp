@@ -7,6 +7,7 @@ distribution for more information.
 
 */
 
+#include <algorithm>
 #include "BitmapFont.h"
 #include "BMFontLoader.h"
 
@@ -33,6 +34,55 @@ void BitmapFont::load( RenderSystem& _r, std::string _fnt ){
 
 	BMFontLoader ldr(_r, this);
 	ldr.load(_fnt);
+}
+
+/*
+	Dimensions calculation
+*/
+const Vector2d BitmapFont::getTextDimensions( const std::string& _s, const Vector2d& _scale )
+{
+	// Set up variables
+	Vector2d old_scale = scale;
+	if( _scale != Vector2d(0,0) ) scale = _scale;
+    float culmative_x = 0.0f;
+	float culmative_y = 0.0f;
+	float max_x = 0.0f;
+
+    //Iterate over each character, calculating size
+    for( unsigned int i = 0; i < _s.size(); ++i)
+    {
+
+		const unsigned char glyph = _s[i];
+
+		if( glyph == '\n' ){
+			culmative_y += line_height * scale.getY();
+			max_x = max( max_x, culmative_x );
+			culmative_x = 0;
+			continue;
+		}
+
+		Character c = characters[glyph];
+
+		float x = culmative_x + ( c.xoffset * scale.getX() );
+		float y = culmative_y + c.yoffset * scale.getY();
+		float w = c.width * scale.getX();
+		float h = c.height * scale.getY();
+
+		//adjust culmative x value
+		float x_inc = (float) c.xadvance;
+		if( i < _s.size()-1 ){
+			x_inc += (float) getKerning( glyph, _s[i+1] );
+		}
+		culmative_x += x_inc * scale.getX();
+    }
+
+	//Add one line of height. We do this because we want the total height and the culmative y is (at this point) the y at the *top* of the last line.
+	culmative_y += line_height * scale.getY();
+
+	//reset state
+	scale = old_scale;
+
+	return Vector2d(max_x,culmative_y);
 }
 
 /*

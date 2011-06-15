@@ -52,6 +52,11 @@ public:
     virtual ~Font()
     {}
 
+	//! Calculates the rendered dimensions of a given text
+	virtual const Vector2d getTextDimensions( const std::string& _s, const Vector2d& _scale = Vector2d(0,0) ){
+		return Vector2d(0,0);
+	}
+
     //! Draw text.
     /*!
         The basic interface for drawing text. Must be overloaded by derived classes to provide their
