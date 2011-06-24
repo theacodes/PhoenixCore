@@ -77,7 +77,7 @@ public:
 	virtual const Vector2d getTextDimensions( const std::string& _s, const Vector2d& _scale = Vector2d(0,0) );
 
 	//! Draws the given string at the given location.
-	virtual BatchGeometryPtr drawText( const std::string& s, const Vector2d& p = Vector2d(0,0), const Color& _c = Color(255,255,255), const Vector2d& _scale = Vector2d(0,0) );
+	virtual BatchGeometryPtr drawText( const std::string& s, const Vector2d& p = Vector2d(0,0), const Color& _c = Color(255,255,255), const Vector2d& _scale = Vector2d(0,0), E_TEXT_ALIGNMENT _align = T_ALIGN_LEFT );
 
     //! Gets the spacing between words.
     inline float getSpacing() const { return spacing; }
@@ -131,6 +131,9 @@ protected:
 
     //! Spacing between characters when drawn.
     float spacing;
+
+	//! Temporary storage of line widths used when drawing text (speeds things up).
+	std::vector<float> line_widths;
 
 };
 

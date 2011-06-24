@@ -22,6 +22,14 @@ namespace phoenix
 
 class RenderSystem;
 
+
+//! Text Alignment.
+enum E_TEXT_ALIGNMENT{
+	T_ALIGN_LEFT,
+	T_ALIGN_CENTER,
+	T_ALIGN_RIGHT
+};
+
 //! Font class.
 /*!
     Abstract base class for font handling. It is possible (and suggested)
@@ -64,9 +72,10 @@ public:
         \param _s The string to print to the screen.
         \param _p The position to draw it at.
 		\param _c Color (white by default).
-		\param _scale The amount to scale. If (0,0), it uses the scale from the Font, otherwise it'll override the font's scale. 
+		\param _scale The amount to scale. If (0,0), it uses the scale from the Font, otherwise it'll override the font's scale.
+		\param _align The horizontal alignment of the text.
     */
-    virtual BatchGeometryPtr drawText( const std::string& _s, const Vector2d& _p = Vector2d(0,0), const Color& _c = Color(255,255,255), const Vector2d& _scale = Vector2d(0,0) ) = 0;
+    virtual BatchGeometryPtr drawText( const std::string& _s, const Vector2d& _p = Vector2d(0,0), const Color& _c = Color(255,255,255), const Vector2d& _scale = Vector2d(0,0), E_TEXT_ALIGNMENT _align = T_ALIGN_LEFT ) = 0;
 
 	//! Gets the current color of the font.
 	inline virtual const Color& getColor() { return color; }
