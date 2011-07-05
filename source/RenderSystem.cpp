@@ -183,12 +183,15 @@ void RenderSystem::onWindowEvent( const WindowEvent& e )
 			glMatrixMode(GL_PROJECTION); 
 			glLoadIdentity();
 			glOrtho(0.0f, e.vector_data.getX(), e.vector_data.getY(), 0.0f, 1000.0f, -1000.0f);
+			break;
 
 		case RZB_SCALE:
 			renderer.getView().setSize( e.vector_data );
+			break;
 
 		case RZB_REVERT:
 			WindowManager::Instance()->setWindowSize( renderer.getView().getSize() );
+			break;
 
 		case RZB_NOTHING:
 		default:
