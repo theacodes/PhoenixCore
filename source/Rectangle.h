@@ -138,6 +138,18 @@ namespace phoenix
             size.setY(c);
         }
 
+		//! Compare
+		inline bool operator==( const Rectangle& other ){
+			return (
+				this->position == other.position &&
+				this->size == other.size
+			);
+		}
+
+		inline bool operator!=( const Rectangle& other ){
+			return !(*this == other);
+		}
+
 	private:
 
         //! Position

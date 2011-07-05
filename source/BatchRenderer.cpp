@@ -174,6 +174,10 @@ void BatchRenderer::draw( )
 	std::vector< Vertex > vlist;
     vlist.reserve( 1000 );
 
+	//clipping variables
+	bool clipping = false;
+	Rectangle clipping_rect;
+
 	//iterate through the graph.
 	boost::recursive_mutex::scoped_lock l( getMutex() );
 
@@ -222,17 +226,57 @@ void BatchRenderer::draw( )
 						if( (*geom) && ! (*geom)->dropped() )
 						{
 							try{
-								(*geom)->batch( vlist );
 								
-								/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
-								if( alphapair->first == GL_LINE_STRIP ||
-									alphapair->first == GL_LINE_LOOP ||
-									alphapair->first == GL_TRIANGLE_STRIP ||
-									alphapair->first == GL_TRIANGLE_FAN ||
-									alphapair->first == GL_QUAD_STRIP ||
-									alphapair->first == GL_POLYGON ){
-										// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
-										submitVertexList(vlist,alphapair->first);
+
+								// Check for clipping
+								if( (*geom)->getClipping() ){
+									
+									//enable clipping, if we're not already doing it.
+									if( !clipping ){
+										glEnable( GL_SCISSOR_TEST );
+										clipping = true;
+									}
+
+									// set the clip area, if it's not already the same.
+									if( clipping_rect != (*geom)->getClippingRectangle()){
+										clipping_rect = (*geom)->getClippingRectangle();
+
+										// translate from top-left coords to bottom-left cords
+										GLint view[4];
+										glGetIntegerv( GL_VIEWPORT, &view[0] );
+										GLuint r_y = view[3] - ((GLuint)clipping_rect.getX() + (GLuint)clipping_rect.getHeight());
+
+										glScissor( (GLuint)clipping_rect.getX() , r_y, (GLsizei)clipping_rect.getWidth(), (GLsizei)clipping_rect.getHeight() );
+									}
+
+									std::vector< Vertex > t_vlist;
+									(*geom)->batch( t_vlist );
+									submitVertexList(t_vlist,alphapair->first);
+
+								} 
+								// No clipping, use the regular pipeline
+								else {
+									
+									//disable clipping, if we're still doing it
+									if( clipping ){
+										glDisable( GL_SCISSOR_TEST );
+										clipping = false;
+									}
+
+									/* Batch the vertices */
+									(*geom)->batch( vlist );
+								
+									/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
+									if( alphapair->first == GL_LINE_STRIP ||
+										alphapair->first == GL_LINE_LOOP ||
+										alphapair->first == GL_TRIANGLE_STRIP ||
+										alphapair->first == GL_TRIANGLE_FAN ||
+										alphapair->first == GL_QUAD_STRIP ||
+										alphapair->first == GL_POLYGON ){
+											// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
+											submitVertexList(vlist,alphapair->first);
+									}
+
 								}
 
 							}catch(...)

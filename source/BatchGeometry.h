@@ -56,7 +56,7 @@ public:
 		\param _d The depth.
     */
 	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
+		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false)
 	{
 		_r.add( this );
 	}
@@ -66,7 +66,7 @@ public:
 		Exactly like the regular constructor but also calls fromRectangle().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
+        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false)
 	{
 		fromRectangle( _rect );
 		_r.add( this );
@@ -77,7 +77,7 @@ public:
 		Exactly like the regular constructor but also calls fromPolygon().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false)
+        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false)
 	{
         fromPolygon( _poly );
 		_r.add( this );
@@ -257,6 +257,20 @@ public:
 	*/
 	inline virtual void setImmediate( bool _i ) { immediate = _i; }
 
+	//! Enable or Disable Clipping
+	/*!
+		If enabled, the geometry will be clipped by the Rectangle provided to setClippingRectangle(). This will cause the geometry not to be batched with other geometry
+		of the same material. 
+	*/
+	inline void setClipping( bool _c ){ clip = _c; }
+	inline bool getClipping(){ return clip; }
+
+	//! Set the Clipping Rectangle
+	inline void setClippingRectangle( const Rectangle& _r ){ clip_rect = _r; }
+
+	//! Get the Clipping Rectangle
+	inline const Rectangle& getClippingRectangle() { return clip_rect; }
+
 	//! Update
 	/*!
 		This function will check all invariants and move the geometry's location in the renderer's graph
@@ -430,7 +444,11 @@ protected:
 	*/
 	bool immediate;
 
+	//! Clipping
+	bool clip;
 
+	//! Clip rectangle
+	Rectangle clip_rect;
 };
 
 } //namespace phoniex

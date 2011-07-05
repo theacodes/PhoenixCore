@@ -97,7 +97,7 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, boo
 	BMFontLoader ldr( *this, bmfont );
 	ldr.loadFromString( get_droid_sans_mono_fnt_file() );
 
-	auto data = get_droid_sans_mono_file_data();
+	const unsigned char* data = get_droid_sans_mono_file_data();
 	
 	bmfont->setPage( 0, loadTexture(
 		get_droid_sans_mono_file_data(),

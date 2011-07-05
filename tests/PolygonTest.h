@@ -117,7 +117,11 @@ class PolygonTest
                 system.setDepth( 1.0f );
                 system.drawPolygon( poly1, Color(255,200,200) );
                 system.setDepth( 0.0f );
-                system.drawPolygon( poly2, Color(200,255,200) );
+
+                phoenix::BatchGeometryPtr g = system.drawPolygon( poly2, Color(200,255,200) );
+				g->setClipping(true);
+				g->setClippingRectangle( phoenix::Rectangle(200,200,EventReceiver::Instance()->getMousePosition().getX()-200,EventReceiver::Instance()->getMousePosition().getY()-200) );
+
                 system.setDepth( -6.0f );
                 system.drawPolygon( poly4, Color(0,200,255) );
                 system.setDepth( -3.0f );

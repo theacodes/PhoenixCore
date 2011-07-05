@@ -26,7 +26,7 @@ void BMFontLoader::load( const std::string& fnt_file ){
 	}
 
 	// read all of the contents
-	std::ifstream in(fnt_file);
+	std::ifstream in(fnt_file.c_str());
 	if( !in ) return;
 
 	std::stringstream buffer;
