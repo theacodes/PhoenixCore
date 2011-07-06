@@ -105,8 +105,6 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, boo
         std::string("Droid Sans Mono")
 	) );
 
-	std::cout<<bmfont->getPage(0)->getName()<<": "<<bmfont->getPage(0)->getTextureId();
-
 	font = bmfont;
 
 	//! Make a console
