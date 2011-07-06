@@ -22,6 +22,7 @@ distribution for more information.
 #include "Droppable.h"
 #include "GroupState.h"
 #include "Vertex.h"
+#include "Rectangle.h"
 
 namespace phoenix
 {
@@ -111,6 +112,9 @@ public:
 	//! Draws everything in the graph.
 	void draw( );
 
+	//! Draws a single geometry immediately
+	void drawImmediately(  boost::intrusive_ptr<BatchGeometry> geom );
+
 #ifdef DEBUG_BATCHRENDERER
 	//! Lists all the geometry in the list.
 	void listGeometry();
@@ -139,6 +143,9 @@ private:
 
 	//! Real removal routine ( used by clean() and move() ).
 	void removeProper( boost::intrusive_ptr<BatchGeometry> _g , bool _inv = false);
+
+	//! Clipping Routine
+	bool clipGeometry(  boost::intrusive_ptr<BatchGeometry> geom, bool &clipping, phoenix::Rectangle &clipping_rect );
 
 	//! Vertex submission routine.
 	void submitVertexList( std::vector< Vertex >& vlist, unsigned int type );

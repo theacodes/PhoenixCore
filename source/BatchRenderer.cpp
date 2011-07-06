@@ -155,6 +155,10 @@ void BatchRenderer::clean()
 	}
 }
 
+/*!
+	Main drawing routine,
+	this is the meat of phoenix, all of the important stuff goes here.
+*/
 void BatchRenderer::draw( )
 {
 
@@ -191,10 +195,7 @@ void BatchRenderer::draw( )
         for( BATCHMAPGAMMA::iterator gammapair = deltapair->second.begin(); gammapair != gammaend; ++gammapair )
 		{
 
-            intrusive_ptr<BatchGeometry> groupmaster  = (*gammapair->second.begin()->second.begin()->second.begin());
-
-			//if( groupmaster )
-			//	groupmaster->groupBegin();
+			//activate the group state
 			GROUPSTATEMAP::iterator gs = groupstates.find( gammapair->first );
 			if( gs != groupstates.end() ) gs->second->begin( *this );
 
@@ -204,9 +205,9 @@ void BatchRenderer::draw( )
 			{
 
 				//set our texture
-				glEnable( GL_TEXTURE_2D );
 				if( (betapair->first) )
 				{
+					glEnable( GL_TEXTURE_2D );
 					(*(betapair->second.begin())->second.begin())->getTexture()->bind();
 				}
 				else
@@ -223,61 +224,27 @@ void BatchRenderer::draw( )
                     GEOMCONTAINER::iterator geomend = alphapair->second.end();
                     for( GEOMCONTAINER::iterator geom = alphapair->second.begin(); geom != geomend; ++geom )
                     {
-						if( (*geom) && ! (*geom)->dropped() )
+						if( (*geom) && ! (*geom)->dropped() && (*geom)->getEnabled() )
 						{
 							try{
 								
+								// Check for clipping, and if clipped, skip batching.
+								if( clipGeometry( *geom, clipping, clipping_rect ) ) continue;
 
-								// Check for clipping
-								if( (*geom)->getClipping() ){
-									
-									//enable clipping, if we're not already doing it.
-									if( !clipping ){
-										glEnable( GL_SCISSOR_TEST );
-										clipping = true;
-									}
-
-									// set the clip area, if it's not already the same.
-									if( clipping_rect != (*geom)->getClippingRectangle()){
-										clipping_rect = (*geom)->getClippingRectangle();
-
-										// translate from top-left coords to bottom-left cords
-										GLint view[4];
-										glGetIntegerv( GL_VIEWPORT, &view[0] );
-										GLuint r_y = view[3] - ((GLuint)clipping_rect.getX() + (GLuint)clipping_rect.getHeight());
-
-										glScissor( (GLuint)clipping_rect.getX() , r_y, (GLsizei)clipping_rect.getWidth(), (GLsizei)clipping_rect.getHeight() );
-									}
-
-									std::vector< Vertex > t_vlist;
-									(*geom)->batch( t_vlist );
-									submitVertexList(t_vlist,alphapair->first);
-
-								} 
-								// No clipping, use the regular pipeline
-								else {
-									
-									//disable clipping, if we're still doing it
-									if( clipping ){
-										glDisable( GL_SCISSOR_TEST );
-										clipping = false;
-									}
-
-									/* Batch the vertices */
-									(*geom)->batch( vlist );
+								/* Batch the vertices */
+								(*geom)->batch( vlist );
 								
-									/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
-									if( alphapair->first == GL_LINE_STRIP ||
-										alphapair->first == GL_LINE_LOOP ||
-										alphapair->first == GL_TRIANGLE_STRIP ||
-										alphapair->first == GL_TRIANGLE_FAN ||
-										alphapair->first == GL_QUAD_STRIP ||
-										alphapair->first == GL_POLYGON ){
-											// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
-											submitVertexList(vlist,alphapair->first);
-									}
-
+								/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
+								if( alphapair->first == GL_LINE_STRIP ||
+									alphapair->first == GL_LINE_LOOP ||
+									alphapair->first == GL_TRIANGLE_STRIP ||
+									alphapair->first == GL_TRIANGLE_FAN ||
+									alphapair->first == GL_QUAD_STRIP ||
+									alphapair->first == GL_POLYGON ){
+										// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
+										submitVertexList(vlist,alphapair->first);
 								}
+
 
 							}catch(...)
 							{
@@ -314,6 +281,50 @@ void BatchRenderer::draw( )
 }
 
 /*!
+	Clipping Routine
+*/
+bool BatchRenderer::clipGeometry(  boost::intrusive_ptr<BatchGeometry> geom, bool &clipping, phoenix::Rectangle &clipping_rect ){
+	// Check for clipping
+	if( geom->getClipping() ){
+									
+		//enable clipping, if we're not already doing it.
+		if( !clipping ){
+			glEnable( GL_SCISSOR_TEST );
+			clipping = true;
+		}
+
+		// set the clip area, if it's not already the same.
+		if( clipping_rect != geom->getClippingRectangle()){
+			clipping_rect = geom->getClippingRectangle();
+
+			// translate from top-left coords to bottom-left cords
+			GLint view[4];
+			glGetIntegerv( GL_VIEWPORT, &view[0] );
+			GLuint r_y = view[3] - ((GLuint)clipping_rect.getX() + (GLuint)clipping_rect.getHeight());
+
+			glScissor( (GLuint)clipping_rect.getX() , r_y, (GLsizei)clipping_rect.getWidth(), (GLsizei)clipping_rect.getHeight() );
+		}
+
+		std::vector< Vertex > t_vlist;
+		geom->batch( t_vlist );
+		submitVertexList(t_vlist,geom->getPrimitiveType());
+
+		return true;
+
+	} 
+	else {
+									
+		//disable clipping, if we're still doing it
+		if( clipping ){
+			glDisable( GL_SCISSOR_TEST );
+			clipping = false;
+		}
+
+		return false;
+	}
+}
+
+/*!
 	Vertex submission routine.
 	Sends data to opengl
 */
@@ -328,4 +339,59 @@ void BatchRenderer::submitVertexList( std::vector< Vertex >& vlist, unsigned int
 
     //clear the vlist
 	vlist.clear();
+}
+
+/* Immediate drawing routine, fairly simple */
+void BatchRenderer::drawImmediately(  boost::intrusive_ptr<BatchGeometry> geom ){
+
+	if( !geom ) return;
+
+	// View.
+    view.activate();
+
+	// matrix stuff
+	glMatrixMode( GL_MODELVIEW );
+	glPushMatrix();
+
+    // Enable states
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+
+	//activate the group state
+	GROUPSTATEMAP::iterator gs = groupstates.find( geom->getGroup() );
+	if( gs != groupstates.end() ) gs->second->begin( *this );
+
+	//set our texture
+	if( (geom->getTextureId()) ){
+		glEnable( GL_TEXTURE_2D );
+		geom->getTexture()->bind();
+	}
+	else{
+		glDisable( GL_TEXTURE_2D );
+	}
+
+	// Check for clipping, and if clipped, skip regular rendering.
+	bool clipping = false;
+	Rectangle clipping_rect;
+	if( !clipGeometry( geom, clipping, clipping_rect ) ){
+		std::vector< Vertex > t_vlist;
+		geom->batch( t_vlist );
+		submitVertexList(t_vlist,geom->getPrimitiveType());
+	} else {
+		//disable clipping
+		glDisable( GL_SCISSOR_TEST );
+	}
+
+
+	// call the end group function
+	if( gs != groupstates.end() ) gs->second->end( *this );
+
+    // disable states
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+	//matrix
+	glPopMatrix();
 }

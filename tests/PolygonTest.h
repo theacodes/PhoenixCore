@@ -122,6 +122,7 @@ class PolygonTest
 				g->setClipping(true);
 				g->setClippingRectangle( phoenix::Rectangle(200,200,EventReceiver::Instance()->getMousePosition().getX()-200,EventReceiver::Instance()->getMousePosition().getY()-200) );
 
+
                 system.setDepth( -6.0f );
                 system.drawPolygon( poly4, Color(0,200,255) );
                 system.setDepth( -3.0f );
