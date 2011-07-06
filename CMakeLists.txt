@@ -59,16 +59,16 @@ SET( LIBRARIES ${LIBRARIES} ${OPENGL_LIBRARIES} )
 # Find GLFW
 ############################################
 
-set( SEARCH_PATHS 
+set( SEARCH_PATHS
 	${GLFW_PATH}
 	${GLFW_PATH}/include
 	${GLFW_PATH}/lib
 	${GLFW_PATH}/lib/win32/Release # 2.7-lite
 	${GLFW_PATH}/lib/win32/Debug
 	${GLFW_PATH}/support/msvc80/Release # 2.6 Window Support
-	${GLFW_PATH}/support/msvc80/Debug 
+	${GLFW_PATH}/support/msvc80/Debug
 	)
-	
+
 FIND_PATH( GLFW_INCLUDE_DIR GL/glfw.h PATHS ${SEARCH_PATHS} )
 FIND_LIBRARY( GLFW_LIBRARY glfw PATHS ${SEARCH_PATHS} )
 
@@ -104,20 +104,20 @@ endif()
 
 if( BOX2D )
     MESSAGE( "Box2d Enabled, Finding Library" )
-    
-    set( SEARCH_PATHS 
+
+    set( SEARCH_PATHS
 	${BOX2D_PATH}
 	${BOX2D_PATH}/Include
 	${BOX2D_PATH}/Library
 	)
-    
+
     FIND_PATH( BOX2D_INCLUDE_DIR Box2d.h PATHS ${SEARCH_PATHS} )
     FIND_LIBRARY( BOX2D_LIBRARY box2d PATHS ${SEARCH_PATHS} )
-    
+
     if( BOX2D_INCLUDE_DIR AND BOX2D_LIBRARY )
 	    SET( BOX2D_FOUND TRUE )
     endif()
-	
+
     IF( BOX2D_FOUND )
 	    MESSAGE (" Found Box2d ")
     ELSE( BOX2D_FOUND )
@@ -128,7 +128,7 @@ if( BOX2D )
     ENDIF()
 
     SET( INCLUDES ${INCLUDES} ${BOX2D_INCLUDE_DIR} )
-    
+
 endif()
 
 ############################################
@@ -137,14 +137,14 @@ endif()
 
 #WINDOWS (MSVC)
 if(WIN32)
-	
+
 	if(MSVC)
 	    MESSAGE( "Building for MSVC\n" )
         ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS) # No stupid warning about fopen and sprintf
     endif()
 
 	ADD_DEFINITIONS(-DWIN32 -DMSVC)
-	
+    ADD_DEFINITIONS( -DGLEW_STATIC )
 
 endif(WIN32)
 
@@ -182,7 +182,7 @@ SET(CMAKE_OUTPUT_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Include Directories
 ############################################
 
-include_directories( ${PhoenixCore_SOURCE_DIR}/source ${INCLUDES})
+include_directories( ${PhoenixCore_SOURCE_DIR}/source ${PhoenixCore_SOURCE_DIR}/source/glew ${INCLUDES})
 
 ############################################
 # Set the path for the data dir

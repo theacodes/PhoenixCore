@@ -64,6 +64,5 @@ add_library( PhoenixCore STATIC
 	soil/stbi_DDS_aug_c.h
 	soil/stb_image_aug.h
 	soil/stb_image_aug.c
+    glew/glew.c
 	)
-	
-	

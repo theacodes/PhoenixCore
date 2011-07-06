@@ -7,6 +7,7 @@ distribution for more information.
 
 */
 
+#include "glew/GL/glew.h"
 #include "RenderSystem.h"
 #include "DroidSansMono.h"
 #include "BitmapFont.h"
@@ -47,6 +48,11 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, boo
 
 	// Create our window
 	if( !wm->open( _sz, _fs, _resize ) ) { throw std::runtime_error("Failed to open a window."); }
+
+	// Initialize GLEW
+	if( glewInit() != GLEW_OK ){
+		throw std::runtime_error("GLEW Failed to init, what are you trying to run me on?");
+	}
 
 	// Listen to events.
 	event_connection = wm->listen( boost::bind( &RenderSystem::onWindowEvent, this, _1 ) );
@@ -109,6 +115,16 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, boo
 
 	//! Make a console
 	console = boost::shared_ptr<DebugConsole>( new DebugConsole( *this ) );
+
+	//! Report version information
+	(*console)<<"PhoenixCore initialized.\n"<<"Using GLEW "<<glewGetString(GLEW_VERSION)<<"\n";
+
+	if( GLEW_VERSION_2_0 ){
+		(*console)<<"OpenGL Version 2.0 available\n";
+	}
+	if( GLEW_VERSION_3_0 ){
+		(*console)<<"OpenGL Version 3.0 available\n";
+	}
 
     // Clear the screen to black 
     clearScreen( Color(0,0,0) );
