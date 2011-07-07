@@ -70,8 +70,7 @@ namespace phoenix
 			font(0), 
 			_quit(false), 
 			event_connection(),
-			resources(),
-            clear_color(Color(0,0,0))
+			resources()
 		{
 			initialize( _sz, _fs, _resize );
 		}
@@ -161,14 +160,9 @@ namespace phoenix
 		}
 
 		//! Clears the screen to the given color.
-        inline static void clearScreen( const Color& _c = Color(0,0,0) )
+        inline void clearScreen( const Color& _c = Color(0,0,0) )
         {
-            glClearColor( _c.getRed()/255.0f,_c.getGreen()/255.0f,_c.getBlue()/255.0f,_c.getAlpha()/255.0f );
-            #ifdef DISABLE_DEPTHBUFFER
-                glClear(GL_COLOR_BUFFER_BIT);
-            #else
-                glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-            #endif
+            renderer.clearScreen(_c);
         }
 
 		//! Window Event Listener.
@@ -188,10 +182,10 @@ namespace phoenix
         inline E_RESIZE_BEHAVIOR getResizeBehavior() { return resize_behavior; }
 
         //! Get the default clear color
-        inline const Color& getClearColor() { return clear_color; }
+		inline const Color& getClearColor() { return renderer.getClearColor(); }
 
         //! Set the default clear color
-        inline void setClearColor(const Color& c) { clear_color = c; }
+        inline void setClearColor(const Color& c) { renderer.setClearColor(c); }
 
         //! Get time.
         /*!
@@ -335,9 +329,6 @@ namespace phoenix
 
         //! Counts the number of frames per second
         double framerate;
-
-        //! GL clear color
-        Color clear_color;
 
 		//! Resize behavior
 		E_RESIZE_BEHAVIOR resize_behavior;

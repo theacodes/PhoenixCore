@@ -127,7 +127,8 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, boo
 	}
 
     // Clear the screen to black 
-    clearScreen( Color(0,0,0) );
+	renderer.setClearing(true);
+    renderer.clearScreen( Color(0,0,0) );
 
     //!start the timer
     fpstimer.start();
@@ -158,9 +159,6 @@ bool RenderSystem::run()
 
     //Clean resources
     resources.clean();
-
-    //clear screen
-    clearScreen(clear_color);
 
     //store the new framerate
     double newframerate = 1.0f / fpstimer.getTime();

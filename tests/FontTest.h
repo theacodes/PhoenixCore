@@ -30,15 +30,11 @@ class FontTest
 			//! Test
 			FontPtr font = system.getFont();
 
-			//! Font
-            BitmapFontPtr bluefont = new BitmapFont( system, "arial.fnt" );
-
-
 			//! Rotating Text
-			bluefont->setColor( Color(200,200,255) );
-			bluefont->setScale( Vector2d(5, 2.5) );
-			BatchGeometryPtr hellotext = bluefont->drawText( "Hello, \nWorld!", Vector2d( 50,50 ) );
+			BatchGeometryPtr hellotext = font->drawText( "Hello, \nWorld!", Vector2d( 50,50 ), Color(127,127,255) );
 			hellotext->setImmediate( false );
+			hellotext->setDepth(400.3f);
+			hellotext->update();
 
 			//! Draw some text.
 			font->setScale( Vector2d( 0.75f, 0.75f ) );

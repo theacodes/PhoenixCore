@@ -159,9 +159,9 @@ public:
 	/*!
 		Does nothing except the immediate check. (does not batch children, that is automatic)
 	*/
-	virtual unsigned int batch( std::vector<Vertex>& list )
+	virtual unsigned int batch( std::vector<Vertex>& list, bool persist = false )
 	{
-		if( immediate )
+		if( immediate && !persist )
 		{
 			drop(true); //children should all be immediate, so they should be collected automatically, no need for us to preemptively drop them, will cause them not to be drawn.
 		}

@@ -15,7 +15,7 @@
 #include "Polygon.h"
 #include "Rectangle.h"
 #include "RenderSystem.h"
-#include "RenderTexture.h"
+#include "RenderTarget.h"
 #include "Resource.h"
 #include "ResourceManager.h"
 #include "RotationMatrix.h"

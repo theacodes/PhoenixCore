@@ -38,7 +38,7 @@ add_library( PhoenixCore STATIC
 	Rectangle.h
 	RenderSystem.cpp
 	RenderSystem.h
-	RenderTexture.h
+	RenderTarget.h
 	Resource.h
 	ResourceManager.cpp
 	ResourceManager.h

@@ -159,8 +159,16 @@ void BatchRenderer::clean()
 	Main drawing routine,
 	this is the meat of phoenix, all of the important stuff goes here.
 */
-void BatchRenderer::draw( )
+void BatchRenderer::draw( bool _persist_immediate )
 {
+
+	persist_immediate = _persist_immediate;
+
+	//If we have a render target active, set it. Don't keep drawing if it failed.
+	if( target && !target->start() ) return;
+
+	//Clear
+	if( enable_clear ) clearScreen(clear_color);
 
     // View.
     view.activate();
@@ -232,7 +240,7 @@ void BatchRenderer::draw( )
 								if( clipGeometry( *geom, clipping, clipping_rect ) ) continue;
 
 								/* Batch the vertices */
-								(*geom)->batch( vlist );
+								(*geom)->batch( vlist, persist_immediate );
 								
 								/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
 								if( alphapair->first == GL_LINE_STRIP ||
@@ -275,6 +283,11 @@ void BatchRenderer::draw( )
 	//matrix
 	glPopMatrix();
 
+	//If we have a render target active, and it was in use, unbind it now.
+	if( target ){
+		target->end();
+	}
+
 	// Prune.
 	clean();
 
@@ -306,7 +319,7 @@ bool BatchRenderer::clipGeometry(  boost::intrusive_ptr<BatchGeometry> geom, boo
 		}
 
 		std::vector< Vertex > t_vlist;
-		geom->batch( t_vlist );
+		geom->batch( t_vlist, persist_immediate );
 		submitVertexList(t_vlist,geom->getPrimitiveType());
 
 		return true;
@@ -345,6 +358,9 @@ void BatchRenderer::submitVertexList( std::vector< Vertex >& vlist, unsigned int
 void BatchRenderer::drawImmediately(  boost::intrusive_ptr<BatchGeometry> geom ){
 
 	if( !geom ) return;
+
+	//If we have a render target active, set it. Don't keep drawing if it failed.
+	if( target && !target->start() ) return;
 
 	// View.
     view.activate();
@@ -394,4 +410,9 @@ void BatchRenderer::drawImmediately(  boost::intrusive_ptr<BatchGeometry> geom )
 
 	//matrix
 	glPopMatrix();
+
+	//If we have a render target active, and it was in use, unbind it now.
+	if( target ){
+		target->end();
+	}
 }

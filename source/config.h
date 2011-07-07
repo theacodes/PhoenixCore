@@ -10,6 +10,7 @@
 #define PHEONIXCORE_VERSION_NAME "Raven"
 
 // OpenGL Include
+#include "glew/GL/glew.h"
 #include <GL/glfw.h>
 
 #endif //__PHOENIXCORE_CONFIG_H__

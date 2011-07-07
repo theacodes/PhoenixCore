@@ -23,6 +23,7 @@ distribution for more information.
 #include "GroupState.h"
 #include "Vertex.h"
 #include "Rectangle.h"
+#include "RenderTarget.h"
 
 namespace phoenix
 {
@@ -48,7 +49,7 @@ public:
 		Initializes the geometry graph and starts the garbage collection routines.
 	*/
 	BatchRenderer( )
-		: geometry(), recyclelist(), AbstractGarbageCollector(), groupstates()
+		: geometry(), recyclelist(), AbstractGarbageCollector(), groupstates(), target(), enable_clear(false), clear_color(0,0,0), persist_immediate(false)
 	{
 		//collect fast.
 		setSleepTime( 5 );
@@ -109,11 +110,39 @@ public:
     //! Gets a reference to the renderer's view.
     inline View& getView() {return view; }
 
+	//! Sets the renderer's target, if an empty pointer, the target is the window's framebuffer
+    inline void setRenderTarget( RenderTargetPtr _t = RenderTargetPtr() ) { target = _t; }
+
+    //! Gets a reference to the renderer's view.
+    inline RenderTargetPtr getRenderTarget() {return target; }
+
 	//! Draws everything in the graph.
-	void draw( );
+	/*
+		\param pesist_immediate If set to true, immediate geometry will persist until the next time draw() is called, this is useful for RTT.
+	*/
+	void draw( bool _persist_immediate = false );
 
 	//! Draws a single geometry immediately
+	/*!
+		Automatically activates any attached rendertarget, and deactivates it before returning.
+	*/
 	void drawImmediately(  boost::intrusive_ptr<BatchGeometry> geom );
+
+	//! Clears the screen to the given color. Does not activate the current render target.
+    inline static void clearScreen( const Color& _c = Color(0,0,0) )
+    {
+        glClearColor( _c.getRed()/255.0f,_c.getGreen()/255.0f,_c.getBlue()/255.0f,_c.getAlpha()/255.0f );
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    }
+
+	//! Get the default clear color
+    inline const Color& getClearColor() { return clear_color; }
+
+    //! Set the default clear color
+    inline void setClearColor(const Color& c) { clear_color = c; }
+
+	//! Enable/disable clearing (disabled by default, except for the rendersystem's batcher).
+	inline void setClearing( bool c ){ enable_clear = c; }
 
 #ifdef DEBUG_BATCHRENDERER
 	//! Lists all the geometry in the list.
@@ -140,6 +169,16 @@ private:
 
     //! View
     View view;
+
+	//! Current render target
+	RenderTargetPtr target;
+
+	//! GL clear color
+    Color clear_color;
+	bool enable_clear;
+
+	//! Immediate persistence
+	bool persist_immediate;
 
 	//! Real removal routine ( used by clean() and move() ).
 	void removeProper( boost::intrusive_ptr<BatchGeometry> _g , bool _inv = false);
