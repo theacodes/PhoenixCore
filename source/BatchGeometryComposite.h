@@ -213,6 +213,23 @@ public:
 		}
 	}
 
+	//! Enables/disables clipping. Affects all children.
+	inline virtual void setClipping( bool _c )
+	{ 
+		BatchGeometry::setClipping(false);
+		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
+			g->setClipping(_c);
+		}
+	}
+
+	//! Sets the clipping rectangle. Affects all children.
+	inline virtual void setClippingRectangle( const Rectangle& _r )
+	{ 
+		BatchGeometry::setClippingRectangle(_r);
+		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
+			g->setClippingRectangle(_r);
+		}
+	}
 
 protected:
 

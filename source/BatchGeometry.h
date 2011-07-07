@@ -262,11 +262,11 @@ public:
 		If enabled, the geometry will be clipped by the Rectangle provided to setClippingRectangle(). This will cause the geometry not to be batched with other geometry
 		of the same material. 
 	*/
-	inline void setClipping( bool _c ){ clip = _c; }
+	inline virtual void setClipping( bool _c ){ clip = _c; }
 	inline bool getClipping(){ return clip; }
 
 	//! Set the Clipping Rectangle
-	inline void setClippingRectangle( const Rectangle& _r ){ clip_rect = _r; }
+	inline virtual void setClippingRectangle( const Rectangle& _r ){ clip_rect = _r; }
 
 	//! Get the Clipping Rectangle
 	inline const Rectangle& getClippingRectangle() { return clip_rect; }
@@ -295,10 +295,11 @@ public:
 		graph. The geometry should append all of it's vertices to the renderer's
 		list.
 		\param list The current vertex list from the current BatchRender.
+		\param persist If true, immediate geometry will not drop itself.
 	*/
-	virtual unsigned int batch( std::vector<Vertex>& list )
+	virtual unsigned int batch( std::vector<Vertex>& list, bool persist = false )
 	{
-		if( immediate )
+		if( immediate && !persist )
 		{
 			drop();
 		}
