@@ -71,7 +71,7 @@ public:
             : Resource( s.getResourceManager() , 10), radius(1.f), position(p), speed(0.f), color(), rot(0), life(1), geometry(), rsystem(s)
     {
         direction = (p - Vector2d(320,240)).getDirection() * RotationMatrix(DegreesToRadians((float)random(-40,40)));
-        speed = random(100,5000)/1000.0f;
+        speed = random(200,7500)/1000.0f;
         color = Color( random( 127, 255 ), random( 127, 255 ), random( 127, 255 ) );
         life = (float)random(10000,100000);
         radius = random(750,1250)/1000.0f;
@@ -230,6 +230,12 @@ public:
         // A tracking invariant for keeping up with the mouse position
         TrackingInvariant< Vector2d > mouseposition = EventReceiver::Instance()->getMousePosition();
 
+		//! draw some info.
+        system.drawText( "Use left & right mouse buttons to spawn particles.", Vector2d( 0,0 ), Color(255,127,127), Vector2d(0.75,0.75) )->setImmediate(false);
+        system.drawText( "Use arrow keys to move the field around.", Vector2d( 0,16 ), Color(255,147,147), Vector2d(0.75,0.75) )->setImmediate(false);
+        system.drawText( "Use 'B' to change blending modes, use 'P' to pause.", Vector2d( 0,32 ), Color(255,157,157), Vector2d(0.75,0.75) )->setImmediate(false);
+        system.drawText( "Press '~' for information.", Vector2d( 0, (WindowManager::Instance())->getWindowSize().getY()-16.0f ), Color(127,127,255,127), Vector2d(0.75,0.75) )->setImmediate(false);
+
         //! Now just draw some stuff.
         while ( system.run() )
         {
@@ -237,7 +243,7 @@ public:
             //! Colors.
 
             // clear the screen to our color interpolated with our destination color.
-            system.clearScreen( (*currentcolors)[ currentcolor ].interpolate( (*currentcolors)[ destcolor ], colorpercent ) );
+            system.setClearColor( (*currentcolors)[ currentcolor ].interpolate( (*currentcolors)[ destcolor ], colorpercent ) );
 
             // add to our interpolation percentage.
             colorpercent += (float)colortimer.getTime() * 5.0f;
@@ -309,12 +315,6 @@ public:
 
             //! Draw them all
             drawParticles();
-
-            //!s draw some info.
-            system.drawText( "Use left & right mouse buttons to spawn particles.", Vector2d( 0,0 ), Color(255,127,127) );
-            system.drawText( "Use arrow keys to move the field around.", Vector2d( 0,16 ), Color(255,147,147) );
-            system.drawText( "Use 'B' to change blending modes, use 'P' to pause.", Vector2d( 0,32 ), Color(255,157,157) );
-            system.drawText( "Press '~' for information.", Vector2d( 0, (WindowManager::Instance())->getWindowSize().getY()-16.0f ), Color(127,127,255,127) );
 
 
             // print some stats
