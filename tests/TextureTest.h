@@ -89,14 +89,16 @@ class TextureTest
 
             //! Now just for fun, how about a render texture?
 			RenderTargetPtr rendertarget = new RenderTarget( system.getResourceManager(), Vector2d(256,256) );
-			RenderTargetPtr rendertarget2 = new RenderTarget( system.getResourceManager(), Vector2d(256,256) );
+			RenderTargetPtr rendertarget2 = new RenderTarget( system.getResourceManager(), Vector2d(512,512) );
+			rendertarget->setViewResizeBehavior(TVB_RESIZE_BOTH);
+			rendertarget2->setViewResizeBehavior(TVB_RESIZE_BOTH);
+
             BatchRenderer tbatch; // we need a separate renderer for it.
 			GraphicsFactory2d tfactory( tbatch ); //and factory.
 
-			
-			tbatch.setView( system.getBatchRenderer().getView() );
-			tbatch.getView().setSize( rendertarget->getTexture()->getSize() );
 			tbatch.setRenderTarget( rendertarget );
+			tbatch.setClearColor( Color(0,0,0,0) );
+			tbatch.setClearing(true);
             
             system.getDebugConsole()<<"\nRender Target Size: "<<rendertarget->getTexture()->getSize().getX()<<","<<rendertarget->getTexture()->getSize().getY();
             system.getDebugConsole()<<"\nRender Target Texture ID: "<<rendertarget->getTexture()->getTextureId();
@@ -107,15 +109,19 @@ class TextureTest
             {   
 
                 //! Draw some stuff to it.
-				tfactory.drawTexture( rendertarget2->getTexture(), Vector2d(0,0) );
-				tfactory.drawRectangle( phoenix::Rectangle(50,50,150,150) )->colorize(Color(255,0,0));
+				tfactory.drawTexture( rendertarget->getTexture(), Vector2d(0,0) );
+				tfactory.drawRectangle( phoenix::Rectangle(0,0,50,50) )->colorize(Color(255,0,0));
+				tfactory.drawRectangle( phoenix::Rectangle(256-50,0,50,50) )->colorize(Color(255,0,0));
+				tfactory.drawRectangle( phoenix::Rectangle(256-50,256-50,50,50) )->colorize(Color(255,0,0));
+				tfactory.drawRectangle( phoenix::Rectangle(0,256-50,50,50) )->colorize(Color(255,0,0));
 				tbatch.draw();
 
                 //! Draw our textures and some info
                 system.drawTexture( newtexture, Vector2d(32,32), 0.0f, Vector2d(1,1), Color(255,255,255,255), ( EventReceiver::Instance()->getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::Instance()->getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
                 system.setDepth( 1.0f );
+				system.drawTexture( rendertarget->getTexture(), Vector2d(200,200) );
                 system.drawTexturePart( system.getFont()->grab<BitmapFont>()->getTexture() , Vector2d(32,32), phoenix::Rectangle( EventReceiver::Instance()->getMousePosition() , Vector2d( 256,256 ) ), 0.0f, Vector2d(1,1), Color(), ( EventReceiver::Instance()->getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::Instance()->getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
-                system.drawTexture( rendertarget->getTexture(), EventReceiver::Instance()->getMousePosition(), 0.0f, Vector2d(2,2), Color(255,255,255), EGF_VFLIP );
+                BatchGeometryPtr mirror_g = system.drawTexture( rendertarget2->getTexture(), EventReceiver::Instance()->getMousePosition(), 0.0f, Vector2d(1,1), Color(255,255,255), EGF_VFLIP );
                 
                 system.drawText( "Texture Test: you should see white text", Vector2d(16,16) );
                 system.drawText( "with a semi-transparent blue background.", Vector2d(16,32) );
@@ -124,10 +130,11 @@ class TextureTest
 
 
 				system.getBatchRenderer().setRenderTarget(rendertarget2);
-				View old_view = system.getBatchRenderer().getView();
-				system.getBatchRenderer().getView().setSize( rendertarget2->getTexture()->getSize() );
+
+				mirror_g->setEnabled(false);
 				system.getBatchRenderer().draw(true);
-				system.getBatchRenderer().setView( old_view );
+				mirror_g->setEnabled(true);
+
 				system.getBatchRenderer().setRenderTarget();
 
             }

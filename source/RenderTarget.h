@@ -19,6 +19,14 @@ distribution for more information.
 namespace phoenix
 {
 
+	//! Render Target view management
+	enum E_TARGET_VIEW_BEHAVIOR {
+		TVB_NOTHING, //!< Do nothing, don't modify the view at all.
+		TVB_RESIZE_VIEWPORT, //!< Default behavior, resizes the viewport to match the first texture size.
+		TVB_RESIZE_PROJECTION, //!< Resizes just the projection matrix.
+		TVB_RESIZE_BOTH, //!< Resizes both the viewport and the projection matrix.
+	};
+
     //! Render Target
     /*!
         This class provides the ability to bind textures as the current render target. 
@@ -34,7 +42,7 @@ namespace phoenix
 			Create a framebuffer object, but does not create a texture. A texture must be attached before this can be used.
 		*/
         RenderTarget( ResourceManager& r )
-                : Resource(r), FBO_id(0), textures(32)
+                : Resource(r), FBO_id(0), textures(32), view_behavior(TVB_RESIZE_VIEWPORT), old_view(Vector2d(0.0f,0.0f), Vector2d(0.0f,0.0f))
         {
             setName( "RenderTarget" );
 			generateFramebufferObject();
@@ -45,7 +53,7 @@ namespace phoenix
 			Create a framebuffer object and a texture with the given size, and attaches the texture.
 		*/
         RenderTarget( ResourceManager& r, Vector2d size )
-                : Resource(r), FBO_id(0), textures(32)
+                : Resource(r), FBO_id(0), textures(32), view_behavior(TVB_RESIZE_VIEWPORT), old_view(Vector2d(0.0f,0.0f), Vector2d(0.0f,0.0f))
         {
             setName( "RenderTarget" );
 			generateFramebufferObject();
@@ -108,6 +116,55 @@ namespace phoenix
 		{
 			if( GLEW_VERSION_2_0){
 				unbind();
+				
+			}
+		}
+
+		//! Set the view resize behavior, only used when attached to a batch renderer.
+		inline void setViewResizeBehavior( E_TARGET_VIEW_BEHAVIOR _b ) { view_behavior = _b; }
+
+		//! Get the view resize behavior.
+		inline E_TARGET_VIEW_BEHAVIOR getViewResizeBehavior() { return view_behavior; }
+
+		//! Modifies the view, if needed
+		/*!
+			Automatically called by BatchRenderer if this is attached.
+			Must be called manually for unattached targets.
+		*/
+		inline void modifyView(View& _view){
+			old_view = _view;
+			TexturePtr t = getTexture();
+
+			if( view_behavior == TVB_RESIZE_VIEWPORT || view_behavior == TVB_RESIZE_BOTH){
+				if( t ){
+					_view.setSize( t->getSize() );
+				}
+			}
+
+			if( view_behavior == TVB_RESIZE_PROJECTION || view_behavior == TVB_RESIZE_BOTH){
+				if( t ){
+					glMatrixMode(GL_PROJECTION);
+					glPushMatrix();
+					glLoadIdentity();
+					glOrtho(0.0f, t->getSize().getX(), t->getSize().getY(), 0.0f, 1000.0f, -1000.0f);
+					glMatrixMode(GL_MODELVIEW);
+				}
+			}
+		}
+
+		//! Restores the view to the last one that was passed to modifyView, also restore the projection matrix if it was modified.
+		/*!
+			Automatically called by BatchRenderer if this is attached.
+		*/
+		inline void restoreView(View& _view){
+			if( view_behavior != TVB_NOTHING ){
+				_view = old_view;
+
+				if( view_behavior == TVB_RESIZE_PROJECTION || view_behavior == TVB_RESIZE_BOTH ){
+					glMatrixMode(GL_PROJECTION);
+					glPopMatrix();
+					glMatrixMode(GL_MODELVIEW);
+				}
 			}
 		}
 
@@ -125,6 +182,8 @@ namespace phoenix
 
 		GLuint FBO_id;
 		boost::unordered_map<GLuint, TexturePtr> textures;
+		E_TARGET_VIEW_BEHAVIOR view_behavior;
+		View old_view;
     };
 
     typedef boost::intrusive_ptr<RenderTarget> RenderTargetPtr;

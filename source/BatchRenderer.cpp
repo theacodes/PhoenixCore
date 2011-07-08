@@ -165,7 +165,13 @@ void BatchRenderer::draw( bool _persist_immediate )
 	persist_immediate = _persist_immediate;
 
 	//If we have a render target active, set it. Don't keep drawing if it failed.
-	if( target && !target->start() ) return;
+	if( target ){
+		if( target->start() ){
+			target->modifyView(view);
+		} else {
+			return;
+		}
+	}
 
 	//Clear
 	if( enable_clear ) clearScreen(clear_color);
@@ -173,8 +179,7 @@ void BatchRenderer::draw( bool _persist_immediate )
     // View.
     view.activate();
 
-	// matrix stuff
-	glMatrixMode( GL_MODELVIEW );
+	// push the modelview matrix (the view activate() function definitely put is in modelview mode).
 	glPushMatrix();
 
     // Enable states
@@ -286,6 +291,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 	//If we have a render target active, and it was in use, unbind it now.
 	if( target ){
 		target->end();
+		target->restoreView(view);
 	}
 
 	// Prune.
