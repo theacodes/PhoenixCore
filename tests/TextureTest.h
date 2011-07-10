@@ -17,8 +17,9 @@ class TextureTest
 {
     public:
 
-        TextureTest() : system()
+        TextureTest() : system(Vector2d(1024,768))
         {
+			system.setResizeBehavior(RZB_EXPAND);
         }
 
         virtual ~TextureTest()
@@ -89,9 +90,15 @@ class TextureTest
 
             //! Now just for fun, how about a render texture?
 			RenderTargetPtr rendertarget = new RenderTarget( system.getResourceManager(), Vector2d(256,256) );
-			RenderTargetPtr rendertarget2 = new RenderTarget( system.getResourceManager(), Vector2d(512,512) );
+			RenderTargetPtr rendertarget2 = new RenderTarget( system.getResourceManager(), Vector2d(640,480) );
 			rendertarget->setViewResizeBehavior(TVB_RESIZE_BOTH);
 			rendertarget2->setViewResizeBehavior(TVB_RESIZE_BOTH);
+
+			//! Another texture for MRT
+			TexturePtr rt2_copy_texture = new Texture( system.getResourceManager(), Vector2d(640,480) );
+			rendertarget2->attach( rt2_copy_texture, GL_COLOR_ATTACHMENT1_EXT );
+			GLenum bufs[] = {GL_COLOR_ATTACHMENT0_EXT, GL_COLOR_ATTACHMENT1_EXT};
+			rendertarget2->setDrawBuffers(2,bufs);
 
             BatchRenderer tbatch; // we need a separate renderer for it.
 			GraphicsFactory2d tfactory( tbatch ); //and factory.
@@ -121,8 +128,12 @@ class TextureTest
                 system.setDepth( 1.0f );
 				system.drawTexture( rendertarget->getTexture(), Vector2d(200,200) );
                 system.drawTexturePart( system.getFont()->grab<BitmapFont>()->getTexture() , Vector2d(32,32), phoenix::Rectangle( EventReceiver::Instance()->getMousePosition() , Vector2d( 256,256 ) ), 0.0f, Vector2d(1,1), Color(), ( EventReceiver::Instance()->getKey(PHK_Q) ? EGF_HFLIP : EGF_NONE )&( EventReceiver::Instance()->getKey(PHK_W) ? EGF_VFLIP : EGF_NONE ) );
-                BatchGeometryPtr mirror_g = system.drawTexture( rendertarget2->getTexture(), EventReceiver::Instance()->getMousePosition(), 0.0f, Vector2d(1,1), Color(255,255,255), EGF_VFLIP );
                 
+				// Draw the mirrored textureds
+				BatchGeometryPtr mirror_g = system.drawTexture( rendertarget2->getTexture(), EventReceiver::Instance()->getMousePosition(), 0.0f, Vector2d(1,1), Color(255,255,255), EGF_VFLIP );
+                BatchGeometryPtr mirror_g2 = system.drawTexture( rt2_copy_texture, Vector2d(640,480), 0.0f, Vector2d(1,1), Color(255,255,255) );
+                
+
                 system.drawText( "Texture Test: you should see white text", Vector2d(16,16) );
                 system.drawText( "with a semi-transparent blue background.", Vector2d(16,32) );
                 system.drawText( "You should see a multicolored texture below.", Vector2d(16,48) );
@@ -132,8 +143,10 @@ class TextureTest
 				system.getBatchRenderer().setRenderTarget(rendertarget2);
 
 				mirror_g->setEnabled(false);
+				mirror_g2->setEnabled(false);
 				system.getBatchRenderer().draw(true);
 				mirror_g->setEnabled(true);
+				mirror_g2->setEnabled(true);
 
 				system.getBatchRenderer().setRenderTarget();
 

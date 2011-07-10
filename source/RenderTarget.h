@@ -88,6 +88,28 @@ namespace phoenix
 		//! Gets the currently attached texture
 		inline TexturePtr getTexture( const GLuint _where = GL_COLOR_ATTACHMENT0_EXT ) { return textures[_where]; }
 
+
+		//! Sets which buffers to draw to, this is analogous to glDrawBuffers/glDrawBuffer
+		inline void setDrawBuffers( GLsizei count, const GLenum * bufs ){
+			if( GLEW_VERSION_2_0  && FBO_id ){
+				bind();
+				
+				glDrawBuffers( count,  bufs );
+
+				unbind();
+			}
+		}
+
+		inline void setDrawBuffer( const GLenum buf ){
+			if( GLEW_VERSION_2_0  && FBO_id ){
+				bind();
+				
+				glDrawBuffer( buf );
+
+				unbind();
+			}
+		}
+
 		//! Binds the FBO
 		inline void bind(){ glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, FBO_id); }
 
