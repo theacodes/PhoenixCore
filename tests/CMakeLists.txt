@@ -23,6 +23,7 @@ set( CORETEST_SOURCES
 	EventTest.h
 	FontTest.h
 	TristripTest.h
+	ShaderTest.h
 	ResizeTest.h
 	FullscreenTest.h
 )
@@ -111,12 +112,20 @@ set_property(
 	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_FULLSCREEN_
 )
 
-#Tristript Test
+#Tristrip Test
 add_executable( TristripTest ${CORETEST_SOURCES} )
 target_link_libraries( TristripTest PhoenixCore ${LIBRARIES} )
 set_property(
 	TARGET TristripTest
 	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_TRISTRIP_
+)
+
+#Shader Test
+add_executable( ShaderTest ${CORETEST_SOURCES} )
+target_link_libraries( ShaderTest PhoenixCore ${LIBRARIES} )
+set_property(
+	TARGET ShaderTest
+	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_SHADER_
 )
 
 #Resize Test

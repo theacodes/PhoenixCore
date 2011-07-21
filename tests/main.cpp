@@ -44,6 +44,9 @@ distribution for more information.
 #ifdef _TESTS_TRISTRIP_
 	#include "TristripTest.h"
 #endif
+#ifdef _TESTS_SHADER_
+	#include "ShaderTest.h"
+#endif
 #ifdef _TESTS_RESIZE_
 	#include "ResizeTest.h"
 #endif
@@ -83,6 +86,9 @@ int main()
 #endif
 #ifdef _TESTS_TRISTRIP_
 		TristripTest test;
+#endif
+#ifdef _TESTS_SHADER_
+		ShaderTest test;
 #endif
 #ifdef _TESTS_RESIZE_
 		ResizeTest test;
