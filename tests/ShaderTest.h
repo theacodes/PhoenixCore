@@ -9,7 +9,6 @@ distribution for more information.
 
 
 #include "Phoenix.h"
-#include "Shader.h"
 
 using namespace phoenix;
 

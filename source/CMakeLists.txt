@@ -43,6 +43,8 @@ add_library( PhoenixCore STATIC
 	ResourceManager.cpp
 	ResourceManager.h
 	RotationMatrix.h
+	Shader.h
+	Shader.cpp
 	Texture.h
 	Texture.cpp
 	Timer.h
