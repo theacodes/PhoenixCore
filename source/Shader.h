@@ -19,6 +19,9 @@ namespace phoenix
 
 
 /*! Shader Interface
+	Provides basic utility to load, compile, and use shaders. As phoenix is designed around the FFP and for simplicity, this class
+	isn't designed to be the ultimate shader interface. It does not provide facilities for custom uniforms or vertex attributes. 
+	If you're interest in using those you're welcome to use getProgramId() and to overload BatchGeometry, etc. 
 */
 class Shader
 	: public Resource
@@ -30,8 +33,7 @@ public:
 		: Resource(_r, ERT_SHADER), vertex_shader(0), fragment_shader(0), shader_program(0)
 	{}
 
-	virtual ~Shader(){
-	}
+	virtual ~Shader();
 
 	/*! Checks if the shader is ready */
 	inline const bool ready(){
@@ -65,6 +67,9 @@ public:
 	inline const std::string& getErrors(){
 		return errors;
 	}
+
+	/*! Get the shader program id */
+	inline const GLuint& getProgramId(){ return shader_program; } 
 
 protected:
 	GLuint vertex_shader;

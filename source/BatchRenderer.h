@@ -17,6 +17,7 @@ distribution for more information.
 #include <boost/unordered_map.hpp>
 #include <boost/thread.hpp>
 #include "config.h"
+#include "Shader.h"
 #include "AbstractGarbageCollector.h"
 #include "View.h"
 #include "Droppable.h"
@@ -49,7 +50,7 @@ public:
 		Initializes the geometry graph and starts the garbage collection routines.
 	*/
 	BatchRenderer( )
-		: geometry(), recyclelist(), AbstractGarbageCollector(), groupstates(), target(), enable_clear(false), clear_color(0,0,0), persist_immediate(false)
+		: geometry(), recyclelist(), AbstractGarbageCollector(), groupstates(), shader(), target(), enable_clear(false), clear_color(0,0,0), persist_immediate(false)
 	{
 		//collect fast.
 		setSleepTime( 5 );
@@ -116,6 +117,12 @@ public:
     //! Gets a reference to the renderer's view.
     inline RenderTargetPtr getRenderTarget() {return target; }
 
+	//! Sets the renderer's shader. If an empty pointer, the renderer will use the FFP
+	inline void setShader( ShaderPtr _s ) { shader = _s; }
+
+	//! Get the renderer's shader.
+	inline ShaderPtr getShader(){ return shader; }
+
 	//! Draws everything in the graph.
 	/*
 		\param pesist_immediate If set to true, immediate geometry will persist until the next time draw() is called, this is useful for RTT.
@@ -169,6 +176,9 @@ private:
 
     //! View
     View view;
+
+	//! Current shader
+	ShaderPtr shader;
 
 	//! Current render target
 	RenderTargetPtr target;

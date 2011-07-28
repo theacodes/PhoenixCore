@@ -32,14 +32,14 @@ class ShaderTest
 			TexturePtr picture = system.loadTexture("picture.jpg");
 
 			//! Create a basic shader
-			ShaderPtr shader  = new Shader( system.getResourceManager() );
-			bool status = shader->load("vertex.glsl","desaturate.glsl") ;
+			ShaderPtr regular_shader  = new Shader( system.getResourceManager() );
+			regular_shader->load("vertex.glsl","fragment.glsl");
 			
-			if( ! status ){
-				std::cout<<shader->getErrors();
+			if( !regular_shader->ready() ){
+				std::cout<<regular_shader->getErrors();
+			} else {
+				system.getBatchRenderer().setShader( regular_shader );
 			}
-
-			shader->activate();
 
             //! Now just draw some stuff.
             while( system.run() )

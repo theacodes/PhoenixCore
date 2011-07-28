@@ -12,6 +12,12 @@ distribution for more information.
 
 using namespace phoenix;
 
+/* Destructor */
+Shader::~Shader(){
+	if( vertex_shader ) glDeleteShader( vertex_shader );
+	if( fragment_shader ) glDeleteShader( fragment_shader );
+	if( shader_program ) glDeleteProgram( shader_program );
+}
 
 /* Acivates a shader */
 void Shader::activate(){

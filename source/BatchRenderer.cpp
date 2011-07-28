@@ -164,6 +164,9 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 	persist_immediate = _persist_immediate;
 
+	//Do we have a shader? Activate it
+	if( shader ) shader->activate();
+
 	//If we have a render target active, set it. Don't keep drawing if it failed.
 	if( target ){
 		if( target->start() ){
@@ -293,6 +296,9 @@ void BatchRenderer::draw( bool _persist_immediate )
 		target->end();
 		target->restoreView(view);
 	}
+
+	//Do we have a shader? deactivate it
+	if( shader ) shader->deactivate();
 
 	// Prune.
 	clean();
