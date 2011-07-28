@@ -187,8 +187,8 @@ public:
     {
 
         // Textures for particles.
-        glowtexture = system.loadTexture(std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png"));
-        glowtexture2 = system.loadTexture(std::string(PHOENIXCORE_DATA_DIR) + std::string("glow.png"));
+        glowtexture = system.loadTexture(std::string("feather.png"));
+        glowtexture2 = system.loadTexture(std::string("glow.png"));
 
 		// Blend state for particles.
 		system.getBatchRenderer().addGroupState( 5, GroupStatePtr( new BlendingState() ) );

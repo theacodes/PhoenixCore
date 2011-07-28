@@ -28,7 +28,8 @@ namespace phoenix
 		ERT_UNKNOWN = 0,
         ERT_TEXTURE = 1,
         ERT_FONT = 2,
-        ERT_BITMAP_FONT = 3
+        ERT_BITMAP_FONT = 3,
+		ERT_SHADER = 4
     };
 
 

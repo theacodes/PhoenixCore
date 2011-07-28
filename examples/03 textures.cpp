@@ -23,7 +23,7 @@ int main()
         to the loaded texture. Phoenix uses shared_ptr for all dynamically
         allocated resources.
     */
-	TexturePtr feather = system.loadTexture( std::string(PHOENIXCORE_DATA_DIR) + std::string("feather.png") );
+	TexturePtr feather = system.loadTexture( std::string("feather.png") );
 
     while( system.run() )
     {
