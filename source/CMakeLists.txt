@@ -45,6 +45,7 @@ add_library( PhoenixCore STATIC
 	RotationMatrix.h
 	Shader.h
 	Shader.cpp
+	ShaderGroupState.h
 	Texture.h
 	Texture.cpp
 	Timer.h

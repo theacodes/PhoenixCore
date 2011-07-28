@@ -41,6 +41,16 @@ class ShaderTest
 				system.getBatchRenderer().setShader( regular_shader );
 			}
 
+			//! Create a blur/desaturate shader, and assign it to a group
+			ShaderPtr blur_shader  = new Shader( system.getResourceManager() );
+			blur_shader->load("vertex.glsl","desaturate.glsl");
+			
+			if( !blur_shader->ready() ){
+				std::cout<<blur_shader->getErrors();
+			} else {
+				system.getBatchRenderer().addGroupState( 1, (GroupStatePtr) new ShaderGroupState(blur_shader) );
+			}
+
             //! Now just draw some stuff.
             while( system.run() )
             {
@@ -48,7 +58,9 @@ class ShaderTest
                 //! Draw some info.
                 system.drawText( "Shader Test", Vector2d(16,16) )->colorize( Color(127,127,255,127) );
 
+				system.setGroup(1);
 				system.drawTexture( picture, (system.getView().getSize()/2) - (picture->getSize()/2) );
+				system.setGroup();
 
             }
 

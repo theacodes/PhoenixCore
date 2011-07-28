@@ -9,6 +9,7 @@
 #include "GroupState.h"
 #include "BatchGeometry.h"
 #include "BatchRenderer.h"
+#include "ShaderGroupState.h"
 #include "BitmapFont.h"
 #include "Color.h"
 #include "DebugConsole.h"
