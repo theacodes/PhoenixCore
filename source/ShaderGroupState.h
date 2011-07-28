@@ -17,7 +17,7 @@ distribution for more information.
 
 namespace phoenix{
 
-//! Shader-attached Group State
+//! GroupState for automatically activating and deactivating a Shader.
 /*!
 	This group state automatically activates a shader for  particular group of geometry
 */

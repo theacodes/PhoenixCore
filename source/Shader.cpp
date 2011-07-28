@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2010, Jonathan Wayne Parrott
+Copyright (c) 2011, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.

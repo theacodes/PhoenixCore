@@ -1,4 +1,4 @@
-Copyright (c) 2009 Jon Wayne Parrott
+Copyright (c) 2009-2011 Jon Wayne Parrott
 
 This is the MIT License.
 

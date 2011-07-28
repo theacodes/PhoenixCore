@@ -17,6 +17,7 @@ class EventTest
 
         EventTest() : system()
         {
+			system.getFont()->setScale(Vector2d(0.75f,0.75f));
         }
 
         virtual ~EventTest()
@@ -30,26 +31,6 @@ class EventTest
         */
         int run()
         {
-
-            //! We'll make our font have a colored background, so we can see certain keys when they're pressed.
-
-            // duplicate the system's font.
-			FontPtr newfont = system.getFont();
-            TexturePtr fonttexture = system.getFont()->getTexture();
-
-            // run through and change the background color.
-            fonttexture->lock();
-            for( unsigned int i = 0; i < newfont->getTexture()->getSize().getX(); ++i )
-            {
-                for( unsigned int j = 0; j < newfont->getTexture()->getSize().getY(); ++j)
-                {
-                    if( newfont->getTexture()->getPixel( Vector2d( (float) i, (float) j) ).getAlpha() < 100 )
-                    {
-                        newfont->getTexture()->setPixel( Vector2d( (float) i, (float) j), Color(255,255,255,150) );
-                    }
-                }
-            }
-            fonttexture->unlock();
 
             //! Now just draw some stuff.
             while( true )
@@ -79,9 +60,7 @@ class EventTest
                         if(EventReceiver::Instance()->getKeyReleased( Key((j*16)+i) ) ) textcolor = Color(255,200,200);
 
                         //! Draw it
-                        //use our custom font.
-                        newfont->setColor( textcolor );
-                        newfont->drawText( "O", Vector2d(200,186)+Vector2d( (float) i*16, (float) j*16 ));
+                        system.drawText( "O", Vector2d(75,75)+Vector2d( (float) i*16, (float) j*16 ), textcolor);
                     }
                 }
 
@@ -90,8 +69,7 @@ class EventTest
                 if(EventReceiver::Instance()->getMouseButton( PHK_MB_LEFT ) ) textcolor = Color(0,255,0);
                 if(EventReceiver::Instance()->getMouseButton( PHK_MB_RIGHT ) ) textcolor = Color(0,0,255);
                 if(EventReceiver::Instance()->getMouseButton( PHK_MB_MIDDLE ) ) textcolor = Color(255,255,255);
-                newfont->setColor( textcolor );
-                newfont->drawText( "@",EventReceiver::Instance()->getMousePosition() );
+                system.drawText( "@",EventReceiver::Instance()->getMousePosition(), textcolor);
 
                 //! Draw some info.
                 system.drawText( "Event Test: Below is an ASCII Table", Vector2d(16,16) );

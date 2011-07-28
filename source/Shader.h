@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2010, Jonathan Wayne Parrott
+Copyright (c) 2011, Jonathan Wayne Parrott
 
 Please see the license.txt file included with this source
 distribution for more information.
@@ -18,7 +18,8 @@ namespace phoenix
 {
 
 
-/*! Shader Interface
+//! Basic OpenGL Shader Interface
+/*! 
 	Provides basic utility to load, compile, and use shaders. As phoenix is designed around the FFP and for simplicity, this class
 	isn't designed to be the ultimate shader interface. It does not provide facilities for custom uniforms or vertex attributes. 
 	If you're interest in using those you're welcome to use getProgramId() and to overload BatchGeometry, etc. 
@@ -35,40 +36,36 @@ public:
 
 	virtual ~Shader();
 
-	/*! Checks if the shader is ready */
+	//! Checks if the shader is ready
 	inline const bool ready(){
 		return ( GLEW_VERSION_2_0 && vertex_shader && fragment_shader && shader_program );
 	}
 
-	/*! Makes the shader the currently active shader program, will activate the default (ffp) program if this shader isn't ready.
-	*/
+	//! Makes the shader the currently active shader program, will activate the default (ffp) program if this shader isn't ready.
 	void activate();
 
-	/*! Activates FFP
-	*/
+	//! Activates FFP
 	void deactivate();
 
 
-	/*! Loads shader files, compiles them and links them
-	*/
+	//! Loads shader files, compiles them and links them
 	bool load( const std::string& vertex_file, const std::string& fragment_file );
 
-	/*! Loads shaders from a string, compiles, and links them */
+	//! Loads shaders from a string, compiles, and links them */
 	bool loadFromString( const std::string& vertex_source, const std::string& fragment_source );
 
-	/*! Compiles a specific shader, usually not called directly
-	*/
+	//! Compiles a specific shader, usually not called directly
 	GLuint compile( GLenum _type, const std::string& _source );
 
-	/*! Links the shader program
-	*/
+	//! Links the shader program, usually not called directly
 	GLuint link();
 
+	//! Gets all of the errors that may have occured during compiling/linking.
 	inline const std::string& getErrors(){
 		return errors;
 	}
 
-	/*! Get the shader program id */
+	//! Get the shader program id
 	inline const GLuint& getProgramId(){ return shader_program; } 
 
 protected:
@@ -77,17 +74,17 @@ protected:
 	GLuint shader_program;
 	std::string errors;
 
-	/* Adds a string to the error log */
+	//! Adds a string to the error log
 	void addError( const std::string& _error );
 
-	/*! Retrieves errors from OpenGL */
+	//! Retrieves errors from OpenGL
 	void show_info_log(
 		GLuint object,
 		PFNGLGETSHADERIVPROC glGet__iv,
 		PFNGLGETSHADERINFOLOGPROC glGet__InfoLog
 	);
 
-	/* Reads and entire file and returns it as a string */
+	//! Reads and entire file and returns it as a string
 	const std::string getFileContents( const std::string& file_name );
 
 }; // class Shader
