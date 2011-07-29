@@ -7,6 +7,7 @@ distribution for more information.
 
 */
 
+#include "config.h"
 #include "glew/GL/glew.h"
 #include "RenderSystem.h"
 #include "DroidSansMono.h"
@@ -29,7 +30,7 @@ int RenderSystem::dst_blend = GL_ONE_MINUS_SRC_ALPHA;
 
 
 
-void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, bool _reint )
+void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, WindowManagerPtr _wm, bool _reint )
 {
 	if( _reint ){
 		// Re-initialization requires us to dump everything.
@@ -42,12 +43,28 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, boo
 		}
 	}
 
-	// GLFW Window Manager
-	WindowManagerPtr wm = GLFWWindowManager::Instance();
+    if( !_wm ) {
+
+#ifdef PH_USE_GLFW
+
+        	// GLFW Window Manager
+	    windowManager = GLFWWindowManager::Instance();  
+  
+#endif //PH_USE_GLFW
+
+        if(!windowManager) {
+            throw std::runtime_error("Phoenix has no Window Manager. This is bad.");
+        }
+
+    } else {
+
+        windowManager = _wm;
+
+    }
 	
 
 	// Create our window
-	if( !wm->open( _sz, _fs, _resize ) ) { throw std::runtime_error("Failed to open a window."); }
+	if( !windowManager->open( _sz, _fs, _resize ) ) { throw std::runtime_error("Failed to open a window."); }
 
 	// Initialize GLEW
 	if( glewInit() != GLEW_OK ){
@@ -55,7 +72,7 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, boo
 	}
 
 	// Listen to events.
-	event_connection = wm->listen( boost::bind( &RenderSystem::onWindowEvent, this, _1 ) );
+	event_connection = windowManager->listen( boost::bind( &RenderSystem::onWindowEvent, this, _1 ) );
 
     // viewport the same as the window size.
     renderer.getView().setSize();
@@ -291,7 +308,7 @@ TexturePtr RenderSystem::loadTexture( const std::string& _fn, bool _l )
 }
 
 // Load texture from memory.
-TexturePtr RenderSystem::loadTexture( const unsigned char* const _d, const unsigned int _len, std::string& _name, bool _lin )
+TexturePtr RenderSystem::loadTexture( const unsigned char* const _d, const unsigned int _len, const std::string& _name, bool _lin )
 {
 
 	//This is the class that will hold our texture

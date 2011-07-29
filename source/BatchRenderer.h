@@ -109,7 +109,7 @@ public:
     inline void setView( const View& other ) { view = other; }
 
     //! Gets a reference to the renderer's view.
-    inline View& getView() {return view; }
+    inline View& getView() { return view; }
 
 	//! Sets the renderer's target, if an empty pointer, the target is the window's framebuffer
     inline void setRenderTarget( RenderTargetPtr _t = RenderTargetPtr() ) { target = _t; }

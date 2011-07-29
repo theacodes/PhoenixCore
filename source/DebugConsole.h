@@ -127,6 +127,11 @@ public:
     */
     void draw( );
     
+	//! Get whether or not the console is enabled
+	inline const bool getEnabled() { return enabled; }
+
+	//! Set whether or not the console is enabled
+	inline void setEnabled( const bool &_b) { enabled = _b; }
 
 protected:
 

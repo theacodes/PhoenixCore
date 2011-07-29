@@ -13,4 +13,7 @@
 #include "glew/GL/glew.h"
 #include <GL/glfw.h>
 
+//Define this to use the default GLFW Window Manager
+#define PH_USE_GLFW
+
 #endif //__PHOENIXCORE_CONFIG_H__

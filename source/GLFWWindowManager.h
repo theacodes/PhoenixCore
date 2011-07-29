@@ -6,6 +6,7 @@ Please see the license.txt file included with this source
 distribution for more information.
 
 */
+#ifdef PH_USE_GLFW
 
 #ifndef __PHGLFWWINDOWMANAGER_H__
 #define __PHGLFWWINDOWMANAGER_H__
@@ -47,6 +48,7 @@ public:
 		key events.
 		\param _sz The size of the window.
 		\param _f Fullscreen.
+		\param _resize Whether or not the window is natively resizable at all.
 	*/
 	virtual bool open( const Vector2d& _sz = Vector2d( 640, 480 ), const bool _f = false, const bool _resize = true );
 
@@ -119,3 +121,4 @@ protected:
 }
 
 #endif //__PHGLFWWINDOWMANAGER_H__
+#endif //PH_USE_GLFW

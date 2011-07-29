@@ -1,3 +1,8 @@
+
+#include "config.h"
+
+#ifdef PH_USE_GLFW
+
 #include "GLFWWindowManager.h"
 
 using namespace phoenix;
@@ -146,3 +151,4 @@ void GLFWWindowManager::glfwWindowMoveCallback( int state )
 }
 
 #endif //_GLFW_WM_MOVE_HACK
+#endif //PH_USE_GLFW

@@ -60,7 +60,7 @@ namespace phoenix
            \param _sz The size of the screen (default 640,480).
            \param _fs Full screen (default false).
         */
-		RenderSystem( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true )
+		RenderSystem( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true, WindowManagerPtr _wm = WindowManagerPtr() )
 			: renderer(), 
 			factory( renderer ),
 			console(),
@@ -70,9 +70,10 @@ namespace phoenix
 			font(0), 
 			_quit(false), 
 			event_connection(),
-			resources()
+			resources(),
+			windowManager(WindowManagerPtr())
 		{
-			initialize( _sz, _fs, _resize );
+			initialize( _sz, _fs, _resize, _wm );
 		}
 
 		//! Initialize
@@ -81,11 +82,12 @@ namespace phoenix
 			but it may be desirable sometimes to re-initialize a render system.
 			\param _fs Creates a fullscreen window.
 			\param _resize Creates a resizeable window (default is resizeable).
+			\param _wm Window Manager to use for render system. If none, GLFWWindowManager will be used.
 			\param _reint True if reinitializing an existing system ( usually true ).
 			\note Throws and std::exception if problems arrive.
 			\note Re-initialization invalides all OpenGL textures, etc. You should release all handles to resources, the debug console, everything before calling this.
 		*/
-		void initialize( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true, bool _reint = true  );
+		void initialize( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true, WindowManagerPtr _wm = WindowManagerPtr(), bool _reint = true );
 
         //! Destruct.
 		/*!
@@ -216,7 +218,7 @@ namespace phoenix
             \note Use nearest filtering for tilemaps, or anything that may look bad when scaled.
             \note Textures must be sizes that are a power of two. NPOT textures will experience artifacts (or may fail all together).
         */
-        TexturePtr loadTexture( const unsigned char* const _d, const unsigned int _len, std::string& _name = std::string(), bool _lin = true);
+        TexturePtr loadTexture( const unsigned char* const _d, const unsigned int _len, const std::string& _name = std::string(), bool _lin = true);
 
         //! Find texture by name.
         TexturePtr findTexture(const std::string& _n);
@@ -299,6 +301,9 @@ namespace phoenix
 
         //! Batch Renderer
         BatchRenderer renderer;
+
+		//! Window Manager
+		WindowManagerPtr windowManager;
 
         //! Graphics Factory.
         GraphicsFactory2d factory;
