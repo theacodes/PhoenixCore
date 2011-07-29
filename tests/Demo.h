@@ -231,10 +231,11 @@ public:
         TrackingInvariant< Vector2d > mouseposition = EventReceiver::Instance()->getMousePosition();
 
 		//! draw some info.
-        system.drawText( "Use left & right mouse buttons to spawn particles.", Vector2d( 0,0 ), Color(255,127,127), Vector2d(0.75,0.75) )->setImmediate(false);
-        system.drawText( "Use arrow keys to move the field around.", Vector2d( 0,16 ), Color(255,147,147), Vector2d(0.75,0.75) )->setImmediate(false);
-        system.drawText( "Use 'B' to change blending modes, use 'P' to pause.", Vector2d( 0,32 ), Color(255,157,157), Vector2d(0.75,0.75) )->setImmediate(false);
-        system.drawText( "Press '~' for information.", Vector2d( 0, (WindowManager::Instance())->getWindowSize().getY()-16.0f ), Color(127,127,255,127), Vector2d(0.75,0.75) )->setImmediate(false);
+		system.getFont()->setScale(Vector2d(0.7f,0.7f));
+        system.drawText( "Use left & right mouse buttons to spawn particles.", Vector2d( 5,0 ), Color(255,127,127), Vector2d(0.75,0.75) )->setImmediate(false);
+        system.drawText( "Use arrow keys to move the field around.", Vector2d( 5,16 ), Color(255,147,147), Vector2d(0.75,0.75) )->setImmediate(false);
+        system.drawText( "Use 'B' to change blending modes, use 'P' to pause.", Vector2d( 5,32 ), Color(255,157,157), Vector2d(0.75,0.75) )->setImmediate(false);
+        system.drawText( "Press '~' for information.", Vector2d( 5, 48 ), Color(127,127,255,127), Vector2d(0.75,0.75) )->setImmediate(false);
 
         //! Now just draw some stuff.
         while ( system.run() )
