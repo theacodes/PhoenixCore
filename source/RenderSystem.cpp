@@ -30,7 +30,7 @@ int RenderSystem::dst_blend = GL_ONE_MINUS_SRC_ALPHA;
 
 
 
-void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, WindowManagerPtr _wm, bool _reint )
+void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, bool _reint )
 {
 	if( _reint ){
 		// Re-initialization requires us to dump everything.
@@ -43,25 +43,27 @@ void RenderSystem::initialize( const Vector2d& _sz , bool _fs, bool _resize, Win
 		}
 	}
 
-    if( !_wm ) {
+	WindowManagerPtr windowManager;
 
-#ifdef PH_USE_GLFW
+	// Does a window manager already exist? if so, use it
+	try {
+		windowManager = WindowManager::Instance();
+	} 
+	// If not, attempt to create one.
+	catch( WindowManager::BadInstance ){
 
-        	// GLFW Window Manager
-	    windowManager = GLFWWindowManager::Instance();  
+		#if PH_USE_GLFW
+
+		// GLFW Window Manager
+		windowManager = GLFWWindowManager::Instance();  
   
-#endif //PH_USE_GLFW
+		#endif //PH_USE_GLFW
 
-        if(!windowManager) {
-            throw std::runtime_error("Phoenix has no Window Manager. This is bad.");
-        }
+	}
 
-    } else {
-
-        windowManager = _wm;
-
+    if(!windowManager) {
+        throw std::runtime_error("Phoenix has no Window Manager. This is bad.");
     }
-	
 
 	// Create our window
 	if( !windowManager->open( _sz, _fs, _resize ) ) { throw std::runtime_error("Failed to open a window."); }

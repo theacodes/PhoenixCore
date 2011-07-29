@@ -1,7 +1,7 @@
 
 #include "config.h"
 
-#ifdef PH_USE_GLFW
+#if PH_USE_GLFW
 
 #include "GLFWWindowManager.h"
 

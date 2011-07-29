@@ -60,7 +60,7 @@ namespace phoenix
            \param _sz The size of the screen (default 640,480).
            \param _fs Full screen (default false).
         */
-		RenderSystem( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true, WindowManagerPtr _wm = WindowManagerPtr() )
+		RenderSystem( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true )
 			: renderer(), 
 			factory( renderer ),
 			console(),
@@ -70,10 +70,9 @@ namespace phoenix
 			font(0), 
 			_quit(false), 
 			event_connection(),
-			resources(),
-			windowManager(WindowManagerPtr())
+			resources()
 		{
-			initialize( _sz, _fs, _resize, _wm );
+			initialize( _sz, _fs, _resize );
 		}
 
 		//! Initialize
@@ -87,7 +86,7 @@ namespace phoenix
 			\note Throws and std::exception if problems arrive.
 			\note Re-initialization invalides all OpenGL textures, etc. You should release all handles to resources, the debug console, everything before calling this.
 		*/
-		void initialize( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true, WindowManagerPtr _wm = WindowManagerPtr(), bool _reint = true );
+		void initialize( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true, bool _reint = true );
 
         //! Destruct.
 		/*!
@@ -301,9 +300,6 @@ namespace phoenix
 
         //! Batch Renderer
         BatchRenderer renderer;
-
-		//! Window Manager
-		WindowManagerPtr windowManager;
 
         //! Graphics Factory.
         GraphicsFactory2d factory;
