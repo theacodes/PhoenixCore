@@ -5,7 +5,7 @@
 #define __PHOENIXCORE_CONFIG_H__
 
 // Version Name/Number/Release.
-#define PHOENIXCORE_VERSION "PhoenixCore 0.3 Beta 'Raven'"
+#define PHOENIXCORE_VERSION "PhoenixCore 0.3 Raven"
 #define PHEONIXCORE_VERSION_NUMBER "0.3"
 #define PHEONIXCORE_VERSION_NAME "Raven"
 
