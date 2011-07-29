@@ -6,14 +6,16 @@ Please see the license.txt file included with this source
 distribution for more information.
 
 */
-#ifdef PH_USE_GLFW
 
 #ifndef __PHGLFWWINDOWMANAGER_H__
 #define __PHGLFWWINDOWMANAGER_H__
 
+
+#include "config.h"
+#if PH_USE_GLFW
+
 #include <boost/function.hpp>
 #include "WindowManager.h"
-#include "config.h"
 #include "EventReceiver.h"
 #include "Vector2d.h"
 
@@ -120,5 +122,6 @@ protected:
 
 }
 
-#endif //__PHGLFWWINDOWMANAGER_H__
 #endif //PH_USE_GLFW
+#endif //__PHGLFWWINDOWMANAGER_H__
+
