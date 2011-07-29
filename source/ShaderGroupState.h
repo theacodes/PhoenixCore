@@ -39,7 +39,9 @@ public:
 	*/
 	virtual void begin( BatchRenderer& r ){
 		if( shader ) shader->activate();
-        begincallback();
+        if(begin_callback) {
+            begin_callback();
+        }
 	}
 
 	//! End render state.
@@ -48,17 +50,19 @@ public:
 	*/
 	virtual void end( BatchRenderer& r ){
 		if( shader ) shader->deactivate();
-        endcallback();
+        if(end_callback) {
+            end_callback();
+        }
 	}
 
     //! Set a begin render callback.
     inline void setBeginCallback( boost::function< void() > _f = boost::function< void() >() ) {
-        begincallback = _f;
+        begin_callback = _f;
     }
 
     //! Set an end render callback.
     inline void setEndCallback( boost::function< void() > _f = boost::function< void() >() ) {
-        endcallback = _f;
+        end_callback = _f;
     }
 
 	//! Sets the shader. If an empty pointer, the renderer will use the FFP
@@ -70,8 +74,8 @@ public:
 protected:
 
 	ShaderPtr shader;
-    boost::function< void() > begincallback;
-    boost::function< void() > endcallback;
+    boost::function< void() > begin_callback;
+    boost::function< void() > end_callback;
 
 }; // class
 
