@@ -9,6 +9,7 @@ distribution for more information.
 #include <sstream>
 #include <fstream>
 #include "Shader.h"
+#include "Phoenix.h"
 
 using namespace phoenix;
 
@@ -36,6 +37,32 @@ void Shader::deactivate(){
 	glUseProgram( 0 );
 }
 
+/*! Find the location of a uniform in the shader. If not there, returns -1.
+*/
+int Shader::getUniform( const std::string &uniform_name ) {
+    return glGetUniformLocation( shader_program , uniform_name.c_str() );
+}
+
+void Shader::setUniform( const std::string &uniform_name, const int value ) {
+    glUniform1i( getUniform(uniform_name) , value );
+}
+
+void Shader::setUniform( const std::string &uniform_name, const float value ) {
+    glUniform1f( getUniform(uniform_name) , value );
+}
+
+void Shader::setUniform( const std::string &uniform_name, const Vector2d &value ) {
+    glUniform2f( getUniform(uniform_name) , value.getX(), value.getY() );
+}
+
+void Shader::setUniform( const std::string &uniform_name, const Color &value ) {
+    glUniform4f( getUniform(uniform_name) , (GLfloat)value.getRed()/255.0f, (GLfloat)value.getGreen()/255.0f, (GLfloat)value.getBlue()/255.0f, (GLfloat)value.getAlpha()/255.0f );
+}
+
+void Shader::setUniform( const std::string &uniform_name, const TexturePtr value ) {
+    glUniform1i( getUniform(uniform_name) , value->getTextureId() );
+}
+   
 
 /*! Loads shader files, compiles them and links them
 */

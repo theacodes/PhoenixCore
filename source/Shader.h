@@ -13,11 +13,12 @@ distribution for more information.
 #include <string>
 #include "config.h"
 #include "Resource.h"
+#include "Texture.h"
 
 namespace phoenix
 {
 
-
+    class Color;
 //! Basic OpenGL Shader Interface
 /*! 
 	Provides basic utility to load, compile, and use shaders. As phoenix is designed around the FFP and for simplicity, this class
@@ -47,6 +48,15 @@ public:
 	//! Activates FFP
 	void deactivate();
 
+    //! Sets a uniform inside the shader
+    void setUniform( const std::string &uniform_name, const int value );
+    void setUniform( const std::string &uniform_name, const float value );
+    void setUniform( const std::string &uniform_name, const Vector2d &value );
+    void setUniform( const std::string &uniform_name, const Color &value);
+    void setUniform( const std::string &uniform_name, TexturePtr value );    
+    
+    //! Get a shader uniform. 
+    int getUniform( const std::string &uniform_name );
 
 	//! Loads shader files, compiles them and links them
 	bool load( const std::string& vertex_file, const std::string& fragment_file );

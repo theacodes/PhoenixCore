@@ -14,6 +14,7 @@ distribution for more information.
 #include "Shader.h"
 #include "GroupState.h"
 #include "BatchRenderer.h"
+#include <boost/function.hpp>
 
 namespace phoenix{
 
@@ -38,6 +39,7 @@ public:
 	*/
 	virtual void begin( BatchRenderer& r ){
 		if( shader ) shader->activate();
+        begincallback();
 	}
 
 	//! End render state.
@@ -46,7 +48,18 @@ public:
 	*/
 	virtual void end( BatchRenderer& r ){
 		if( shader ) shader->deactivate();
+        endcallback();
 	}
+
+    //! Set a begin render callback.
+    inline void setBeginCallback( boost::function< void() > _f = boost::function< void() >() ) {
+        begincallback = _f;
+    }
+
+    //! Set an end render callback.
+    inline void setEndCallback( boost::function< void() > _f = boost::function< void() >() ) {
+        endcallback = _f;
+    }
 
 	//! Sets the shader. If an empty pointer, the renderer will use the FFP
 	inline void setShader( ShaderPtr _s ) { shader = _s; }
@@ -57,6 +70,8 @@ public:
 protected:
 
 	ShaderPtr shader;
+    boost::function< void() > begincallback;
+    boost::function< void() > endcallback;
 
 }; // class
 
