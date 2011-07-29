@@ -55,7 +55,7 @@ namespace phoenix
         //! Constructor
         /*!
            Creates a render system creates a window and opengl context. Once the system is constructed
-           you are ready to start drawing stuff. It also initializes the singleton WindowManager..
+           you are ready to start drawing stuff. 
            \sa run()
            \param _sz The size of the screen (default 640,480).
            \param _fs Full screen (default false).
@@ -78,10 +78,10 @@ namespace phoenix
 		//! Initialize
 		/*!
 			(Re)-initialize a rendersystem. This is automatically called by the constructor
-			but it may be desirable sometimes to re-initialize a render system.
+			but it may be desirable sometimes to re-initialize a render system. It will check for an existing instance of WindowManager,
+			if there isn't one it'll attempt to instance the GLFWWindowManager (or whatever default wm). 
 			\param _fs Creates a fullscreen window.
 			\param _resize Creates a resizeable window (default is resizeable).
-			\param _wm Window Manager to use for render system. If none, GLFWWindowManager will be used.
 			\param _reint True if reinitializing an existing system ( usually true ).
 			\note Throws and std::exception if problems arrive.
 			\note Re-initialization invalides all OpenGL textures, etc. You should release all handles to resources, the debug console, everything before calling this.
