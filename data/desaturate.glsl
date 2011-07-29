@@ -1,4 +1,5 @@
 uniform sampler2D tex;
+uniform vec4 tint = vec4(1,1,1,1);
 
 void main (void)
 {
@@ -7,7 +8,7 @@ void main (void)
 	
 	// desaturate, luminosity forumla
 	float lum = (0.299 * color.r) + (0.587 * color.g) + (0.114 * color.b);
-	vec4 basecolor = vec4( lum,lum,lum,color.a );
+	vec4 basecolor = vec4( lum*tint.r,lum*tint.g,lum*tint.b,color.a );
 
 	vec4 accum;
 	float amount = 0.006;
@@ -26,7 +27,7 @@ void main (void)
 		//This is bloomed blur 
 	color = vec4( lum1*(basecolor.r*exposure),lum1*(basecolor.g*exposure),lum1*(basecolor.b*exposure),color.a );
 		//This is normal blur 
-	//color = vec4( lum1,lum1,lum1,color.a );
+	//color = vec4( lum1*tint.r,lum1*tint.g,lum1*tint.b,color.a );
 	
     gl_FragColor = color;
 }
