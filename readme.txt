@@ -1,8 +1,8 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-			    PhoenixCore v0.2
-			       April 2010
-			        Jon Parrott
+			    PhoenixCore v0.3
+			    August 2011
+			    Jon Parrott et. al.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -22,15 +22,15 @@ to develop these constructs.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 			    = Requirements =
-			    
+
 Phoenix requires the following libraries:
-    
+
     * Cmake 2.8
     * Boost C++ Libraries ( 1.37 + )
 	* Boost Threads
 	* Boost Datetime
 	* Boost Signals 2
-    * GLFW ( 2.6 )
+    * GLFW ( 2.7 or 2.7, 3.0 alpha should work but isn't tested )
 
 Boost and GLFW are usually available via the package
 manager on many Linux distributions. On Windows
@@ -39,9 +39,9 @@ http://glfw.sourceforge.net/ and I highly suggest you
 use the Boost Installer from Boost Pro Consulting.
 
 		    = Microsoft Windows (MSVC) =
-		
+
     1) Ensure that you've built Boost and GLFW.
-    2) Using the command prompt, navigate to the 
+    2) Using the command prompt, navigate to the
 	directory where you extracted PhoenixCore.
     3) Make a new directory named 'Build' and navigate
 	to it.
@@ -51,7 +51,7 @@ use the Boost Installer from Boost Pro Consulting.
 	for GLFW and BOOST ( -DGLFW_PATH="..." and
 	-DBOOST_ROOT="..." ).
     5) Once you've gotten CMake to succesfully generate
-	project files, there should be a solution named 
+	project files, there should be a solution named
 	"PhoenixCore" in the Build directory.
     6) Building this solution should build the core
 	library and all tests and examples.
@@ -59,13 +59,13 @@ use the Boost Installer from Boost Pro Consulting.
 	'Release' or 'Debug' but not both, check the
 	link libraries; CMake doesn't always do a
 	great job of detecting the correct versions.
-	
+
 				    = Linux =
-				    
+
     1) Ensure that you've installed the dev packages for
 	Boost and GLFW.
     2) Linux is usually a lot better about finding the GLFW
-	and Boost libraries. You should be able to just make 
+	and Boost libraries. You should be able to just make
 	a Build directory and issue "cmake .." ( atleast on
 	ubuntu )
     3) Once CMake has made your makefiles, you should
@@ -80,10 +80,7 @@ use the Boost Installer from Boost Pro Consulting.
 
     You can always try the google group for phoenixcore at
     -> http://groups.google.com/group/phoenixgl
-    
+
     You are also welcome to email me at
     -> jjramone13@gmail.com
-    
-    And you can usually find me lurking around on FreeNode
-    IRC with the handle Josie. I am usually in #irrlicht,
-    #python, #cakephp, or #opengl.
+    -> jon@jonparrott.com
