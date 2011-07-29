@@ -40,7 +40,7 @@ public:
 	virtual void begin( BatchRenderer& r ){
 		if( shader ) shader->activate();
         if(begin_callback) {
-            begin_callback();
+            begin_callback(*this);
         }
 	}
 
@@ -51,17 +51,18 @@ public:
 	virtual void end( BatchRenderer& r ){
 		if( shader ) shader->deactivate();
         if(end_callback) {
-            end_callback();
+            end_callback(*this);
         }
 	}
 
+
     //! Set a begin render callback.
-    inline void setBeginCallback( boost::function< void() > _f = boost::function< void() >() ) {
+    inline void setBeginCallback( boost::function< void(ShaderGroupState&) > _f = boost::function< void(ShaderGroupState&) >() ) {
         begin_callback = _f;
     }
 
     //! Set an end render callback.
-    inline void setEndCallback( boost::function< void() > _f = boost::function< void() >() ) {
+    inline void setEndCallback( boost::function< void(ShaderGroupState&) > _f = boost::function< void(ShaderGroupState&) >() ) {
         end_callback = _f;
     }
 
@@ -74,8 +75,8 @@ public:
 protected:
 
 	ShaderPtr shader;
-    boost::function< void() > begin_callback;
-    boost::function< void() > end_callback;
+    boost::function< void( ShaderGroupState& ) > begin_callback;
+    boost::function< void( ShaderGroupState& ) > end_callback;
 
 }; // class
 

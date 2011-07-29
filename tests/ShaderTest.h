@@ -31,9 +31,9 @@ class ShaderTest
             }
         }
 
-        void onSetUniforms() {
+        void onSetUniforms( ShaderGroupState& gs ) {
             //! Set the tint color inside the shader
-            blur_shader->setUniform("tint", tintColor );
+            gs.getShader()->setUniform("tint", tintColor );
         }
 
         int run()
@@ -56,14 +56,14 @@ class ShaderTest
             WindowManager::Instance()->listen( boost::bind( &ShaderTest::onWindowEvent, this, _1 ) );
 
 			//! Create a blur/desaturate shader, and assign it to a group
-			blur_shader  = new Shader( system.getResourceManager() );
+			ShaderPtr blur_shader  = new Shader( system.getResourceManager() );
 			blur_shader->load("vertex.glsl","desaturate.glsl");
 			
 			if( !blur_shader->ready() ){
 				std::cout<<blur_shader->getErrors();
 			} else {
                 ShaderGroupState* sgs = new ShaderGroupState(blur_shader);
-                sgs->setBeginCallback( boost::bind( &ShaderTest::onSetUniforms, this ) );
+                sgs->setBeginCallback( boost::bind( &ShaderTest::onSetUniforms, this, _1 ) );
                 system.getBatchRenderer().addGroupState( 1, (GroupStatePtr) sgs );
 			}
 
@@ -102,7 +102,6 @@ class ShaderTest
         RenderSystem system;
         Vector2d mouse;
         Color tintColor;
-        ShaderPtr blur_shader;
 
     private:
 };
