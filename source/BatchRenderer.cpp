@@ -300,6 +300,11 @@ void BatchRenderer::draw( bool _persist_immediate )
 	//Do we have a shader? deactivate it
 	if( shader ) shader->deactivate();
 
+	//Do we have clipping enabled?
+	if(clipping) {
+		glDisable( GL_SCISSOR_TEST );		
+	}
+
 	// Prune.
 	clean();
 
