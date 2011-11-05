@@ -72,7 +72,7 @@ namespace phoenix
 			event_connection(),
 			resources()
 		{
-			initialize( _sz, _fs, _resize );
+			initialize( _sz, _fs, _resize, false );
 		}
 
 		//! Initialize
