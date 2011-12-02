@@ -212,8 +212,7 @@ namespace phoenix
         inline const Vector2d project(const Vector2d& rhs) const
         {
             Vector2d v;
-            v.x = (*this)*rhs * rhs.x;
-            v.y = (*this)*rhs * rhs.y;
+            v = rhs * ((*this) * rhs / rhs.getMagnitudeSquared());
             return v;
         }
 
