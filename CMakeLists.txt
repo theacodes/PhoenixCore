@@ -1,6 +1,6 @@
 ############################################
 #
-# oenixCore CMake
+# PhoenixCore CMake
 #
 ############################################
 
@@ -27,7 +27,7 @@ MESSAGE ( "-- Checking Dependencies: " )
 
 set(Boost_USE_STATIC_LIBS	ON)
 set(Boost_USE_MULTITHREADED	 ON)
-FIND_PACKAGE( Boost 1.38.0 REQUIRED COMPONENTS date_time thread )
+FIND_PACKAGE( Boost 1.39 REQUIRED COMPONENTS date_time thread )
 IF( Boost_FOUND )
     MESSAGE( " Found Boost" )
 else( Boost_FOUND )
