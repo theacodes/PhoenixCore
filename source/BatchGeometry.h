@@ -45,7 +45,6 @@ class BatchGeometry
 {
 
 public:
-
     //! Default Constructor
     /*!
         The geometry is automatically added to the given BatchRenderer.
@@ -315,6 +314,23 @@ public:
 			return 1;
 		}
 		return 0;
+	}
+
+	//
+	// TODO:
+	// This is a simplistic temporary function that doesn't even attempt to make sure
+	// that the two geometries are actually combinable. It simply assumes that the user
+	// wants to the vertex list combined with the current one.
+	//
+	void combine( const BatchGeometryPtr& other, bool dropOther = true ) {
+		vertices.reserve(vertices.size() + other->vertices.size());
+		BOOST_FOREACH( Vertex& v, other->vertices ) {
+			vertices.push_back( v );
+		}
+
+		if( dropOther ) {
+			other->drop();
+		}
 	}
 
 	//! Translate

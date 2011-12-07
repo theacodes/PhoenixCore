@@ -214,6 +214,7 @@ BatchGeometryPtr BitmapFont::drawText( const string& s, const Vector2d& p, const
 	geom_composite->setImmediate( true );
 	geom_composite->getChildren() = geoms;
 
+
 	//Translate, colorize the composite, and return it.
 	geom_composite->translate( p );
 	geom_composite->colorize( _c );
