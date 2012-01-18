@@ -25,6 +25,10 @@ ENDIF ( "${PhoenixCore_SOURCE_DIR}" STREQUAL "${PhoenixCore_BINARY_DIR}" )
 
 MESSAGE ( "-- Checking Dependencies: " )
 
+
+FIND_PACKAGE( Threads REQUIRED )
+SET( LIBRARIES ${LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} )
+
 set(Boost_USE_STATIC_LIBS	ON)
 set(Boost_USE_MULTITHREADED	 ON)
 FIND_PACKAGE( Boost 1.39 REQUIRED COMPONENTS date_time thread )
