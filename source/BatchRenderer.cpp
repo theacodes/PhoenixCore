@@ -94,27 +94,10 @@ void BatchRenderer::removeProper( boost::intrusive_ptr<BatchGeometry> _g, bool _
 	GEOMCONTAINER::iterator f = std::find( container->begin(), container->end(), _g );
 	if( f != container->end() )
 	{
-		//std::cout<<"Removing..."<<std::endl;
+		// The ol' pop & swap; 
 		boost::swap( (*f) , container->back() );
 		container->pop_back();
 
-
-		//now check the above containers.
-		if( geometry[ depth ][ groupid ][ textureid ][ primitivetype ].empty() ){
-			geometry[ depth ][ groupid ][ textureid ].erase( primitivetype );
-
-			if( geometry[ depth ][ groupid ][ textureid ].empty() ){
-				geometry[ depth ][ groupid ].erase( textureid );
-
-				if( geometry[ depth ][ groupid ].empty() ){
-					geometry[ depth ].erase( groupid );
-
-					if( geometry[ depth ].empty() ){
-						geometry.erase( depth );
-					}
-				}
-			}
-		}
 	}
 	else
 	{
@@ -203,12 +186,12 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 	//depth
     BATCHMAPDELTA::iterator deltaend = geometry.end();
-    for( BATCHMAPDELTA::iterator deltapair = geometry.begin(); deltapair != deltaend; ++deltapair )
+    for( BATCHMAPDELTA::iterator deltapair = geometry.begin(); deltapair != deltaend; /*Incremented in pruning logic*/ )
 	{
 
 		//Iterate through each group
         BATCHMAPGAMMA::iterator gammaend = deltapair->second.end();
-        for( BATCHMAPGAMMA::iterator gammapair = deltapair->second.begin(); gammapair != gammaend; ++gammapair )
+        for( BATCHMAPGAMMA::iterator gammapair = deltapair->second.begin(); gammapair != gammaend; /*Incremented in pruning logic*/ )
 		{
 
 			//activate the group state
@@ -217,23 +200,15 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 			//Iterate through each texture.
             BATCHMAPBETA::iterator betaend = gammapair->second.end();
-			for( BATCHMAPBETA::iterator betapair = gammapair->second.begin(); betapair != betaend; ++betapair )
+			for( BATCHMAPBETA::iterator betapair = gammapair->second.begin(); betapair != betaend; /*Incremented in pruning logic*/ )
 			{
 
-				//set our texture
-				if( (betapair->first) )
-				{
-					glEnable( GL_TEXTURE_2D );
-					(*(betapair->second.begin())->second.begin())->getTexture()->bind();
-				}
-				else
-				{
-					glDisable( GL_TEXTURE_2D );
-				}
+				betapair->first == 0 ? glDisable(GL_TEXTURE_2D) : glEnable(GL_TEXTURE_2D); // should we texture? 
+				bool texture_set = false; // will be set by the first geom.
 
 				// Now run down through each primitive type
                 BATCHMAPALPHA::iterator alphaend = betapair->second.end();
-				for( BATCHMAPALPHA::iterator alphapair = betapair->second.begin(); alphapair != alphaend; ++alphapair )
+				for( BATCHMAPALPHA::iterator alphapair = betapair->second.begin(); alphapair != alphaend; /*Incremented in pruning logic*/ )
 				{
 
 					//now loop for each piece of geometry.
@@ -242,6 +217,14 @@ void BatchRenderer::draw( bool _persist_immediate )
                     {
 						if( (*geom) && ! (*geom)->dropped() && (*geom)->getEnabled() )
 						{
+							// Set the texture. 
+							if( betapair->first != 0 && !texture_set ){
+								if( (*geom)->getTexture() ){
+									(*geom)->getTexture()->bind();
+									texture_set = true;
+								}
+							}
+
 							try{
 								
 								// Check for clipping, and if clipped, skip batching.
@@ -272,14 +255,42 @@ void BatchRenderer::draw( bool _persist_immediate )
 					// Send it on
 					submitVertexList(vlist,alphapair->first);
 
+					// pruning logic. 
+					if( alphapair->second.empty() ){
+						betapair->second.erase(alphapair++);
+					} else {
+						++alphapair; //business as usual
+					}
+
 				} // Primitive Type
+
+				// pruning logic. 
+				if( betapair->second.empty() ){
+					gammapair->second.erase(betapair++);
+				} else {
+					++betapair; //business as usual
+				}
 
 			} // Texture
 
 			// call the end group function
 			if( gs != groupstates.end() ) gs->second->end( *this );
 
+			// pruning logic. 
+			if( gammapair->second.empty() ){
+				deltapair->second.erase(gammapair++);
+			} else {
+				++gammapair; //business as usual
+			}
+
 		} // Group
+
+		// pruning logic. 
+		if( deltapair->second.empty() ){
+			geometry.erase(deltapair++);
+		} else {
+			++deltapair; //business as usual
+		}
 
 	} //depth
 

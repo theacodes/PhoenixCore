@@ -1,3 +1,5 @@
+#version 120
+
 uniform sampler2D tex;
 uniform vec4 tint = vec4(1,1,1,1);
 
