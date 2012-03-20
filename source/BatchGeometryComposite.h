@@ -68,8 +68,9 @@ public:
 		}
 	}
 
-	inline virtual void drop(bool skip_children = false){
-		BatchGeometry::drop();
+	inline virtual void drop(bool skip_children /* = true */){
+		if(skip_children) BatchGeometry::drop();
+		else drop();
 	}
 
 	//! Set OpenGL Primitive type.
@@ -166,6 +167,40 @@ public:
 			drop(true); //children should all be immediate, so they should be collected automatically, no need for us to preemptively drop them, will cause them not to be drawn.
 		}
 		return 0;
+	}
+
+	//! Overridden Combine
+	/*!
+		Does nothing, but may drop the other geometry
+	*/
+	virtual void combine( const BatchGeometryPtr& other, bool dropOther = true ) {
+		if( dropOther ) {
+			other->drop();
+		}
+	}
+
+	//! Overloaded Combine w/ Other
+	/*!
+		Combines all children and returns a new geometry.
+	*/
+	void combine( const boost::intrusive_ptr<BatchGeometryComposite>& other, bool dropOther = true) {
+		BOOST_FOREACH( BatchGeometryPtr& g, other->geoms ){
+			this->add(g);
+		}
+		if( dropOther ) other->drop(true);
+	}
+
+	//! Overloaded CNullary ombine
+	/*!
+		Combines all children and returns a new geometry.
+	*/
+	BatchGeometryPtr combine(bool dropChildren = true) {
+		BatchGeometryPtr new_geom = new BatchGeometry(renderer, primitivetype, texture, groupid, depth);
+		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
+			new_geom->combine(g,dropChildren);
+		}
+		if( dropChildren ) drop();
+		return new_geom;
 	}
 
 	//! Translate

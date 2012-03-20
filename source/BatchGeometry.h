@@ -316,13 +316,14 @@ public:
 		return 0;
 	}
 
-	//
-	// TODO:
-	// This is a simplistic temporary function that doesn't even attempt to make sure
-	// that the two geometries are actually combinable. It simply assumes that the user
-	// wants to the vertex list combined with the current one.
-	//
-	void combine( const BatchGeometryPtr& other, bool dropOther = true ) {
+	//! Combine with another
+	/*
+		Combines this geometry with another geometry by pushing the vertices of 
+		the other onto this one. This function does not perform any checks. It
+		assume you know what you're doing. 
+		\sa BatchGeometryComposite::combine
+	*/
+	virtual void combine( const BatchGeometryPtr& other, bool dropOther = true ) {
 		vertices.reserve(vertices.size() + other->vertices.size());
 		BOOST_FOREACH( Vertex& v, other->vertices ) {
 			vertices.push_back( v );
