@@ -28,9 +28,6 @@ void DebugConsole::onWindowEvent( const WindowEvent& e )
 		case WET_RESIZE:
 			updateLineLimit();
 			break;
-		case WET_UPDATE:
-			draw();
-			break;
 		default:
 			break;
 	}
