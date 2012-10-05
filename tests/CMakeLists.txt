@@ -26,6 +26,7 @@ set( CORETEST_SOURCES
 	ShaderTest.h
 	ResizeTest.h
 	FullscreenTest.h
+	GeometryTest.h
 )
 
 ############################################
@@ -136,13 +137,21 @@ set_property(
 	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_RESIZE_
 )
 
+#Geometry Test
+add_executable( GeometryTest ${CORETEST_SOURCES} )
+target_link_libraries( GeometryTest PhoenixCore ${LIBRARIES} )
+set_property(
+	TARGET GeometryTest
+	APPEND PROPERTY COMPILE_DEFINITIONS _TESTS_GEOMETRY_
+)
+
 ######################################
 # Windows stuff
 ######################################
 #WINDOWS (MSVC)
 if(WIN32)
 	if(MSVC)
-	    set_target_properties( PhoenixCoreDemo TextureTest EventTest PolygonTest VectorTest ViewTest TristripTest ResizeTest
+	    set_target_properties( PhoenixCoreDemo TextureTest EventTest PolygonTest VectorTest ViewTest TristripTest ResizeTest GeometryTest
 	        PROPERTIES WIN32_EXECUTABLE true )
 	endif()
 endif()

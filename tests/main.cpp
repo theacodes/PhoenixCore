@@ -50,6 +50,9 @@ distribution for more information.
 #ifdef _TESTS_RESIZE_
 	#include "ResizeTest.h"
 #endif
+#ifdef _TESTS_GEOMETRY_
+	#include "GeometryTest.h"
+#endif
 #ifdef _TESTS_DEMO_
 	#include "Demo.h"
 #endif
@@ -92,6 +95,9 @@ int main()
 #endif
 #ifdef _TESTS_RESIZE_
 		ResizeTest test;
+#endif
+#ifdef _TESTS_GEOMETRY_
+		GeometryTest test;
 #endif
 #ifdef _TESTS_DEMO_
 		Demo test;

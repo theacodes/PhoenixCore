@@ -170,6 +170,9 @@ RenderSystem::~RenderSystem()
 bool RenderSystem::run()
 {
 
+    //Render the Debug Console.
+    console->draw();
+
     //Call our own draw function
     renderer.draw();
 
