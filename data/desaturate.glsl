@@ -1,7 +1,7 @@
 #version 120
 
 uniform sampler2D tex;
-uniform vec4 tint;
+uniform vec4 tint = vec4(1,1,1,1);
 
 void main (void)
 {
@@ -22,7 +22,7 @@ void main (void)
 		vec4 color3 = texture2D( tex, gl_TexCoord[0].st-vec2(0,+amount) );	
 	
 		//blur
-	accum = (texel + color0 + color1 + color2 + color3) / vec4(5,5,5,5);
+	accum = (texel + color0 + color1 + color2 + color3) / 5;
 	
 		//make it black and white 
 	float lum1 = (0.299 * accum.r) + (0.587 * accum.g) + (0.114 * accum.b);
