@@ -353,8 +353,14 @@ public:
 
 	virtual void unlock( const bool restore_vertices = false ){
 		if(is_locked){
+			is_locked = false;
+			if(restore_vertices){
+				glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo);
+				GLvoid* buffer = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY);
+				vertices = std::vector<Vertex>((Vertex*)(buffer), (Vertex*)(buffer) + vbo_size);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
 			glDeleteBuffers(1, &vertex_vbo);
-			//! TODO: Restore vertices
 		}
 	}
 

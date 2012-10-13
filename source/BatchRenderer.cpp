@@ -392,6 +392,8 @@ void BatchRenderer::submitVertexList( std::vector< Vertex >& vlist, unsigned int
 }
 
 void BatchRenderer::submitVertexBufferObject( boost::intrusive_ptr<BatchGeometry> geom ){
+	if(!geom->getEnabled()) return;
+
 	glBindBuffer(GL_ARRAY_BUFFER, geom->getVertexBuffer());
 
     glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), 0);

@@ -68,6 +68,14 @@ class GeometryTest
             locker->setImmediate(false);
             locker->colorize(Color(127,127,255));
             locker->lock();
+            (*locker)[0].color = Color(127,255,255);
+            locker->lock(true);
+
+            BatchGeometryPtr delocker = system.drawRectangle(Rectangle(Vector2d(300,200),Vector2d(100,100)));
+            delocker->setImmediate(false);
+            delocker->colorize(Color(127,255,127));
+            delocker->lock(true);
+            delocker->unlock(true);
 
             //! Now just draw some stuff.
             while( system.run() )
