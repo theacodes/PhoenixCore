@@ -94,7 +94,7 @@ void BatchRenderer::removeProper( boost::intrusive_ptr<BatchGeometry> _g, bool _
 	GEOMCONTAINER::iterator f = std::find( container->begin(), container->end(), _g );
 	if( f != container->end() )
 	{
-		// The ol' pop & swap; 
+		// The ol' pop & swap;
 		boost::swap( (*f) , container->back() );
 		container->pop_back();
 
@@ -116,12 +116,12 @@ void BatchRenderer::move( boost::intrusive_ptr<BatchGeometry> _g )
 
 void BatchRenderer::clean()
 {
-	
+
 	boost::recursive_mutex::scoped_lock l( getMutex() );
 
     unsigned int multiplier = recyclelist.size()/getCollectionRate();
     if( multiplier < getCollectionRate() ) multiplier = getCollectionRate();
-	
+
 	for( unsigned int i = 0; i < multiplier; ++i )
 	{
 		if( ! recyclelist.empty() )
@@ -203,7 +203,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 			for( BATCHMAPBETA::iterator betapair = gammapair->second.begin(); betapair != betaend; /*Incremented in pruning logic*/ )
 			{
 
-				betapair->first == 0 ? glDisable(GL_TEXTURE_2D) : glEnable(GL_TEXTURE_2D); // should we texture? 
+				betapair->first == 0 ? glDisable(GL_TEXTURE_2D) : glEnable(GL_TEXTURE_2D); // should we texture?
 				bool texture_set = false; // will be set by the first geom.
 
 				// Now run down through each primitive type
@@ -217,7 +217,7 @@ void BatchRenderer::draw( bool _persist_immediate )
                     {
 						if( (*geom) && ! (*geom)->dropped() && (*geom)->getEnabled() )
 						{
-							// Set the texture. 
+							// Set the texture.
 							if( betapair->first != 0 && !texture_set ){
 								if( (*geom)->getTexture() ){
 									(*geom)->getTexture()->bind();
@@ -226,13 +226,18 @@ void BatchRenderer::draw( bool _persist_immediate )
 							}
 
 							try{
-								
+
+								if( (*geom)->locked() ){
+									submitVertexBufferObject(*geom);
+									continue;
+								}
+
 								// Check for clipping, and if clipped, skip batching.
 								if( clipGeometry( *geom, clipping, clipping_rect ) ) continue;
 
 								/* Batch the vertices */
 								(*geom)->batch( vlist, persist_immediate );
-								
+
 								/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
 								if( alphapair->first == GL_LINE_STRIP ||
 									alphapair->first == GL_LINE_LOOP ||
@@ -255,7 +260,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 					// Send it on
 					submitVertexList(vlist,alphapair->first);
 
-					// pruning logic. 
+					// pruning logic.
 					if( alphapair->second.empty() ){
 						betapair->second.erase(alphapair++);
 					} else {
@@ -264,7 +269,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 				} // Primitive Type
 
-				// pruning logic. 
+				// pruning logic.
 				if( betapair->second.empty() ){
 					gammapair->second.erase(betapair++);
 				} else {
@@ -276,7 +281,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 			// call the end group function
 			if( gs != groupstates.end() ) gs->second->end( *this );
 
-			// pruning logic. 
+			// pruning logic.
 			if( gammapair->second.empty() ){
 				deltapair->second.erase(gammapair++);
 			} else {
@@ -285,7 +290,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 		} // Group
 
-		// pruning logic. 
+		// pruning logic.
 		if( deltapair->second.empty() ){
 			geometry.erase(deltapair++);
 		} else {
@@ -313,7 +318,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 	//Do we have clipping enabled?
 	if(clipping) {
-		glDisable( GL_SCISSOR_TEST );		
+		glDisable( GL_SCISSOR_TEST );
 	}
 
 	// Prune.
@@ -327,7 +332,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 bool BatchRenderer::clipGeometry(  boost::intrusive_ptr<BatchGeometry> geom, bool &clipping, phoenix::Rectangle &clipping_rect ){
 	// Check for clipping
 	if( geom->getClipping() ){
-									
+
 		//enable clipping, if we're not already doing it.
 		if( !clipping ){
 			glEnable( GL_SCISSOR_TEST );
@@ -346,15 +351,19 @@ bool BatchRenderer::clipGeometry(  boost::intrusive_ptr<BatchGeometry> geom, boo
 			glScissor( (GLuint)clipping_rect.getX() , r_y, (GLsizei)clipping_rect.getWidth(), (GLsizei)clipping_rect.getHeight() );
 		}
 
-		std::vector< Vertex > t_vlist;
-		geom->batch( t_vlist, persist_immediate );
-		submitVertexList(t_vlist,geom->getPrimitiveType());
+		if( geom->locked() ){
+			submitVertexBufferObject(geom);
+		} else {
+			std::vector< Vertex > t_vlist;
+			geom->batch( t_vlist, persist_immediate );
+			submitVertexList(t_vlist,geom->getPrimitiveType());
+		}
 
 		return true;
 
-	} 
+	}
 	else {
-									
+
 		//disable clipping, if we're still doing it
 		if( clipping ){
 			glDisable( GL_SCISSOR_TEST );
@@ -380,6 +389,18 @@ void BatchRenderer::submitVertexList( std::vector< Vertex >& vlist, unsigned int
 
     //clear the vlist
 	vlist.clear();
+}
+
+void BatchRenderer::submitVertexBufferObject( boost::intrusive_ptr<BatchGeometry> geom ){
+	glBindBuffer(GL_ARRAY_BUFFER, geom->getVertexBuffer());
+
+    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), 0);
+    glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), (GLvoid*)sizeof(TextureCoords));
+    glVertexPointer(3, GL_FLOAT, sizeof(Vertex), (GLvoid*)(sizeof(TextureCoords) + sizeof(Color)));
+
+	glDrawArrays( geom->getPrimitiveType(), 0, geom->getVertexBufferSize() );
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 /* Immediate drawing routine, fairly simple */

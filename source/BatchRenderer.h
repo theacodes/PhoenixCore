@@ -33,9 +33,9 @@ class BatchGeometry;
 
 //! Optimizing Batch Renderer.
 /*!
-	The Optimizing Batch Renderer is the soul of phoenix's rendering framework. All drawing calls 
-	go through the batching renderer. The main purpose of the batching renderer is to store all geometry 
-	and draw it at once, performing as many optimizations as possible. This adds a slight layer of complexity, 
+	The Optimizing Batch Renderer is the soul of phoenix's rendering framework. All drawing calls
+	go through the batching renderer. The main purpose of the batching renderer is to store all geometry
+	and draw it at once, performing as many optimizations as possible. This adds a slight layer of complexity,
 	but the speed tradeoff is well worth it. BatchGeometry is automatically sorted in a graph based on
 	depth, group, texture, and primitive type (in that order).
 */
@@ -59,7 +59,7 @@ public:
 
 	//! Destructor
 	/*!
-		Releases all references to geometry. 
+		Releases all references to geometry.
 	*/
 	virtual ~BatchRenderer()
 	{
@@ -84,7 +84,7 @@ public:
 		unlock();
 	}
 
-	//! Counts all the geometry in the list (may be slow). 
+	//! Counts all the geometry in the list (may be slow).
 	unsigned int count();
 
     //! Cleaning routine
@@ -92,7 +92,7 @@ public:
 
 	//! Sets the group state for a given group id.
 	inline void addGroupState( const signed int _id, GroupStatePtr _gs ){
-		groupstates[_id] = _gs; 
+		groupstates[_id] = _gs;
 	}
 
 	//! Removes the group state for the given group id.
@@ -198,6 +198,7 @@ private:
 
 	//! Vertex submission routine.
 	void submitVertexList( std::vector< Vertex >& vlist, unsigned int type );
+	void submitVertexBufferObject( boost::intrusive_ptr<BatchGeometry> geom );
 };
 
 } //namespace phoenix

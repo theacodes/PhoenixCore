@@ -16,7 +16,7 @@ class GeometryTest
 {
     public:
 
-        GeometryTest() : 
+        GeometryTest() :
 			system()
         {
         }
@@ -39,7 +39,7 @@ class GeometryTest
             first->combine(second, true); //drop the second
 
             //! Make a composite text, combine it
-            BatchGeometryCompositePtr composite = 
+            BatchGeometryCompositePtr composite =
                 system.getFont()->drawText("ABCDEFGHIJKLMAOPQRSTUVabcdefghijklmnopqrstuv1234567890", Vector2d(16,100))
                 ->grab<BatchGeometryComposite>();
 
@@ -48,20 +48,26 @@ class GeometryTest
             BatchGeometryPtr new_geom = composite->combine();
 
             //! Draw two texts, combine them.
-            BatchGeometryCompositePtr composite1 = 
+            BatchGeometryCompositePtr composite1 =
                 system.getFont()->drawText("Text One", Vector2d(16,150))
                 ->grab<BatchGeometryComposite>();
 
             composite1->colorize(Color(0,255,0));
 
-            BatchGeometryCompositePtr composite2 = 
+            BatchGeometryCompositePtr composite2 =
                 system.getFont()->drawText("Text Two", Vector2d(64,150))
                 ->grab<BatchGeometryComposite>();
 
             composite2->colorize(Color(0,0,255));
-            
+
             composite1->combine(composite2);
             composite1->setImmediate(false);
+
+
+            BatchGeometryPtr locker = system.drawRectangle(Rectangle(Vector2d(300,100),Vector2d(100,100)));
+            locker->setImmediate(false);
+            locker->colorize(Color(127,127,255));
+            locker->lock();
 
             //! Now just draw some stuff.
             while( system.run() )

@@ -37,7 +37,7 @@ typedef boost::intrusive_ptr<BatchGeometry> BatchGeometryPtr;
 	Users are able to overload this class and highly customize it. This class
 	is garbage collected and managed in very similar manner to Resource, but
 	it should be noted that they are only alike in that they are both Droppable().
-	Geometry is organized in the BatchRenderer by depth, group, texture id, and primitive type. 
+	Geometry is organized in the BatchRenderer by depth, group, texture id, and primitive type.
 	Any changes to any of these properties must be followed by an update() call.
 */
 class BatchGeometry
@@ -55,7 +55,7 @@ public:
 		\param _d The depth.
     */
 	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false)
+		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
 	{
 		_r.add( this );
 	}
@@ -65,7 +65,7 @@ public:
 		Exactly like the regular constructor but also calls fromRectangle().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false)
+        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
 	{
 		fromRectangle( _rect );
 		_r.add( this );
@@ -76,7 +76,7 @@ public:
 		Exactly like the regular constructor but also calls fromPolygon().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false)
+        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
 	{
         fromPolygon( _poly );
 		_r.add( this );
@@ -119,13 +119,14 @@ public:
 		if( ! dropped() )
 		{
 			renderer.remove( this );
+			if( is_locked ) unlock();
 			Droppable::drop();
 		}
 	}
 
 	//! Get vertex
 	/*!
-		\note This function works like a ring buffer. this is to reduce the complexity of certain geometric algorithms. 
+		\note This function works like a ring buffer. this is to reduce the complexity of certain geometric algorithms.
 	*/
 	inline const Vertex& getVertex(const signed int& a) const
     {
@@ -153,7 +154,7 @@ public:
 
 	//! Remove vertex.
 	/*!
-		\note This function works like a ring buffer. this is to reduce the complexity of certain geometric algorithms. 
+		\note This function works like a ring buffer. this is to reduce the complexity of certain geometric algorithms.
 	*/
 	inline void removeVertex( const signed int& a )
 	{
@@ -214,13 +215,13 @@ public:
 	//! Set Texture.
 	/*!
 		Sets the texture for this geometry. If it is an invalid texture or empty
-		pointer, the Id is set to 0 to disable texturing for this geometry. 
+		pointer, the Id is set to 0 to disable texturing for this geometry.
 		\see getTexture(), getTextureId(), update()
 		\note update() must be called before this change will take effect!
 	*/
-	inline virtual void setTexture( TexturePtr _t ) 
-	{ 
-		texture = _t; 
+	inline virtual void setTexture( TexturePtr _t )
+	{
+		texture = _t;
 		textureid = _t ? _t->getTextureId() : 0 ;
 	}
 
@@ -259,7 +260,7 @@ public:
 	//! Enable or Disable Clipping
 	/*!
 		If enabled, the geometry will be clipped by the Rectangle provided to setClippingRectangle(). This will cause the geometry not to be batched with other geometry
-		of the same material. 
+		of the same material.
 	*/
 	inline virtual void setClipping( bool _c ){ clip = _c; }
 	inline bool getClipping(){ return clip; }
@@ -316,11 +317,52 @@ public:
 		return 0;
 	}
 
+	inline bool locked(){ return is_locked; }
+
+	inline GLuint getVertexBuffer(){
+		return vertex_vbo;
+	}
+
+	inline unsigned int getVertexBufferSize(){
+		return vbo_size;
+	}
+
+
+	//! Lock geometry and push into a VBO.
+	/*!
+		Locks the geometry and optionally removes all vertex data. If the geometry is already locked,
+		then vertex data is re-submitted.
+	*/
+	virtual void lock( const bool clear_vertices = false )
+	{
+		// Generate a new buffer if we don't already have one.
+		if(!is_locked){
+			glGenBuffers(1, &vertex_vbo);
+		}
+
+		is_locked = true;
+		vbo_size = vertices.size();
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo);
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		if(clear_vertices){
+			vertices.clear();
+		}
+	}
+
+	virtual void unlock( const bool restore_vertices = false ){
+		if(is_locked){
+			glDeleteBuffers(1, &vertex_vbo);
+			//! TODO: Restore vertices
+		}
+	}
+
 	//! Combine with another
 	/*
-		Combines this geometry with another geometry by pushing the vertices of 
+		Combines this geometry with another geometry by pushing the vertices of
 		the other onto this one. This function does not perform any checks. It
-		assume you know what you're doing. 
+		assume you know what you're doing.
 		\sa BatchGeometryComposite::combine
 	*/
 	virtual void combine( const BatchGeometryPtr& other, bool dropOther = true ) {
@@ -407,8 +449,8 @@ public:
 
 	//! Define vertices using a Rectangle.
 	/*!
-		Sets our vertices equal to the given Rectangle. The type is set to GL_QUADS. 
-		The texture coordinates are automatically set to (0,0), (0,1), (1,1), (1,0). 
+		Sets our vertices equal to the given Rectangle. The type is set to GL_QUADS.
+		The texture coordinates are automatically set to (0,0), (0,1), (1,1), (1,0).
 		This is used by the Rectangle constructor.
 	*/
 	inline void fromRectangle( const Rectangle &rhs )
@@ -467,6 +509,10 @@ protected:
 
 	//! Clip rectangle
 	Rectangle clip_rect;
+
+	bool is_locked;
+	GLuint vertex_vbo;
+	unsigned int vbo_size;
 };
 
 } //namespace phoniex
