@@ -66,7 +66,7 @@ int main()
     //! Here we just draw a basic scaled texture.
     tgeom = system.drawTexture( feather, Vector2d( 240,320 ), 0, Vector2d( 3.0f, 3.0f ) );
     tgeom->setImmediate( false );
-    
+
     /*!
         Here we'll draw a rectangle centered on the origin, but we'll rotate and
         scale it then translate it to it's final position.
@@ -76,7 +76,7 @@ int main()
     tgeom->rotate( DegreesToRadians( 45.0f ) );
     tgeom->scale( Vector2d( 2.0f, 1.3f ) );
     tgeom->translate( Vector2d( 300, 400 ) );
-    tgeom->colorize( Color( 127,200,255 ) );
+    tgeom->colorize( Color( 0,255,0 ) );
     tgeom->setImmediate( false );
 
     /*!
@@ -90,7 +90,7 @@ int main()
     tgeom->setImmediate( false );
 
     /*!
-        Now we'll generate a simple circular peice of geometry. This is a 
+        Now we'll generate a simple circular peice of geometry. This is a
         rather simple operation. You'll notice that we used  a different
         texture coordinate for the end, this creates a rather neat effect.
     */
@@ -98,9 +98,9 @@ int main()
     Vector2d ray( 250, 0 );
     for( int i = 0; i < 360; i+=10 )
     {
-        tgeom->addVertex( Vertex( center, Color(), TextureCoords( 0.0f, 1.0f ) ) );
-        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( (float)i ) ) ), Color(), TextureCoords( 1.0f, 0.0f ) ) );
-        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( (float)i + 10.0f ) ) ), Color(), TextureCoords( 1.0f, 0.0f ) ) );
+        tgeom->addVertex( Vertex( center, Color(), TextureCoords( 0.0f, 0.0f ) ) );
+        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( (float)i ) ) ), Color(255,127,127), TextureCoords( 1.0f, 0.0f ) ) );
+        tgeom->addVertex( Vertex( center + ( ray * RotationMatrix( DegreesToRadians( (float)i + 10.0f ) ) ), Color(255,127,127), TextureCoords( 1.0f, 1.0f ) ) );
     }
 
     /*!
@@ -119,12 +119,12 @@ int main()
             created around with the arrow keys. This is easy achieved using
             translate.
         */
-        if( EventReceiver::Instance()->getKeyPressed( PHK_UP ) ) tgeom->translate( Vector2d( 0.0f, -5.0f ) ); 
-        if( EventReceiver::Instance()->getKeyPressed( PHK_DOWN ) ) tgeom->translate( Vector2d( 0.0f, 5.0f ) ); 
-        if( EventReceiver::Instance()->getKeyPressed( PHK_RIGHT ) ) tgeom->translate( Vector2d( 5.0f, 0.0f ) ); 
-        if( EventReceiver::Instance()->getKeyPressed( PHK_LEFT ) ) tgeom->translate( Vector2d( -5.0f, 0.0f ) ); 
+        if( EventReceiver::Instance()->getKeyPressed( PHK_UP ) ) tgeom->translate( Vector2d( 0.0f, -5.0f ) );
+        if( EventReceiver::Instance()->getKeyPressed( PHK_DOWN ) ) tgeom->translate( Vector2d( 0.0f, 5.0f ) );
+        if( EventReceiver::Instance()->getKeyPressed( PHK_RIGHT ) ) tgeom->translate( Vector2d( 5.0f, 0.0f ) );
+        if( EventReceiver::Instance()->getKeyPressed( PHK_LEFT ) ) tgeom->translate( Vector2d( -5.0f, 0.0f ) );
     }
-	
+
     return 0;
 
 }

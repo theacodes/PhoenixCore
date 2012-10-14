@@ -10,6 +10,7 @@ distribution for more information.
 #ifndef __PHTRACKINVARIANT__
 #define __PHTRACKINVARIANT__
 
+#include <algorithm>
 #include "config.h"
 
 namespace phoenix
@@ -81,7 +82,7 @@ public:
 	/*!
 		\returns True if value has been modified since the last reset().
 	*/
-	inline virtual bool check() const 
+	inline virtual bool check() const
 	{
 		return invariant;
 	}
@@ -98,6 +99,10 @@ public:
 			previous = value;
 			invariant = true;
 		}
+	}
+
+	inline virtual void swap(){
+		std::swap(previous, value);
 	}
 
 	//! Implicit Conversion.

@@ -281,11 +281,21 @@ public:
 	{
 		if( ! (primitivetype.check() && textureid.check() && groupid.check() && depth.check()) )
 		{
-			renderer.move( this );
+			primitivetype.swap();
+			textureid.swap();
+			groupid.swap();
+			depth.swap();
+			renderer.remove(this);
+
+			primitivetype.swap();
+			textureid.swap();
+			groupid.swap();
+			depth.swap();
 			primitivetype.reset();
 			textureid.reset();
 			groupid.reset();
 			depth.reset();
+			renderer.add(this);
 		}
 	}
 
@@ -297,13 +307,8 @@ public:
 		\param list The current vertex list from the current BatchRender.
 		\param persist If true, immediate geometry will not drop itself.
 	*/
-	virtual unsigned int batch( std::vector<Vertex>& list, bool persist = false )
+	virtual unsigned int batch( std::vector<Vertex>& list )
 	{
-		if( immediate && !persist )
-		{
-			drop();
-		}
-
 		if( enabled )
 		{
 			if( ! vertices.empty() )
@@ -471,6 +476,16 @@ public:
 		translate( rhs.getPosition() );
 	}
 
+	const bool operator< (const BatchGeometry& b) const{
+		if( depth < b.depth &&
+			groupid < b.groupid &&
+			textureid < b.textureid &&
+			primitivetype < b.primitivetype ){
+			return true;
+		}
+		return false;
+	}
+
 protected:
 
 	//! Renderer
@@ -487,7 +502,7 @@ protected:
 	/*
 		The invariant of the Texture's ID. This is 0 if this geometry has no texture.
 	*/
-	TrackingInvariant< unsigned > textureid;
+	TrackingInvariant< unsigned int > textureid;
 
 	//! Texture
 	TexturePtr texture;

@@ -13,6 +13,7 @@ distribution for more information.
 
 #include <map>
 #include <vector>
+#include <set>
 #include <iostream>
 #include <boost/unordered_map.hpp>
 #include <boost/thread.hpp>
@@ -50,7 +51,7 @@ public:
 		Initializes the geometry graph and starts the garbage collection routines.
 	*/
 	BatchRenderer( )
-		: geometry(), recyclelist(), AbstractGarbageCollector(), groupstates(), shader(), target(), enable_clear(false), clear_color(0,0,0), persist_immediate(false)
+		: geometry(), geometry_set(), recyclelist(), AbstractGarbageCollector(), groupstates(), shader(), target(), enable_clear(false), clear_color(0,0,0), persist_immediate(false)
 	{
 		//collect fast.
 		setSleepTime( 5 );
@@ -166,6 +167,7 @@ private:
 
 	//! Geometry List Container.
 	BATCHMAPDELTA geometry;
+	std::multiset< boost::intrusive_ptr<BatchGeometry> > geometry_set;
 
 	//! Recycle list
 	std::vector< boost::intrusive_ptr<BatchGeometry> > recyclelist;

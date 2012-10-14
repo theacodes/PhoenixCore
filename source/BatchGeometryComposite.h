@@ -18,7 +18,7 @@ namespace phoenix
 
 //! Batch Geometry Composite Class.
 /*
-	Implements the composite pattern for batch geometry. Differences are noted. 
+	Implements the composite pattern for batch geometry. Differences are noted.
 */
 class BatchGeometryComposite
     : public BatchGeometry
@@ -46,8 +46,8 @@ public:
 	inline void add( BatchGeometryPtr g ){ geoms.push_back(g); }
 
 	//! Remove a child geom
-	inline void remove( BatchGeometryPtr g ){ 
-		geoms.erase( std::remove(geoms.begin(),geoms.end(),g), geoms.end() ); 
+	inline void remove( BatchGeometryPtr g ){
+		geoms.erase( std::remove(geoms.begin(),geoms.end(),g), geoms.end() );
 	}
 
 	//! Removea all children
@@ -62,15 +62,16 @@ public:
 	*/
 	inline virtual void drop()
 	{
-		BatchGeometry::drop();
-		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
-			g->drop();
-		}
+		drop(immediate);
 	}
 
-	inline virtual void drop(bool skip_children /* = true */){
-		if(skip_children) BatchGeometry::drop();
-		else drop();
+	inline virtual void drop(bool keep_children /* = true */){
+		if(!keep_children){
+			BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
+				g->drop();
+			}
+		}
+		BatchGeometry::drop();
 	}
 
 	//! Set OpenGL Primitive type.
@@ -88,8 +89,8 @@ public:
 	/*!
 		Affects all children
 	*/
-	inline virtual void setTexture( TexturePtr _t ) 
-	{ 
+	inline virtual void setTexture( TexturePtr _t )
+	{
 		BatchGeometry::setTexture(_t);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->setTexture(_t);
@@ -101,7 +102,7 @@ public:
 		Affects all children
 	*/
 	inline virtual void setGroup( const signed int& _v )
-	{ 
+	{
 		BatchGeometry::setGroup(_v);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->setGroup(_v);
@@ -113,7 +114,7 @@ public:
 		Affects all children
 	*/
 	inline virtual void setDepth( float _v )
-	{ 
+	{
 		BatchGeometry::setDepth(_v);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->setDepth(_v);
@@ -125,7 +126,7 @@ public:
 		Affects all children
 	*/
 	inline virtual void setEnabled( bool _e )
-	{ 
+	{
 		BatchGeometry::setEnabled(_e);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->setEnabled(_e);
@@ -137,7 +138,7 @@ public:
 		Affects all children
 	*/
 	inline virtual void setImmediate( bool _i )
-	{ 
+	{
 		BatchGeometry::setImmediate(_i);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->setImmediate(_i);
@@ -149,7 +150,7 @@ public:
 		Affects all children
 	*/
 	virtual void update()
-	{ 
+	{
 		BatchGeometry::update();
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->update();
@@ -162,10 +163,6 @@ public:
 	*/
 	virtual unsigned int batch( std::vector<Vertex>& list, bool persist = false )
 	{
-		if( immediate && !persist )
-		{
-			drop(true); //children should all be immediate, so they should be collected automatically, no need for us to preemptively drop them, will cause them not to be drawn.
-		}
 		return 0;
 	}
 
@@ -208,7 +205,7 @@ public:
 		Affects all children
 	*/
 	inline virtual void translate( const Vector2d& _t )
-	{ 
+	{
 		BatchGeometry::translate(_t);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->translate(_t);
@@ -220,7 +217,7 @@ public:
 		Affects all children
 	*/
 	inline virtual void scale( const Vector2d& _s )
-	{ 
+	{
 		BatchGeometry::scale(_s);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->scale(_s);
@@ -232,7 +229,7 @@ public:
 		Affects all children
 	*/
 	inline virtual void rotate( const RotationMatrix& _m )
-	{ 
+	{
 		BatchGeometry::rotate(_m);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->rotate(_m);
@@ -241,7 +238,7 @@ public:
 
 	//! Sets the color on all vertices. Affects all children
 	inline virtual void colorize( const Color& _c )
-	{ 
+	{
 		BatchGeometry::colorize(_c);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->colorize(_c);
@@ -250,7 +247,7 @@ public:
 
 	//! Enables/disables clipping. Affects all children.
 	inline virtual void setClipping( bool _c )
-	{ 
+	{
 		BatchGeometry::setClipping(false);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->setClipping(_c);
@@ -259,7 +256,7 @@ public:
 
 	//! Sets the clipping rectangle. Affects all children.
 	inline virtual void setClippingRectangle( const Rectangle& _r )
-	{ 
+	{
 		BatchGeometry::setClippingRectangle(_r);
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			g->setClippingRectangle(_r);

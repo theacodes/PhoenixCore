@@ -10,6 +10,7 @@ distribution for more information.
 //Uncomment this for really annoying spam on msvc compilers.
 //#pragma warning( disable : 4503 )
 #include "BatchRenderer.h"
+#include "BatchState.h"
 
 using namespace boost;
 using namespace phoenix;
@@ -62,19 +63,19 @@ unsigned int BatchRenderer::count()
 
 void BatchRenderer::add( boost::intrusive_ptr<BatchGeometry> _g )
 {
-	boost::recursive_mutex::scoped_lock l( getMutex() );
-	geometry[_g->getDepth()][ _g->getGroup() ][ _g->getTextureId() ][_g->getPrimitiveType()].push_back( _g );
+	std::cout<<"Adding geom: "<<_g<<std::endl;
+	geometry_set.insert(_g);
 }
 
 void BatchRenderer::remove( boost::intrusive_ptr<BatchGeometry> _g )
 {
-	boost::recursive_mutex::scoped_lock l( getMutex() );
-	recyclelist.push_back( _g );
+	std::cout<<"Removing geom: "<<_g<<std::endl;
+	geometry_set.erase(_g);
 }
 
 void BatchRenderer::removeProper( boost::intrusive_ptr<BatchGeometry> _g, bool _inv )
 {
-
+/*
 	unsigned int textureid = _g->getTextureId();
 	signed int groupid = _g->getGroup();
 	unsigned int primitivetype = _g->getPrimitiveType();
@@ -102,21 +103,18 @@ void BatchRenderer::removeProper( boost::intrusive_ptr<BatchGeometry> _g, bool _
 	else
 	{
 		//throw;
-	}
+	}*/
 }
 
 void BatchRenderer::move( boost::intrusive_ptr<BatchGeometry> _g )
 {
-	lock();
-	removeProper( _g, true );
-	add( _g );
-	unlock();
+	assert(false);
 }
 
 
 void BatchRenderer::clean()
 {
-
+/*
 	boost::recursive_mutex::scoped_lock l( getMutex() );
 
     unsigned int multiplier = recyclelist.size()/getCollectionRate();
@@ -135,7 +133,7 @@ void BatchRenderer::clean()
 		{
 			break;
 		}
-	}
+	}*/
 }
 
 /*!
@@ -168,10 +166,11 @@ void BatchRenderer::draw( bool _persist_immediate )
 	// push the modelview matrix (the view activate() function definitely put is in modelview mode).
 	glPushMatrix();
 
-    // Enable states
+    // Set up states
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
+    glDisable(GL_TEXTURE_2D);
 
 	//vector to store vertices.
 	std::vector< Vertex > vlist;
@@ -181,123 +180,70 @@ void BatchRenderer::draw( bool _persist_immediate )
 	bool clipping = false;
 	Rectangle clipping_rect;
 
+	// track state
+	BatchState state;
+
 	//iterate through the graph.
 	boost::recursive_mutex::scoped_lock l( getMutex() );
 
-	//depth
-    BATCHMAPDELTA::iterator deltaend = geometry.end();
-    for( BATCHMAPDELTA::iterator deltapair = geometry.begin(); deltapair != deltaend; /*Incremented in pruning logic*/ )
-	{
+	//activate the group state
+	// GROUPSTATEMAP::iterator gs = groupstates.find( gammapair->first );
+	// if( gs != groupstates.end() ) gs->second->begin( *this );
 
-		//Iterate through each group
-        BATCHMAPGAMMA::iterator gammaend = deltapair->second.end();
-        for( BATCHMAPGAMMA::iterator gammapair = deltapair->second.begin(); gammapair != gammaend; /*Incremented in pruning logic*/ )
+	std::cout<<"Starting drawing..."<<std::endl;
+	auto end = geometry_set.end();
+	for(auto it = geometry_set.begin(); it != end;){
+		auto geom = (*it++); //increment but grab it first, allows for deletion in place
+
+		if( geom && ! geom->dropped() && geom->getEnabled() )
 		{
 
-			//activate the group state
-			GROUPSTATEMAP::iterator gs = groupstates.find( gammapair->first );
-			if( gs != groupstates.end() ) gs->second->begin( *this );
+			std::cout<<"Drawing geom "<<geom<<" d: "<<geom->getDepth()<<" g: "<<geom->getGroup()<<" t: "<<geom->getTextureId()<<" p: "<<geom->getPrimitiveType()<<std::endl;
 
-			//Iterate through each texture.
-            BATCHMAPBETA::iterator betaend = gammapair->second.end();
-			for( BATCHMAPBETA::iterator betapair = gammapair->second.begin(); betapair != betaend; /*Incremented in pruning logic*/ )
-			{
+			state.update(geom);
+			state.activate();
 
-				betapair->first == 0 ? glDisable(GL_TEXTURE_2D) : glEnable(GL_TEXTURE_2D); // should we texture?
-				bool texture_set = false; // will be set by the first geom.
+			try{
 
-				// Now run down through each primitive type
-                BATCHMAPALPHA::iterator alphaend = betapair->second.end();
-				for( BATCHMAPALPHA::iterator alphapair = betapair->second.begin(); alphapair != alphaend; /*Incremented in pruning logic*/ )
-				{
+				// if( geom->locked() ){
+				// 	submitVertexBufferObject(geom);
+				// 	continue;
+				// }
 
-					//now loop for each piece of geometry.
-                    GEOMCONTAINER::iterator geomend = alphapair->second.end();
-                    for( GEOMCONTAINER::iterator geom = alphapair->second.begin(); geom != geomend; ++geom )
-                    {
-						if( (*geom) && ! (*geom)->dropped() && (*geom)->getEnabled() )
-						{
-							// Set the texture.
-							if( betapair->first != 0 && !texture_set ){
-								if( (*geom)->getTexture() ){
-									(*geom)->getTexture()->bind();
-									texture_set = true;
-								}
-							}
+				// Check for clipping, and if clipped, skip batching.
+				//if( clipGeometry( geom, clipping, clipping_rect ) ) continue;
 
-							try{
+				/* Batch the vertices */
+				geom->batch( vlist );
 
-								if( (*geom)->locked() ){
-									submitVertexBufferObject(*geom);
-									continue;
-								}
-
-								// Check for clipping, and if clipped, skip batching.
-								if( clipGeometry( *geom, clipping, clipping_rect ) ) continue;
-
-								/* Batch the vertices */
-								(*geom)->batch( vlist, persist_immediate );
-
-								/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
-								if( alphapair->first == GL_LINE_STRIP ||
-									alphapair->first == GL_LINE_LOOP ||
-									alphapair->first == GL_TRIANGLE_STRIP ||
-									alphapair->first == GL_TRIANGLE_FAN ||
-									alphapair->first == GL_QUAD_STRIP ||
-									alphapair->first == GL_POLYGON ){
-										// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
-										submitVertexList(vlist,alphapair->first);
-								}
-
-
-							}catch(...)
-							{
-								assert( false ); // Not enough space.
-							}
-						}
-					}
-
-					// Send it on
-					submitVertexList(vlist,alphapair->first);
-
-					// pruning logic.
-					if( alphapair->second.empty() ){
-						betapair->second.erase(alphapair++);
-					} else {
-						++alphapair; //business as usual
-					}
-
-				} // Primitive Type
-
-				// pruning logic.
-				if( betapair->second.empty() ){
-					gammapair->second.erase(betapair++);
-				} else {
-					++betapair; //business as usual
+				/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
+				if( geom->getPrimitiveType() == GL_LINE_STRIP ||
+					geom->getPrimitiveType() == GL_LINE_LOOP ||
+					geom->getPrimitiveType() == GL_TRIANGLE_STRIP ||
+					geom->getPrimitiveType() == GL_TRIANGLE_FAN ||
+					geom->getPrimitiveType() == GL_QUAD_STRIP ||
+					geom->getPrimitiveType() == GL_POLYGON ){
+						// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
+						submitVertexList(vlist, geom->getPrimitiveType());
 				}
 
-			} // Texture
 
-			// call the end group function
-			if( gs != groupstates.end() ) gs->second->end( *this );
-
-			// pruning logic.
-			if( gammapair->second.empty() ){
-				deltapair->second.erase(gammapair++);
-			} else {
-				++gammapair; //business as usual
+			}catch(...)
+			{
+				assert( false ); // Not enough space.
 			}
 
-		} // Group
+			// Send it on
+			submitVertexList(vlist,geom->getPrimitiveType());
 
-		// pruning logic.
-		if( deltapair->second.empty() ){
-			geometry.erase(deltapair++);
-		} else {
-			++deltapair; //business as usual
+
+			if( !persist_immediate && geom->getImmediate() ) geom->drop();
 		}
 
-	} //depth
+		// call the end group function
+		// if( gs != groupstates.end() ) gs->second->end( *this );
+
+	} // end iteration
 
     // disable states
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -355,7 +301,7 @@ bool BatchRenderer::clipGeometry(  boost::intrusive_ptr<BatchGeometry> geom, boo
 			submitVertexBufferObject(geom);
 		} else {
 			std::vector< Vertex > t_vlist;
-			geom->batch( t_vlist, persist_immediate );
+			geom->batch( t_vlist );
 			submitVertexList(t_vlist,geom->getPrimitiveType());
 		}
 
