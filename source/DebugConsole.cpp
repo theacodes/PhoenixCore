@@ -39,7 +39,7 @@ void DebugConsole::onWindowEvent( const WindowEvent& e )
 void DebugConsole::write( std::string _s )
 {
     //stream and temporary storage.
-    std::istringstream stream( _s );        
+    std::istringstream stream( _s );
     char temp[256];
 
     // The first line in the string, even if it's empty, will be added to the current line.
@@ -70,7 +70,7 @@ void DebugConsole::draw( )
     {
 		// we want the font's line height to be 16, so adjust the scale accordingly
 		float scale = 1.0f;
-		
+
 		if( font->getType() == ERT_BITMAP_FONT ) {
 			BitmapFontPtr bmfont = boost::dynamic_pointer_cast<BitmapFont>(font);
 			scale = 1.0f/( bmfont->getLineHeight()/20.0f );
@@ -78,10 +78,10 @@ void DebugConsole::draw( )
 
         // Draw our overlay rectangle at depth- 0.01;
         BatchGeometryPtr geom = drawRectangle( Rectangle( Vector2d(0,0), (WindowManager::Instance())->getWindowSize() ), backcolor, backcolor, backcolor, backcolor);
-        setDepth( getDepth() - 0.01f );
+        setDepth( getDepth() - 0.001f );
         apply( geom );
-        setDepth( getDepth() + 0.01f );
-        
+        setDepth( getDepth() + 0.001f );
+
 		//output the text
 		std::string output;
 		output += std::string("-= ") + std::string( PHOENIXCORE_VERSION ) + std::string(" Debug Console =-");

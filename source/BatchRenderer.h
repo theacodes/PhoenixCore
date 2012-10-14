@@ -32,6 +32,11 @@ namespace phoenix
 
 class BatchGeometry;
 
+struct BatchGeometryPtrCompare
+{
+  bool operator()(const boost::intrusive_ptr<BatchGeometry> a, const boost::intrusive_ptr<BatchGeometry> b) const;
+};
+
 //! Optimizing Batch Renderer.
 /*!
 	The Optimizing Batch Renderer is the soul of phoenix's rendering framework. All drawing calls
@@ -41,7 +46,6 @@ class BatchGeometry;
 	depth, group, texture, and primitive type (in that order).
 */
 class BatchRenderer
-	: public AbstractGarbageCollector
 {
 
 public:
@@ -51,11 +55,8 @@ public:
 		Initializes the geometry graph and starts the garbage collection routines.
 	*/
 	BatchRenderer( )
-		: geometry(), geometry_set(), recyclelist(), AbstractGarbageCollector(), groupstates(), shader(), target(), enable_clear(false), clear_color(0,0,0), persist_immediate(false)
+		:  geometry_set(), groupstates(), shader(), target(), enable_clear(false), clear_color(0,0,0), persist_immediate(false)
 	{
-		//collect fast.
-		setSleepTime( 5 );
-        setCollectionRate( 2 );
 	}
 
 	//! Destructor
@@ -79,17 +80,11 @@ public:
 	//! Drops all geometry.
 	void clear()
 	{
-		lock();
-		recyclelist.clear();
-		geometry.clear();
-		unlock();
+		geometry_set.clear();
 	}
 
 	//! Counts all the geometry in the list (may be slow).
 	unsigned int count();
-
-    //! Cleaning routine
-	void clean();
 
 	//! Sets the group state for a given group id.
 	inline void addGroupState( const signed int _id, GroupStatePtr _gs ){
@@ -159,18 +154,8 @@ public:
 
 private:
 
-	typedef std::list< boost::intrusive_ptr<BatchGeometry> > GEOMCONTAINER;
-	typedef boost::unordered_map< unsigned int, GEOMCONTAINER > BATCHMAPALPHA; // Primitive Keyed
-	typedef boost::unordered_map< unsigned int, BATCHMAPALPHA > BATCHMAPBETA; // Texture Keyed
-	typedef boost::unordered_map< signed int, BATCHMAPBETA > BATCHMAPGAMMA; // Group Keyed
-	typedef std::map< float, BATCHMAPGAMMA > BATCHMAPDELTA; // Depth Keyed (Ordered)
-
 	//! Geometry List Container.
-	BATCHMAPDELTA geometry;
-	std::multiset< boost::intrusive_ptr<BatchGeometry> > geometry_set;
-
-	//! Recycle list
-	std::vector< boost::intrusive_ptr<BatchGeometry> > recyclelist;
+	std::multiset< boost::intrusive_ptr<BatchGeometry>, BatchGeometryPtrCompare > geometry_set;
 
 	typedef boost::unordered_map< signed int, boost::shared_ptr<GroupState> > GROUPSTATEMAP;
 	//! Map of group states.
@@ -191,9 +176,6 @@ private:
 
 	//! Immediate persistence
 	bool persist_immediate;
-
-	//! Real removal routine ( used by clean() and move() ).
-	void removeProper( boost::intrusive_ptr<BatchGeometry> _g , bool _inv = false);
 
 	//! Clipping Routine
 	bool clipGeometry(  boost::intrusive_ptr<BatchGeometry> geom, bool &clipping, phoenix::Rectangle &clipping_rect );

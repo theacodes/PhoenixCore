@@ -11,6 +11,7 @@ distribution for more information.
 #ifndef __PHBATCHGEOMETRY_H__
 #define __PHBATCHGEOMETRY_H__
 
+#include <iostream>
 #include <vector>
 #include "config.h"
 #include "Vertex.h"
@@ -477,12 +478,10 @@ public:
 	}
 
 	const bool operator< (const BatchGeometry& b) const{
-		if( depth < b.depth &&
-			groupid < b.groupid &&
-			textureid < b.textureid &&
-			primitivetype < b.primitivetype ){
-			return true;
-		}
+		if( depth < b.depth ) return true;
+		if( depth == b.depth && groupid < b.groupid ) return true;
+		if( depth == b.depth && groupid == b.groupid && textureid < b.textureid ) return true;
+		if( depth == b.depth && groupid == b.groupid && textureid == b.textureid && primitivetype < b.primitivetype) return true;
 		return false;
 	}
 

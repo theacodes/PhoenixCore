@@ -16,125 +16,38 @@ using namespace boost;
 using namespace phoenix;
 using namespace std;
 
+
+bool BatchGeometryPtrCompare::operator()(const boost::intrusive_ptr<BatchGeometry> a, const boost::intrusive_ptr<BatchGeometry> b) const{
+	return (*a) < (*b);
+}
+
+
 #ifdef DEBUG_BATCHRENDERER
 //! Lists all the geometry in the list.
 void BatchRenderer::listGeometry()
 {
-	BOOST_FOREACH( BATCHMAPDELTA::value_type& deltapair, geometry ){
-		BOOST_FOREACH( BATCHMAPGAMMA::value_type& gammapair, deltapair.second ){
-			BOOST_FOREACH( BATCHMAPBETA::value_type& betapair, gammapair.second ){
-				BOOST_FOREACH( BATCHMAPALPHA::value_type& alphapair, betapair.second ){
-					BOOST_FOREACH( intrusive_ptr<BatchGeometry>& geom, alphapair.second )
-					{
-						std::cout<<"\n Geometry "<<geom.get()
-							<<" at "
-							<<deltapair.first
-							<<", "<<gammapair.first
-							<<", "<<betapair.first
-							<<", "<<alphapair.first
-							<<" with properties "<<geom->getDepth()
-							<<", "<<geom->getGroup()
-							<<", "<<geom->getTextureId()
-							<<", "<<geom->getPrimitiveType();
-					}
-				}
-			}
-		}
-	}
+	std::cout<<"This has not been implemented."
 }
 #endif
 
 unsigned int BatchRenderer::count()
 {
-	boost::recursive_mutex::scoped_lock l( getMutex() );
-	unsigned int total = 0;
-	BOOST_FOREACH( BATCHMAPDELTA::value_type& deltapair, geometry ){
-		BOOST_FOREACH( BATCHMAPGAMMA::value_type& gammapair, deltapair.second ){
-			BOOST_FOREACH( BATCHMAPBETA::value_type& betapair, gammapair.second ){
-				BOOST_FOREACH( BATCHMAPALPHA::value_type& alphapair, betapair.second ){
-					total += alphapair.second.size();
-				}
-			}
-		}
-	}
-	return total;
+	return geometry_set.size();
 }
 
 
 void BatchRenderer::add( boost::intrusive_ptr<BatchGeometry> _g )
 {
-	std::cout<<"Adding geom: "<<_g<<std::endl;
+	std::cout<<"Adding geom: "<<_g<<" d: "<<_g->getDepth()<<" g: "<<_g->getGroup()<<" t: "<<_g->getTextureId()<<" p: "<<_g->getPrimitiveType()<<std::endl;
 	geometry_set.insert(_g);
 }
 
 void BatchRenderer::remove( boost::intrusive_ptr<BatchGeometry> _g )
 {
-	std::cout<<"Removing geom: "<<_g<<std::endl;
+	std::cout<<"Removing geom: "<<_g<<" d: "<<_g->getDepth()<<" g: "<<_g->getGroup()<<" t: "<<_g->getTextureId()<<" p: "<<_g->getPrimitiveType()<<std::endl;
 	geometry_set.erase(_g);
 }
 
-void BatchRenderer::removeProper( boost::intrusive_ptr<BatchGeometry> _g, bool _inv )
-{
-/*
-	unsigned int textureid = _g->getTextureId();
-	signed int groupid = _g->getGroup();
-	unsigned int primitivetype = _g->getPrimitiveType();
-	float depth = _g->getDepth();
-
-	if( _inv == true ) {// we're using the previous value
-		groupid = _g->getGroupInvariant().getPrevious();
-		primitivetype = _g->getPrimitiveTypeInvariant().getPrevious();
-		depth = _g->getDepthInvariant().getPrevious();
-		textureid = _g->getTextureIdInvariant().getPrevious();
-	}
-
-	//lock the mutex
-	boost::recursive_mutex::scoped_lock l( getMutex() );
-
-	GEOMCONTAINER* container = &(geometry[ depth ][ groupid ][ textureid ][ primitivetype ]);
-	GEOMCONTAINER::iterator f = std::find( container->begin(), container->end(), _g );
-	if( f != container->end() )
-	{
-		// The ol' pop & swap;
-		boost::swap( (*f) , container->back() );
-		container->pop_back();
-
-	}
-	else
-	{
-		//throw;
-	}*/
-}
-
-void BatchRenderer::move( boost::intrusive_ptr<BatchGeometry> _g )
-{
-	assert(false);
-}
-
-
-void BatchRenderer::clean()
-{
-/*
-	boost::recursive_mutex::scoped_lock l( getMutex() );
-
-    unsigned int multiplier = recyclelist.size()/getCollectionRate();
-    if( multiplier < getCollectionRate() ) multiplier = getCollectionRate();
-
-	for( unsigned int i = 0; i < multiplier; ++i )
-	{
-		if( ! recyclelist.empty() )
-		{
-			boost::intrusive_ptr<BatchGeometry>& g = recyclelist.back();
-			if( g )
-				removeProper( g );
-			recyclelist.pop_back();
-		}
-		else
-		{
-			break;
-		}
-	}*/
-}
 
 /*!
 	Main drawing routine,
@@ -184,7 +97,6 @@ void BatchRenderer::draw( bool _persist_immediate )
 	BatchState state;
 
 	//iterate through the graph.
-	boost::recursive_mutex::scoped_lock l( getMutex() );
 
 	//activate the group state
 	// GROUPSTATEMAP::iterator gs = groupstates.find( gammapair->first );
@@ -267,8 +179,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 		glDisable( GL_SCISSOR_TEST );
 	}
 
-	// Prune.
-	clean();
+	std::cout<<"... drawing complete."<<std::endl;
 
 }
 
