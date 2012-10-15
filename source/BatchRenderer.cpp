@@ -136,24 +136,22 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 					//std::cout<<"Drawing geom "<<geom<<" d: "<<geom->getDepth()<<" g: "<<geom->getGroup()<<" t: "<<geom->getTextureId()<<" p: "<<geom->getPrimitiveType()<<std::endl;
 
-					// if( geom->locked() ){
-					// 	submitVertexBufferObject(geom);
-					// 	continue;
-					// }
-
 					// Check for clipping, and if clipped, skip batching.
-					//if( clipGeometry( geom, clipping, clipping_rect ) ) continue;
+					if( clipGeometry( geom, clipping, clipping_rect ) ){
+						// do nothing, clip Geometry will handle it.
+					}
 
-					/* Batch the vertices */
+					else if( geom->locked() ){
+					 	submitVertexBufferObject(geom);
+					}
 
 					/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
-					if( geom->getPrimitiveType() == GL_LINE_STRIP ||
+					else if( geom->getPrimitiveType() == GL_LINE_STRIP ||
 						geom->getPrimitiveType() == GL_LINE_LOOP ||
 						geom->getPrimitiveType() == GL_TRIANGLE_STRIP ||
 						geom->getPrimitiveType() == GL_TRIANGLE_FAN ||
 						geom->getPrimitiveType() == GL_QUAD_STRIP ||
 						geom->getPrimitiveType() == GL_POLYGON ){
-							//std::cout<<"Non accum"<<std::endl;
 							// doing this with the same list is fine because the primitive type causes a batch break anyways.
 							geom->batch(vlist);
 							// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
