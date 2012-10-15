@@ -66,6 +66,8 @@ int main()
     //! Here we just draw a basic scaled texture.
     tgeom = system.drawTexture( feather, Vector2d( 240,320 ), 0, Vector2d( 3.0f, 3.0f ) );
     tgeom->setImmediate( false );
+    tgeom = system.drawTexture( feather, Vector2d( 0,0 ), 0, Vector2d( 1.0f, 1.0f ) );
+    tgeom->setImmediate( false );
 
     /*!
         Here we'll draw a rectangle centered on the origin, but we'll rotate and

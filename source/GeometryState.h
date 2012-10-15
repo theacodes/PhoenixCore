@@ -73,6 +73,13 @@ public:
         std::swap(shadow_primitivetype, primitivetype);
     }
 
+    void update(const GeometryState& other){
+        setDepth(other.depth);
+        setGroupId(other.groupid);
+        setTexture(other.texture);
+        setPrimitiveType(other.primitivetype);
+    }
+
     const bool operator< (const GeometryState& b) const{
         if( depth < b.depth ) return true;
         if( depth == b.depth && groupid < b.groupid ) return true;

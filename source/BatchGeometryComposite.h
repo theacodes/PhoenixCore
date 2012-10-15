@@ -192,7 +192,7 @@ public:
 		Combines all children and returns a new geometry.
 	*/
 	BatchGeometryPtr combine(bool dropChildren = true) {
-		BatchGeometryPtr new_geom = new BatchGeometry(renderer, primitivetype, texture, groupid, depth);
+		BatchGeometryPtr new_geom = new BatchGeometry(renderer, state.getPrimitiveType(), state.getTexture(), state.getGroupId(), state.getDepth());
 		BOOST_FOREACH( BatchGeometryPtr& g, geoms ){
 			new_geom->combine(g,dropChildren);
 		}

@@ -17,9 +17,10 @@ distribution for more information.
 #include "Vertex.h"
 #include "Texture.h"
 #include "Rectangle.h"
-#include "TrackingInvariant.h"
 #include "BatchRenderer.h"
 #include "Droppable.h"
+#include "GeometryState.h"
+#include "GeometryState.h"
 #include <boost/foreach.hpp>
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
@@ -56,7 +57,7 @@ public:
 		\param _d The depth.
     */
 	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
+		: Droppable(), renderer(_r), state(_d, _g, _t, _p), vertices(), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
 	{
 		_r.add( this );
 	}
@@ -66,7 +67,7 @@ public:
 		Exactly like the regular constructor but also calls fromRectangle().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
+        : Droppable(), renderer(_r), state(_d, _g, _t, GL_QUADS), vertices(), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
 	{
 		fromRectangle( _rect );
 		_r.add( this );
@@ -77,7 +78,7 @@ public:
 		Exactly like the regular constructor but also calls fromPolygon().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
+        : Droppable(), renderer(_r), state(_d, _g, _t, GL_TRIANGLES), vertices(), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
 	{
         fromPolygon( _poly );
 		_r.add( this );
@@ -171,32 +172,26 @@ public:
 	//! Array operator for vertices. (operates as a ring buffer).
 	inline Vertex& operator[] ( signed int _i ) { return vertices[ _i % vertices.size() ]; }
 
-	//! Returns the invariant for the Primitive Type (used by BatchRender).
-	inline TrackingInvariant< unsigned int >& getPrimitiveTypeInvariant() { return primitivetype; }
-
-	//! Returns the invariant for the Textured ID (used by BatchRender).
-	inline TrackingInvariant< unsigned int >& getTextureIdInvariant() { return textureid; }
-
-	//! Returns the invariant for the Group ID (used by BatchRender).
-	inline TrackingInvariant< signed int >& getGroupInvariant() { return groupid; }
-
-	//! Returns the invariant for the Depth (used by BatchRender).
-	inline TrackingInvariant< float >& getDepthInvariant() { return depth; }
+	//! Gets the internal state object
+	inline const GeometryState& getState(){ return state; }
 
 	//! Get the texture associated with this geometry.
-	inline TexturePtr getTexture() { return texture; }
+	inline TexturePtr getTexture() { return state.getTexture(); }
 
 	//! Get the OpenGL Primitive Type associated with this geometry.
-	inline const unsigned int& getPrimitiveType() const { return primitivetype; }
+	inline const unsigned int getPrimitiveType() const { return state.getPrimitiveType(); }
 
 	//! Get the OpenGL Texture ID associated with this geometry.
-	inline const unsigned int& getTextureId() const { return textureid; }
+	inline const unsigned int getTextureId() const {
+		auto _t = state.getTexture();
+		return _t ? _t->getTextureId() : 0;
+	}
 
 	//! Get the Group ID associated with this geometry.
-	inline const signed int& getGroup() const { return groupid; }
+	inline const signed int getGroup() const { return state.getGroupId(); }
 
 	//! Get the Depth associated with this geometry.
-	inline float getDepth() const { return depth; }
+	inline float getDepth() const { return state.getDepth(); }
 
 	//! Check if this geometry is enabled.
 	inline bool getEnabled() const { return enabled; }
@@ -211,7 +206,7 @@ public:
 		\see getPrimitiveType(), update()
 		\note update() must be called before this change will take effect!
 	*/
-	inline virtual void setPrimitiveType( const unsigned int& _v ) { primitivetype = _v; }
+	inline virtual void setPrimitiveType( const unsigned int& _v ) { state.setPrimitiveType(_v); }
 
 	//! Set Texture.
 	/*!
@@ -220,11 +215,7 @@ public:
 		\see getTexture(), getTextureId(), update()
 		\note update() must be called before this change will take effect!
 	*/
-	inline virtual void setTexture( TexturePtr _t )
-	{
-		texture = _t;
-		textureid = _t ? _t->getTextureId() : 0 ;
-	}
+	inline virtual void setTexture( TexturePtr _t ){ state.setTexture(_t); }
 
 	//! Set Group Id.
 	/*
@@ -233,7 +224,7 @@ public:
 		\see getGroup(), update(), BatchRender::addGroupState()
 		\note update() must be called before this change will take effect!
 	*/
-	inline virtual void setGroup( const signed int& _v ) { groupid = _v; }
+	inline virtual void setGroup( const signed int& _v ) { state.setGroupId(_v); }
 
 	//! Set Depth
 	/*!
@@ -241,7 +232,7 @@ public:
 		\see getDepth(), update()
 		\note update() must be called before this change will take effect!
 	*/
-	inline virtual void setDepth( float _v ) { depth = _v; }
+	inline virtual void setDepth( float _v ) { state.setDepth(_v); }
 
 	//! Enable or Disable.
 	/*!
@@ -280,23 +271,13 @@ public:
 	*/
 	virtual void update()
 	{
-		if( ! (primitivetype.check() && textureid.check() && groupid.check() && depth.check()) )
+		if(state.isDirty())
 		{
-			primitivetype.swap();
-			textureid.swap();
-			groupid.swap();
-			depth.swap();
+			state.swap();
 			renderer.remove(this);
-
-			primitivetype.swap();
-			textureid.swap();
-			groupid.swap();
-			depth.swap();
-			primitivetype.reset();
-			textureid.reset();
-			groupid.reset();
-			depth.reset();
+			state.swap();
 			renderer.add(this);
+			state.clean();
 		}
 	}
 
@@ -478,11 +459,7 @@ public:
 	}
 
 	const bool operator< (const BatchGeometry& b) const{
-		if( depth < b.depth ) return true;
-		if( depth == b.depth && groupid < b.groupid ) return true;
-		if( depth == b.depth && groupid == b.groupid && textureid < b.textureid ) return true;
-		if( depth == b.depth && groupid == b.groupid && textureid == b.textureid && primitivetype < b.primitivetype) return true;
-		return false;
+		return state < b.state;
 	}
 
 protected:
@@ -490,27 +467,8 @@ protected:
 	//! Renderer
 	BatchRenderer& renderer;
 
-	//! Primitive type
-	/*
-		This is the OpenGL primitive type of this piece of geometry. It defaults to
-		GL_QUADS, but may be GL_TRIANGLES, GL_LINES, GL_POINTS, etc.
-	*/
-	TrackingInvariant<unsigned int> primitivetype;
-
-	//! Texture ID
-	/*
-		The invariant of the Texture's ID. This is 0 if this geometry has no texture.
-	*/
-	TrackingInvariant< unsigned int > textureid;
-
-	//! Texture
-	TexturePtr texture;
-
-	//! Group ID.
-	TrackingInvariant< signed int > groupid;
-
-	//! Depth
-	TrackingInvariant< float > depth;
+	//! State keeper
+	GeometryState state;
 
 	//! Enabled
 	bool enabled;

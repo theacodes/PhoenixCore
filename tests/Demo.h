@@ -227,8 +227,9 @@ public:
         Timer colortimer;
         colortimer.start();
 
-        // A tracking invariant for keeping up with the mouse position
-        TrackingInvariant< Vector2d > mouseposition = EventReceiver::Instance()->getMousePosition();
+        // keeping up with the mouse position
+        Vector2d last_mouseposition = EventReceiver::Instance()->getMousePosition();
+        Vector2d mouseposition = EventReceiver::Instance()->getMousePosition();
 
 		//! draw some info.
 		system.getFont()->setScale(Vector2d(0.7f,0.7f));
@@ -277,9 +278,9 @@ public:
             //! Particle creation functions.
 
             //update our mouse tracker
-            mouseposition.reset();
+            last_mouseposition = mouseposition;
             mouseposition = EventReceiver::Instance()->getMousePosition();
-            Vector2d dmouseposition = mouseposition.getPrevious() - mouseposition.get();
+            Vector2d dmouseposition = last_mouseposition - mouseposition;
             system.getDebugConsole()<<"\nMouse Delta: "<<dmouseposition.getX()<<", "<<dmouseposition.getY();
 
             // we wanna generate 1 per 0.05ms, or 5000 per second.
@@ -293,7 +294,7 @@ public:
             {
                 for ( int i = 0; i < (int)ceil(ts) ; ++i)
                 {
-                    new DemoParticle( system ,glowtexture2, mouseposition.get() + dmouseposition*( float(i)/ts ) );
+                    new DemoParticle( system ,glowtexture2, mouseposition + dmouseposition*( float(i)/ts ) );
                 }
             }
 
@@ -302,7 +303,7 @@ public:
             {
                 for ( int i = 0; i< (int)ceil(ts); ++i)
                 {
-                    new DemoParticle( system, TexturePtr(), mouseposition.get() + dmouseposition*(  float(i)/ts  ) );
+                    new DemoParticle( system, TexturePtr(), mouseposition + dmouseposition*(  float(i)/ts  ) );
                 }
             }
 
@@ -310,7 +311,7 @@ public:
             {
                 for ( int i = 0; i< (int)ceil(ts); ++i)
                 {
-                    new DemoParticle( system, glowtexture, mouseposition.get() + dmouseposition*(  float(i)/ts  ) );
+                    new DemoParticle( system, glowtexture, mouseposition + dmouseposition*(  float(i)/ts  ) );
                 }
             }
 

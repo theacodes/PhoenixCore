@@ -38,14 +38,24 @@ unsigned int BatchRenderer::count()
 
 void BatchRenderer::add( boost::intrusive_ptr<BatchGeometry> _g )
 {
-	std::cout<<"Adding geom: "<<_g<<" d: "<<_g->getDepth()<<" g: "<<_g->getGroup()<<" t: "<<_g->getTextureId()<<" p: "<<_g->getPrimitiveType()<<std::endl;
+	//std::cout<<"Adding geom: "<<_g<<" d: "<<_g->getDepth()<<" g: "<<_g->getGroup()<<" t: "<<_g->getTextureId()<<" p: "<<_g->getPrimitiveType()<<std::endl;
 	geometry_set.insert(_g);
 }
 
 void BatchRenderer::remove( boost::intrusive_ptr<BatchGeometry> _g )
 {
-	std::cout<<"Removing geom: "<<_g<<" d: "<<_g->getDepth()<<" g: "<<_g->getGroup()<<" t: "<<_g->getTextureId()<<" p: "<<_g->getPrimitiveType()<<std::endl;
-	geometry_set.erase(_g);
+	//std::cout<<"Removing geom: "<<_g<<" d: "<<_g->getDepth()<<" g: "<<_g->getGroup()<<" t: "<<_g->getTextureId()<<" p: "<<_g->getPrimitiveType()<<std::endl;
+	// std::erase will nuke everything with the same state, so we'll have to hunt down this particular geom.
+	// this is O(log(n) + r) n being the number of geoms, r being the number of geoms with the same key.
+	auto iters = geometry_set.equal_range(_g);
+
+	if(iters.first == iters.second) return; // nothing found
+	for(;iters.first != iters.second; ++iters.first){
+		if( *iters.first == _g ){
+			geometry_set.erase(iters.first);
+			break;
+		}
+	}
 }
 
 
@@ -55,6 +65,9 @@ void BatchRenderer::remove( boost::intrusive_ptr<BatchGeometry> _g )
 */
 void BatchRenderer::draw( bool _persist_immediate )
 {
+
+	// Do we even have anything to draw?
+	if(geometry_set.empty()) return;
 
 	persist_immediate = _persist_immediate;
 
@@ -98,64 +111,80 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 	//iterate through the graph.
 
-	//activate the group state
-	// GROUPSTATEMAP::iterator gs = groupstates.find( gammapair->first );
-	// if( gs != groupstates.end() ) gs->second->begin( *this );
+	// First we need to initialize the state object with the first geom
+	// This fixes issues with state tracking.
 
-	std::cout<<"Starting drawing..."<<std::endl;
 	auto end = geometry_set.end();
+	auto geom = BatchGeometryPtr();
 	for(auto it = geometry_set.begin(); it != end;){
-		auto geom = (*it++); //increment but grab it first, allows for deletion in place
+		geom = (*it++); //increment but grab it first, allows for deletion in place
 
-		if( geom && ! geom->dropped() && geom->getEnabled() )
+		if( geom && ! geom->dropped() )
 		{
 
-			std::cout<<"Drawing geom "<<geom<<" d: "<<geom->getDepth()<<" g: "<<geom->getGroup()<<" t: "<<geom->getTextureId()<<" p: "<<geom->getPrimitiveType()<<std::endl;
+			/* If the update will cause a state change, submit the vertices accumulated */
+			if(state.update(geom)){
+				std::cout<<"Submitting the batch... "<<vlist.size()<<" vertices with type "<<state.last().getPrimitiveType()<<std::endl;
+				submitVertexList(vlist, state.last().getPrimitiveType());
+			}
 
-			state.update(geom);
-			state.activate();
+			// Now activate state changes (if any)
+			state.activate(*this);
 
-			try{
+			if(geom->getEnabled()){
+				try{
 
-				// if( geom->locked() ){
-				// 	submitVertexBufferObject(geom);
-				// 	continue;
-				// }
+					std::cout<<"Drawing geom "<<geom<<" d: "<<geom->getDepth()<<" g: "<<geom->getGroup()<<" t: "<<geom->getTextureId()<<" p: "<<geom->getPrimitiveType()<<std::endl;
 
-				// Check for clipping, and if clipped, skip batching.
-				//if( clipGeometry( geom, clipping, clipping_rect ) ) continue;
+					// if( geom->locked() ){
+					// 	submitVertexBufferObject(geom);
+					// 	continue;
+					// }
 
-				/* Batch the vertices */
-				geom->batch( vlist );
+					// Check for clipping, and if clipped, skip batching.
+					//if( clipGeometry( geom, clipping, clipping_rect ) ) continue;
 
-				/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
-				if( geom->getPrimitiveType() == GL_LINE_STRIP ||
-					geom->getPrimitiveType() == GL_LINE_LOOP ||
-					geom->getPrimitiveType() == GL_TRIANGLE_STRIP ||
-					geom->getPrimitiveType() == GL_TRIANGLE_FAN ||
-					geom->getPrimitiveType() == GL_QUAD_STRIP ||
-					geom->getPrimitiveType() == GL_POLYGON ){
-						// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
-						submitVertexList(vlist, geom->getPrimitiveType());
+					/* Batch the vertices */
+
+					/* Do not accumulate for tri strips, line strips, line loops, triangle fans, quad strips, or polygons */
+					if( geom->getPrimitiveType() == GL_LINE_STRIP ||
+						geom->getPrimitiveType() == GL_LINE_LOOP ||
+						geom->getPrimitiveType() == GL_TRIANGLE_STRIP ||
+						geom->getPrimitiveType() == GL_TRIANGLE_FAN ||
+						geom->getPrimitiveType() == GL_QUAD_STRIP ||
+						geom->getPrimitiveType() == GL_POLYGON ){
+							std::cout<<"Non accum"<<std::endl;
+							// doing this with the same list is fine because the primitive type causes a batch break anyways.
+							geom->batch(vlist);
+							// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
+							submitVertexList(vlist, geom->getPrimitiveType());
+					}
+					/* Accumulate, this is standard geometry */
+					else {
+						geom->batch( vlist );
+					}
+
+
+				}catch(...)
+				{
+					assert( false ); // Not enough space.
 				}
 
 
-			}catch(...)
-			{
-				assert( false ); // Not enough space.
+				// Send it on
+
+				if( !persist_immediate && geom->getImmediate() ) geom->drop();
 			}
-
-			// Send it on
-			submitVertexList(vlist,geom->getPrimitiveType());
-
-
-			if( !persist_immediate && geom->getImmediate() ) geom->drop();
 		}
 
-		// call the end group function
-		// if( gs != groupstates.end() ) gs->second->end( *this );
-
 	} // end iteration
+
+	// If there is anything left in the vertex buffer, submit it.
+	if(vlist.size() && geom){
+		std::cout<<"Submitting the batch... "<<vlist.size()<<" vertices with type "<<state.last().getPrimitiveType()<<std::endl;
+		state.update(geom);
+		submitVertexList(vlist, state.last().getPrimitiveType());
+	}
 
     // disable states
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);

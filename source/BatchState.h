@@ -1,8 +1,11 @@
 #pragma once
 
+#include <limits>
 #include "config.h"
 #include "Texture.h"
+#include "GeometryState.h"
 #include "BatchGeometry.h"
+#include "BatchRenderer.h"
 
 namespace phoenix
 {
@@ -11,51 +14,55 @@ class BatchState
 {
 public:
     BatchState()
-        : is_dirty(false), texture(), texturing_enabled(false)
+        : state(), last_state(), last_texture(0), last_group(std::numeric_limits<signed int>::min())
     {}
 
     ~BatchState(){}
 
-    inline bool dirty(){
-        return is_dirty;
-    }
+    inline void activate(BatchRenderer& r){
+        if(!state.isDirty()) return;
 
-    inline void activate(){
-        if(!is_dirty) return;
-
-        if(texture){
-            if(!texturing_enabled){
-                glEnable(GL_TEXTURE_2D);
-                texturing_enabled = true;
+        if(state.getTexture()){
+            if(!last_texture) glEnable(GL_TEXTURE_2D);
+            if(last_texture != state.getTexture()->getTextureId()){
+                last_texture = state.getTexture()->getTextureId();
+                state.getTexture()->bind();
             }
-            texture->bind();
         } else {
             glDisable(GL_TEXTURE_2D);
-            texturing_enabled = false;
+            last_texture = 0;
         }
 
-        is_dirty = false;
+        if(state.getGroupId() != last_group){
+            // finalize the previous group.
+            auto previous = r.getGroupState(last_group);
+            if(previous) previous->end(r);
+
+            // activate the current group.
+            auto current = r.getGroupState(state.getGroupId());
+            if(current) current->begin(r);
+
+            last_group = state.getGroupId();
+        }
+
+        state.clean();
     }
 
-    inline void update(BatchGeometryPtr geom){
-        if(geom->getTextureId()){
-            if(geom->getTexture() != texture){
-                is_dirty = true;
-                texture = geom->getTexture();
-            }
-        } else{
-            if(texture){
-                is_dirty = true;
-                texture = TexturePtr();
-            }
-        }
+    inline bool update(BatchGeometryPtr geom){
+        last_state = state;
+        state.update(geom->getState());
+        return state.isDirty();
+    }
+
+    inline const GeometryState& last(){
+        return last_state;
     }
 
 private:
-    bool is_dirty;
-    TexturePtr texture;
-    bool texturing_enabled;
-    unsigned int primitive_type;
+    GeometryState state;
+    GeometryState last_state;
+    unsigned int last_texture;
+    signed int last_group;
 }; // Class BatchState
 
 } // namespace phoenix
