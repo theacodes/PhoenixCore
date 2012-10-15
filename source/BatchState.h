@@ -48,6 +48,14 @@ public:
         state.clean();
     }
 
+    inline void deactivate(BatchRenderer& r){
+        if(last_texture) glDisable(GL_TEXTURE_2D);
+
+        // finalize the previous group.
+        auto previous = r.getGroupState(last_group);
+        if(previous) previous->end(r);
+    }
+
     inline bool update(BatchGeometryPtr geom){
         last_state = state;
         state.update(geom->getState());

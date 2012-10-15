@@ -13,6 +13,7 @@ add_library( PhoenixCore STATIC
 	BatchGeometryComposite.h
 	BatchRenderer.cpp
 	BatchRenderer.h
+	BatchState.h
 	BitmapFont.cpp
 	BitmapFont.h
 	BMFontLoader.h
@@ -28,8 +29,8 @@ add_library( PhoenixCore STATIC
 	Font.h
 	Font.cpp
 	Functions.h
+	GeometryState.h
 	GroupState.h
-	TrackingInvariant.h
 	Keys.h
 	Phoenix.h
 	Polygon.cpp

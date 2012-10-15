@@ -124,7 +124,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 			/* If the update will cause a state change, submit the vertices accumulated */
 			if(state.update(geom)){
-				std::cout<<"Submitting the batch... "<<vlist.size()<<" vertices with type "<<state.last().getPrimitiveType()<<std::endl;
+				//std::cout<<"Submitting the batch... "<<vlist.size()<<" vertices with type "<<state.last().getPrimitiveType()<<std::endl;
 				submitVertexList(vlist, state.last().getPrimitiveType());
 			}
 
@@ -134,7 +134,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 			if(geom->getEnabled()){
 				try{
 
-					std::cout<<"Drawing geom "<<geom<<" d: "<<geom->getDepth()<<" g: "<<geom->getGroup()<<" t: "<<geom->getTextureId()<<" p: "<<geom->getPrimitiveType()<<std::endl;
+					//std::cout<<"Drawing geom "<<geom<<" d: "<<geom->getDepth()<<" g: "<<geom->getGroup()<<" t: "<<geom->getTextureId()<<" p: "<<geom->getPrimitiveType()<<std::endl;
 
 					// if( geom->locked() ){
 					// 	submitVertexBufferObject(geom);
@@ -153,7 +153,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 						geom->getPrimitiveType() == GL_TRIANGLE_FAN ||
 						geom->getPrimitiveType() == GL_QUAD_STRIP ||
 						geom->getPrimitiveType() == GL_POLYGON ){
-							std::cout<<"Non accum"<<std::endl;
+							//std::cout<<"Non accum"<<std::endl;
 							// doing this with the same list is fine because the primitive type causes a batch break anyways.
 							geom->batch(vlist);
 							// Send it on, this will also clear the list for the next geom so it doesn't acccumlate as usual.
@@ -181,10 +181,13 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 	// If there is anything left in the vertex buffer, submit it.
 	if(vlist.size() && geom){
-		std::cout<<"Submitting the batch... "<<vlist.size()<<" vertices with type "<<state.last().getPrimitiveType()<<std::endl;
+		//std::cout<<"Submitting the batch... "<<vlist.size()<<" vertices with type "<<state.last().getPrimitiveType()<<std::endl;
 		state.update(geom);
 		submitVertexList(vlist, state.last().getPrimitiveType());
 	}
+
+	// cleanup
+	state.deactivate(*this);
 
     // disable states
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -208,7 +211,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 		glDisable( GL_SCISSOR_TEST );
 	}
 
-	std::cout<<"... drawing complete."<<std::endl;
+	//std::cout<<"... drawing complete."<<std::endl;
 
 }
 
