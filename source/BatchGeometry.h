@@ -57,7 +57,7 @@ public:
 		\param _d The depth.
     */
 	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-		: Droppable(), renderer(_r), state(_d, _g, _t, _p), vertices(), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
+		: Droppable(), renderer(_r), state(_d, _g, _t, _p), vertices(), enabled(true), immediate(false), is_locked(false), vertex_vbo(0)
 	{
 		_r.add( this );
 	}
@@ -67,7 +67,7 @@ public:
 		Exactly like the regular constructor but also calls fromRectangle().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), state(_d, _g, _t, GL_QUADS), vertices(), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
+        : Droppable(), renderer(_r), state(_d, _g, _t, GL_QUADS), vertices(), enabled(true), immediate(false), is_locked(false), vertex_vbo(0)
 	{
 		fromRectangle( _rect );
 		_r.add( this );
@@ -78,7 +78,7 @@ public:
 		Exactly like the regular constructor but also calls fromPolygon().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), state(_d, _g, _t, GL_TRIANGLES), vertices(), enabled(true), immediate(false), clip(false), is_locked(false), vertex_vbo(0)
+        : Droppable(), renderer(_r), state(_d, _g, _t, GL_TRIANGLES), vertices(), enabled(true), immediate(false), is_locked(false), vertex_vbo(0)
 	{
         fromPolygon( _poly );
 		_r.add( this );
@@ -481,9 +481,6 @@ protected:
 		If geometry is immediate, it is dropped right after it is drawn, so it only stays for one frame.
 	*/
 	bool immediate;
-
-	//! Clipping
-	bool clip;
 
 	//! Clip rectangle
 	Rectangle clip_rect;

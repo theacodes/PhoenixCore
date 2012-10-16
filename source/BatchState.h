@@ -86,6 +86,9 @@ public:
         // finalize the previous group.
         auto previous = r.getGroupState(last_group);
         if(previous) previous->end(r);
+
+        // remove clipping
+        if( is_clipping ) glDisable( GL_SCISSOR_TEST );
     }
 
     inline bool update(BatchGeometryPtr geom){

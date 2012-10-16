@@ -102,10 +102,6 @@ void BatchRenderer::draw( bool _persist_immediate )
 	std::vector< Vertex > vlist;
     vlist.reserve( 1000 );
 
-	//clipping variables
-	bool clipping = false;
-	Rectangle clipping_rect;
-
 	// track state
 	BatchState state;
 
@@ -164,8 +160,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 				}
 
 
-				// Send it on
-
+				// Remove it.
 				if( !persist_immediate && geom->getImmediate() ) geom->drop();
 			}
 		}
@@ -176,6 +171,7 @@ void BatchRenderer::draw( bool _persist_immediate )
 	if(vlist.size() && geom){
 		//std::cout<<"Submitting the batch... "<<vlist.size()<<" vertices with type "<<state.last().getPrimitiveType()<<std::endl;
 		state.update(geom);
+		state.activate(*this);
 		submitVertexList(vlist, state.last().getPrimitiveType());
 	}
 
@@ -198,11 +194,6 @@ void BatchRenderer::draw( bool _persist_immediate )
 
 	//Do we have a shader? deactivate it
 	if( shader ) shader->deactivate();
-
-	//Do we have clipping enabled?
-	if(clipping) {
-		glDisable( GL_SCISSOR_TEST );
-	}
 
 	//std::cout<<"... drawing complete."<<std::endl;
 
@@ -244,45 +235,45 @@ void BatchRenderer::drawImmediately(  boost::intrusive_ptr<BatchGeometry> geom )
 
 	if( !geom ) return;
 
+	//Do we have a shader? Activate it
+	if( shader ) shader->activate();
+
 	//If we have a render target active, set it. Don't keep drawing if it failed.
-	if( target && !target->start() ) return;
+	if( target ){
+		if( target->start() ){
+			target->modifyView(view);
+		} else {
+			return;
+		}
+	}
 
 	// View.
     view.activate();
 
 	// matrix stuff
-	glMatrixMode( GL_MODELVIEW );
 	glPushMatrix();
 
     // Enable states
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
+    glDisable(GL_TEXTURE_2D);
 
-	//activate the group state
-	GROUPSTATEMAP::iterator gs = groupstates.find( geom->getGroup() );
-	if( gs != groupstates.end() ) gs->second->begin( *this );
+	// track state
+	BatchState state;
 
-	//set our texture
-	if( (geom->getTextureId()) ){
-		glEnable( GL_TEXTURE_2D );
-		geom->getTexture()->bind();
+	state.update(geom);
+	state.activate(*this);
+
+	if(geom->locked()){
+		submitVertexBufferObject(geom);
+	} else {
+		std::vector< Vertex > t_vlist;
+		geom->batch( t_vlist );
+		submitVertexList(t_vlist,geom->getPrimitiveType());
 	}
-	else{
-		glDisable( GL_TEXTURE_2D );
-	}
 
-	// Check for clipping, and if clipped, skip regular rendering.
-	bool clipping = false;
-	Rectangle clipping_rect;
-
-	std::vector< Vertex > t_vlist;
-	geom->batch( t_vlist );
-	submitVertexList(t_vlist,geom->getPrimitiveType());
-
-
-	// call the end group function
-	if( gs != groupstates.end() ) gs->second->end( *this );
+	state.deactivate(*this);
 
     // disable states
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -295,5 +286,9 @@ void BatchRenderer::drawImmediately(  boost::intrusive_ptr<BatchGeometry> geom )
 	//If we have a render target active, and it was in use, unbind it now.
 	if( target ){
 		target->end();
+		target->restoreView(view);
 	}
+
+	//Do we have a shader? deactivate it
+	if( shader ) shader->deactivate();
 }
