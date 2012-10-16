@@ -254,8 +254,8 @@ public:
 		If enabled, the geometry will be clipped by the Rectangle provided to setClippingRectangle(). This will cause the geometry not to be batched with other geometry
 		of the same material.
 	*/
-	inline virtual void setClipping( bool _c ){ clip = _c; }
-	inline bool getClipping(){ return clip; }
+	inline virtual void setClipping( bool _c ){ state.setClip(_c); }
+	inline bool getClipping(){ return state.getClip(); }
 
 	//! Set the Clipping Rectangle
 	inline virtual void setClippingRectangle( const Rectangle& _r ){ clip_rect = _r; }

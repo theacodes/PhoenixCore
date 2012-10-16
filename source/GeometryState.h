@@ -9,13 +9,13 @@ namespace phoenix{
 class GeometryState {
 public:
     GeometryState()
-        : dirty(false), depth(0.0f), groupid(0), texture(), primitivetype(0),
-        shadow_depth(0.0f), shadow_groupid(0), shadow_texture(), shadow_primitivetype(0)
+        : dirty(false), depth(0.0f), groupid(0), texture(), primitivetype(0), clip(false),
+        shadow_depth(0.0f), shadow_groupid(0), shadow_texture(), shadow_primitivetype(0), shadow_clip(false)
     {}
 
-    GeometryState(float _d, signed int _g, TexturePtr _t, unsigned int _p)
-        : dirty(false), depth(_d), groupid(_g), texture(_t), primitivetype(_p),
-        shadow_depth(_d), shadow_groupid(_g), shadow_texture(_t), shadow_primitivetype(_p)
+    GeometryState(float _d, signed int _g, TexturePtr _t, unsigned int _p, bool _c = false)
+        : dirty(false), depth(_d), groupid(_g), texture(_t), primitivetype(_p), clip(_c),
+        shadow_depth(_d), shadow_groupid(_g), shadow_texture(_t), shadow_primitivetype(_p), shadow_clip(_c)
     {}
 
     ~GeometryState(){
@@ -25,6 +25,7 @@ public:
     inline const signed int getGroupId() const { return groupid; }
     inline TexturePtr getTexture() const { return texture; }
     inline const unsigned int getPrimitiveType() const { return primitivetype; }
+    inline const unsigned int getClip() const { return clip; }
 
     inline bool isDirty(){
         return dirty;
@@ -66,11 +67,20 @@ public:
         }
     }
 
+    inline void setClip(const bool _c){
+        if(_c != clip){
+            dirty = true;
+            shadow_clip = clip;
+            clip = _c;
+        }
+    }
+
     void swap(){
         std::swap(shadow_depth, depth);
         std::swap(shadow_groupid, groupid);
         std::swap(shadow_texture, texture);
         std::swap(shadow_primitivetype, primitivetype);
+        std::swap(shadow_clip, clip);
     }
 
     void update(const GeometryState& other){
@@ -78,6 +88,7 @@ public:
         setGroupId(other.groupid);
         setTexture(other.texture);
         setPrimitiveType(other.primitivetype);
+        setClip(other.clip);
     }
 
     const bool operator< (const GeometryState& b) const{
@@ -87,6 +98,7 @@ public:
         unsigned int other_textureid = b.texture ? b.texture->getTextureId() : 0;
         if( depth == b.depth && groupid == b.groupid && textureid < other_textureid ) return true;
         if( depth == b.depth && groupid == b.groupid && textureid == other_textureid && primitivetype < b.primitivetype) return true;
+        if( depth == b.depth && groupid == b.groupid && textureid == other_textureid && primitivetype == b.primitivetype && clip > b.clip) return true;
         return false;
     }
 
@@ -97,11 +109,13 @@ protected:
     signed int groupid;
     TexturePtr texture;
     unsigned int primitivetype;
+    bool clip;
 
     float shadow_depth;
     signed int shadow_groupid;
     TexturePtr shadow_texture;
     unsigned int shadow_primitivetype;
+    bool shadow_clip;
 };
 
 } //ns phoenix

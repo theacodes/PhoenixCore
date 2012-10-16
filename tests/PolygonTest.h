@@ -16,7 +16,7 @@ class PolygonTest
 {
     public:
 
-        PolygonTest() 
+        PolygonTest()
             : system( Vector2d(640,480), false, false )
         {
         }
@@ -121,6 +121,13 @@ class PolygonTest
                 phoenix::BatchGeometryPtr g = system.drawPolygon( poly2, Color(200,255,200) );
 				g->setClipping(true);
 				g->setClippingRectangle( phoenix::Rectangle(200,200,EventReceiver::Instance()->getMousePosition().getX()-200,EventReceiver::Instance()->getMousePosition().getY()-200) );
+
+
+                g = system.drawPolygon( poly2, Color(200,200,255,127) );
+                g->scale(Vector2d(1.1f,1.1f));
+                g->setClipping(true);
+                g->setClippingRectangle( phoenix::Rectangle(0,0,EventReceiver::Instance()->getMousePosition().getX(),EventReceiver::Instance()->getMousePosition().getY()) );
+
 
 
                 system.setDepth( -6.0f );

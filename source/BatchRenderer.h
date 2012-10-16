@@ -177,9 +177,6 @@ private:
 	//! Immediate persistence
 	bool persist_immediate;
 
-	//! Clipping Routine
-	bool clipGeometry(  boost::intrusive_ptr<BatchGeometry> geom, bool &clipping, phoenix::Rectangle &clipping_rect );
-
 	//! Vertex submission routine.
 	void submitVertexList( std::vector< Vertex >& vlist, unsigned int type );
 	void submitVertexBufferObject( boost::intrusive_ptr<BatchGeometry> geom );
