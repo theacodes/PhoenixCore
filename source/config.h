@@ -19,4 +19,7 @@
 */
 #define PH_USE_GLFW 1
 
+// Define this to ensure correct linkage with boost threads in MinGW 4.7+.
+#define BOOST_THREAD_USE_LIB 1
+
 #endif //__PHOENIXCORE_CONFIG_H__

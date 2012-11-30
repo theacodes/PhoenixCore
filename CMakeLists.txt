@@ -31,7 +31,7 @@ SET( LIBRARIES ${LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} )
 
 set(Boost_USE_STATIC_LIBS	ON)
 set(Boost_USE_MULTITHREADED	 ON)
-FIND_PACKAGE( Boost 1.39 REQUIRED COMPONENTS date_time thread )
+FIND_PACKAGE( Boost 1.39 REQUIRED COMPONENTS date_time system thread )
 IF( Boost_FOUND )
     MESSAGE( " Found Boost" )
 else( Boost_FOUND )
@@ -90,7 +90,8 @@ ELSE( GLFW_FOUND )
 ENDIF( GLFW_FOUND )
 
 SET( INCLUDES ${INCLUDES} ${GLFW_INCLUDE_DIR} )
-SET( LIBRARIES ${LIBRARIES} ${GLFW_LIBRARY} )
+# GLFW must be placed after the Win32 system libraries to link properly
+SET( LIBRARIES ${GLFW_LIBRARY} ${LIBRARIES} )
 
 ## GLFW Window Move Hack.
 
