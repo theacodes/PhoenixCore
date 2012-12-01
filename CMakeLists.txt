@@ -90,8 +90,14 @@ ELSE( GLFW_FOUND )
 ENDIF( GLFW_FOUND )
 
 SET( INCLUDES ${INCLUDES} ${GLFW_INCLUDE_DIR} )
-# GLFW must be placed after the Win32 system libraries to link properly
-SET( LIBRARIES ${GLFW_LIBRARY} ${LIBRARIES} )
+
+## On Windows GLFW is more likely to be static, so we place it
+## after the system libraries to make sure it links properly.
+if(WIN32)
+	SET( LIBRARIES ${GLFW_LIBRARY} ${LIBRARIES} )
+else(WIN32)
+	SET( LIBRARIES ${LIBRARIES} ${GLFW_LIBRARY} )
+endif(WIN32)
 
 ## GLFW Window Move Hack.
 
