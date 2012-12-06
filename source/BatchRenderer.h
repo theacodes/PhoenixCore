@@ -38,9 +38,9 @@ class BatchGeometry;
 
 //! Optimizing Batch Renderer.
 /*!
-	The Optimizing Batch Renderer is the soul of phoenix's rendering framework. All drawing calls
-	go through the batching renderer. The main purpose of the batching renderer is to store all geometry
-	and draw it at once, performing as many optimizations as possible. This adds a slight layer of complexity,
+	The Optimizing Batch Renderer is the soul of phoenix's rendering framework. All drawing calls 
+	go through the batching renderer. The main purpose of the batching renderer is to store all geometry 
+	and draw it at once, performing as many optimizations as possible. This adds a slight layer of complexity, 
 	but the speed tradeoff is well worth it. BatchGeometry is automatically sorted in a graph based on
 	depth, group, texture, and primitive type (in that order).
 */
@@ -55,7 +55,7 @@ public:
 		Initializes the geometry graph and starts the garbage collection routines.
 	*/
 	BatchRenderer( )
-		: AbstractGarbageCollector(), geometry(), recyclelist(), groupstates(), shader(), target(), clear_color(0,0,0), enable_clear(false), persist_immediate(false)
+		: geometry(), recyclelist(), AbstractGarbageCollector(), groupstates(), shader(), target(), enable_clear(false), clear_color(0,0,0), persist_immediate(false)
 	{
 		//collect fast.
 		setSleepTime( 5 );
@@ -64,7 +64,7 @@ public:
 
 	//! Destructor
 	/*!
-		Releases all references to geometry.
+		Releases all references to geometry. 
 	*/
 	virtual ~BatchRenderer()
 	{
@@ -89,7 +89,7 @@ public:
 		unlock();
 	}
 
-	//! Counts all the geometry in the list (may be slow).
+	//! Counts all the geometry in the list (may be slow). 
 	unsigned int count();
 
     //! Cleaning routine
@@ -97,7 +97,7 @@ public:
 
 	//! Sets the group state for a given group id.
 	inline void addGroupState( const signed int _id, GroupStatePtr _gs ){
-		groupstates[_id] = _gs;
+		groupstates[_id] = _gs; 
 	}
 
 	//! Removes the group state for the given group id.

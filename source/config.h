@@ -15,7 +15,7 @@
 
 //! Define this to use the default GLFW Window Manager, or set to 0 to not compile the GLFW window manager.
 /*!
-	\note If this is 0, the system will not have a window manager, your custom window manager must be Instance()'d before calling RenderSystem();
+	\note If this is 0, the system will not have a window manager, your custom window manager must be Instance()'d before calling RenderSystem(); 
 */
 #define PH_USE_GLFW 1
 
