@@ -33,7 +33,7 @@ namespace phoenix
 			\param _s The size of the view.
         */
         View( const Vector2d& _p = Vector2d(0.0f,0.0f), const Vector2d& _s = Vector2d(-1.0f,-1.0f) )
-			: pos(_p), rot(0.0f), scale(1.0f,1.0f), size( _s )
+			: pos(_p), size( _s ), rot(0.0f), scale(1.0f,1.0f)
 		{
 			setSize( _s );
 		}
@@ -69,7 +69,7 @@ namespace phoenix
 					size = Vector2d(0,0);
 				}
 			}else{
-				size = _sz; 
+				size = _sz;
 			}
 		}
 

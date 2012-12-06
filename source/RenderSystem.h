@@ -55,22 +55,23 @@ namespace phoenix
         //! Constructor
         /*!
            Creates a render system creates a window and opengl context. Once the system is constructed
-           you are ready to start drawing stuff. 
+           you are ready to start drawing stuff.
            \sa run()
            \param _sz The size of the screen (default 640,480).
            \param _fs Full screen (default false).
         */
 		RenderSystem( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true )
-			: renderer(), 
+			: renderer(),
 			factory( renderer ),
+			resources(),
 			console(),
-			resize_behavior(RZB_NOTHING),
-			fpstimer(), 
-			framerate(1.0f), 
-			font(0), 
-			_quit(false), 
+			font(0),
+			_quit(false),
 			event_connection(),
-			resources()
+			fpstimer(),
+			framerate(1.0f),
+			resize_behavior(RZB_NOTHING)
+
 		{
 			initialize( _sz, _fs, _resize, false );
 		}
@@ -79,7 +80,7 @@ namespace phoenix
 		/*!
 			(Re)-initialize a rendersystem. This is automatically called by the constructor
 			but it may be desirable sometimes to re-initialize a render system. It will check for an existing instance of WindowManager,
-			if there isn't one it'll attempt to instance the GLFWWindowManager (or whatever default wm). 
+			if there isn't one it'll attempt to instance the GLFWWindowManager (or whatever default wm).
 			\param _fs Creates a fullscreen window.
 			\param _resize Creates a resizeable window (default is resizeable).
 			\param _reint True if reinitializing an existing system ( usually true ).
@@ -196,7 +197,7 @@ namespace phoenix
 
         //! Load texture.
         /*!
-            Loads an image as a texture and adds it to the texture manager for garbage collection. 
+            Loads an image as a texture and adds it to the texture manager for garbage collection.
 			Can load .png, .tga, .bmp and .jpg or any other format supported by SOIL.
             \param _fn The filename of the image to load.
             \param _l Tells the loader to use linear filtering or not. (default true).
