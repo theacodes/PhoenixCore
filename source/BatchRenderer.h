@@ -55,7 +55,7 @@ public:
 		Initializes the geometry graph and starts the garbage collection routines.
 	*/
 	BatchRenderer( )
-		: geometry(), recyclelist(), AbstractGarbageCollector(), groupstates(), shader(), target(), enable_clear(false), clear_color(0,0,0), persist_immediate(false)
+		: AbstractGarbageCollector(), geometry(), recyclelist(), groupstates(), shader(), target(), clear_color(0,0,0), enable_clear(false),persist_immediate(false)
 	{
 		//collect fast.
 		setSleepTime( 5 );

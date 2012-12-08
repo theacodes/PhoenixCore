@@ -120,6 +120,8 @@ if( BOX2D )
 	${BOX2D_PATH}
 	${BOX2D_PATH}/Include
 	${BOX2D_PATH}/Library
+	${BOX2D_PATH}/Box2D
+	${BOX2D_PATH}/Build/Box2D
 	)
 
     FIND_PATH( BOX2D_INCLUDE_DIR Box2d.h PATHS ${SEARCH_PATHS} )

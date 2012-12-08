@@ -60,7 +60,7 @@ public:
 		\param _d The depth.
     */
 	BatchGeometry(BatchRenderer& _r, unsigned int _p = GL_QUADS, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-		: Droppable(), renderer(_r), primitivetype(_p), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false)
+		: Droppable(), renderer(_r), primitivetype(_p), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), vertices(), immediate(false), clip(false)
 	{
 		_r.add( this );
 	}
@@ -70,7 +70,7 @@ public:
 		Exactly like the regular constructor but also calls fromRectangle().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Rectangle& _rect, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false)
+        : Droppable(), renderer(_r), primitivetype( GL_QUADS ), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), vertices(), immediate(false), clip(false)
 	{
 		fromRectangle( _rect );
 		_r.add( this );
@@ -81,7 +81,7 @@ public:
 		Exactly like the regular constructor but also calls fromPolygon().
 	*/
 	BatchGeometry( BatchRenderer& _r, const Polygon& _poly, TexturePtr _t = TexturePtr(), signed int _g = 0, float _d = 0.0f )
-        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), vertices(), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), immediate(false), clip(false)
+        : Droppable(), renderer(_r), primitivetype( GL_TRIANGLES ), textureid( _t ? _t->getTextureId() : 0 ), texture(_t), groupid(_g), depth(_d), enabled(true), vertices(), immediate(false), clip(false)
 	{
         fromPolygon( _poly );
 		_r.add( this );
