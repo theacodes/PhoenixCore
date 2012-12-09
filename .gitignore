@@ -1,2 +1,4 @@
 build
 win32
+source/config.h~
+
