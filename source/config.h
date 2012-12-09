@@ -19,7 +19,11 @@
 */
 #define PH_USE_GLFW 1
 
+#if defined(__GNUC__) && (defined(__linux__) || defined(__linux) || defined(WIN32) || defined(__WIN32__) || defined(__WIN32))
 // Define this to ensure correct linkage with boost threads in MinGW 4.7+.
+#ifndef BOOST_THREAD_USE_LIB
 #define BOOST_THREAD_USE_LIB 1
+#endif
+#endif
 
 #endif //__PHOENIXCORE_CONFIG_H__
