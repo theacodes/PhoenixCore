@@ -21,10 +21,10 @@ namespace phoenix
 class TextureCoords
 {
 public:
-	float u, v, r, q;
-	
-	TextureCoords( float _u = 0.0f, float _v = 0.0f, float _r = 0.0f, float _q = 1.0f )
-		: u(_u), v(_v), r(_r), q(_q)
+	float u;
+	float v;
+	TextureCoords( float _u = 0.0f, float _v = 0.0f )
+		: u(_u), v(_v)
 	{}
 };
 
@@ -47,7 +47,7 @@ public:
 	Vector2d position;
 	
 	Vertex( Vector2d _position = Vector2d(0,0), Color _color = Color(255,255,255), TextureCoords _t = TextureCoords(0,0) )
-		: tcoords(_t), color( _color ), position( _position )
+		: position( _position ), color( _color ), tcoords(_t)
 	{}
 };
 
