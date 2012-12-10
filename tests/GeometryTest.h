@@ -29,11 +29,11 @@ class GeometryTest
         {
 
             //! First geometry, second geom, combine the second to the first
-            BatchGeometryPtr first = system.drawRectangle(Rectangle(Vector2d(64,64),Vector2d(64,64)));
+            BatchGeometryPtr first = system.drawRectangle(phoenix::Rectangle(Vector2d(64,64),Vector2d(64,64)));
             first->colorize( Color(127,255,255,255) );
             first->setImmediate(false);
 
-            BatchGeometryPtr second = system.drawRectangle(Rectangle(Vector2d(96,96),Vector2d(64,64)));
+            BatchGeometryPtr second = system.drawRectangle(phoenix::Rectangle(Vector2d(96,96),Vector2d(64,64)));
             second->colorize( Color(0,0,255,255) );
 
             first->combine(second, true); //drop the second

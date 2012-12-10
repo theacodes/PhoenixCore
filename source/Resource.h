@@ -19,6 +19,11 @@ distribution for more information.
 namespace phoenix
 {
 
+// workaround for GCC 4.7 unqualified call issue
+using boost::intrusive_ptr;
+using boost::intrusive_ptr_add_ref;
+using boost::intrusive_ptr_release;
+
     //! Garbage-Collected Resource
     /*!
     	This class is provided for garbage collection of dynamically allocated

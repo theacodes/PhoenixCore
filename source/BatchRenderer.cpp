@@ -372,7 +372,7 @@ bool BatchRenderer::clipGeometry(  boost::intrusive_ptr<BatchGeometry> geom, boo
 void BatchRenderer::submitVertexList( std::vector< Vertex >& vlist, unsigned int type ){
 	if( vlist.empty() ) return;
 
-    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vlist[0].tcoords);
+    glTexCoordPointer(4, GL_FLOAT, sizeof(Vertex), &vlist[0].tcoords);
     glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), &vlist[0].color);
     glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &vlist[0].position);
 
