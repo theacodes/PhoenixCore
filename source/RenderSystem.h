@@ -63,14 +63,14 @@ namespace phoenix
 		RenderSystem( const Vector2d& _sz = Vector2d(640,480), bool _fs = false, bool _resize = true )
 			: renderer(), 
 			factory( renderer ),
+			resources(),
 			console(),
-			resize_behavior(RZB_NOTHING),
-			fpstimer(), 
-			framerate(1.0f), 
 			font(0), 
 			_quit(false), 
 			event_connection(),
-			resources()
+			fpstimer(), 
+			framerate(1.0f), 
+			resize_behavior(RZB_NOTHING)
 		{
 			initialize( _sz, _fs, _resize, false );
 		}

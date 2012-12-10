@@ -63,7 +63,10 @@ public:
     //! Stop Garbage Collecting
     inline void stop() { 
 		gc_thread.interrupt(); 
-		gc_thread.join(); 
+
+		if (gc_thread.joinable())
+			gc_thread.join();
+		
 		gc_thread = boost::thread(); 
 	}
 

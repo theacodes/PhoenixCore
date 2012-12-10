@@ -31,7 +31,7 @@ SET( LIBRARIES ${LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} )
 
 set(Boost_USE_STATIC_LIBS	ON)
 set(Boost_USE_MULTITHREADED	 ON)
-FIND_PACKAGE( Boost 1.39 REQUIRED COMPONENTS date_time thread )
+FIND_PACKAGE( Boost 1.39 REQUIRED COMPONENTS date_time system thread )
 IF( Boost_FOUND )
     MESSAGE( " Found Boost" )
 else( Boost_FOUND )
@@ -90,7 +90,14 @@ ELSE( GLFW_FOUND )
 ENDIF( GLFW_FOUND )
 
 SET( INCLUDES ${INCLUDES} ${GLFW_INCLUDE_DIR} )
-SET( LIBRARIES ${LIBRARIES} ${GLFW_LIBRARY} )
+
+## On Windows GLFW is more likely to be static, so we place it
+## after the system libraries to make sure it links properly.
+if(WIN32)
+	SET( LIBRARIES ${GLFW_LIBRARY} ${LIBRARIES} )
+else(WIN32)
+	SET( LIBRARIES ${LIBRARIES} ${GLFW_LIBRARY} )
+endif(WIN32)
 
 ## GLFW Window Move Hack.
 
@@ -113,6 +120,8 @@ if( BOX2D )
 	${BOX2D_PATH}
 	${BOX2D_PATH}/Include
 	${BOX2D_PATH}/Library
+	${BOX2D_PATH}/Box2D
+	${BOX2D_PATH}/Build/Box2D
 	)
 
     FIND_PATH( BOX2D_INCLUDE_DIR Box2d.h PATHS ${SEARCH_PATHS} )
