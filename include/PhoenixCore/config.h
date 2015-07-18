@@ -10,7 +10,7 @@
 #define PHEONIXCORE_VERSION_NAME "Raven"
 
 // OpenGL Include
-#include "glew/GL/glew.h"
+#include "GL/glew.h"
 #include <GL/glfw.h>
 
 //! Define this to use the default GLFW Window Manager, or set to 0 to not compile the GLFW window manager.

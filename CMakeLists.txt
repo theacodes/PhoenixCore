@@ -195,7 +195,7 @@ SET(CMAKE_OUTPUT_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Include Directories
 ############################################
 
-include_directories( ${PhoenixCore_SOURCE_DIR}/source ${PhoenixCore_SOURCE_DIR}/source/glew ${INCLUDES})
+include_directories( ${PhoenixCore_SOURCE_DIR}/include/PhoenixCore ${PhoenixCore_SOURCE_DIR}/source ${PhoenixCore_SOURCE_DIR}/source/glew ${INCLUDES})
 
 ############################################
 # Set the path for the data dir
@@ -220,3 +220,8 @@ subdirs( tests )
 ############################################
 
 subdirs( examples )
+
+############################################
+# Install
+############################################
+install(DIRECTORY include/PhoenixCore DESTINATION include)
